@@ -1,0 +1,1 @@
+<img style="float:left;" src="<?php echo base_url().'images/admin/desktop/desktop_homepage/'.$screenshot_image->row()->srcshot_imgname; ?>" >

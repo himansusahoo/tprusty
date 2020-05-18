@@ -1,0 +1,209 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*IPHONE-4 PROTRAIT*/
+@media only screen and (width:320px) and (height:480px){
+.search-filter-apply{
+	margin:auto;height:359px;
+}
+.filter-result {
+    float: left;
+    width: 86%;
+}
+}
+/*IPHONE-4 lANDSCAPE*/
+@media only screen and (width:480px) and (height:320px){
+.search-filter-apply{
+	margin:auto;height:215px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+.filter-result {
+    float: left;
+    width: 86%;
+}
+}
+/*IPHONE-5 PROTRAIT*/
+@media only screen and (width:320px) and (height:568px){
+.search-filter-apply{
+	margin:auto;height:430px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+.filter-result {
+    float: left;
+    width: 86%;
+}
+}
+/*IPHONE-5 lANDSCAPE*/
+@media only screen and (width:568px) and (height:320px){
+.search-filter-apply{
+	margin:auto;height:215px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+.filter-result {
+    float: left;
+    width: 86%;
+}
+}
+
+/*NOKIA LUMINA-520 PROTRATE*/
+@media only screen and (width:320px) and (height:533px){
+.search-filter-apply{
+	margin:auto;height:394px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+}
+/*NOKIA LUMINA-520 lANDSCAPE*/
+@media only screen and (width:533px) and (height:320px){
+.search-filter-apply{
+	margin:auto;height:215px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+}
+
+
+/*BLACK BERRY-Z30, GALAXY-S5, NEXUS-5, GALAXY NOTE-III, GALAXY NOTE-II, GALAXY NOTE-3, MICROSOFT LUMINA-550, MICROSOFT LUMINA-950*/
+@media only screen and (width:640px) and (height:360px){
+.search-filter-apply{
+	margin:auto;height:258px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+}
+
+/*IPHONE-6*/
+@media only screen and (width:375px) and (height:667px){
+.search-filter-apply{
+	margin:auto;height:520px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+}
+/*IPHONE-6*/
+@media only screen and (width:667px) and (height:375px){
+.search-filter-apply{
+	margin:auto;height:270px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+}
+/*LG OPTIMUS L70, NEXUS-4*/
+@media only screen and (width:384px) and (height:640px){
+.search-filter-apply{
+	margin:auto;height:500px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+}
+
+/*LG OPTIMUS L70, NEXUS-4*/
+@media only screen and (width:640px) and (height:384px){
+.search-filter-apply{
+	margin:auto;height:270px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+}
+/**NEXUS-6, NEXUS-6p- Protrate*/
+@media only screen and (width:412px) and (height:732px){
+.search-filter-apply{
+	margin:auto;height:610px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+}
+/*NEXUS-6, NEXUS-6p Landscape*/
+@media only screen and (width:732px) and (height:412px){
+.search-filter-apply{
+	margin:auto;height:310px;
+	width:95%;
+	margin:auto;
+	overflow-y: scroll;
+}
+}
+/*IPHONE-6PLUS Protrate*/
+@media only screen and (width:414px) and (height:736px){
+.search-filter-apply{
+	margin:auto;height:580px;
+}
+}
+/*IPHONE-6PLUS Landscape*/
+@media only screen and (width:736px) and (height:414px){
+.search-filter-apply{
+	margin:auto;height:305px;
+}
+}
+/*NOKIA N9 Protrate*/
+@media only screen and (width:480px) and (height:854px){
+.search-filter-apply{
+	margin:auto;height:705px;
+}
+}
+/*NEXUS-6PLUS Landscape*/
+@media only screen and (width:854px) and (height:480px){
+.search-filter-apply{
+	margin:auto;height:362px;
+}
+}
+/*Nexus-7 Protrate*/
+@media only screen and (width:600px) and (height:960px){
+.search-filter-apply{
+	margin:auto;height:830px;
+}
+}
+
+/*Nexus-7 Landscape*/
+@media only screen and (width:960px) and (height:600px){
+.search-filter-apply{
+	margin:auto;height:445px;
+}
+}
+
+/*bLACKBERRY-pLAYBOOK*/
+@media only screen and (width:600px) and (height:1024px){
+.search-filter-apply{
+	margin:auto;height:890px;
+}
+}
+
+/*Ipad Protrate*/
+@media only screen and (width:768px) and (height:1024px){
+.search-filter-apply{
+	margin:auto;height:1020px;
+}
+}
+
+/*Ipad Landscape*/
+@media only screen and (width:1024px) and (height:768px){
+.search-filter-apply{
+	margin:auto;height:625px;
+}
+}
+
+/*KINDLE FIRE HDX, NEXUS-10*/
+@media only screen and (width:800px) and (height:1280px){
+.search-filter-apply{
+	margin:auto;height:1110px;
+}
+}
+/*ipad-pro*/
+@media only screen and (width:1024px) and (height:1366px){
+.search-filter-apply{
+	margin:auto;height:1209px;
+}
+}

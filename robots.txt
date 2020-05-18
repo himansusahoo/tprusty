@@ -1,0 +1,29 @@
+User-agent: * 
+Disallow:/product_description
+Disallow:/product_description/
+Disallow:/filterby
+Disallow:/mycart/
+Disallow:/mycart
+Disallow:/Online_payment
+Disallow:/Online_payment/
+Disallow:/orders
+Disallow:/orders/
+Disallow:/seller/seller/
+Disallow:/colorbox/
+Disallow:/logs/
+Disallow:/rateit/
+Disallow:/test/
+Disallow:/test.php/
+Disallow:/admin/
+Disallow:/demo
+
+User-agent: Googlebot
+Disallow:
+
+User-agent: AdsBot-Google
+Disallow:
+
+User-agent: Googlebot-Image
+Disallow:
+
+Sitemap: https://www.moonboy.in/sitemap.html

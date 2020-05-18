@@ -1,0 +1,29 @@
+<ul class="top-menu">
+<?php if($this->session->userdata('logged_in')=='admin@moonboy.in') { ?>
+	<li class="selected"><a href="<?php echo base_url(); ?>admin/promotions">Manage Coupons</a></li>
+    
+    
+    <?php }else {
+		 
+		$user_role_id=$this->session->userdata('logged_userrole_id');
+		$main_query=$this->db->query("select * from dashboard_tab_name where user_role_id='$user_role_id' and main_tab_name='Promotions_main' ");
+		$row=$main_query->row();
+		$main_tab_id=$row->main_tab_id;
+		
+		$sub_query=$this->db->query("select * from dashboard_sub_tab where main_tab_id='$main_tab_id' ");
+		 foreach($sub_query->result() as $rs)
+				{ ?>   
+                
+		 	<li>
+         
+         	<?php if($rs->sub_tab_name=='manage_coupons'){ ?>
+        
+        		<a href="<?php echo base_url(); ?>admin/promotions">Manage Coupons</a>
+        
+        	<?php } ?>
+         
+         
+         	</li>
+		   <?php }
+		     }?> 
+</ul>
