@@ -2603,7 +2603,7 @@ function search_existseller_name(){
 
 	{
 
-		if($loged_username=='admin@moonboy.in')
+		if($loged_username==ADMIN_MAIL)
 
 		{
 
@@ -2631,7 +2631,7 @@ function search_existseller_name(){
 
 	{
 
-		if($loged_username=='admin@moonboy.in')
+		if($loged_username==ADMIN_MAIL)
 
 		{
 
@@ -2655,7 +2655,7 @@ function search_existseller_name(){
 
 	{
 
-		if($loged_username=='admin@moonboy.in')
+		if($loged_username==ADMIN_MAIL)
 
 		{
 

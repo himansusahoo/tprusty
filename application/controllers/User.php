@@ -216,24 +216,13 @@ class User extends CI_Controller {
             $result = $this->Usermodel->insert_social_registration_data($data);
             if ($result == true) {
 
-                //$message = "
-//		<div style='padding:20px;'> <h5>Hello ".$fname." ,</h5>
-//		<p>Thank you for signing up with Moonboy.in</p>
-//		<strong>Your Log in ID is :  ".$email." and<br/><br/>
-//			    Password is as for your social</strong><br/>
-//		<p>You can now log in to Moonboy using this ID and the password. </p><br/>
-//           Thanks & regards,<br/>Moonboy Team <br/>
-//         </div>
-//		
-//		<div style='text-align:center; background-color:#0e4370; color:#fff; padding:10px;'>
-//	    <p> copyright@ 2015 Moonboy . All rights reserved . </p>
-//       </div>";
+               
                 $user_info['email'] = $email;
 
                 $this->email->set_mailtype("html");
-                $this->email->from('noreply@moonboy.in', 'moonboy.in');
+                $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($email);
-                $this->email->subject('Welcome to Moonboy.in');
+                $this->email->subject('Welcome to '. ucfirst(DOMAIN_NAME));
                 //$this->email->message($message);
                 $this->email->message($this->load->view('email_template/user_social_login', $user_info, true));
                 $this->email->send();
@@ -246,18 +235,18 @@ class User extends CI_Controller {
 
                     $email_data = array(
                         'to_email_id' => $email,
-                        'from_email_id' => 'noreply@moonboy.in',
+                        'from_email_id' => NO_REPLY_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Welcome to Moonboy.in',
+                        'email_sub' => 'Welcome to '. ucfirst(DOMAIN_NAME),
                         'email_content' => $msg,
                         'email_send_status' => 'Success'
                     );
                 } else {
                     $email_data = array(
                         'to_email_id' => $email,
-                        'from_email_id' => 'noreply@moonboy.in',
+                        'from_email_id' => NO_REPLY_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Welcome to Moonboy.in',
+                        'email_sub' => 'Welcome to '. ucfirst(DOMAIN_NAME),
                         'email_content' => $msg,
                         'email_send_status' => 'Failure'
                     );
@@ -343,21 +332,21 @@ class User extends CI_Controller {
 
                 $message = "
 		<div style='padding:20px;'> <h5>Hello " . $fname . " ,</h5>
-		<p>Thank you for signing up with Moonboy.in</p>
+		<p>Thank you for signing up with ".ucfirst(DOMAIN_NAME)."</p>
 		<strong>Your Log in ID is :  " . $email . " and<br/><br/>
 			    Password is as for your social</strong><br/>
-		<p>You can now log in to Moonboy using this ID and the password. </p><br/>
-           Thanks & regards,<br/>Moonboy Team <br/>
+		<p>You can now log in to ".ucfirst(DOMAIN_NAME)." using this ID and the password. </p><br/>
+           Thanks & regards,<br/>".ucfirst(DOMAIN_NAME)." Team <br/>
          </div>
 		
 		<div style='text-align:center; background-color:#0e4370; color:#fff; padding:10px;'>
-	    <p> copyright@ 2015 Moonboy . All rights reserved . </p>
+	    <p> copyright@ 2015 ".ucfirst(DOMAIN_NAME)." . All rights reserved . </p>
        </div>";
 
                 $this->email->set_mailtype("html");
-                $this->email->from('noreply@moonboy.in', 'Moonboy.in');
+                $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($email);
-                $this->email->subject('Welcome to Moonboy.in');
+                $this->email->subject('Welcome to '.ucfirst(DOMAIN_NAME));
                 $this->email->message($message);
                 $this->email->send();
 
@@ -439,27 +428,18 @@ class User extends CI_Controller {
             $result1 = $this->Usermodel->insert_retrive_password_data($retrive_data);
             if ($result1 == true) {
 
-                ////sending mail to user program start here ////////
+               //sending mail to user program start here
                 $sess_array = array(
                     'user_id' => $user_id,
                 );
 
-                /* $message = "
-                  <div style='padding:20px;'> <h5>Dear ".$name." ,</h5>
-                  <p>As requested your OTP for Moonboy.in is:</p>
-                  <p>OTP: ".$otp."</p>
-                  <p>To reset your password, Please use the above OTP </p><br/>  <br/>
-                  Thanks & regards,<br/>Moonboy Team <br/>
-                  </div>"; */
-
                 $this->email->set_mailtype("html");
-                $this->email->from('noreply@moonboy.in', 'Moonboy.in');
+                $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($data['email']);
-                $this->email->subject('OTP from Moonboy.in');
+                $this->email->subject('OTP from '.ucfirst(DOMAIN_NAME));
                 $this->email->message($this->load->view('email_template/otp_mail', $data, true));
-                //$this->email->message($message);
                 $this->email->send();
-                ////sending mail to user program end here ////////
+                //sending mail to user program end here
                 echo "mail_sent";
             }
         } else {
@@ -511,7 +491,7 @@ class User extends CI_Controller {
                 $data['fname'] = $fname;
 
                 $to = $email;
-                $from = 'support@moonboy.in';
+                $from = SUPPORT_MAIL;
                 $subject = 'Regarding Password Change';
 
                 $this->email->set_newline("\r\n");
@@ -520,23 +500,7 @@ class User extends CI_Controller {
                 $this->email->to($to);
                 $this->email->subject($subject);
                 $this->email->message($this->load->view('email_template/forgot_password', $data, true));
-                /* $this->email->message("
-                  <html>
-                  <head>
-                  <title> Moonboy Customer Support </title>
-                  </head>
-                  <body>
-                  <div style='width:50%; margin:0px auto; padding:40px;  background-color:#f4f4f4; border:10px solid #ef3038;'>
-                  <p> Dear ".$fname.", </p>
-                  <p> Greetings from Moonboy Marketplace! </p>
-                  <p> You are trying to change your Password.<p><br/>
-                  <p> Username : ".$email."</p>
-                  <p> Newpassword : ".$password."</p><br/><br/>
-                  Thanks & regards,<br/>Moonboy Team <br/>
-                  </div>
-                  </body>
-                  </html>
-                  "); */
+                
                 if ($this->email->send()) {
                     echo 'ok';
                     exit;
@@ -555,7 +519,6 @@ class User extends CI_Controller {
             $data['persional_info'] = $this->Usermodel->retrieve_user_persional_info();
             $data['user_result'] = $this->Usermodel->retrive_user_data();
             $data['state_result'] = $this->Usermodel->retrive_state();
-            //$this->load->view('profile',$data);
             if ($result != false) {
                 $data['data1'] = $this->Usermodel->view_homepage();
                 $data['result'] = $result;
@@ -660,8 +623,6 @@ class User extends CI_Controller {
     function persional_info() {
         $otp = $this->input->post('otp');
         $email = $this->input->post('email');
-        //$result = $this->Usermodel->retrive_mob_otp_details($otp); 
-        //if($email == $result[0]->user_email){
         $result = $this->Usermodel->update_persional_info();
         if ($result == true) {
             echo 'success';
@@ -670,7 +631,6 @@ class User extends CI_Controller {
             echo 'not';
             exit;
         }
-        //}
     }
 
     function send_mobile_change_otp() {
@@ -685,7 +645,7 @@ class User extends CI_Controller {
             $email = $this->input->post('email');
 
             $to = $email;
-            $from = 'support@moonboy.in';
+            $from = SUPPORT_MAIL;
             $subject = 'Regarding Mobile Number Change';
 
             $this->email->set_newline("\r\n");
@@ -739,7 +699,7 @@ class User extends CI_Controller {
                 $password = $this->input->post('opass');
 
                 $to = $email;
-                $from = 'support@moonboy.in';
+                $from = SUPPORT_MAIL;
                 $subject = 'Regarding Password Change';
 
                 $this->email->set_newline("\r\n");
@@ -936,8 +896,8 @@ class User extends CI_Controller {
             'content' => $this->input->post('content'),
         );
 
-        //$to = 'support@moonboy.in';
-        $to = 'support@moonboy.in';
+        //$to = SUPPORT_MAIL;
+        $to = SUPPORT_MAIL;
         $from = $this->input->post('email');
         $subject = $this->input->post('title');
         $content = $this->input->post('content');

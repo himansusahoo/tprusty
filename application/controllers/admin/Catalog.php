@@ -470,7 +470,7 @@ class Catalog extends CI_Controller {
 			if($insert_result == true){
 				$this->session->set_flashdata('product_add', 'Product added successfully.');
 				
-				if($this->session->userdata('logged_in')!='admin@moonboy.in')
+				if($this->session->userdata('logged_in')!=ADMIN_MAIL)
 				{
 					$this->Product->insert_product_data_log();
 				}
@@ -594,7 +594,7 @@ class Catalog extends CI_Controller {
 //					$this->Cornjob_productinsermodel->update_other_data_cronjobproductsearch($product_sku);
 //				} // comment due to page slow when save edited data
 				
-				//if($this->session->userdata('logged_in')!='admin@moonboy.in')
+				//if($this->session->userdata('logged_in')!=ADMIN_MAIL)
 				//{
 					$this->Product->update_new_product_log();	
 				//}

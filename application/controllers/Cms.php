@@ -89,7 +89,7 @@ class Cms extends CI_Controller{
 				
 				if($result==TRUE)
 				
-				$to = "support@moonboy.in";
+				$to = SUPPORT_MAIL;
 			    
 				$from =  $email;
 				$subject = "Career Details";

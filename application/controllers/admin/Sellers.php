@@ -407,9 +407,9 @@ class Sellers extends CI_Controller {
 
 				$to = $email;				
 
-				$from = "admin@moonboy.in";
+				$from = ADMIN_MAIL;
 
-				$subject = "Regarding Seller approval in Moonboy.in";
+				$subject = "Regarding Seller approval in ".DOMAIN_NAME;
 
 				
 
@@ -423,7 +423,7 @@ class Sellers extends CI_Controller {
 
 				$this->email->set_mailtype("html");
 
-				$this->email->from('seller@moonboy.in');
+				$this->email->from(SELLER_MAIL);
 
 				$this->email->to($to);
 
@@ -453,7 +453,7 @@ class Sellers extends CI_Controller {
 
 					'to_email_id'=>$to,
 
-					'from_email_id'=>'seller@moonboy.in',
+					'from_email_id'=>SELLER_MAIL,
 
 					'date'=>$dt,
 
@@ -473,7 +473,7 @@ class Sellers extends CI_Controller {
 
 					'to_email_id'=>$to,
 
-					'from_email_id'=>'seller@moonboy.in',
+					'from_email_id'=>SELLER_MAIL,
 
 					'date'=>$dt,
 
@@ -1350,7 +1350,7 @@ function autofill_seller(){
 
 					$to = $email;
 
-					$from = "seller@moonboy.in";
+					$from = SELLER_MAIL;
 
 					$subject = "Seller Notification";
 

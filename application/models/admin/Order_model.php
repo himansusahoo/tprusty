@@ -160,7 +160,7 @@ class Order_model extends CI_Model {
 								//-------------------------Data For message end----------------------------------
 														   
 										$this->email->set_mailtype("html");
-										$this->email->from('seller@moonboy.in', 'moonboy.in');
+										$this->email->from(SELLER_MAIL, DOMAIN_NAME);
 										$this->email->to($rw_order->pemail);
 										//$this->email->to('santanu@paramountitsolutions.co.in');
 										$this->email->subject('New Order Received –' .$ord_val);
@@ -178,7 +178,7 @@ class Order_model extends CI_Model {
 											
 											$email_data=array(
 											'to_email_id'=>$rw_order->pemail,
-											'from_email_id'=>'seller@moonboy.in',
+											'from_email_id'=>SELLER_MAIL,
 											'date'=>$dt,
 											'email_sub'=>'New Order Received –' .$ord_val,
 											'email_content'=>$msg,
@@ -188,7 +188,7 @@ class Order_model extends CI_Model {
 										{
 											$email_data=array(
 											'to_email_id'=>$rw_order->pemail,
-											'from_email_id'=>'seller@moonboy.in',
+											'from_email_id'=>SELLER_MAIL,
 											'date'=>$dt,
 											'email_sub'=>'New Order Received –' .$ord_val,
 											'email_content'=>$msg,
@@ -307,7 +307,7 @@ class Order_model extends CI_Model {
 											<table width='600' cellspacing='0' align='center'>
 											<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
 											Call us :  <span style='color:#fff;'> 917874460000  </span><br>
-											Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
+											Email :   <span style='color:#fff;'> ".SELLER_MAIL." </span> 
 											</td>
 											</tr>
 											
@@ -364,7 +364,7 @@ class Order_model extends CI_Model {
 										
 										
 										$this->email->set_mailtype("html");
-										$this->email->from('noreply@moonboy.in', 'Moonboy.in');
+										$this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
 										$this->email->to($email1);
 										$this->email->subject('Ordered Product Cancellled');
 										$this->email->message($message1);
@@ -406,9 +406,9 @@ class Order_model extends CI_Model {
 													$cart['user_id']=$user_id;
 							
 													$this->email->set_mailtype("html");
-													$this->email->from('noreply@moonboy.in', 'Moonboy.in');
+													$this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
 													$this->email->to($email1);
-													$this->email->subject('Your moonboy.in Order-'. $rtorder_id.' Delivered !!!');
+													$this->email->subject('Your '.DOMAIN_NAME.' Order-'. $rtorder_id.' Delivered !!!');
 													$this->email->message($this->load->view('email_template/order_delivered',$cart,true));
 													$this->email->send();
 													
@@ -421,9 +421,9 @@ class Order_model extends CI_Model {
 														
 														$email_data=array(
 														'to_email_id'=>$email1,
-														'from_email_id'=>'noreply@moonboy.in',
+														'from_email_id'=>NO_REPLY_MAIL,
 														'date'=>$dt,
-														'email_sub'=>'Your moonboy.in Order-'. $rtorder_id.' Delivered !!!',
+														'email_sub'=>'Your '.DOMAIN_NAME.' Order-'. $rtorder_id.' Delivered !!!',
 														'email_content'=>$msg,
 														'email_send_status'=>'Success'
 														);
@@ -432,9 +432,9 @@ class Order_model extends CI_Model {
 														
 														$email_data=array(
 														'to_email_id'=>$email1,
-														'from_email_id'=>'noreply@moonboy.in',
+														'from_email_id'=>NO_REPLY_MAIL,
 														'date'=>$dt,
-														'email_sub'=>'Your moonboy.in Order-'. $rtorder_id.' Delivered !!!',
+														'email_sub'=>'Your'.DOMAIN_NAME.' Order-'. $rtorder_id.' Delivered !!!',
 														'email_content'=>$msg,
 														'email_send_status'=>'Failure'
 														);
@@ -559,71 +559,8 @@ class Order_model extends CI_Model {
 								$fname1=$mail_row1->fname;
 								$data['email1']=$email1;
 								$data['fname1']=$fname1;
-								/*$message1 = "
-										 <html>
-					<head>					
-					<title></title>
-					<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-					</head>					
-					<body style='background-color:#fabd2f; font-family:'Calibri',Arial, Helvetica, sans-serif;'>
-					
-					<table width='600' cellspacing='0' align='center'>
-					<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
-					Call us :  <span style='color:#fff;'> 917874460000  </span><br>
-					Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
-					</td>
-					</tr>
-					
-					<tr>
-					<td> 
-					
-					<table style'background-color:#f1f1f1;color:#333; font-size:12px; border:2px solid #e8442b;'>
-					<tr>
-					
-					<td align='center' colspan='3'>
-					
-					 Moonboy
-					 <div style='clear:both;'>  </div>
-					
-					<div style='clear:both;'> </div>
-					 </td> </tr>
-					 
-					 <tr> 
-					 <td width='10px'> </td>
-					 <td>
-					 <p> <strong style='font-size:16px;'>Dear ".$mail_row1->fname." ,</strong> <br /><br />
-					
-					<span style='color:#e25a0c; font-weight:bold;'> Order No.: ".$rtorder_id."</span> <br /> <br />
-					
-					This Order cancelled .
-					
-					
-					<br />  <br />
-					 
-					
-					</td> 
-					<td width='10px'></td>
-					</tr>
-					</table>
-					
-					</td>
-					</tr>
-					
-					<tr>
-					<td style='background-color:#e8442b;  border:2px solid #e8442b; color:#fff; padding:15px; text-align:center;'>
-					 &copy; 2015 Moonboy. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
-					You received this email because you're a registered Moonboy user. 
-					</td> </tr> </table>
-					
-					</td> </tr> </table>
-					
-					</body>
-					</html>";*/
-			
-			
-	
-				$this->email->set_mailtype("html");
-				$this->email->from('noreply@moonboy.in', 'Moonboy.in');
+								$this->email->set_mailtype("html");
+				$this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
 				$this->email->to($email1);
 				$this->email->subject('Ordered Product Cancellled');
 				$this->email->message($this->load->view('email_template/ordercancel_admin',$data,true));
@@ -860,7 +797,7 @@ GROUP BY b.order_id");
 										$cart['slr_name']=$rw_order->business_name;
 														   
 										$this->email->set_mailtype("html");
-										$this->email->from('seller@moonboy.in', 'moonboy.in');
+										$this->email->from(SELLER_MAIL, DOMAIN_NAME);
 										$this->email->to($rw_order->pemail);
 										//$this->email->to('sisir@paramountitsolutions.co.in');
 										$this->email->subject('New Order Received –' .$order_id);
@@ -879,7 +816,7 @@ GROUP BY b.order_id");
 											
 											$email_data=array(
 											'to_email_id'=>$rw_order->pemail,
-											'from_email_id'=>'seller@moonboy.in',
+											'from_email_id'=>SELLER_MAIL,
 											'date'=>$dt,
 											'email_sub'=>'New Order Received –' .$order_id,
 											'email_content'=>$msg,
@@ -890,7 +827,7 @@ GROUP BY b.order_id");
 											
 											$email_data=array(
 											'to_email_id'=>$rw_order->pemail,
-											'from_email_id'=>'seller@moonboy.in',
+											'from_email_id'=>SELLER_MAIL,
 											'date'=>$dt,
 											'email_sub'=>'New Order Received –' .$order_id,
 											'email_content'=>$msg,
@@ -2576,7 +2513,7 @@ GROUP BY b.order_id");
 					<table width='600' cellspacing='0' align='center'>
 					<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
 					Call us :  <span style='color:#fff;'> 91-7874460000  </span><br>
-					Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
+					Email :   <span style='color:#fff;'> ". ucfirst(SELLER_MAIL)." </span> 
 					</td>
 					</tr>
 					
@@ -2602,7 +2539,7 @@ GROUP BY b.order_id");
 					<span style='color:#e25a0c; font-weight:bold;'> Order No.: ".$rtorder_id."</span> <br /> <br />
 					<span style='color:#e25a0c; font-weight:bold;'> Return Id.: ".$retn_id."</span> <br /> <br />
 					This Order has approved for return request by buyer with following details.<br />
-					Please email courier detail of returned order with following details to info@moonboy.in .
+					Please email courier detail of returned order with following details to ".INFO_MAIL." .
 					<table border='1' ><tr bgcolor='#CCC'> <th>Product Name </th><th>Quantity </th><th> Refund Amount </th></tr> 
 					<tr> 
 					<td> ".$prd_name." </td> <td> ".$prd_qnt." </td> <td>Rs.".$prd_totamnt."  </td>  </tr>
@@ -2637,7 +2574,7 @@ GROUP BY b.order_id");
 						
 						$cart['order_id']=$rtorder_id;								 			   
 						$this->email->set_mailtype("html");
-						$this->email->from('support@moonboy.in', 'moonboy.in');
+						$this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
 						$this->email->to($cus_data->email);
 						$this->email->subject('Your Return Request for the Order –'. $rtorder_id.' has been Accepted !');
 						$this->email->message($this->load->view('email_template/return_accepted',$cart,true));
@@ -2652,7 +2589,7 @@ GROUP BY b.order_id");
 					
 					$email_data=array(
 					'to_email_id'=>$cus_data->email,
-					'from_email_id'=>'support@moonboy.in',
+					'from_email_id'=>SUPPORT_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Your Return Request for the Order –'. $rtorder_id.' has been Accepted !',
 					'email_content'=>$msg,
@@ -2662,7 +2599,7 @@ GROUP BY b.order_id");
 				{
 					$email_data=array(
 					'to_email_id'=>$cus_data->email,
-					'from_email_id'=>'support@moonboy.in',
+					'from_email_id'=>SUPPORT_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Your Return Request for the Order –'. $rtorder_id.' has been Accepted !',
 					'email_content'=>$msg,
@@ -2674,7 +2611,7 @@ GROUP BY b.order_id");
 						
 						
 						$this->email->set_mailtype("html");
-						$this->email->from('seller@moonboy.in', 'moonboy.in');
+						$this->email->from(SELLER_MAIL, DOMAIN_NAME);
 						$this->email->to($email);						
 						$this->email->subject('Return Request Of Order');
 						$this->email->message($message);
@@ -2691,7 +2628,7 @@ GROUP BY b.order_id");
 					
 					$email_data=array(
 					'to_email_id'=>$email,
-					'from_email_id'=>'support@moonboy.in',
+					'from_email_id'=>SUPPORT_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Return Request Of Order',
 					'email_content'=>$msg,
@@ -2701,7 +2638,7 @@ GROUP BY b.order_id");
 				{
 					$email_data=array(
 					'to_email_id'=>$email,
-					'from_email_id'=>'support@moonboy.in',
+					'from_email_id'=>SUPPORT_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Return Request Of Order',
 					'email_content'=>$msg,
@@ -2746,74 +2683,8 @@ GROUP BY b.order_id");
 			$data['prd_qnt']=$prd_qnt;
 			$data['prd_totamnt']=$prd_totamnt;
 			
-			/*$message_buyer = "			
-					<html>
-					<head>					
-					<title></title>
-					<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-					</head>					
-					<body style='background-color:#fabd2f; font-family:'Calibri',Arial, Helvetica, sans-serif;'>
-					
-					<table width='600' cellspacing='0' align='center'>
-					<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
-					Call us :  <span style='color:#fff;'> 91-7874460000  </span><br>
-					Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
-					</td>
-					</tr>
-					
-					<tr>
-					<td> 
-					
-					<table style'background-color:#f1f1f1;color:#333; font-size:12px; border:2px solid #e8442b;'>
-					<tr>
-					
-					<td align='center' colspan='3'>
-					
-					 Moonboy
-					 <div style='clear:both;'>  </div>
-					
-					<div style='clear:both;'> </div>
-					 </td> </tr>
-					 
-					 <tr> 
-					 <td width='10px'> </td>
-					 <td>
-					 <p> <strong style='font-size:16px;'>Dear ".$fname." ".$lname."  ,</strong> <br /><br />
-					
-					<span style='color:#e25a0c; font-weight:bold;'> Order No.: ".$rtorder_id."</span> <br /> <br />
-					<span style='color:#e25a0c; font-weight:bold;'> Return Id.: ".$retn_id."</span> <br /> <br />
-					This Order has approved for return request by you with following details
-					
-					<table border='1' ><tr bgcolor='#CCC'> <th>Product Name </th><th>Quantity </th><th> Refund Amount </th></tr> 
-					<tr> 
-					<td> ".$prd_name." </td> <td> ".$prd_qnt." </td> <td>Rs.".$prd_totamnt."  </td>  </tr>
-					
-					</table>
-					<br />  <br />
-					 
-					
-					</td> 
-					<td width='10px'></td>
-					</tr>
-					</table>
-					
-					</td>
-					</tr>
-					
-					<tr>
-					<td style='background-color:#e8442b;  border:2px solid #e8442b; color:#fff; padding:15px; text-align:center;'>
-					 &copy; 2015 Moonboy. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
-					You received this email because you're a registered Moonboy user. 
-					</td> </tr> </table>
-					
-					</td> </tr> </table>
-					
-					</body>
-					</html>";*/	
-					
-								 			   
-						$this->email->set_mailtype("html");
-						$this->email->from('info@moonboy.in', 'moonboy.in');
+			$this->email->set_mailtype("html");
+						$this->email->from(INFO_MAIL, DOMAIN_NAME);
 						$this->email->to($email_buyer);
 						//$this->email->to('santanu@paramountitsolutions.co.in');
 						$this->email->subject('Return Request Of Order');
@@ -2830,7 +2701,7 @@ GROUP BY b.order_id");
 					
 					$email_data=array(
 					'to_email_id'=>$email_buyer,
-					'from_email_id'=>'info@moonboy.in',
+					'from_email_id'=>INFO_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Return Request Of Order',
 					'email_content'=>$msg,
@@ -2840,7 +2711,7 @@ GROUP BY b.order_id");
 				{
 					$email_data=array(
 					'to_email_id'=>$email_buyer,
-					'from_email_id'=>'info@moonboy.in',
+					'from_email_id'=>INFO_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Return Request Of Order',
 					'email_content'=>$msg,
@@ -2945,7 +2816,7 @@ GROUP BY b.order_id");
 					<table width='600' cellspacing='0' align='center'>
 					<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
 					Call us :  <span style='color:#fff;'> 91-7874460000  </span><br>
-					Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
+					Email :   <span style='color:#fff;'> ".SELLER_MAIL." </span> 
 					</td>
 					</tr>
 					
@@ -3000,7 +2871,7 @@ GROUP BY b.order_id");
 					
 								 			   
 						$this->email->set_mailtype("html");
-						$this->email->from('seller@moonboy.in', 'moonboy.in');
+						$this->email->from(SELLER_MAIL, DOMAIN_NAME);
 						$this->email->to($email);
 						//$this->email->to('santanu@paramountitsolutions.co.in');
 						$this->email->subject('Return Request Of Order');
@@ -3022,7 +2893,7 @@ GROUP BY b.order_id");
 					
 					$email_data=array(
 					'to_email_id'=>$email,
-					'from_email_id'=>'seller@moonboy.in',
+					'from_email_id'=>SELLER_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Return Request Of Order',
 					'email_content'=>$msg,
@@ -3032,7 +2903,7 @@ GROUP BY b.order_id");
 				{
 					$email_data=array(
 					'to_email_id'=>$email,
-					'from_email_id'=>'seller@moonboy.in',
+					'from_email_id'=>SELLER_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Return Request Of Order',
 					'email_content'=>$msg,
@@ -3075,73 +2946,8 @@ GROUP BY b.order_id");
 			$data['prd_qnt']=$prd_qnt;
 			$data['prd_totamnt']=$prd_totamnt;
 			
-			/*$message_buyer = "			
-					<html>
-					<head>					
-					<title></title>
-					<link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
-					</head>					
-					<body style='background-color:#fabd2f; font-family:'Calibri',Arial, Helvetica, sans-serif;'>
-					
-					<table width='600' cellspacing='0' align='center'>
-					<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
-					Call us :  <span style='color:#fff;'> 91-7874460000  </span><br>
-					Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
-					</td>
-					</tr>
-					
-					<tr>
-					<td> 
-					
-					<table style'background-color:#f1f1f1;color:#333; font-size:12px; border:2px solid #e8442b;'>
-					<tr>
-					
-					<td align='center' colspan='3'>
-					
-					 Moonboy
-					 <div style='clear:both;'>  </div>
-					
-					<div style='clear:both;'> </div>
-					 </td> </tr>
-					 
-					 <tr> 
-					 <td width='10px'> </td>
-					 <td>
-					 <p> <strong style='font-size:16px;'>Dear ".$fname." ".$lname."  ,</strong> <br /><br />
-					
-					<span style='color:#e25a0c; font-weight:bold;'> Order No.: ".$rtorder_id."</span> <br /> <br />
-					<span style='color:#e25a0c; font-weight:bold;'> Return Id.: ".$retn_id."</span> <br /> <br />
-					This Order has denied for return request by you with following details
-					
-					<table border='1' ><tr bgcolor='#CCC'> <th>Product Name </th><th>Quantity </th><th> Refund Amount </th></tr> 
-					<tr> 
-					<td> ".$prd_name." </td> <td> ".$prd_qnt." </td> <td>Rs.".$prd_totamnt."  </td>  </tr>
-					
-					</table>
-					<br />  <br />
-					 
-					
-					</td> 
-					<td width='10px'></td>
-					</tr>
-					</table>
-					
-					</td>
-					</tr>
-					
-					<tr>
-					<td style='background-color:#e8442b;  border:2px solid #e8442b; color:#fff; padding:15px; text-align:center;'>
-					 &copy; 2015 Moonboy. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
-					You received this email because you're a registered Moonboy user. 
-					</td> </tr> </table>
-					
-					</td> </tr> </table>
-					
-					</body>
-					</html>";*/
-										   
-					$this->email->set_mailtype("html");
-					$this->email->from('info@moonboy.in', 'moonboy.in');
+			$this->email->set_mailtype("html");
+					$this->email->from(INFO_MAIL, DOMAIN_NAME);
 					$this->email->to($email_buyer);
 					//$this->email->to('santanu@paramountitsolutions.co.in');
 					$this->email->subject('Return Request Of Order');
@@ -3158,7 +2964,7 @@ GROUP BY b.order_id");
 					
 					$email_data=array(
 					'to_email_id'=>$email_buyer,
-					'from_email_id'=>'info@moonboy.in',
+					'from_email_id'=>INFO_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Return Request Of Order',
 					'email_content'=>$msg,
@@ -3168,7 +2974,7 @@ GROUP BY b.order_id");
 				{
 					$email_data=array(
 					'to_email_id'=>$email_buyer,
-					'from_email_id'=>'info@moonboy.in',
+					'from_email_id'=>INFO_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Return Request Of Order',
 					'email_content'=>$msg,

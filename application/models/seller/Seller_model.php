@@ -81,7 +81,7 @@ class Seller_model extends CI_Model {
 //								//-------------------------Data For message end----------------------------------
 //														   
 //		$this->email->set_mailtype("html");
-//		$this->email->from('support@moonboy.in', 'moonboy.in');
+//		$this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
 //		$this->email->to($rw_nm->email);
 //		//$this->email->to('santanu@paramountitsolutions.co.in');
 //		$this->email->subject('Seller Registration Successfully');
@@ -98,7 +98,7 @@ class Seller_model extends CI_Model {
 //					
 //					$email_data=array(
 //					'to_email_id'=>$rw_nm->email,
-//					'from_email_id'=>'support@moonboy.in',
+//					'from_email_id'=>SUPPORT_MAIL,
 //					'date'=>$dt,
 //					'email_sub'=>'Seller Registration Successfully',
 //					'email_content'=>$msg,
@@ -108,7 +108,7 @@ class Seller_model extends CI_Model {
 //				{
 //					$email_data=array(
 //					'to_email_id'=>$rw_nm->email,
-//					'from_email_id'=>'support@moonboy.in',
+//					'from_email_id'=>SUPPORT_MAIL,
 //					'date'=>$dt,
 //					'email_sub'=>'Seller Registration Successfully',
 //					'email_content'=>$msg,
@@ -136,7 +136,7 @@ class Seller_model extends CI_Model {
 								//-------------------------Data For message end----------------------------------
 														   
 		$this->email->set_mailtype("html");
-		$this->email->from('support@moonboy.in', 'moonboy.in');
+		$this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
 		$this->email->to($rw_nm->email);
 		//$this->email->to('santanu@paramountitsolutions.co.in');
 		$this->email->subject('Seller Account Registration Received');
@@ -153,7 +153,7 @@ class Seller_model extends CI_Model {
 					
 					$email_data=array(
 					'to_email_id'=>$rw_nm->email,
-					'from_email_id'=>'support@moonboy.in',
+					'from_email_id'=>SUPPORT_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Seller Account Registration Received',
 					'email_content'=>$msg,
@@ -163,7 +163,7 @@ class Seller_model extends CI_Model {
 				{
 					$email_data=array(
 					'to_email_id'=>$rw_nm->email,
-					'from_email_id'=>'support@moonboy.in',
+					'from_email_id'=>SUPPORT_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Seller Account Registration Received',
 					'email_content'=>$msg,

@@ -2936,7 +2936,7 @@ AND a.attr_value IS NOT NULL AND (a.attr_value <> '')");
 			
 
 				);
-				if( base_url()=='https://www.moonboy.in/'){
+				if( base_url()==APP_BASE){
 				$qr=$this->db->insert('solr_search_log',$data);
 				}
 	

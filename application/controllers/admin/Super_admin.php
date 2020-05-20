@@ -117,7 +117,7 @@ class Super_admin extends CI_Controller {
 	
 	function logout(){
 		
-		if($this->session->userdata('logged_in')!='admin@moonboy.in')
+		if($this->session->userdata('logged_in')!=ADMIN_MAIL)
 		{
 			 $this->Super_admin_model->update_user_logouttime();	
 		}

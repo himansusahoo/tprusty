@@ -87,14 +87,6 @@ class Online_payment extends CI_Controller {
 	
 					function mail_test()
 					{						
-						/*$message = "Test mail";									   
-						$this->email->set_mailtype("html");
-						$this->email->from('santanu@paramountitsolutions.co.in');
-						$this->email->to('santanu9337@gmail.com');
-						$this->email->subject('Welcome to Moonboy.in');
-										
-						$this->email->message($message);
-						$this->email->send();*/
 						
 				$data['fname']=$fname = $this->input->post('fname');
 				$data['email']=$email = $this->input->post('email_id');

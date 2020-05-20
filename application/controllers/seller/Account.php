@@ -77,8 +77,8 @@ class Account extends CI_Controller {
 		
 		$to = $email;
 		
-		$from = "support@moonboy.in";
-		$subject = "OTP for changing Seller Primary Contact in Moonboy.in";
+		$from = SUPPORT_MAIL;
+		$subject = "OTP for changing Seller Primary Contact in ".DOMAIN_NAME;
 		
 		$this->email->set_newline("\r\n");
 		$this->email->set_mailtype("html");
@@ -93,11 +93,11 @@ class Account extends CI_Controller {
 			<body>
 				<div style='width:50%; margin:0px auto; padding:40px;  background-color:#f4f4f4; border:10px solid #ef3038;'>
 					<p> Dear ".$name.", </p>
-					<p> Greetings from Moonboy Seller Marketplace! </p>
-					<p>As requested your OTP for Moonboy.in is:</p>
+					<p> Greetings from ".ucfirst(DOMAIN_NAME)." Seller Marketplace! </p>
+					<p>As requested your OTP for ".ucfirst(DOMAIN_NAME)." is:</p>
 					<p>OTP: ".$otp."</p>
 					<p>To change primary contact details, Please use the above OTP </p><br/>  <br/>
-				   Thanks & regards,<br/>Moonboy Team <br/>
+				   Thanks & regards,<br/>".ucfirst(DOMAIN_NAME)." Team <br/>
 				</div>
 			</body>
 		</html>
@@ -115,10 +115,10 @@ class Account extends CI_Controller {
 				<div style='width:50%; margin:0px auto; padding:40px;  background-color:#f4f4f4; border:10px solid #ef3038;'>
 					<p> Dear ".$name.", </p>
 					<p> Greetings from Moonboy Seller Marketplace! </p>
-					<p>As requested your OTP for Moonboy.in is:</p>
+					<p>As requested your OTP for ".ucfirst(DOMAIN_NAME)." is:</p>
 					<p>OTP: ".$otp."</p>
 					<p>To change primary contact details, Please use the above OTP </p><br/>  <br/>
-				   Thanks & regards,<br/>Moonboy Team <br/>
+				   Thanks & regards,<br/>".ucfirst(DOMAIN_NAME)." Team <br/>
 				</div>
 			</body>
 		</html>

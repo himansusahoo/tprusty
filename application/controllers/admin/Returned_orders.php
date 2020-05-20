@@ -23,7 +23,7 @@ class Returned_orders extends CI_Controller {
 			
 		$ordered_data['return_data']= $this->Returned_order_model->select_retun_order();
 		
-		if($this->session->userdata('logged_in')!='admin@moonboy.in')
+		if($this->session->userdata('logged_in')!=ADMIN_MAIL)
 			{
 				$this->load->model('admin/User_activity_model');
 				$log_data="Access Of InProgress of Return ";
@@ -53,7 +53,7 @@ class Returned_orders extends CI_Controller {
 	{
 		if($this->session->userdata('logged_in')){
 		$ordered_data['return_data']= $this->Returned_order_model->select_retun_order_complete();
-		if($this->session->userdata('logged_in')!='admin@moonboy.in')
+		if($this->session->userdata('logged_in')!=ADMIN_MAIL)
 		{
 			$this->load->model('admin/User_activity_model');
 			$log_data="Access Of Return Complete of Orders";

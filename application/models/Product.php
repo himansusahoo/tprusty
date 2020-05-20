@@ -768,7 +768,7 @@ class Product extends CI_Model{
 		
 		$qr=$this->db->insert('tax_management',$data);
 		
-		if($this->session->userdata('logged_in')!='admin@moonboy.in')
+		if($this->session->userdata('logged_in')!=ADMIN_MAIL)
 		{
 			date_default_timezone_set('Asia/Calcutta');
 			$cdate =date('y-m-d H:i:s');

@@ -173,7 +173,7 @@ class Orders extends CI_Controller {
 				$data['user_id']=$data['shipment_address_details']->user_id;
 				
 				$this->email->set_mailtype("html");
-				$this->email->from('noreply@moonboy.in', 'Moonboy.in');
+				$this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
 				$this->email->to($to);
 				$this->email->subject('Order-'. $order_id.' successfully shipped ');
 				//$message=$this->load->view('email_template/shipping_info_buyer',$data,true);
@@ -190,7 +190,7 @@ class Orders extends CI_Controller {
 					
 					$email_data=array(
 					'to_email_id'=>$to,
-					'from_email_id'=>'seller@moonboy.in',
+					'from_email_id'=>SELLER_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Order-'. $order_id.' successfully shipped ',
 					'email_content'=>$msg,
@@ -200,7 +200,7 @@ class Orders extends CI_Controller {
 				{
 					$email_data=array(
 					'to_email_id'=>$to,
-					'from_email_id'=>'seller@moonboy.in',
+					'from_email_id'=>SELLER_MAIL,
 					'date'=>$dt,
 					'email_sub'=>'Order-'. $order_id.' successfully shipped ',
 					'email_content'=>$msg,
