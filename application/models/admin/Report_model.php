@@ -124,7 +124,7 @@ class Report_model extends CI_Model {
             );
             $this->db->where('id', $id);
             $this->db->update('transaction', $data);
-            
+
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
                 return false;
@@ -133,7 +133,7 @@ class Report_model extends CI_Model {
                 return true;
             }
         }
-        return true;//just to be reloaded the page
+        return true; //just to be reloaded the page
     }
 
     function update_inn_transaction_data() {

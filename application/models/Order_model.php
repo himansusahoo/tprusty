@@ -735,7 +735,7 @@ class Order_model extends CI_Model {
 
                 $email_data = array(
                     'to_email_id' => $email1,
-                    'from_email_id' =>SUPPORT_MAIL,
+                    'from_email_id' => SUPPORT_MAIL,
                     'date' => $dt,
                     'email_sub' => 'Order Placed Successfully-' . $res_email->order_id,
                     'email_content' => $msg,
@@ -969,25 +969,25 @@ class Order_model extends CI_Model {
             $mail_row = $mail_query->row();
             $email = $mail_row->email;
             $message = "
-							<div style='padding:20px;'> <h5>Thank You For Your Order From ". ucfirst(DOMAIN_NAME)." !</h5>
+							<div style='padding:20px;'> <h5>Thank You For Your Order From " . ucfirst(DOMAIN_NAME) . " !</h5>
 							<p></p>
 							<strong>Your ORDER ID is : " . $res_email->order_id . "<br/><br/>
 									</strong><br/>
-							<p>We will send you another email once the items in your order have been shipped. Meanwhile, you can check the status of your order on ".DOMAIN_NAME." </p><br/>
+							<p>We will send you another email once the items in your order have been shipped. Meanwhile, you can check the status of your order on " . DOMAIN_NAME . " </p><br/>
 							
 							<p align='center'> <input type='button' value='Track Order'/ > </p>
-							   Thanks & regards,<br/>". ucfirst(DOMAIN_NAME)." Team <br/>
+							   Thanks & regards,<br/>" . ucfirst(DOMAIN_NAME) . " Team <br/>
 							 </div>
 							
 							<div style='text-align:center; background-color:#0e4370; color:#fff; padding:10px;'>
-							<p> copyright@ 2015 ". ucfirst(DOMAIN_NAME)." . All rights reserved . </p>
+							<p> copyright@ 2015 " . ucfirst(DOMAIN_NAME) . " . All rights reserved . </p>
 						   </div>";
 
 
             $this->email->set_mailtype("html");
-            $this->email->from(SUPPORT_MAIL,DOMAIN_NAME);
+            $this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
             $this->email->to('$email');
-            $this->email->subject('Welcome to '.DOMAIN_NAME);
+            $this->email->subject('Welcome to ' . DOMAIN_NAME);
             $this->email->message($message);
             $this->email->send();
         }
@@ -1442,7 +1442,7 @@ class Order_model extends CI_Model {
                 $this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
                 $this->email->to($email1);
                 //$this->email->to('santanu@paramountitsolutions.co.in');
-                $this->email->subject('Ordered Successfully from '.DOMAIN_NAME);
+                $this->email->subject('Ordered Successfully from ' . DOMAIN_NAME);
                 $this->email->message($this->load->view('email_template/order_placed', $cart, true));
                 //$this->email->message($message1);
                 //$this->email->attach(pdf_create($html, 'order_Slip'));
@@ -1459,7 +1459,7 @@ class Order_model extends CI_Model {
                         'to_email_id' => $email1,
                         'from_email_id' => SUPPORT_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Ordered Successfully from '.DOMAIN_NAME,
+                        'email_sub' => 'Ordered Successfully from ' . DOMAIN_NAME,
                         'email_content' => $msg,
                         'email_send_status' => 'Success'
                     );
@@ -1469,7 +1469,7 @@ class Order_model extends CI_Model {
                         'to_email_id' => $email1,
                         'from_email_id' => SUPPORT_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Ordered Successfully from '.DOMAIN_NAME,
+                        'email_sub' => 'Ordered Successfully from ' . DOMAIN_NAME,
                         'email_content' => $msg,
                         'email_send_status' => 'Failure'
                     );
@@ -2138,7 +2138,7 @@ class Order_model extends CI_Model {
                 $this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
                 $this->email->to($email1);
                 //$this->email->to('santanu@paramountitsolutions.co.in');
-                $this->email->subject('Ordered Successfully from '.DOMAIN_NAME);
+                $this->email->subject('Ordered Successfully from ' . DOMAIN_NAME);
                 $this->email->message($this->load->view('email_template/order_placed', $cart, true));
                 //$this->email->message($message1);
                 //$this->email->attach(pdf_create($html, 'order_Slip'));
@@ -2155,7 +2155,7 @@ class Order_model extends CI_Model {
                         'to_email_id' => $email1,
                         'from_email_id' => SUPPORT_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Ordered Successfully from '.DOMAIN_NAME,
+                        'email_sub' => 'Ordered Successfully from ' . DOMAIN_NAME,
                         'email_content' => $msg,
                         'email_send_status' => 'Success'
                     );
@@ -2165,7 +2165,7 @@ class Order_model extends CI_Model {
                         'to_email_id' => $email1,
                         'from_email_id' => SUPPORT_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Ordered Successfully from '.DOMAIN_NAME,
+                        'email_sub' => 'Ordered Successfully from ' . DOMAIN_NAME,
                         'email_content' => $msg,
                         'email_send_status' => 'Failure'
                     );
@@ -2421,7 +2421,7 @@ class Order_model extends CI_Model {
                 $this->email->set_mailtype("html");
                 $this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
                 $this->email->to($email1);
-                $this->email->subject('Ordered Successfully from '.DOMAIN_NAME);
+                $this->email->subject('Ordered Successfully from ' . DOMAIN_NAME);
                 $this->email->message($this->load->view('email_template/order_placed', $cart, true));
                 //$this->email->attach(pdf_create($html, 'order_Slip'));
                 $this->email->send();
@@ -2437,7 +2437,7 @@ class Order_model extends CI_Model {
                         'to_email_id' => $email1,
                         'from_email_id' => SUPPORT_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Ordered Successfully from '.DOMAIN_NAME,
+                        'email_sub' => 'Ordered Successfully from ' . DOMAIN_NAME,
                         'email_content' => $msg,
                         'email_send_status' => 'Success'
                     );
@@ -2447,7 +2447,7 @@ class Order_model extends CI_Model {
                         'to_email_id' => $email1,
                         'from_email_id' => SUPPORT_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Ordered Successfully from '.DOMAIN_NAME,
+                        'email_sub' => 'Ordered Successfully from ' . DOMAIN_NAME,
                         'email_content' => $msg,
                         'email_send_status' => 'Failure'
                     );

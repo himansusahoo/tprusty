@@ -203,7 +203,7 @@ class Solar_manage_model extends CI_Model {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
             curl_setopt($ch, CURLOPT_POST, TRUE);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
-					
+
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 
             $response = curl_exec($ch);
@@ -491,7 +491,7 @@ class Solar_manage_model extends CI_Model {
         $sku_ids = $this->input->post('prod_sku');
         $skuidsarr = array();
 
-        if (base_url() ==APP_BASE) {
+        if (base_url() == APP_BASE) {
             $solr_colection = SOLR_CORE_NAME;
         } else {
             $solr_colection = 'mycollection4_offline';

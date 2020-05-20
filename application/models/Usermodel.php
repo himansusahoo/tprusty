@@ -116,7 +116,7 @@ class Usermodel extends CI_Model {
 
         $search_title = trim(str_replace(' ', '%20', $search_title));
 
-        $curl_strng = SOLR_BASE_URL.SOLR_CORE_NAME."/select?indent=on&q=" . $search_title . "&facet=true&facet.field=Category_Lvl3&facet.field=Category_Lvl2&facet.field=Category_Lvl1&facet.mincount=1&wt=json&rows=1&start=0";
+        $curl_strng = SOLR_BASE_URL . SOLR_CORE_NAME . "/select?indent=on&q=" . $search_title . "&facet=true&facet.field=Category_Lvl3&facet.field=Category_Lvl2&facet.field=Category_Lvl1&facet.mincount=1&wt=json&rows=1&start=0";
 
         $curl2 = curl_init($curl_strng);
         curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
@@ -163,14 +163,14 @@ class Usermodel extends CI_Model {
 
         $search_txt = $search_title;
 
-        $curl_strng = SOLR_BASE_URL.SOLR_CORE_NAME."/autocomplete?wt=json&q=" . $search_txt . "*&facet.field=Brand_s&f.Brand_s.facet.prefix=" . $search_txt . "&facet=true&hl=true&hl.field=Title&fl=Title,Category_Lvl3,Category_Lvl3_Id,Product_Id&mm=100%25&group.limit=2&facet.field=_text_&f._text_.facet.prefix=" . $search_txt . " ";
+        $curl_strng = SOLR_BASE_URL . SOLR_CORE_NAME . "/autocomplete?wt=json&q=" . $search_txt . "*&facet.field=Brand_s&f.Brand_s.facet.prefix=" . $search_txt . "&facet=true&hl=true&hl.field=Title&fl=Title,Category_Lvl3,Category_Lvl3_Id,Product_Id&mm=100%25&group.limit=2&facet.field=_text_&f._text_.facet.prefix=" . $search_txt . " ";
         //echo "<div style='display:none' id='himansu'>".$curl_strng."</div>";exit;
 
         $curl2 = curl_init($curl_strng);
         curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($curl2);
         $data2 = json_decode($output, true);
-        
+
         if (count($data2['grouped']['Category_Lvl1']['groups']) == 0) {
 
 
@@ -185,12 +185,12 @@ class Usermodel extends CI_Model {
                 $this->session->set_userdata('srchsugst_solrword', $fnl_sugst_word);
             }
 
-            $curl_strng = SOLR_BASE_URL.SOLR_CORE_NAME."/autocomplete?wt=json&q=" . $fnl_sugst_word . "*&facet.field=Brand_s&f.Brand_s.facet.prefix=" . $fnl_sugst_word . "&facet=true&hl=true&hl.field=Title&fl=Title,Category_Lvl3,Category_Lvl3_Id,Product_Id&mm=100%25&group.limit=2&facet.field=_text_&f._text_.facet.prefix=" . $fnl_sugst_word . " ";
+            $curl_strng = SOLR_BASE_URL . SOLR_CORE_NAME . "/autocomplete?wt=json&q=" . $fnl_sugst_word . "*&facet.field=Brand_s&f.Brand_s.facet.prefix=" . $fnl_sugst_word . "&facet=true&hl=true&hl.field=Title&fl=Title,Category_Lvl3,Category_Lvl3_Id,Product_Id&mm=100%25&group.limit=2&facet.field=_text_&f._text_.facet.prefix=" . $fnl_sugst_word . " ";
 
 
             $curl2 = curl_init($curl_strng);
             curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
-            $output = curl_exec($curl2);            
+            $output = curl_exec($curl2);
             $data2 = json_decode($output, true);
         }
 
@@ -220,7 +220,7 @@ class Usermodel extends CI_Model {
         $search_txt = $search_title;
         /* $curl_strng=SOLR_BASE_URL."mycollection1/select?facet.pivot=lvlmain_name,lvl1_name,lvl2_name,name&facet=on&indent=on&q=".$search_txt."&wt=json&rows=1&start=0"; */
 
-        $curl_strng = SOLR_BASE_URL.SOLR_CORE_NAME."/select?indent=on&q=" . $search_txt . "&facet=true&facet.field=Category_Lvl3&facet.field=Category_Lvl2&facet.field=Category_Lvl1&facet.mincount=1&wt=json&rows=1&start=0";
+        $curl_strng = SOLR_BASE_URL . SOLR_CORE_NAME . "/select?indent=on&q=" . $search_txt . "&facet=true&facet.field=Category_Lvl3&facet.field=Category_Lvl2&facet.field=Category_Lvl1&facet.mincount=1&wt=json&rows=1&start=0";
 
 
         $curl2 = curl_init($curl_strng);
@@ -373,7 +373,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
                 $this->email->set_mailtype("html");
                 $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($email);
-                $this->email->subject('Welcome to '. ucfirst(DOMAIN_NAME));
+                $this->email->subject('Welcome to ' . ucfirst(DOMAIN_NAME));
                 //$this->email->message($message);
                 $this->email->message($this->load->view('email_template/user_login_manual', $user_info, true));
                 $this->email->send();
@@ -388,7 +388,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
                         'to_email_id' => $email,
                         'from_email_id' => NO_REPLY_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Welcome to '. ucfirst(DOMAIN_NAME),
+                        'email_sub' => 'Welcome to ' . ucfirst(DOMAIN_NAME),
                         'email_content' => $msg,
                         'email_send_status' => 'Success'
                     );
@@ -397,7 +397,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
                         'to_email_id' => $email,
                         'from_email_id' => NO_REPLY_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Welcome to '. ucfirst(DOMAIN_NAME),
+                        'email_sub' => 'Welcome to ' . ucfirst(DOMAIN_NAME),
                         'email_content' => $msg,
                         'email_send_status' => 'Failure'
                     );
@@ -634,7 +634,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
     }
 
     function insert_social_registration_data($data) {
-;
+        ;
         $this->db->insert('user', $data);
         if ($this->db->affected_rows() > 0) {
             return true;

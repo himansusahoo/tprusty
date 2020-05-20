@@ -18,52 +18,52 @@ class Manage_solr_index extends CI_Model {
         //fetch newly added products
         $condition = " AND b.indexing_status='Pending' AND b.prod_process_status='Add' AND lower(a.seller_status)='active' AND lower(a.status)='enabled'";
         //$condition = " AND b.indexing_status='Completed' AND b.prod_process_status='Add'";
-        
+
         $new_prod_data = $this->_get_index_data_mysql($condition);
-		//pma($new_prod_data);
+        //pma($new_prod_data);
         $operation = 'Add';
-        $chunk=25;
-        if(count($new_prod_data)>$chunk){
-            $chunk_prod_data=  array_chunk($new_prod_data, $chunk);
-            foreach ($chunk_prod_data as $chunks){
+        $chunk = 25;
+        if (count($new_prod_data) > $chunk) {
+            $chunk_prod_data = array_chunk($new_prod_data, $chunk);
+            foreach ($chunk_prod_data as $chunks) {
                 $this->_process_add_update_index($chunks, $operation);
                 sleep(5);
-            }            
-        }else{
-             $this->_process_add_update_index($new_prod_data, $operation);
-        }        
-	
+            }
+        } else {
+            $this->_process_add_update_index($new_prod_data, $operation);
+        }
+
         //fetch only editd products
         $condition = " AND b.indexing_status='Pending' AND b.prod_process_status='Edit' AND lower(a.seller_status)='active' AND lower(a.status)='enabled'";
         //$condition = " AND b.indexing_status='Completed' AND b.prod_process_status='Edit'";
         $edited_prod_data = $this->_get_index_data_mysql($condition);
-		//pma($edited_prod_data);
+        //pma($edited_prod_data);
         $operation = 'Edit';
-        if(count($edited_prod_data)>$chunk){
-            $chunk_edit_data=  array_chunk($edited_prod_data, $chunk);
-            foreach ($chunk_edit_data as $chunks){
-                $this->_process_add_update_index($chunks, $operation);              
+        if (count($edited_prod_data) > $chunk) {
+            $chunk_edit_data = array_chunk($edited_prod_data, $chunk);
+            foreach ($chunk_edit_data as $chunks) {
+                $this->_process_add_update_index($chunks, $operation);
                 sleep(5);
-            }            
-        }else{
-             $this->_process_add_update_index($edited_prod_data, $operation);
-        }   
-        
+            }
+        } else {
+            $this->_process_add_update_index($edited_prod_data, $operation);
+        }
+
         //manage delted product index        
         $condition = " AND indexing_status='Pending' AND prod_process_status='Delete'";
         //$condition = " AND indexing_status='Completed' AND prod_process_status='Delete'";
         $operation = 'Delete';
-        $deleted_prod_data = $this->_get_index_data_mysql($condition, $operation); 
-		//pma($deleted_prod_data);
-        if(count($deleted_prod_data)>$chunk){
-            $chunk_delete_data=  array_chunk($deleted_prod_data, $chunk);
-            foreach ($chunk_delete_data as $chunks){
-                $this->_process_deleted_prod_index($chunks, $operation);              
+        $deleted_prod_data = $this->_get_index_data_mysql($condition, $operation);
+        //pma($deleted_prod_data);
+        if (count($deleted_prod_data) > $chunk) {
+            $chunk_delete_data = array_chunk($deleted_prod_data, $chunk);
+            foreach ($chunk_delete_data as $chunks) {
+                $this->_process_deleted_prod_index($chunks, $operation);
                 sleep(5);
-            }            
-        }else{             
-             $this->_process_deleted_prod_index($deleted_prod_data,$operation);
-        }       
+            }
+        } else {
+            $this->_process_deleted_prod_index($deleted_prod_data, $operation);
+        }
     }
 
     /**
@@ -178,8 +178,8 @@ class Manage_solr_index extends CI_Model {
                 }
                 $this->_create_index($data, $operation);
                 $counter++;
-            //pma($data);
-            //pma("$counter index $operation",1);
+                //pma($data);
+                //pma("$counter index $operation",1);
             }//main loop
             //pma("$counter index $operation");
         }
@@ -192,7 +192,7 @@ class Manage_solr_index extends CI_Model {
      * @author : HimansuS
      * @created:
      */
-    private function _process_deleted_prod_index($result,$operation) {        
+    private function _process_deleted_prod_index($result, $operation) {
         $loop = 1;
         foreach ($result as $key => $res_prod) {
             $sku = $res_prod['sku'];
@@ -240,7 +240,7 @@ class Manage_solr_index extends CI_Model {
     private function _get_index_data_mysql($condition, $operation_type = '') {
         if ($operation_type == 'Delete') {
             $query = "select sku from solar_indexing where 1=1 $condition";
-			//pma($query);
+            //pma($query);
         } else {
             $query = "select distinct a.product_id,a.name,a.sku,a.lvl2_name,a.lvl1_name,a.lvlmain_name,a.brand,
                 a.color,a.size,a.Capacity,a.RAM,a.ROM,a.seller_id,a.imag,a.mrp,a.price,a.special_price,
@@ -254,7 +254,7 @@ class Manage_solr_index extends CI_Model {
                 group by a.sku
 				limit 25
                 ";
-			//pma($query);
+            //pma($query);
         }
 
         $result = $this->db->query($query)->result_array();

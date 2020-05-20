@@ -38,7 +38,7 @@ class Solr_test_himansu extends CI_Controller {
 
 //http://moonboy.in:8983/solr/himansu_core/select?indent=on&q=*:*&wt=json
     public function solr_con_test() {
-        $curl = curl_init(SOLR_BASE_URL_TEST .SOLR_COLLECTION_TEST. "admin/ping/?wt=json");
+        $curl = curl_init(SOLR_BASE_URL_TEST . SOLR_COLLECTION_TEST . "admin/ping/?wt=json");
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($curl);
         $data = json_decode($output, true);
@@ -51,7 +51,7 @@ class Solr_test_himansu extends CI_Controller {
             $solr_colection = SOLR_CORE_NAME;
             //$curl_init = curl_init(SOLR_BASE_URL . $solr_colection . "/update?wt=json&spellcheck=true&spellcheck.build=true&commit=true");
             //$curl_query = SOLR_BASE_URL . "" . $solr_colection . "/select?q=sku:" . $search_text . "&wt=json&spellcheck=true&spellcheck.collate=true&spellcheck.build=true";
-            $curl_query = SOLR_BASE_URL_TEST.SOLR_COLLECTION_TEST . "select?indent=on&q=*:*&wt=json";
+            $curl_query = SOLR_BASE_URL_TEST . SOLR_COLLECTION_TEST . "select?indent=on&q=*:*&wt=json";
             $curl_init = curl_init($curl_query);
             curl_setopt($curl_init, CURLOPT_RETURNTRANSFER, true);
             $output = curl_exec($curl_init);
@@ -63,7 +63,7 @@ class Solr_test_himansu extends CI_Controller {
     }
 
     public function add_solr_doc() {
-        $ch = curl_init(SOLR_BASE_URL_TEST .SOLR_COLLECTION_TEST. "update?wt=json&spellcheck=true&spellcheck.build=true");
+        $ch = curl_init(SOLR_BASE_URL_TEST . SOLR_COLLECTION_TEST . "update?wt=json&spellcheck=true&spellcheck.build=true");
         $data = array(
             "add" => array(
                 "doc" => array(
@@ -121,22 +121,23 @@ class Solr_test_himansu extends CI_Controller {
     }
 
     public function del_solr_doc() {
-		
-	$ch= SOLR_BASE_URL_TEST.SOLR_COLLECTION_TEST."update?commit=true&stream.body=<delete><query>Sku:s1</query></delete>";
+
+        $ch = SOLR_BASE_URL_TEST . SOLR_COLLECTION_TEST . "update?commit=true&stream.body=<delete><query>Sku:s1</query></delete>";
 
         $curl2 = curl_init($ch);
-		curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
-		$response = curl_exec($curl2);		
+        curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl2);
         //$response = json_decode($response, true);
         pma($response, 1);
     }
-	public function del_all_solr_doc() {
-		
-	$ch= SOLR_BASE_URL_TEST.SOLR_COLLECTION_TEST."update?commit=true&stream.body=<delete><query>*:*</query></delete>";
+
+    public function del_all_solr_doc() {
+
+        $ch = SOLR_BASE_URL_TEST . SOLR_COLLECTION_TEST . "update?commit=true&stream.body=<delete><query>*:*</query></delete>";
 
         $curl2 = curl_init($ch);
-		curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
-		$response = curl_exec($curl2);		
+        curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl2);
         //$response = json_decode($response, true);
         pma($response, 1);
     }

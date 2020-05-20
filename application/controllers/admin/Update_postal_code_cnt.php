@@ -8,8 +8,8 @@ class Update_postal_code_cnt extends CI_Controller {
         parent::__construct();
         $this->load->helper(array('html', 'form', 'url'));
         $this->load->library('form_validation');
-    
-         $this->load->library('email');
+
+        $this->load->library('email');
         $this->load->library('session');
         $this->load->library('upload');
         $this->load->library('encrypt');
@@ -23,9 +23,6 @@ class Update_postal_code_cnt extends CI_Controller {
         //$this->load->model('Admin_model');
         $this->load->model('admin/postalcode_update_model');
         $this->load->model('PHPExcel/Phpexcel_iofactory');
-        
-        
-        
     }
 
     function update_postal_code() {
@@ -39,19 +36,18 @@ class Update_postal_code_cnt extends CI_Controller {
     }
 
     function upload_postal_code_excel() {
-        
+
         if ($this->session->userdata('logged_in')) {
             //$this->load->library('excel');
-         
-          
-             
-        
-        $this->postalcode_update_model->postalcode_Upload();
 
-        $this->session->set_flashdata('msgcod_wtchrg', 'Data Saved Successfully');
 
-       // redirect('admin/super_admin/color_setup');
-    
+
+
+            $this->postalcode_update_model->postalcode_Upload();
+
+            $this->session->set_flashdata('msgcod_wtchrg', 'Data Saved Successfully');
+
+            // redirect('admin/super_admin/color_setup');
         } else {
             redirect('admin/super_admin');
         }

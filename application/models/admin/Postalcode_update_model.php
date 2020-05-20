@@ -67,34 +67,31 @@ class Postalcode_update_model extends CI_Model {
                 $arrayCount = count($allDataInSheet);  // Here get total count of row in that Excel
                 //loop from first data untill last data
                 $sheet = $objPHPExcel->getSheet(0);
-               
-               
+
+
 
                 for ($i = 2; $i <= $arrayCount; $i++) {
 
-                      $postalcode = $sheet->getCellByColumnAndRow(0, $i)->getValue();
-                     
-                    
-                     $city_name = $sheet->getCellByColumnAndRow(1, $i)->getValue(); //Excel Column 1
-                     $State = $sheet->getCellByColumnAndRow(2, $i)->getValue(); //Excel Column 2
-                     $international_services = $sheet->getCellByColumnAndRow(3, $i)->getValue(); //Excel Column 3
-                     $domestic_services = $sheet->getCellByColumnAndRow(4, $i)->getValue(); //Excel Column 4
-                     $oda_opa_or_regular_classification_domintl = $sheet->getCellByColumnAndRow(5, $i)->getValue(); //Excel Column 4
-                     $cod_serviceable_domestic = $sheet->getCellByColumnAndRow(6, $i)->getValue(); //Excel Column 4
-                 
-                    $data_user = array('postalcode' => $postalcode, 'city_name' => $city_name, 'State' => $State, 'international_services' => $international_services,'oda_opa_or_regular_classification_domintl' => $oda_opa_or_regular_classification_domintl,'cod_serviceable_domestic' => $cod_serviceable_domestic,'domestic_services' => $domestic_services);
+                    $postalcode = $sheet->getCellByColumnAndRow(0, $i)->getValue();
+
+
+                    $city_name = $sheet->getCellByColumnAndRow(1, $i)->getValue(); //Excel Column 1
+                    $State = $sheet->getCellByColumnAndRow(2, $i)->getValue(); //Excel Column 2
+                    $international_services = $sheet->getCellByColumnAndRow(3, $i)->getValue(); //Excel Column 3
+                    $domestic_services = $sheet->getCellByColumnAndRow(4, $i)->getValue(); //Excel Column 4
+                    $oda_opa_or_regular_classification_domintl = $sheet->getCellByColumnAndRow(5, $i)->getValue(); //Excel Column 4
+                    $cod_serviceable_domestic = $sheet->getCellByColumnAndRow(6, $i)->getValue(); //Excel Column 4
+
+                    $data_user = array('postalcode' => $postalcode, 'city_name' => $city_name, 'State' => $State, 'international_services' => $international_services, 'oda_opa_or_regular_classification_domintl' => $oda_opa_or_regular_classification_domintl, 'cod_serviceable_domestic' => $cod_serviceable_domestic, 'domestic_services' => $domestic_services);
                     $this->db->insert('postalpincodemaster_fedexin', $data_user);
-                    
-                   // $this->excel_data_insert_model->Add_User($data_user);
+
+                    // $this->excel_data_insert_model->Add_User($data_user);
                 }
-                
             }
 
-            
+
 
             //$this->db->insert('postalpincodemaster_fedexin', $data_user);
-
-
             //$color_name = $_POST['color_name'];
             //$count = count($_POST['color_name'] && $_FILES['userfile'] );
         }

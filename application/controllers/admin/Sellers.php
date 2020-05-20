@@ -2,3044 +2,2533 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
-
 class Sellers extends CI_Controller {
 
-	public function __construct(){
+    public function __construct() {
 
-		parent::__construct();
+        parent::__construct();
 
-		$this->load->helper(array('html','form','url'));
+        $this->load->helper(array('html', 'form', 'url'));
 
-		$this->load->library('form_validation');
+        $this->load->library('form_validation');
 
-		$this->load->library('email');
+        $this->load->library('email');
 
-		$this->load->library('session');
+        $this->load->library('session');
 
-		$this->load->helper('string');
-		
-		$this->load->library('upload');
+        $this->load->helper('string');
 
-		$this->load->library('encrypt');
+        $this->load->library('upload');
 
-		$this->load->library('javascript');
+        $this->load->library('encrypt');
 
-		$this->load->database();
+        $this->load->library('javascript');
 
-		$this->load->model('admin/Seller_model');
-		
-		$this->load->model('seller/Catalog_model');
-		
-		$this->load->library('pagination');
+        $this->load->database();
 
-	}
+        $this->load->model('admin/Seller_model');
 
+        $this->load->model('seller/Catalog_model');
 
+        $this->load->library('pagination');
+    }
 
-	function index(){
+    function index() {
 
-		if($this->session->userdata('logged_in')){
+        if ($this->session->userdata('logged_in')) {
 
-			$data['seller_from'] = $this->input->post('seller_id_from');
+            $data['seller_from'] = $this->input->post('seller_id_from');
 
-			$data['seller_to'] = $this->input->post('seller_id_to');			
+            $data['seller_to'] = $this->input->post('seller_id_to');
 
-			$data['name1'] = $this->input->post('name1');
+            $data['name1'] = $this->input->post('name1');
 
-			$data['phone'] = $this->input->post('phone');
+            $data['phone'] = $this->input->post('phone');
 
-			$data['reg_date_from'] = $this->input->post('reg_date_from');
+            $data['reg_date_from'] = $this->input->post('reg_date_from');
 
-			$data['reg_date_to'] = $this->input->post('reg_date_to');
+            $data['reg_date_to'] = $this->input->post('reg_date_to');
 
-			$data['state'] = $this->input->post('state');
+            $data['state'] = $this->input->post('state');
 
-			$data['city'] = $this->input->post('city');	
+            $data['city'] = $this->input->post('city');
 
-			$data['email'] = $this->input->post('email');
+            $data['email'] = $this->input->post('email');
 
-			$data['approval_from'] = $this->input->post('approval_from');
+            $data['approval_from'] = $this->input->post('approval_from');
 
-			$data['approval_to'] = $this->input->post('approval_to');
+            $data['approval_to'] = $this->input->post('approval_to');
 
-			$data['seller_status'] = $this->input->post('seller_status');
+            $data['seller_status'] = $this->input->post('seller_status');
 
-			
 
-			$config = array();
 
-			$config["base_url"] = base_url()."admin/Sellers";
+            $config = array();
 
-			$config["total_rows"] = $this->Seller_model->getSellersForAdminListcount();
+            $config["base_url"] = base_url() . "admin/Sellers";
 
-			$config["per_page"] = 20;
+            $config["total_rows"] = $this->Seller_model->getSellersForAdminListcount();
 
-			$config["uri_segment"] = 3;
+            $config["per_page"] = 20;
 
-			//$config['use_page_numbers'] = TRUE;
+            $config["uri_segment"] = 3;
 
-			$config['page_query_string'] = TRUE;
+            //$config['use_page_numbers'] = TRUE;
 
-			$choice = $config["total_rows"] / $config["per_page"];
+            $config['page_query_string'] = TRUE;
 
-			//print_r(round($choice));exit;
+            $choice = $config["total_rows"] / $config["per_page"];
 
-			//$config["num_links"] = round($choice);
+            //print_r(round($choice));exit;
+            //$config["num_links"] = round($choice);
 
-			$config["num_links"] = 3;
+            $config["num_links"] = 3;
 
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
 
-			$config['cur_tag_close'] = '</a>';
+            $config['cur_tag_close'] = '</a>';
 
-			$config['next_link'] = 'Next';
+            $config['next_link'] = 'Next';
 
-			$config['prev_link'] = 'Previous';
+            $config['prev_link'] = 'Previous';
 
-			
 
-			$this->pagination->initialize($config);
 
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
+            $this->pagination->initialize($config);
 
-			
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
 
-			$data['sellers'] = $this->Seller_model->getSellersForAdminList($config["per_page"], $page);
 
-			$data['links'] = $this->pagination->create_links();
 
-			
+            $data['sellers'] = $this->Seller_model->getSellersForAdminList($config["per_page"], $page);
 
-			$this->load->view('admin/sellers', $data);
+            $data['links'] = $this->pagination->create_links();
 
-		}else{
 
-			redirect('admin/super_admin');
 
-		}
+            $this->load->view('admin/sellers', $data);
+        } else {
 
-	}
-	
-	function seller_porfile()
-	{
-		if($this->session->userdata('logged_in')){
-		
-			$data['seller_from'] = $this->input->post('seller_id_from');
-			$data['seller_to'] = $this->input->post('seller_id_to');
-			$data['name1'] = $this->input->post('name1');
-			$data['phone'] = $this->input->post('phone');
-			$data['reg_date_from'] = $this->input->post('reg_date_from');
-			$data['reg_date_to'] = $this->input->post('reg_date_to');
-			$data['state'] = $this->input->post('state');
-			$data['city'] = $this->input->post('city');	
-			$data['email'] = $this->input->post('email');
-			$data['approval_from'] = $this->input->post('approval_from');
-			$data['approval_to'] = $this->input->post('approval_to');
-			$data['seller_status'] = $this->input->post('seller_status');			
+            redirect('admin/super_admin');
+        }
+    }
 
-			$config = array();
-			$config["base_url"] = base_url()."admin/sellers/seller_porfile";
-			$config["total_rows"] = $this->Seller_model->getSellersForAdminListcount();
-			$config["per_page"] = 20;
-			$config["uri_segment"] = 3;
-			//$config['use_page_numbers'] = TRUE;
+    function seller_porfile() {
+        if ($this->session->userdata('logged_in')) {
 
-			$config['page_query_string'] = TRUE;
-			$config['enable_query_strings'] = TRUE;
-			$config['reuse_query_string'] = TRUE;
-			$choice = $config["total_rows"] / $config["per_page"];
-			//print_r(round($choice));exit;
-			//$config["num_links"] = round($choice);
-			$config["num_links"] = 3;
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
-			$config['cur_tag_close'] = '</a>';
-			$config['next_link'] = 'Next';
-			$config['prev_link'] = 'Previous';			
+            $data['seller_from'] = $this->input->post('seller_id_from');
+            $data['seller_to'] = $this->input->post('seller_id_to');
+            $data['name1'] = $this->input->post('name1');
+            $data['phone'] = $this->input->post('phone');
+            $data['reg_date_from'] = $this->input->post('reg_date_from');
+            $data['reg_date_to'] = $this->input->post('reg_date_to');
+            $data['state'] = $this->input->post('state');
+            $data['city'] = $this->input->post('city');
+            $data['email'] = $this->input->post('email');
+            $data['approval_from'] = $this->input->post('approval_from');
+            $data['approval_to'] = $this->input->post('approval_to');
+            $data['seller_status'] = $this->input->post('seller_status');
 
-			$this->pagination->initialize($config);
+            $config = array();
+            $config["base_url"] = base_url() . "admin/sellers/seller_porfile";
+            $config["total_rows"] = $this->Seller_model->getSellersForAdminListcount();
+            $config["per_page"] = 20;
+            $config["uri_segment"] = 3;
+            //$config['use_page_numbers'] = TRUE;
 
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
-			$data['sellers'] = $this->Seller_model->getSellersForAdminList($config["per_page"], $page);
-			$data['links'] = $this->pagination->create_links();			
+            $config['page_query_string'] = TRUE;
+            $config['enable_query_strings'] = TRUE;
+            $config['reuse_query_string'] = TRUE;
+            $choice = $config["total_rows"] / $config["per_page"];
+            //print_r(round($choice));exit;
+            //$config["num_links"] = round($choice);
+            $config["num_links"] = 3;
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
+            $config['cur_tag_close'] = '</a>';
+            $config['next_link'] = 'Next';
+            $config['prev_link'] = 'Previous';
 
-			$this->load->view('admin/sellers_profile', $data);
-		
-		
-		}else{
+            $this->pagination->initialize($config);
 
-			redirect('admin/super_admin');
-		}	
-				
-	}
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
+            $data['sellers'] = $this->Seller_model->getSellersForAdminList($config["per_page"], $page);
+            $data['links'] = $this->pagination->create_links();
 
-	
+            $this->load->view('admin/sellers_profile', $data);
+        } else {
 
-	function seller_details(){
+            redirect('admin/super_admin');
+        }
+    }
 
-		if($this->session->userdata('logged_in')){
+    function seller_details() {
 
-			$id['seller_id']=$this->uri->segment(4);
+        if ($this->session->userdata('logged_in')) {
 
-			$this->load->view('admin/seller_details', $id);
+            $id['seller_id'] = $this->uri->segment(4);
 
-		}else{
+            $this->load->view('admin/seller_details', $id);
+        } else {
 
-			redirect('admin/super_admin');
+            redirect('admin/super_admin');
+        }
+    }
 
-		}
+    function sellerprofile_details() {
 
-	}
-	
-	function sellerprofile_details(){
+        if ($this->session->userdata('logged_in')) {
 
-		if($this->session->userdata('logged_in')){
+            $id['seller_id'] = $this->uri->segment(4);
 
-			$id['seller_id']=$this->uri->segment(4);
+            $this->load->view('admin/sellerprofile_details', $id);
+        } else {
 
-			$this->load->view('admin/sellerprofile_details', $id);
+            redirect('admin/super_admin');
+        }
+    }
 
-		}else{
+    /* function filter_sellers_data()
 
-			redirect('admin/super_admin');
+      {
 
-		}
+      if($this->session->userdata('logged_in')){
 
-	}
 
-	
 
-	/*function filter_sellers_data()
+      $data['sellers'] = $this->Seller_model->filter_sellers_data();
 
-	{
+      $this->load->view('admin/sellers', $data);
 
-		if($this->session->userdata('logged_in')){
+      }else{
 
-			
+      redirect('admin/super_admin');
 
-			$data['sellers'] = $this->Seller_model->filter_sellers_data();
+      }
 
-			$this->load->view('admin/sellers', $data);
+      } */
 
-		}else{
+    function filter_sellers_data() {
 
-			redirect('admin/super_admin');
+        if ($this->session->userdata('logged_in')) {
 
-		}
+            $data['seller_id'] = $_REQUEST['seller_id'];
 
-	}*/
+            $data['seller_from'] = $this->input->post('seller_id_from');
 
-	
+            $data['seller_to'] = $this->input->post('seller_id_to');
 
-	function filter_sellers_data()
+            $data['name1'] = $_REQUEST['name1'];
 
-	{
+            $data['phone'] = $_REQUEST['phone'];
 
-		if($this->session->userdata('logged_in')){
+            $data['reg_date_from'] = $_REQUEST['regdate_from'];
 
-			$data['seller_id'] = $_REQUEST['seller_id'];
+            $data['reg_date_to'] = $_REQUEST['regdate_to'];
 
-			$data['seller_from'] = $this->input->post('seller_id_from');
+            $data['state'] = $_REQUEST['state'];
 
-			$data['seller_to'] = $this->input->post('seller_id_to');			
+            $data['city'] = $_REQUEST['city'];
 
-			$data['name1'] = $_REQUEST['name1'];
+            $data['email'] = $_REQUEST['email'];
 
-			$data['phone'] = $_REQUEST['phone'];
+            $data['approval_from'] = $_REQUEST['approval_from'];
 
-			$data['reg_date_from'] =$_REQUEST['regdate_from'];
+            $data['approval_to'] = $_REQUEST['approval_to'];
 
-			$data['reg_date_to'] = $_REQUEST['regdate_to'];
+            $data['seller_status'] = $_REQUEST['seller_status'];
 
-			$data['state'] = $_REQUEST['state'];
 
-			$data['city'] = $_REQUEST['city'];	
 
-			$data['email'] = $_REQUEST['email'];
+            $config = array();
 
-			$data['approval_from'] = $_REQUEST['approval_from'];
+            $config["base_url"] = base_url() . "admin/sellers/filter_sellers_data";
 
-			$data['approval_to'] = $_REQUEST['approval_to'];
+            $config["total_rows"] = $this->Seller_model->filter_sellers_datacount();
 
-			$data['seller_status'] = $_REQUEST['seller_status'];
+            $config["per_page"] = 20;
 
-			
+            $config["uri_segment"] = 3;
 
-			$config = array();
+            $config["page_query_string"] = TRUE;
 
-			$config["base_url"] = base_url()."admin/sellers/filter_sellers_data";
+            $config['enable_query_strings'] = TRUE;
 
-			$config["total_rows"] = $this->Seller_model->filter_sellers_datacount();
+            $config['reuse_query_string'] = TRUE;
 
-			$config["per_page"] = 20;
+            $choice = $config["total_rows"] / $config["per_page"];
 
-			$config["uri_segment"] = 3;
+            //$config["num_links"] = round($choice);
 
-			$config["page_query_string"] = TRUE;
+            $config["num_links"] = 3;
 
-			$config['enable_query_strings'] = TRUE;
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
 
-			$config['reuse_query_string'] = TRUE;
+            $config['cur_tag_close'] = '</a>';
 
-			$choice = $config["total_rows"] / $config["per_page"];
+            $config['next_link'] = 'Next';
 
-			//$config["num_links"] = round($choice);
+            $config['prev_link'] = 'Previous';
 
-			$config["num_links"] = 3;
 
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
 
-			$config['cur_tag_close'] = '</a>';
+            $config['suffix'] = '&seller_id=' . $data['seller_id'] . '&name1=' . $data['name1'] . '&regdate_from=' . $data['reg_date_from'] . '&regdate_to=' . $data['reg_date_to'] . '&phone=' . $data['phone'] . '&approval_from=' . $data['approval_from'] . '&approval_to=' . $data['approval_to'] . '&email=' . $data['email'] . '&state=' . $data['state'] . '&city=' . $data['city'] . '&seller_status=' . $data['seller_status'];
 
-			$config['next_link'] = 'Next';
 
-			$config['prev_link'] = 'Previous';
 
-			
+            $this->pagination->initialize($config);
 
-			$config['suffix'] ='&seller_id='.$data['seller_id'].'&name1='.$data['name1'].'&regdate_from='.$data['reg_date_from'].'&regdate_to='.$data['reg_date_to'].'&phone='.$data['phone'].'&approval_from='.$data['approval_from'].'&approval_to='.$data['approval_to'].'&email='.$data['email'].'&state='.$data['state'].'&city='.$data['city'].'&seller_status='.$data['seller_status'];
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
 
-			
 
-			$this->pagination->initialize($config);
 
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
+            $data['sellers'] = $this->Seller_model->filter_sellers_data($config["per_page"], $page);
 
-			
+            $data['links'] = $this->pagination->create_links();
 
-			$data['sellers'] = $this->Seller_model->filter_sellers_data($config["per_page"], $page);
+            $this->load->view('admin/sellers', $data);
+        } else {
 
-			$data['links'] = $this->pagination->create_links();
+            redirect('admin/super_admin');
+        }
+    }
 
-			$this->load->view('admin/sellers', $data);
+    function filter_sellersprofile_data() {
+        if ($this->session->userdata('logged_in')) {
 
-		}else{
+            $data['seller_id'] = $_REQUEST['seller_id'];
+            $data['seller_from'] = $this->input->post('seller_id_from');
+            $data['seller_to'] = $this->input->post('seller_id_to');
+            $data['name1'] = $_REQUEST['name1'];
+            $data['phone'] = $_REQUEST['phone'];
+            $data['reg_date_from'] = $_REQUEST['regdate_from'];
+            $data['reg_date_to'] = $_REQUEST['regdate_to'];
+            $data['state'] = $_REQUEST['state'];
+            $data['city'] = $_REQUEST['city'];
+            $data['email'] = $_REQUEST['email'];
+            $data['approval_from'] = $_REQUEST['approval_from'];
+            $data['approval_to'] = $_REQUEST['approval_to'];
+            $data['seller_status'] = $_REQUEST['seller_status'];
 
-			redirect('admin/super_admin');
+            $config = array();
+            $config["base_url"] = base_url() . "admin/sellers/filter_sellersprofile_data";
+            $config["total_rows"] = $this->Seller_model->filter_sellers_datacount();
+            $config["per_page"] = 20;
+            $config["uri_segment"] = 3;
+            $config["page_query_string"] = TRUE;
+            $config['enable_query_strings'] = TRUE;
+            $config['reuse_query_string'] = TRUE;
+            $choice = $config["total_rows"] / $config["per_page"];
+            //$config["num_links"] = round($choice);
 
-		}
+            $config["num_links"] = 3;
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
+            $config['cur_tag_close'] = '</a>';
+            $config['next_link'] = 'Next';
+            $config['prev_link'] = 'Previous';
 
-	}
+            $config['suffix'] = '&seller_id=' . $data['seller_id'] . '&name1=' . $data['name1'] . '&regdate_from=' . $data['reg_date_from'] . '&regdate_to=' . $data['reg_date_to'] . '&phone=' . $data['phone'] . '&approval_from=' . $data['approval_from'] . '&approval_to=' . $data['approval_to'] . '&email=' . $data['email'] . '&state=' . $data['state'] . '&city=' . $data['city'] . '&seller_status=' . $data['seller_status'];
 
-	function filter_sellersprofile_data()
-	{
-		if($this->session->userdata('logged_in')){
+            $this->pagination->initialize($config);
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
+            $data['sellers'] = $this->Seller_model->filter_sellers_data($config["per_page"], $page);
+            $data['links'] = $this->pagination->create_links();
+            $this->load->view('admin/sellers_profile', $data);
+        } else {
 
-			$data['seller_id'] = $_REQUEST['seller_id'];
-			$data['seller_from'] = $this->input->post('seller_id_from');
-			$data['seller_to'] = $this->input->post('seller_id_to');
-			$data['name1'] = $_REQUEST['name1'];
-			$data['phone'] = $_REQUEST['phone'];
-			$data['reg_date_from'] =$_REQUEST['regdate_from'];
-			$data['reg_date_to'] = $_REQUEST['regdate_to'];
-			$data['state'] = $_REQUEST['state'];
-			$data['city'] = $_REQUEST['city'];
-			$data['email'] = $_REQUEST['email'];
-			$data['approval_from'] = $_REQUEST['approval_from'];
-			$data['approval_to'] = $_REQUEST['approval_to'];
-			$data['seller_status'] = $_REQUEST['seller_status'];			
+            redirect('admin/super_admin');
+        }
+    }
 
-			$config = array();
-			$config["base_url"] = base_url()."admin/sellers/filter_sellersprofile_data";
-			$config["total_rows"] = $this->Seller_model->filter_sellers_datacount();
-			$config["per_page"] = 20;
-			$config["uri_segment"] = 3;
-			$config["page_query_string"] = TRUE;
-			$config['enable_query_strings'] = TRUE;
-			$config['reuse_query_string'] = TRUE;
-			$choice = $config["total_rows"] / $config["per_page"];
-			//$config["num_links"] = round($choice);
+    function change_seller_status() {
 
-			$config["num_links"] = 3;
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
-			$config['cur_tag_close'] = '</a>';
-			$config['next_link'] = 'Next';
-			$config['prev_link'] = 'Previous';			
+        if ($this->session->userdata('logged_in')) {
 
-			$config['suffix'] ='&seller_id='.$data['seller_id'].'&name1='.$data['name1'].'&regdate_from='.$data['reg_date_from'].'&regdate_to='.$data['reg_date_to'].'&phone='.$data['phone'].'&approval_from='.$data['approval_from'].'&approval_to='.$data['approval_to'].'&email='.$data['email'].'&state='.$data['state'].'&city='.$data['city'].'&seller_status='.$data['seller_status'];			
+            /* $status = $this->uri->segment(4);
 
-			$this->pagination->initialize($config);
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
-			$data['sellers'] = $this->Seller_model->filter_sellers_data($config["per_page"], $page);
-			$data['links'] = $this->pagination->create_links();
-			$this->load->view('admin/sellers_profile', $data);
-		}else{
+              $seller_id = $this->uri->segment(5);
 
-			redirect('admin/super_admin');
+              $email = $this->uri->segment(6); */
 
-		}
+            $status = $this->input->post('val');
 
-	}
+            $seller_id = $this->input->post('seller_id');
 
+            $email = $this->input->post('email');
 
-	function change_seller_status(){
 
-		if($this->session->userdata('logged_in')){
 
-			/*$status = $this->uri->segment(4);
+            $this->load->model('Cornjob_productinsermodel');
 
-			$seller_id = $this->uri->segment(5);
+            $result = $this->Cornjob_productinsermodel->update_sellerstatus($seller_id, $status);
 
-			$email = $this->uri->segment(6);*/
 
-			$status = $this->input->post('val');
 
-			$seller_id = $this->input->post('seller_id');
+            $result = $this->Seller_model->update_sellers_status($seller_id, $status);
 
-			$email = $this->input->post('email');
 
-			
 
-			$this->load->model('Cornjob_productinsermodel');
+            if ($result == true) {
 
-			$result = $this->Cornjob_productinsermodel->update_sellerstatus($seller_id, $status);
 
-			
 
-			$result = $this->Seller_model->update_sellers_status($seller_id, $status);
+                $to = $email;
 
-			  
+                $from = ADMIN_MAIL;
 
-			if($result == true){
+                $subject = "Regarding Seller approval in " . DOMAIN_NAME;
 
-				
 
-				$to = $email;				
 
-				$from = ADMIN_MAIL;
+                $seller_nm['seller_id'] = $seller_id;
 
-				$subject = "Regarding Seller approval in ".DOMAIN_NAME;
+                $seller_nm['seller_sts'] = $status;
 
-				
 
-				$seller_nm['seller_id']=$seller_id;
 
-				$seller_nm['seller_sts']=$status;
+                $this->email->set_newline("\r\n");
 
-				
+                $this->email->set_mailtype("html");
 
-				$this->email->set_newline("\r\n");
+                $this->email->from(SELLER_MAIL);
 
-				$this->email->set_mailtype("html");
+                $this->email->to($to);
 
-				$this->email->from(SELLER_MAIL);
+                $this->email->subject('Seller Account Status');
 
-				$this->email->to($to);
+                $this->email->message($this->load->view('email_template/seller_approved', $seller_nm, true));
 
-				$this->email->subject('Seller Account Status');
 
-				$this->email->message($this->load->view('email_template/seller_approved',$seller_nm,true));
 
-				
+                $this->email->send();
 
-				$this->email->send();
 
-				
 
-				date_default_timezone_set('Asia/Calcutta');
+                date_default_timezone_set('Asia/Calcutta');
 
-				$dt = date('Y-m-d H:i:s');
+                $dt = date('Y-m-d H:i:s');
 
-					
 
-				$msg=$this->load->view('email_template/seller_approved',$seller_nm,true);
 
-				if($this->email->send()){
+                $msg = $this->load->view('email_template/seller_approved', $seller_nm, true);
 
-					
+                if ($this->email->send()) {
 
-					$email_data=array(
 
-					'to_email_id'=>$to,
 
-					'from_email_id'=>SELLER_MAIL,
+                    $email_data = array(
+                        'to_email_id' => $to,
+                        'from_email_id' => SELLER_MAIL,
+                        'date' => $dt,
+                        'email_sub' => 'Seller Account Status',
+                        'email_content' => $msg,
+                        'email_send_status' => 'Success'
+                    );
+                } else {
 
-					'date'=>$dt,
+                    $email_data = array(
+                        'to_email_id' => $to,
+                        'from_email_id' => SELLER_MAIL,
+                        'date' => $dt,
+                        'email_sub' => 'Seller Account Status',
+                        'email_content' => $msg,
+                        'email_send_status' => 'Failure'
+                    );
+                }
 
-					'email_sub'=>'Seller Account Status',
+                $this->db->insert('email_log', $email_data);
+            }
+        } else {
 
-					'email_content'=>$msg,
+            redirect('admin/super_admin');
+        }
+    }
 
-					'email_send_status'=>'Success'
+    function product_for_approve() {
 
-					);
+        if ($this->session->userdata('logged_in')) {
 
-				}else
+            $data['from_dt'] = $this->input->post('from_dt');
 
-				{
+            $data['to_dt'] = $this->input->post('to_dt');
 
-					$email_data=array(
+            $data['fltr_product_nm'] = $this->input->post('fltr_product_nm');
 
-					'to_email_id'=>$to,
+            $data['fltr_slr_nm'] = $this->input->post('fltr_slr_nm');
 
-					'from_email_id'=>SELLER_MAIL,
+            $data['product_sts'] = $this->input->post('product_sts');
 
-					'date'=>$dt,
 
-					'email_sub'=>'Seller Account Status',
 
-					'email_content'=>$msg,
+            $config = array();
 
-					'email_send_status'=>'Failure'
+            $config["base_url"] = base_url() . "admin/Sellers/product_for_approve";
 
-					);	
+            $config["total_rows"] = $this->Seller_model->retrive_seller_product_data_4_approvecount();
 
-				}
+            $config["per_page"] = 200;
 
-				$this->db->insert('email_log',$email_data);	
+            $config["uri_segment"] = 3;
 
-				
+            //$config['use_page_numbers'] = TRUE;
 
-				
+            $config['page_query_string'] = TRUE;
 
-			}
+            $choice = $config["total_rows"] / $config["per_page"];
 
-		}else{
+            //print_r(round($choice));exit;
+            //$config["num_links"] = round($choice);
 
-			redirect('admin/super_admin');
+            $config["num_links"] = 3;
 
-		}
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
 
-	}
+            $config['cur_tag_close'] = '</a>';
 
-	
+            $config['next_link'] = 'Next';
 
-	
+            $config['prev_link'] = 'Previous';
 
-	function product_for_approve(){
 
-		if($this->session->userdata('logged_in')){
 
-			$data['from_dt'] = $this->input->post('from_dt');		   
+            $this->pagination->initialize($config);
 
-			$data['to_dt'] = $this->input->post('to_dt');				
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
 
-			$data['fltr_product_nm'] = $this->input->post('fltr_product_nm');					
 
-			$data['fltr_slr_nm'] = $this->input->post('fltr_slr_nm');			
 
-			$data['product_sts'] = $this->input->post('product_sts');			
+            $data['result'] = $this->Seller_model->retrive_seller_product_data_4_approve($config["per_page"], $page);
 
-			
+            $data['links'] = $this->pagination->create_links();
 
-			$config = array();
 
-			$config["base_url"] = base_url()."admin/Sellers/product_for_approve";
 
-			$config["total_rows"] = $this->Seller_model->retrive_seller_product_data_4_approvecount();
-
-			$config["per_page"] = 200;
-
-			$config["uri_segment"] = 3;
-
-			//$config['use_page_numbers'] = TRUE;
-
-			$config['page_query_string'] = TRUE;
-
-			$choice = $config["total_rows"] / $config["per_page"];
-
-			//print_r(round($choice));exit;
-
-			//$config["num_links"] = round($choice);
-
-			$config["num_links"] = 3;
-
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
-
-			$config['cur_tag_close'] = '</a>';
-
-			$config['next_link'] = 'Next';
-
-			$config['prev_link'] = 'Previous';
-
-			
-
-			$this->pagination->initialize($config);
-
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
-
-			
-
-			$data['result'] = $this->Seller_model->retrive_seller_product_data_4_approve($config["per_page"], $page);
-
-			$data['links'] = $this->pagination->create_links();
-
-			
-
-			//$data['result'] = $this->Seller_model->retrive_seller_product_data_4_approve();
-
-			
-
-			//$this->load->model('admin/Manage_category_model');			
-
+            //$data['result'] = $this->Seller_model->retrive_seller_product_data_4_approve();
+            //$this->load->model('admin/Manage_category_model');			
 //			$data['category_result'] = $this->Manage_category_model->retrieve_category();
 
-			
 
-			$this->load->view('admin/products_for_approval_list',$data); 
 
-		}else{
+            $this->load->view('admin/products_for_approval_list', $data);
+        } else {
 
-			redirect('admin/super_admin');
+            redirect('admin/super_admin');
+        }
+    }
 
-		}
+    function autofill_category() {
 
-	}
+        $data['autofilldata'] = $this->Seller_model->retrieve_categorysearch();
 
-	function autofill_category(){
+        $this->load->view('admin/autofill_category', $data);
+    }
 
-		$data['autofilldata'] = $this->Seller_model->retrieve_categorysearch();
+    function filter_seller_product_data() {
 
-		$this->load->view('admin/autofill_category',$data);
+        if ($this->session->userdata('logged_in')) {
 
-	}
 
-	
 
-	
+            //$data['from_dt'] = $_REQUEST['from_dt'];
+            //$data['to_dt'] = $_REQUEST['to_dt'];
 
-	function filter_seller_product_data()
+            $data['from_dt'] = '';
 
-	{
+            $data['to_dt'] = '';
 
-		if($this->session->userdata('logged_in')){
+            $data['fltr_product_nm'] = $_REQUEST['fltr_product_nm'];
 
-			
+            $data['fltr_slr_nm'] = $_REQUEST['fltr_slr_nm'];
 
-			//$data['from_dt'] = $_REQUEST['from_dt'];
+            $data['product_sts'] = $_REQUEST['product_sts'];
 
-			//$data['to_dt'] = $_REQUEST['to_dt'];
 
-			$data['from_dt'] = '';
 
-			$data['to_dt'] = '';
+            //$data['product_sts'] = '';
 
-			$data['fltr_product_nm'] = $_REQUEST['fltr_product_nm'];
+            $data['fltr_product_sku'] = $_REQUEST['fltr_product_sku'];
 
-			$data['fltr_slr_nm'] = $_REQUEST['fltr_slr_nm'];		
+            $data['seller_sts'] = $_REQUEST['seller_sts'];
 
-			$data['product_sts'] = $_REQUEST['product_sts'];
+            $data['prod_mrp'] = $_REQUEST['prod_mrp'];
 
-			
+            $data['prod_saleprice'] = $_REQUEST['prod_saleprice'];
 
-			//$data['product_sts'] = '';
+            $data['prod_qnt'] = $_REQUEST['prod_qnt'];
 
-			$data['fltr_product_sku']=	$_REQUEST['fltr_product_sku'];
+            $data['catg_id'] = $_REQUEST['catg_id'];
 
-			$data['seller_sts']=$_REQUEST['seller_sts'];
 
-			$data['prod_mrp']=$_REQUEST['prod_mrp'];
 
-			$data['prod_saleprice']=$_REQUEST['prod_saleprice'];
+            $config = array();
 
-			$data['prod_qnt']=$_REQUEST['prod_qnt'];
+            $config["base_url"] = base_url() . "admin/Sellers/filter_seller_product_data";
 
-			$data['catg_id']=$_REQUEST['catg_id'];
+            $config["total_rows"] = $this->Seller_model->filter_seller_product_datacount();
 
-			
+            $config["per_page"] = 200;
 
-			$config = array();
+            $config["uri_segment"] = 3;
 
-			$config["base_url"] = base_url()."admin/Sellers/filter_seller_product_data";
+            $config["page_query_string"] = TRUE;
 
-			$config["total_rows"] = $this->Seller_model->filter_seller_product_datacount();
+            $config['enable_query_strings'] = TRUE;
 
-			$config["per_page"] = 200;
+            $config['reuse_query_string'] = TRUE;
 
-			$config["uri_segment"] = 3;
+            $choice = $config["total_rows"] / $config["per_page"];
 
-			$config["page_query_string"] = TRUE;
+            //$config["num_links"] = round($choice);
 
-			$config['enable_query_strings'] = TRUE;
+            $config["num_links"] = 3;
 
-			$config['reuse_query_string'] = TRUE;
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
 
-			$choice = $config["total_rows"] / $config["per_page"];			
+            $config['cur_tag_close'] = '</a>';
 
-			//$config["num_links"] = round($choice);
+            $config['next_link'] = 'Next';
 
-			$config["num_links"] = 3;
+            $config['prev_link'] = 'Previous';
 
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
 
-			$config['cur_tag_close'] = '</a>';
 
-			$config['next_link'] = 'Next';
 
-			$config['prev_link'] = 'Previous';
 
-			
+            $config['suffix'] = '&from_dt=' . $data['from_dt'] . '&to_dt=' . $data['to_dt'] . '&fltr_product_nm=' . $data['fltr_product_nm'] . '&fltr_slr_nm=' . $data['fltr_slr_nm'] . '&product_sts=' . $data['product_sts'] . '&fltr_product_sku=' . $data['fltr_product_sku'] . '&seller_sts=' . $data['seller_sts'] . '&prod_mrp=' . $data['prod_mrp'] . '&prod_saleprice=' . $data['prod_saleprice'] . '&prod_qnt=' . $data['prod_qnt'] . '&catg_id=' . $data['catg_id'];
 
-			
 
-			$config['suffix'] ='&from_dt='.$data['from_dt'].'&to_dt='.$data['to_dt'].'&fltr_product_nm='.$data['fltr_product_nm'].'&fltr_slr_nm='.$data['fltr_slr_nm'].'&product_sts='.$data['product_sts'].'&fltr_product_sku='.$data['fltr_product_sku'].'&seller_sts='.$data['seller_sts'].'&prod_mrp='.$data['prod_mrp'].'&prod_saleprice='.$data['prod_saleprice'].'&prod_qnt='.$data['prod_qnt'].'&catg_id='.$data['catg_id'] ;
 
-			
+            $this->pagination->initialize($config);
 
-			$this->pagination->initialize($config);
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
 
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;				
+            $data['result'] = $this->Seller_model->filter_seller_product_data($config["per_page"], $page);
 
-			$data['result'] = $this->Seller_model->filter_seller_product_data($config["per_page"], $page);
+            $data['links'] = $this->pagination->create_links();
 
-			$data['links'] = $this->pagination->create_links();			
 
-			
 
-			//$data['result'] = $this->Seller_model->filter_seller_product_data();
-
-			//$this->load->model('admin/Manage_category_model');			
-
+            //$data['result'] = $this->Seller_model->filter_seller_product_data();
+            //$this->load->model('admin/Manage_category_model');			
 //			$data['category_result'] = $this->Manage_category_model->retrieve_category();
 
-			$this->load->view('admin/products_for_approval_list',$data);
+            $this->load->view('admin/products_for_approval_list', $data);
 
-			
 
-			//$this->load->view('admin/new_product_approvallistby_ajax',$data);
 
-		}else{
+            //$this->load->view('admin/new_product_approvallistby_ajax',$data);
+        } else {
 
-			redirect('admin/super_admin');
+            redirect('admin/super_admin');
+        }
+    }
 
-		}
+    function product_exiting_for_approve() {
+        if ($this->session->userdata('logged_in')) {
+            $data['from_dt'] = $this->input->post('from_dt1');
+            // print_r($shipment);exit;
 
-	}
+            $data['to_dt'] = $this->input->post('to_dt1');
+            //print_r($to_dt);exit;		
+            $data['fltr_product_nm'] = $this->input->post('fltr_product_nm1');
 
-	
+            $data['fltr_product_sku'] = $this->input->post('fltr_product_sku');
 
-	function product_exiting_for_approve(){
-		if($this->session->userdata('logged_in')){
-			$data['from_dt'] = $this->input->post('from_dt1');
-		   // print_r($shipment);exit;
-			
-			$data['to_dt'] = $this->input->post('to_dt1');			
-			//print_r($to_dt);exit;		
-			$data['fltr_product_nm'] = $this->input->post('fltr_product_nm1');
-			
-			$data['fltr_product_sku'] = $this->input->post('fltr_product_sku');
-			
-			$data['fltr_slr_nm'] = $this->input->post('fltr_slr_nm1');
-			//print_r($fltr_slr_nm);exit;
-			$data['product_sts'] = $this->input->post('product_sts1');			
-			
-			$config = array();
-			$config["base_url"] = base_url()."admin/Sellers/product_exiting_for_approve";
-			$config["total_rows"] = $this->Seller_model->retrive_seller_product_exiting_datacount();
-			$config["per_page"] = 100;
-			$config["uri_segment"] = 3;
-			//$config['use_page_numbers'] = TRUE;
-			$config['page_query_string'] = TRUE;
-			$choice = $config["total_rows"] / $config["per_page"];
-			//print_r(round($choice));exit;
-			//$config["num_links"] = round($choice);
-			$config["num_links"] = 3;
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
-			$config['cur_tag_close'] = '</a>';
-			$config['next_link'] = 'Next';
-			$config['prev_link'] = 'Previous';
-			
-			$this->pagination->initialize($config);
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
-			
-			$data['result'] = $this->Seller_model->retrive_seller_product_exiting_data($config["per_page"], $page);
-			$data['links'] = $this->pagination->create_links();
-			
-			//$data['result'] = $this->Seller_model->retrive_seller_product_data_4_approve();
-			
-			//$this->load->model('admin/Manage_category_model');			
+            $data['fltr_slr_nm'] = $this->input->post('fltr_slr_nm1');
+            //print_r($fltr_slr_nm);exit;
+            $data['product_sts'] = $this->input->post('product_sts1');
+
+            $config = array();
+            $config["base_url"] = base_url() . "admin/Sellers/product_exiting_for_approve";
+            $config["total_rows"] = $this->Seller_model->retrive_seller_product_exiting_datacount();
+            $config["per_page"] = 100;
+            $config["uri_segment"] = 3;
+            //$config['use_page_numbers'] = TRUE;
+            $config['page_query_string'] = TRUE;
+            $choice = $config["total_rows"] / $config["per_page"];
+            //print_r(round($choice));exit;
+            //$config["num_links"] = round($choice);
+            $config["num_links"] = 3;
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
+            $config['cur_tag_close'] = '</a>';
+            $config['next_link'] = 'Next';
+            $config['prev_link'] = 'Previous';
+
+            $this->pagination->initialize($config);
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
+
+            $data['result'] = $this->Seller_model->retrive_seller_product_exiting_data($config["per_page"], $page);
+            $data['links'] = $this->pagination->create_links();
+
+            //$data['result'] = $this->Seller_model->retrive_seller_product_data_4_approve();
+            //$this->load->model('admin/Manage_category_model');			
 //			$data['category_result'] = $this->Manage_category_model->retrieve_category();
-			
-			$this->load->view('admin/products_exiting_for_approval_list',$data); 
-		}else{
-			redirect('admin/super_admin');
-		}
-	}
 
-	
-function autofill_seller(){
-		$data['autofilldata'] = $this->Seller_model->search_existseller_name();
-		$this->load->view('admin/autofill_existslrnm',$data);
-	}
-	function autofill_existprodnm(){
-		$data['autofilldata'] = $this->Seller_model->search_existprod_name();
-		$this->load->view('admin/autofill_existprodnm',$data);
-	}
-	function autofill_existcategory(){
-		$data['autofilldata'] = $this->Seller_model->existcategorysearch();
-		$this->load->view('admin/autofill_existcategory',$data);
-	}
-	
-	
-	
-	function filter_seller_existing_product()
-	{
-		if($this->session->userdata('logged_in')){
-			
-			//$data['from_dt'] = $_REQUEST['from_dt'];
-			//$data['to_dt'] = $_REQUEST['to_dt'];
-			$data['from_dt'] = '';
-			$data['to_dt'] = '';
-			$data['fltr_product_sku']=$_REQUEST['fltr_product_sku'];
-			$data['fltr_product_nm']=$_REQUEST['fltr_product_nm'];
-			$data['prod_cate']=$_REQUEST['prod_cate'];
-			$data['fltr_slr_nm']=$_REQUEST['fltr_slr_nm'];
-			$data['mrp']=$_REQUEST['mrp'];
-			$data['sell_prices']=$_REQUEST['sell_prices'];
-			$data['quantity']=$_REQUEST['quantity'];
-			$data['product_sts']=$_REQUEST['product_sts'];
-			/*$data['fltr_product_sku'] = $this->input->post('fltr_product_sku');
-			//$data['from_dt'] = $this->input->post('from_dt1');
-			
-			//$data['to_dt'] = $this->input->post('to_dt1');	
-			$data['fltr_product_nm'] = $this->input->post('fltr_product_nm');
-			$data['prod_cate'] = $this->input->post('prod_cate');
-			
-			$data['fltr_slr_nm'] = $this->input->post('fltr_slr_nm');
-			$data['mrp'] = $this->input->post('mrp');
-			$data['sell_prices'] = $this->input->post('sell_prices');
-			$data['quantity'] = $this->input->post('quantity');
-			
-			$data['product_sts'] = $this->input->post('product_sts');*/
-			
-			$config = array();
-			$config["base_url"] = base_url()."admin/Sellers/filter_seller_existing_product";
-			$config["total_rows"] = $this->Seller_model->filter_seller_product_exiting_datacount();
-			$config["per_page"] = 100;
-			$config["uri_segment"] = 3;
-			$config["page_query_string"] = TRUE;
-			$config['enable_query_strings'] = TRUE;
-			$config['reuse_query_string'] = TRUE;
-			$choice = $config["total_rows"] / $config["per_page"];
-			$config["num_links"] = 3;
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
-			$config['cur_tag_close'] = '</a>';
-			$config['next_link'] = 'Next';
-			$config['prev_link'] = 'Previous';
-			
-			
-			$config['suffix'] ='&fltr_product_sku='.$data['fltr_product_sku'].'&from_dt='.'&fltr_product_nm='.$data['fltr_product_nm'].'&prod_cate='.$data['prod_cate'].'&fltr_slr_nm='.$data['fltr_slr_nm'].'&product_sts='.$data['product_sts'].'&mrp='.$data['mrp'].'&sell_prices='.$data['sell_prices'].'&quantity='.$data['quantity'] ;
-			
-			$this->pagination->initialize($config);
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;				
-			$data['result'] = $this->Seller_model->filter_seller_existing_product($config["per_page"], $page);
-			$data['links'] = $this->pagination->create_links();			
-			
-			//$data['result'] = $this->Seller_model->filter_seller_product_data();
-			//$this->load->model('admin/Manage_category_model');			
+            $this->load->view('admin/products_exiting_for_approval_list', $data);
+        } else {
+            redirect('admin/super_admin');
+        }
+    }
+
+    function autofill_seller() {
+        $data['autofilldata'] = $this->Seller_model->search_existseller_name();
+        $this->load->view('admin/autofill_existslrnm', $data);
+    }
+
+    function autofill_existprodnm() {
+        $data['autofilldata'] = $this->Seller_model->search_existprod_name();
+        $this->load->view('admin/autofill_existprodnm', $data);
+    }
+
+    function autofill_existcategory() {
+        $data['autofilldata'] = $this->Seller_model->existcategorysearch();
+        $this->load->view('admin/autofill_existcategory', $data);
+    }
+
+    function filter_seller_existing_product() {
+        if ($this->session->userdata('logged_in')) {
+
+            //$data['from_dt'] = $_REQUEST['from_dt'];
+            //$data['to_dt'] = $_REQUEST['to_dt'];
+            $data['from_dt'] = '';
+            $data['to_dt'] = '';
+            $data['fltr_product_sku'] = $_REQUEST['fltr_product_sku'];
+            $data['fltr_product_nm'] = $_REQUEST['fltr_product_nm'];
+            $data['prod_cate'] = $_REQUEST['prod_cate'];
+            $data['fltr_slr_nm'] = $_REQUEST['fltr_slr_nm'];
+            $data['mrp'] = $_REQUEST['mrp'];
+            $data['sell_prices'] = $_REQUEST['sell_prices'];
+            $data['quantity'] = $_REQUEST['quantity'];
+            $data['product_sts'] = $_REQUEST['product_sts'];
+            /* $data['fltr_product_sku'] = $this->input->post('fltr_product_sku');
+              //$data['from_dt'] = $this->input->post('from_dt1');
+
+              //$data['to_dt'] = $this->input->post('to_dt1');
+              $data['fltr_product_nm'] = $this->input->post('fltr_product_nm');
+              $data['prod_cate'] = $this->input->post('prod_cate');
+
+              $data['fltr_slr_nm'] = $this->input->post('fltr_slr_nm');
+              $data['mrp'] = $this->input->post('mrp');
+              $data['sell_prices'] = $this->input->post('sell_prices');
+              $data['quantity'] = $this->input->post('quantity');
+
+              $data['product_sts'] = $this->input->post('product_sts'); */
+
+            $config = array();
+            $config["base_url"] = base_url() . "admin/Sellers/filter_seller_existing_product";
+            $config["total_rows"] = $this->Seller_model->filter_seller_product_exiting_datacount();
+            $config["per_page"] = 100;
+            $config["uri_segment"] = 3;
+            $config["page_query_string"] = TRUE;
+            $config['enable_query_strings'] = TRUE;
+            $config['reuse_query_string'] = TRUE;
+            $choice = $config["total_rows"] / $config["per_page"];
+            $config["num_links"] = 3;
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
+            $config['cur_tag_close'] = '</a>';
+            $config['next_link'] = 'Next';
+            $config['prev_link'] = 'Previous';
+
+
+            $config['suffix'] = '&fltr_product_sku=' . $data['fltr_product_sku'] . '&from_dt=' . '&fltr_product_nm=' . $data['fltr_product_nm'] . '&prod_cate=' . $data['prod_cate'] . '&fltr_slr_nm=' . $data['fltr_slr_nm'] . '&product_sts=' . $data['product_sts'] . '&mrp=' . $data['mrp'] . '&sell_prices=' . $data['sell_prices'] . '&quantity=' . $data['quantity'];
+
+            $this->pagination->initialize($config);
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
+            $data['result'] = $this->Seller_model->filter_seller_existing_product($config["per_page"], $page);
+            $data['links'] = $this->pagination->create_links();
+
+            //$data['result'] = $this->Seller_model->filter_seller_product_data();
+            //$this->load->model('admin/Manage_category_model');			
 //			$data['category_result'] = $this->Manage_category_model->retrieve_category();
-			$this->load->view('admin/products_exiting_for_approval_list',$data);
-			
-			//$this->load->view('admin/new_product_approvallistby_ajax',$data);
-		}else{
-			redirect('admin/super_admin');
-		}
-	}
+            $this->load->view('admin/products_exiting_for_approval_list', $data);
 
-	
+            //$this->load->view('admin/new_product_approvallistby_ajax',$data);
+        } else {
+            redirect('admin/super_admin');
+        }
+    }
 
-	function change_seller_product_status()
-	{		
+    function change_seller_product_status() {
 
-		$this->Seller_model->changed_productprocess_statusstart();		
+        $this->Seller_model->changed_productprocess_statusstart();
 
-		$status = $this->input->post('status');
+        $status = $this->input->post('status');
 
-		$sku_ids=implode(',',$this->input->post('sku_chkids'));
+        $sku_ids = implode(',', $this->input->post('sku_chkids'));
 
-		$result = $this->Seller_model->changed_seller_product_status();		
+        $result = $this->Seller_model->changed_seller_product_status();
 
-		$skuid_arr=explode(',',$sku_ids);
+        $skuid_arr = explode(',', $sku_ids);
 
-		$skuararray=array();
+        $skuararray = array();
 
-		foreach($skuid_arr as $key=>$val)
+        foreach ($skuid_arr as $key => $val) {
 
-		{	
+            $qr_cron = $this->db->query("select * FROM cornjob_productsearch WHERE sku= '$val' ");
 
-			$qr_cron=$this->db->query("select * FROM cornjob_productsearch WHERE sku= '$val' ");
+            $rw = $qr_cron->row();
 
-			$rw=$qr_cron->row();
+            if ($rw) {
+                array_push($skuararray, $rw->sku);
+            }
+        }
 
-			if($rw)
-
-			{	array_push($skuararray,$rw->sku);}
-
-				
-
-		}
-
-		if(count($skuararray)==0){
-
-		
-
-			$this->load->model('Cornjob_productinsermodel');
-
-			//$this->Cornjob_productinsermodel->select_productdata();
-			
-			$this->Cornjob_productinsermodel->select_newproductdata();
-			
-			foreach($skuid_arr as $skukey=>$skuvalue)
-			{
-					//$sql="call existing_productdataupdateincronjobsearch(".$skuvalue.");";
-					$this->Cornjob_productinsermodel->existing_productdataupdateincronjobsearch($skuvalue);
-					//$this->db->query($sql);
-			}
-
-			//$this->Cornjob_productinsermodel->update_single_capramrom_attrubute($sku_ids);
-			
-				
-
-		}
-
-			$this->load->model('Cornjob_productinsermodel');
-
-			$this->Cornjob_productinsermodel->update_prodapprove_status($status,$sku_ids);
+        if (count($skuararray) == 0) {
 
 
 
-			$this->Seller_model->changed_productprocess_statusfinish();
+            $this->load->model('Cornjob_productinsermodel');
 
-		
+            //$this->Cornjob_productinsermodel->select_productdata();
 
-		//if($result == true){
+            $this->Cornjob_productinsermodel->select_newproductdata();
 
+            foreach ($skuid_arr as $skukey => $skuvalue) {
+                //$sql="call existing_productdataupdateincronjobsearch(".$skuvalue.");";
+                $this->Cornjob_productinsermodel->existing_productdataupdateincronjobsearch($skuvalue);
+                //$this->db->query($sql);
+            }
+
+            //$this->Cornjob_productinsermodel->update_single_capramrom_attrubute($sku_ids);
+        }
+
+        $this->load->model('Cornjob_productinsermodel');
+
+        $this->Cornjob_productinsermodel->update_prodapprove_status($status, $sku_ids);
+
+
+
+        $this->Seller_model->changed_productprocess_statusfinish();
+
+
+
+        //if($result == true){
 //			echo 'success';exit;
-
 //		}
+    }
 
-	}
+    //---------------------------------sellerwise product status change start---------------------------//
 
-	
+    function change_sellerwiseproduct_status() {
 
-	
+        $this->Seller_model->changed_productprocess_statusstart();
 
-	
 
-	
 
-	
+        $status = $this->input->post('status');
 
-	//---------------------------------sellerwise product status change start---------------------------//
+        //$sku_ids=implode(',',$this->input->post('sku_chkids'));
+        //------------------sku access start----------------//
 
-	function change_sellerwiseproduct_status()
 
-	{ 
 
-				$this->Seller_model->changed_productprocess_statusstart();
+        $ids = implode(',', $this->input->post('id'));
 
-				
 
-				$status = $this->input->post('status');
 
-				//$sku_ids=implode(',',$this->input->post('sku_chkids'));
-
-				
-
-					 
-
-					 //------------------sku access start----------------//
-
-					 
-
-					 $ids = implode(',',$this->input->post('id'));		
-
-				
-
-				$query_slrprod = $this->db->query("SELECT b.sku FROM seller_product_setting a
+        $query_slrprod = $this->db->query("SELECT b.sku FROM seller_product_setting a
 
 					INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id
 
 					 WHERE (a.product_approve='Pending')  AND a.seller_id IN ($ids)  GROUP BY a.seller_product_id  ");
 
-							
 
-					 
 
-					 $skuid_arr=array();
 
-					foreach($query_slrprod->result_array() as $res_slrprod )
 
-					{
+        $skuid_arr = array();
 
-						$skuid_arr[]= $res_slrprod['sku'];
+        foreach ($query_slrprod->result_array() as $res_slrprod) {
 
-							
+            $skuid_arr[] = $res_slrprod['sku'];
+        }
 
-					}
+        $sku_ids = implode(',', $skuid_arr);
 
-					$sku_ids=implode(',',$skuid_arr);
+        //-------------------sku access end-----------------//
 
-				//-------------------sku access end-----------------//
 
-				
 
-				$result = $this->Seller_model->changed_sellerwiseproduct_status();
+        $result = $this->Seller_model->changed_sellerwiseproduct_status();
 
-				
 
-				
 
-				
 
-				//$skuid_arr=explode(',',$sku_ids);
 
-				$skuararray=array();
 
-				foreach($skuid_arr as $key=>$val)
 
-				{	
+        //$skuid_arr=explode(',',$sku_ids);
 
-					$qr_cron=$this->db->query("select * FROM cornjob_productsearch WHERE sku= '$val' ");
+        $skuararray = array();
 
-					$rw=$qr_cron->row();
+        foreach ($skuid_arr as $key => $val) {
 
-					if($rw)
+            $qr_cron = $this->db->query("select * FROM cornjob_productsearch WHERE sku= '$val' ");
 
-					{	array_push($skuararray,$rw->sku);}
+            $rw = $qr_cron->row();
 
-						
+            if ($rw) {
+                array_push($skuararray, $rw->sku);
+            }
+        }
 
-				}
+        if (count($skuararray) == 0) {
 
-				if(count($skuararray)==0){
 
-				
 
-					$this->load->model('admin/Cronjobinser_modelfor_sellerproductapproval');
+            $this->load->model('admin/Cronjobinser_modelfor_sellerproductapproval');
 
-					$this->Cronjobinser_modelfor_sellerproductapproval->select_productdata();
+            $this->Cronjobinser_modelfor_sellerproductapproval->select_productdata();
 
-					$this->Cronjobinser_modelfor_sellerproductapproval->update_single_capramrom_attrubute($sku_ids);	
+            $this->Cronjobinser_modelfor_sellerproductapproval->update_single_capramrom_attrubute($sku_ids);
+        }
 
-				}
+        $this->load->model('admin/Cronjobinser_modelfor_sellerproductapproval');
 
-					$this->load->model('admin/Cronjobinser_modelfor_sellerproductapproval');
+        $this->Cronjobinser_modelfor_sellerproductapproval->update_prodapprove_status($status, $sku_ids);
 
-					$this->Cronjobinser_modelfor_sellerproductapproval->update_prodapprove_status($status,$sku_ids);
 
-					
 
-					$this->Seller_model->changed_productprocess_statusfinish();			
+        $this->Seller_model->changed_productprocess_statusfinish();
 
-				
 
-				//if($result == true){
 
-		//			echo 'success';exit;
+        //if($result == true){
+        //			echo 'success';exit;
+        //		}			
+    }
 
-		//		}			
+    //---------------------------------sellerwise product status change end---------------------------//
+    //-----------------------------------------sellerwise product status change by store procedure start------------------//
 
-	}
+    function change_sellerwiseproduct_status_sp() {
+        $this->Seller_model->changed_productprocess_statusstart();
+        $this->Seller_model->changed_sellerwiseproduct_status_sp();
 
-	//---------------------------------sellerwise product status change end---------------------------//
+        $this->Seller_model->changed_productprocess_statusfinish();
 
-	
+        //echo "success";exit;
+    }
 
-	
+    //-----------------------------------------sellerwise product status change by store procedure end------------------//
 
-	//-----------------------------------------sellerwise product status change by store procedure start------------------//
 
-			function change_sellerwiseproduct_status_sp()
-			{
-				$this->Seller_model->changed_productprocess_statusstart();
-				$this->Seller_model->changed_sellerwiseproduct_status_sp();			
 
-				$this->Seller_model->changed_productprocess_statusfinish();
 
-				//echo "success";exit;
 
-			}
+    function sellerwiseproduct_approve() {
 
-			
+        //-------------------------------sellerwise product approval start---------------------------------//
 
-	
+        if ($this->session->userdata('logged_in')) {
 
-	//-----------------------------------------sellerwise product status change by store procedure end------------------//
 
-	
 
-	
+            $config = array();
 
-		function sellerwiseproduct_approve()
+            $config["base_url"] = base_url() . "admin/Sellers/sellerwiseproduct_approve";
 
-	{
+            $config["total_rows"] = $this->Seller_model->getSellerswisepnding_productcount();
 
-		//-------------------------------sellerwise product approval start---------------------------------//
+            $config["per_page"] = 20;
 
-		 if($this->session->userdata('logged_in')){
+            $config["uri_segment"] = 3;
 
-			 
+            //$config['use_page_numbers'] = TRUE;
 
-			$config = array();
+            $config['page_query_string'] = TRUE;
 
-			$config["base_url"] = base_url()."admin/Sellers/sellerwiseproduct_approve";
+            $choice = $config["total_rows"] / $config["per_page"];
 
-			$config["total_rows"] = $this->Seller_model->getSellerswisepnding_productcount();
+            //print_r(round($choice));exit;
+            //$config["num_links"] = round($choice);
 
-			$config["per_page"] = 20;
+            $config["num_links"] = 3;
 
-			$config["uri_segment"] = 3;
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
 
-			//$config['use_page_numbers'] = TRUE;
+            $config['cur_tag_close'] = '</a>';
 
-			$config['page_query_string'] = TRUE;
+            $config['next_link'] = 'Next';
 
-			$choice = $config["total_rows"] / $config["per_page"];
+            $config['prev_link'] = 'Previous';
 
-			//print_r(round($choice));exit;
 
-			//$config["num_links"] = round($choice);
 
-			$config["num_links"] = 3;
+            $this->pagination->initialize($config);
 
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
 
-			$config['cur_tag_close'] = '</a>';
 
-			$config['next_link'] = 'Next';
 
-			$config['prev_link'] = 'Previous';
+            $data['sellers'] = $this->Seller_model->getSellerswise_productapprovedata($config["per_page"], $page);
 
-			
+            $data['links'] = $this->pagination->create_links();
 
-			$this->pagination->initialize($config);
 
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
 
-			
+            $this->load->view('admin/sellerswise_productapprovelist', $data);
+        } else {
+            redirect('admin/super_admin');
+        }
 
-			$data['sellers'] = $this->Seller_model->getSellerswise_productapprovedata($config["per_page"], $page);
+        //----------------------------------sellerwise product approval end--------------------------------//	
+    }
 
-			$data['links'] = $this->pagination->create_links();
+    /* function change_seller_exiting_product_status(){
 
-			
+      $result = $this->Seller_model->changed_seller_exiting_product_status();
 
-			$this->load->view('admin/sellerswise_productapprovelist', $data);
 
-			 
 
-		 }
+      $status = $this->input->post('status');
 
-		 else
+      $prod_ids=implode(',',$this->input->post('prod_id'));
 
-		 {redirect('admin/super_admin');}
 
-		//----------------------------------sellerwise product approval end--------------------------------//	
 
-	}
+      $this->load->model('Cornjob_productinsermodel');
 
-	
+      $this->Cornjob_productinsermodel->update_existingprodapprove_status($status,$prod_ids);
 
-	
 
-	
 
-	
+      if($result == true){
 
-	/*function change_seller_exiting_product_status(){
+      echo 'success';exit;
 
-		$result = $this->Seller_model->changed_seller_exiting_product_status();
+      }
 
-		
+      } */
 
-			$status = $this->input->post('status');
+    function change_seller_exiting_product_status() {
 
-			$prod_ids=implode(',',$this->input->post('prod_id'));
+        //$this->Seller_model->changed_productprocess_statusstart();
+        $result = $this->Seller_model->changed_seller_exiting_product_status();
 
-		
+        $status = $this->input->post('status');
 
-			$this->load->model('Cornjob_productinsermodel');
+        $prod_ids = implode(',', $this->input->post('prod_id'));
 
-			$this->Cornjob_productinsermodel->update_existingprodapprove_status($status,$prod_ids);
+        $sku_ids = implode(',', $this->input->post('prodextsku'));
 
-				
+        //existing product insert in cronjob table start			
 
-		if($result == true){
+        $skuid_arr = explode(',', $sku_ids);
+        $skuararray = array();
 
-			echo 'success';exit;
+        /* foreach($skuid_arr as $key=>$val)
+          {
+          $qr_cron=$this->db->query("select * FROM cornjob_productsearch WHERE sku= '$val' ");
 
-		}
+          $rw=$qr_cron->row();
 
-	}*/
+          if($rw)
 
-	
+          {	array_push($skuararray,$rw->sku);}
 
-	function change_seller_exiting_product_status(){
+          } */
 
-		//$this->Seller_model->changed_productprocess_statusstart();
-		$result = $this->Seller_model->changed_seller_exiting_product_status();	
+        $this->load->model('Cornjob_productinsermodel');
 
-			$status = $this->input->post('status');
+        //if(count($skuararray)==0){				
+        //$this->Cornjob_productinsermodel->select_productdata();
+        $this->Cornjob_productinsermodel->select_productdataexistingproductapprove();
 
-			$prod_ids=implode(',',$this->input->post('prod_id'));		
+        //$this->Cornjob_productinsermodel->update_single_capramrom_attrubute($sku_ids);	
+        //}
 
-			$sku_ids=implode(',',$this->input->post('prodextsku'));	
+        foreach ($skuid_arr as $skukey => $skuvalue) {
+            //$sql="call existing_productdataupdateincronjobsearch(".$skuvalue.");";
+            $this->Cornjob_productinsermodel->existing_productdataupdateincronjobsearch($skuvalue);
+            //$this->db->query($sql);
+        }
+        $this->Cornjob_productinsermodel->update_prodapprove_status($status, $sku_ids);
 
-			//existing product insert in cronjob table start			
+        //existing product insert in cronjob table end		
+        //$this->load->model('Cornjob_productinsermodel');
 
-				$skuid_arr=explode(',',$sku_ids);
-				$skuararray=array();
+        $this->Cornjob_productinsermodel->update_existingprodapprove_status($status, $prod_ids);
 
-				/*foreach($skuid_arr as $key=>$val)
-				{	
-					$qr_cron=$this->db->query("select * FROM cornjob_productsearch WHERE sku= '$val' ");
+        //$this->Seller_model->changed_productprocess_statusfinish();				
 
-					$rw=$qr_cron->row();
+        /* if($result == true){
 
-					if($rw)
+          echo 'success';exit;
 
-					{	array_push($skuararray,$rw->sku);}						
+          } */
+        //echo 'success';exit;
+    }
 
-				}*/
+    function change_seller_exiting_product_image() {
 
-				$this->load->model('Cornjob_productinsermodel');
+        $this->load->model('admin/Upload_existingporductexcelfile_model');
+        $this->Upload_existingporductexcelfile_model->change_sellerprodimage();
+    }
 
-				//if(count($skuararray)==0){				
+    function seller_product() {
 
+        if ($this->session->userdata('logged_in')) {
 
-					//$this->Cornjob_productinsermodel->select_productdata();
-					$this->Cornjob_productinsermodel->select_productdataexistingproductapprove();
+            $data['result'] = $this->Seller_model->retrive_approved_seller_product_data();
 
-					//$this->Cornjob_productinsermodel->update_single_capramrom_attrubute($sku_ids);	
+            $this->load->view('admin/seller_product_list', $data);
+        } else {
 
-				//}
-				
-				foreach($skuid_arr as $skukey=>$skuvalue)
-				{
-					//$sql="call existing_productdataupdateincronjobsearch(".$skuvalue.");";
-					$this->Cornjob_productinsermodel->existing_productdataupdateincronjobsearch($skuvalue);
-					//$this->db->query($sql);
-				}
-					$this->Cornjob_productinsermodel->update_prodapprove_status($status,$sku_ids);			
+            redirect('admin/super_admin');
+        }
+    }
 
-			//existing product insert in cronjob table end		
+    function seller_search() {
 
-			//$this->load->model('Cornjob_productinsermodel');
+        if ($this->session->userdata('logged_in')) {
 
-			$this->Cornjob_productinsermodel->update_existingprodapprove_status($status,$prod_ids);		
+            $cate_search_title = $this->uri->segment(4);
 
-			//$this->Seller_model->changed_productprocess_statusfinish();				
+            $data['sellers'] = $this->Seller_model->getSearchedSellers($cate_search_title);
 
-		/*if($result == true){
+            //if($result != false){
 
-			echo 'success';exit;
+            $this->load->view('admin/sellers', $data);
 
-		}*/
-		//echo 'success';exit;
+            //}
+        } else {
 
-	}
-	
-	function change_seller_exiting_product_image()
-	{
-		
-			$this->load->model('admin/Upload_existingporductexcelfile_model');
-			$this->Upload_existingporductexcelfile_model->change_sellerprodimage();
-	}
+            redirect('admin/super_admin');
+        }
+    }
 
-	
+    function seller_dispatch_time() {
 
-	function seller_product(){
+        if ($this->session->userdata('logged_in')) {
 
-		if($this->session->userdata('logged_in')){
+            $this->load->model('admin/Shipment_model');
 
-			$data['result'] = $this->Seller_model->retrive_approved_seller_product_data();
+            $data['state_result'] = $this->Shipment_model->retrive_state();
 
-			$this->load->view('admin/seller_product_list',$data);
+            $data['dispatched_result'] = $this->Seller_model->retrieve_dispatch_details();
 
-		}else{
+            $this->load->view('admin/seller_dispatch_time', $data);
+        } else {
 
-			redirect('admin/super_admin');
+            redirect('admin/super_admin');
+        }
+    }
 
-		}
+    function seller_notification_form2() {
 
-	}
+        if ($this->session->userdata('logged_in')) {
 
-	
+            $data['sellers'] = $this->Seller_model->getSellers();
 
-	function seller_search(){
+            $this->load->view('admin/seller_notification_form2', $data);
+        } else {
 
-		if($this->session->userdata('logged_in')){
+            redirect('admin/super_admin');
+        }
+    }
 
-			$cate_search_title = $this->uri->segment(4); 
+    function add_seller_notification2() {
 
-			$data['sellers'] = $this->Seller_model->getSearchedSellers($cate_search_title); 
+        if ($this->session->userdata('logged_in')) {
 
-			//if($result != false){
+            $this->form_validation->set_rules('title', 'Title', 'required');
 
-				$this->load->view('admin/sellers', $data);
+            $this->form_validation->set_rules('page_content', 'Content', 'required');
 
-			//}
+            $this->form_validation->set_rules('seller', 'Seller', 'required');
 
-		}else{
+            $this->form_validation->set_rules('status', 'Status', 'required');
 
-			redirect('admin/super_admin');
 
-		}
 
-	}
+            if ($this->form_validation->run() != false) {
 
-	
+                $result = $this->Seller_model->insert_newseller_notice2();
 
-	function seller_dispatch_time(){
+                if ($result == true) {
 
-		if($this->session->userdata('logged_in')){
+                    $content = $this->input->post('page_content');
 
-			$this->load->model('admin/Shipment_model');
+                    $seller_id = $this->input->post('seller');
 
-			$data['state_result'] = $this->Shipment_model->retrive_state();
+                    $email = $this->Seller_model->getSellerEmail($seller_id);
 
-			$data['dispatched_result'] = $this->Seller_model->retrieve_dispatch_details();
+                    $data["content"] = $content;
 
-			$this->load->view('admin/seller_dispatch_time', $data);
 
-		}else{
 
-			redirect('admin/super_admin');
+                    $to = $email;
 
-		}
+                    $from = SELLER_MAIL;
 
-	}
+                    $subject = "Seller Notification";
 
-	function seller_notification_form2(){
 
-		if($this->session->userdata('logged_in')){
 
-			$data['sellers'] = $this->Seller_model->getSellers();
+                    $this->email->set_newline("\r\n");
 
-			$this->load->view('admin/seller_notification_form2', $data);
+                    $this->email->set_mailtype("html");
 
-		}else{
+                    $this->email->from($from);
 
-			redirect('admin/super_admin');
+                    $this->email->to($to);
 
-		}
+                    $this->email->subject($subject);
 
-	}
+                    $this->email->message($this->load->view('email_template/notification_seller', $data, true));
 
-	function add_seller_notification2(){
 
-		if($this->session->userdata('logged_in')){
 
-			$this->form_validation->set_rules('title', 'Title', 'required');
+                    /* $this->email->message("<html>
 
-			$this->form_validation->set_rules('page_content', 'Content', 'required');
+                      <head>
 
-			$this->form_validation->set_rules('seller', 'Seller', 'required');
+                      <title> Moonboy </title>
 
-			$this->form_validation->set_rules('status', 'Status', 'required');
+                      </head>
 
-			
+                      <body>
 
-			if($this->form_validation->run() != false) { 
+                      <div style='width:50%; margin:0px auto; padding:40px;  background-color:#f4f4f4; border:10px solid #ef3038;'>
 
-				$result = $this->Seller_model->insert_newseller_notice2();
+                      <p> Notification for you, </p>
 
-				if($result == true){
+                      <p> ".$content." </p>
 
-					$content = $this->input->post('page_content');
+                      <br/> <br/>
 
-					$seller_id = $this->input->post('seller');
+                      Thanks & regards,<br/>Moonboy Seller Support <br/>
 
-					$email = $this->Seller_model->getSellerEmail($seller_id);
+                      </div>
 
-					$data["content"]=$content;
+                      </body>
 
-					
+                      </html>"); */
 
-					$to = $email;
 
-					$from = SELLER_MAIL;
 
-					$subject = "Seller Notification";
+                    if ($this->email->send()) {
 
-					
+                        $this->seller_notification();
+                    }
+                }
+            } else {
 
-					$this->email->set_newline("\r\n");
+                $this->load->view('admin/seller_notification_form2');
+            }
+        } else {
 
-					$this->email->set_mailtype("html");
+            redirect('admin/super_admin');
+        }
+    }
 
-					$this->email->from($from);
+    /*  Seller Notification Starts   * */
 
-					$this->email->to($to);
+    function seller_notification() {
 
-					$this->email->subject($subject);
+        if ($this->session->userdata('logged_in')) {
 
-					$this->email->message($this->load->view('email_template/notification_seller',$data,true));
+            $data['result'] = $this->Seller_model->getSellerNotification();
 
-					
+            $data['result2'] = $this->Seller_model->getSellerNotification2();
 
-					/*$this->email->message("<html>
+            $this->load->view('admin/seller_notification', $data);
+        } else {
 
-											<head>
+            redirect('admin/super_admin');
+        }
+    }
 
-												<title> Moonboy </title>
+    function seller_notification_form() {
 
-											</head>
+        if ($this->session->userdata('logged_in')) {
 
-											<body>
+            $this->load->view('admin/seller_notification_form');
+        } else {
 
-												<div style='width:50%; margin:0px auto; padding:40px;  background-color:#f4f4f4; border:10px solid #ef3038;'>
+            redirect('admin/super_admin');
+        }
+    }
 
-													<p> Notification for you, </p>
+    function add_seller_notification() {
 
-													<p> ".$content." </p>
+        if ($this->session->userdata('logged_in')) {
 
-													<br/> <br/>
+            $this->form_validation->set_rules('title', 'Title', 'required');
 
-												   Thanks & regards,<br/>Moonboy Seller Support <br/>
+            $this->form_validation->set_rules('page_content', 'Content', 'required');
 
-												</div>
+            $this->form_validation->set_rules('status', 'Status', 'required');
 
-											</body>
 
-										</html>");*/
 
-					
+            if ($this->form_validation->run() != false) {
 
-					if($this->email->send()){
+                $result = $this->Seller_model->insert_newseller_notice();
 
-						$this->seller_notification();
+                if ($result == true) {
 
-					}
+                    $this->seller_notification();
+                }
+            } else {
 
-				}
+                $this->load->view('admin/seller_notification_form');
+            }
+        } else {
 
-			}else{
+            redirect('admin/super_admin');
+        }
+    }
 
-				$this->load->view('admin/seller_notification_form2');
+    function seller_notification_edit() {
 
-			}
+        if ($this->session->userdata('logged_in')) {
 
-		}else{
+            $id = $this->uri->segment(4);
 
-			redirect('admin/super_admin');
+            $data['result'] = $this->Seller_model->getSellerNotificationForEdit($id);
 
-		}
+            $this->load->view('admin/seller_notification_edit_form', $data);
+        } else {
 
-	}
+            redirect('admin/super_admin');
+        }
+    }
 
-	
+    function terms_conditions_setup() {
 
-	/*  Seller Notification Starts   **/
+        if ($this->session->userdata('logged_in')) {
 
-	function seller_notification(){
+            $data['tc_data'] = $this->Seller_model->select_SellerTC();
 
-		if($this->session->userdata('logged_in')){
+            $this->load->view('admin/seller_terms_conditions', $data);
+        } else {
 
-			$data['result'] = $this->Seller_model->getSellerNotification();
+            redirect('admin/super_admin');
+        }
+    }
 
-			$data['result2'] = $this->Seller_model->getSellerNotification2();
+    function add_seller_terms_cond() {
 
-			$this->load->view('admin/seller_notification', $data);
+        if ($this->session->userdata('logged_in')) {
 
-		}else{
 
-			redirect('admin/super_admin');
 
-		}
+            $this->Seller_model->getSellerTC_ForEdit();
 
-	}
+            $this->load->view('admin/seller_terms_conditions');
 
-	
+            redirect('admin/sellers/terms_conditions_setup');
+        } else {
 
-	function seller_notification_form(){
+            redirect('admin/super_admin');
+        }
+    }
 
-		if($this->session->userdata('logged_in')){
+    function seller_notification_edit2() {
 
-			$this->load->view('admin/seller_notification_form');
+        if ($this->session->userdata('logged_in')) {
 
-		}else{
+            $id = $this->uri->segment(4);
 
-			redirect('admin/super_admin');
+            $data['sellers'] = $this->Seller_model->getSellers();
 
-		}
+            $data['result2'] = $this->Seller_model->getSellerNotificationForEdit2($id);
 
-	}
+            $this->load->view('admin/seller_notification_edit_form2', $data);
+        } else {
 
-	
+            redirect('admin/super_admin');
+        }
+    }
 
-	
+    function seller_notification_update() {
 
-	function add_seller_notification(){
+        if ($this->session->userdata('logged_in')) {
 
-		if($this->session->userdata('logged_in')){
+            $this->form_validation->set_rules('title', 'Title', 'required');
 
-			$this->form_validation->set_rules('title', 'Title', 'required');
+            $this->form_validation->set_rules('page_content', 'Content', 'required');
 
-			$this->form_validation->set_rules('page_content', 'Content', 'required');
+            $this->form_validation->set_rules('status', 'Status', 'required');
 
-			$this->form_validation->set_rules('status', 'Status', 'required');
 
-			
 
-			if($this->form_validation->run() != false) { 
+            if ($this->form_validation->run() != false) {
 
-				$result = $this->Seller_model->insert_newseller_notice();
+                $result = $this->Seller_model->getseller_notification_update();
 
-				if($result == true){
+                if ($result == true) {
 
-					$this->seller_notification();
+                    $this->seller_notification();
+                }
+            } else {
 
-				}
+                $data['result'] = $this->Seller_model->getSellerNotification();
 
-			}else{
+                $this->load->view('admin/seller_notification_edit_form', $data);
+            }
+        } else {
 
-				$this->load->view('admin/seller_notification_form');
+            redirect('admin/super_admin');
+        }
+    }
 
-			}
+    function seller_notification_update2() {
 
-		}else{
+        if ($this->session->userdata('logged_in')) {
 
-			redirect('admin/super_admin');
+            $this->form_validation->set_rules('title', 'Title', 'required');
 
-		}
+            $this->form_validation->set_rules('page_content', 'Content', 'required');
 
-	}
+            $this->form_validation->set_rules('seller', 'Seller', 'required');
 
-	
+            $this->form_validation->set_rules('status', 'Status', 'required');
 
-	function seller_notification_edit(){
 
-		if($this->session->userdata('logged_in')){
 
-			$id = $this->uri->segment(4);
+            if ($this->form_validation->run() != false) {
 
-			$data['result'] = $this->Seller_model->getSellerNotificationForEdit($id);
+                $result = $this->Seller_model->getseller_notification_update2();
 
-			$this->load->view('admin/seller_notification_edit_form', $data);
+                if ($result == true) {
 
-		}else{
+                    $this->seller_notification();
+                }
+            } else {
 
-			redirect('admin/super_admin');
+                $data['result'] = $this->Seller_model->getSellerNotification();
 
-		}
+                $this->load->view('admin/seller_notification_edit_form', $data);
+            }
+        } else {
 
-	}
+            redirect('admin/super_admin');
+        }
+    }
 
-	function terms_conditions_setup()
+    function seller_notification_delete() {
 
-	{
+        if ($this->session->userdata('logged_in')) {
 
-		if($this->session->userdata('logged_in')){
+            $id = $this->uri->segment(4);
 
-			$data['tc_data']=$this->Seller_model->select_SellerTC();
+            $result = $this->Seller_model->delete_seller_notification($id);
 
-			$this->load->view('admin/seller_terms_conditions',$data);
+            if ($result == true) {
 
-		}else{
+                redirect('admin/sellers/seller_notification');
+            }
+        } else {
 
-			redirect('admin/super_admin');
+            redirect('admin/super_admin');
+        }
+    }
 
-		}	
+    function seller_notification_delete2() {
 
-	}
+        if ($this->session->userdata('logged_in')) {
 
-	function add_seller_terms_cond()
+            $id = $this->uri->segment(4);
 
-	{
+            $result = $this->Seller_model->delete_seller_notification2($id);
 
-		if($this->session->userdata('logged_in')){
+            if ($result == true) {
 
-			
+                redirect('admin/sellers/seller_notification');
+            }
+        } else {
 
-			$this->Seller_model->getSellerTC_ForEdit();
+            redirect('admin/super_admin');
+        }
+    }
 
-			$this->load->view('admin/seller_terms_conditions');
+    /*  Seller Notification End   * */
 
-			redirect('admin/sellers/terms_conditions_setup');
 
-			}else{
 
-			redirect('admin/super_admin');
+    /* Seller badge Starts  */
 
-		}
+    function seller_badge() {
 
-			
+        if ($this->session->userdata('logged_in')) {
 
-	}
+            $data['seller_list'] = $this->Seller_model->getBadgeSellersList();
 
-	
+            $data['seller_badge'] = $this->Seller_model->getSellersBadgeDetails();
 
-	function seller_notification_edit2(){
+            $this->load->view('admin/seller_badge', $data);
+        } else {
 
-		if($this->session->userdata('logged_in')){
+            redirect('admin/super_admin');
+        }
+    }
 
-			$id = $this->uri->segment(4);
+    function sellerbadgeaddform() {
 
-			$data['sellers'] = $this->Seller_model->getSellers();
+        if ($this->session->userdata('logged_in')) {
 
-			$data['result2'] = $this->Seller_model->getSellerNotificationForEdit2($id);
+            $data['seller_list'] = $this->Seller_model->getBadgeSellersList();
 
-			$this->load->view('admin/seller_notification_edit_form2', $data);
+            $this->load->view('admin/seller_badge_add_form', $data);
+        } else {
 
-		}else{
+            redirect('admin/super_admin');
+        }
+    }
 
-			redirect('admin/super_admin');
+    function save_new_sellerbadge() {
 
-		}
+        if ($this->session->userdata('logged_in')) {
 
-	}
+            $result = $this->Seller_model->insert_newseller_badge();
 
-	
+            if ($result == true) {
 
-	function seller_notification_update(){
+                redirect('admin/sellers/seller_badge');
 
-		if($this->session->userdata('logged_in')){
+                //$this->seller_badge();
+            } else {
 
-			$this->form_validation->set_rules('title', 'Title', 'required');
+                $this->load->view('admin/seller_badge_add_form');
+            }
+        } else {
 
-			$this->form_validation->set_rules('page_content', 'Content', 'required');
+            redirect('admin/super_admin');
+        }
+    }
 
-			$this->form_validation->set_rules('status', 'Status', 'required');
+    function delete_seller_badge() {
 
-			
+        if ($this->session->userdata('logged_in')) {
 
-			if($this->form_validation->run() != false) { 
+            $id = base64_decode($this->uri->segment(4));
 
-				$result = $this->Seller_model->getseller_notification_update();
+            $id = $this->encrypt->decode($id);
 
-				if($result == true){
+            $result = $this->Seller_model->deleteSellerBadge($id);
 
-					$this->seller_notification();
+            if ($result == true) {
 
-				}
+                redirect('admin/sellers/seller_badge');
+            }
+        } else {
 
-			}else{
+            redirect('admin/super_admin');
+        }
+    }
 
-				$data['result'] = $this->Seller_model->getSellerNotification();
+    function edit_seller_badge() {
 
-				$this->load->view('admin/seller_notification_edit_form', $data);
+        if ($this->session->userdata('logged_in')) {
 
-			}
+            $id = base64_decode($this->uri->segment(4));
 
-		}else{
+            $id = $this->encrypt->decode($id);
 
-			redirect('admin/super_admin');
+            $data['seller_badge_details'] = $this->Seller_model->getSellerBadgeDetails($id);
 
-		}
+            $data['sellers_list'] = $this->Seller_model->getBadgeSellerList();
 
-	}
+            $this->load->view('admin/seller_badge_edit_form', $data);
+        } else {
 
-	function seller_notification_update2(){
+            redirect('admin/super_admin');
+        }
+    }
 
-		if($this->session->userdata('logged_in')){
+    function update_sellerbadge() {
 
-			$this->form_validation->set_rules('title', 'Title', 'required');
+        if ($this->session->userdata('logged_in')) {
 
-			$this->form_validation->set_rules('page_content', 'Content', 'required');
+            $result = $this->Seller_model->seller_badge_update();
 
-			$this->form_validation->set_rules('seller', 'Seller', 'required');
+            if ($result == true) {
 
-			$this->form_validation->set_rules('status', 'Status', 'required');
+                redirect('admin/sellers/seller_badge');
+            } else {
 
-			
+                $this->edit_seller_badge();
+            }
+        } else {
 
-			if($this->form_validation->run() != false) { 
+            redirect('admin/super_admin');
+        }
+    }
 
-				$result = $this->Seller_model->getseller_notification_update2();
+    /* Seller badge End  */
 
-				if($result == true){
+    function seller_membership() {
 
-					$this->seller_notification();
+        if ($this->session->userdata('logged_in')) {
 
-				}
+            $data['membership'] = $this->Seller_model->getMembershipDetails();
 
-			}else{
+            $this->load->view('admin/seller_membership', $data);
+        } else {
 
-				$data['result'] = $this->Seller_model->getSellerNotification();
+            redirect('admin/super_admin');
+        }
+    }
 
-				$this->load->view('admin/seller_notification_edit_form', $data);
+    function addsellermembershipaddform() {
 
-			}
+        if ($this->session->userdata('logged_in')) {
 
-		}else{
+            $data['sellers_list'] = $this->Seller_model->getMembershipSellersList();
 
-			redirect('admin/super_admin');
+            $data['membership_list'] = $this->Seller_model->getMembershipList();
 
-		}
+            $this->load->view('admin/membership_add_form', $data);
+        } else {
 
-	}
+            redirect('admin/super_admin');
+        }
+    }
 
-	function seller_notification_delete(){
+    function save_new_membership() {
 
-		if($this->session->userdata('logged_in')){
+        if ($this->session->userdata('logged_in')) {
 
-			$id = $this->uri->segment(4);
+            $seller_id = urldecode($this->uri->segment(5));
 
-			$result = $this->Seller_model->delete_seller_notification($id);
+            $membership = $this->uri->segment(4);
 
-			if($result == true){
+            $result = $this->Seller_model->insert_newseller_membership($membership, $seller_id);
 
-				redirect('admin/sellers/seller_notification');
+            if ($result == true) {
 
-			}
+                redirect('admin/sellers/seller_membership');
+            } else {
 
-		}else{
+                $this->addsellermembershipaddform();
+            }
+        } else {
 
-			redirect('admin/super_admin');
+            redirect('admin/super_admin');
+        }
+    }
 
-		}
+    function get_dispatched_time_data() {
 
-	}
+        $result = $this->Seller_model->insert_dispatched_data();
 
-	function seller_notification_delete2(){
+        if ($result == 1) {
 
-		if($this->session->userdata('logged_in')){
+            $this->session->set_flashdata('ss_msg', 'Saved successfully !');
 
-			$id = $this->uri->segment(4);
+            redirect("admin/sellers/seller_dispatch_time");
+        }
 
-			$result = $this->Seller_model->delete_seller_notification2($id);
+        if ($result == 0) {
 
-			if($result == true){
+            $this->session->set_flashdata('err_msg', 'This state is already exists! Pleasse Update.');
 
-				redirect('admin/sellers/seller_notification');
+            redirect("admin/sellers/seller_dispatch_time");
+        }
+    }
 
-			}
+    function edit_dispatched_time_data() {
 
-		}else{
+        $result = $this->Seller_model->insert_update_dispatched_data();
 
-			redirect('admin/super_admin');
+        if ($result = true) {
 
-		}
+            $this->session->set_flashdata('ss_msg', 'Updated successfully !');
 
-	}
+            redirect("admin/sellers/seller_dispatch_time");
+        }
+    }
 
-	
+    //Reject Product
 
-	/*  Seller Notification End   **/
+    function product_inactive() {
 
-	
+        if ($this->session->userdata('logged_in')) {
 
-	/* Seller badge Starts  */
 
-	function seller_badge(){
 
-		if($this->session->userdata('logged_in')){
+            $status = $this->input->post('status');
 
-			$data['seller_list'] = $this->Seller_model->getBadgeSellersList();
+            $sku = $this->input->post('sku');
 
-			$data['seller_badge'] = $this->Seller_model->getSellersBadgeDetails();
 
-			$this->load->view('admin/seller_badge', $data);
 
-		}else{
+            $this->load->model('Cornjob_productinsermodel');
 
-			redirect('admin/super_admin');
+            $this->Cornjob_productinsermodel->update_singleprodapprove_status($status, $sku);
 
-		}
 
-	}
 
-	
+            $result = $this->Seller_model->update_pro_reject_data();
 
-	function sellerbadgeaddform(){
 
-		if($this->session->userdata('logged_in')){
 
-			$data['seller_list'] = $this->Seller_model->getBadgeSellersList();
 
-			$this->load->view('admin/seller_badge_add_form', $data);
 
-		}else{
+            if ($result == true) {
 
-			redirect('admin/super_admin');
+                echo 'success';
+                exit;
+            } else {
 
-		}	
+                echo 'fail';
+                exit;
+            }
+        } else {
 
-	}
+            redirect('admin/super_admin');
+        }
+    }
 
-	function save_new_sellerbadge(){
+    function default_sellerlist() {
 
-		if($this->session->userdata('logged_in')){
+        if ($this->session->userdata('logged_in')) {
 
-			$result = $this->Seller_model->insert_newseller_badge();
 
-			if($result == true){
 
-				redirect('admin/sellers/seller_badge');
 
-				//$this->seller_badge();
 
-			}else{
+            $seller_defaulter['defaulter_seller'] = $this->Seller_model->select_defulter_seller();
 
-				$this->load->view('admin/seller_badge_add_form');
+            $this->load->view('admin/default_seller_list', $seller_defaulter);
+        } else {
 
-			}
+            redirect('admin/super_admin');
+        }
+    }
 
-		}else{
+    function change_productstatus() {
 
-			redirect('admin/super_admin');
+        if ($this->session->userdata('logged_in')) {
 
-		}	
+            $sku_id = $this->uri->segment(4);
 
-	}
+            $this->Seller_model->change_defulterseller_status($sku_id);
 
-	function delete_seller_badge(){
+            $seller_defaulter['defaulter_seller'] = $this->Seller_model->select_defulter_seller();
 
-		if($this->session->userdata('logged_in')){
+            $this->load->view('admin/default_seller_list', $seller_defaulter);
+        } else {
 
-			$id = base64_decode($this->uri->segment(4));
+            redirect('admin/super_admin');
+        }
+    }
 
-			$id = $this->encrypt->decode($id);
+    function update_seller_info() {
 
-			$result = $this->Seller_model->deleteSellerBadge($id);
+        $result = $this->Seller_model->update_inn_slr_info();
 
-			if($result == true){
+        if ($result) {
 
-				redirect('admin/sellers/seller_badge');
+            echo $result;
+        }
+    }
 
-			}
+    function update_slr_proof() {
 
-		}else{
+        $slr_id = $this->input->post('slr_id');
 
-			redirect('admin/super_admin');
+        $config['upload_path'] = './images/seller_image_doc/';
 
-		}	
+        $config['allowed_types'] = 'jpg|jpeg|png';
 
-	}
+        $config['max_size'] = '20480000';
 
-	function edit_seller_badge(){
+        $config['max_width'] = '3000';
 
-		if($this->session->userdata('logged_in')){
+        $config['max_height'] = '3000';
 
-			$id = base64_decode($this->uri->segment(4));
+        $this->load->library('upload', $config);
 
-			$id = $this->encrypt->decode($id);
+        $this->upload->initialize($config);
 
-			$data['seller_badge_details'] = $this->Seller_model->getSellerBadgeDetails($id);
 
-			$data['sellers_list'] = $this->Seller_model->getBadgeSellerList();
 
-			$this->load->view('admin/seller_badge_edit_form', $data);
+        $this->upload->do_upload();
 
-		}else{
+        $data = array('upload_data' => $this->upload->data());
 
-			redirect('admin/super_admin');
+        $fileName = $data['upload_data']['file_name'];
 
-		}	
+        $result = $this->Seller_model->update_inn_slr_proof($fileName);
 
-	}
+        if ($result == true) {
 
-	function update_sellerbadge(){
+            redirect('admin/sellers/seller_details/' . $slr_id);
+        }
+    }
 
-		if($this->session->userdata('logged_in')){
+    function update_kyc_details() {
 
-			$result = $this->Seller_model->seller_badge_update();
+        $slr_id = $this->input->post('slr_id');
 
-			if($result == true){
+        $config['upload_path'] = './images/seller_image_doc/';
 
-				redirect('admin/sellers/seller_badge');
+        $config['allowed_types'] = 'jpg|jpeg|png';
 
-			}else{
+        $config['max_size'] = '20480000';
 
-				$this->edit_seller_badge();
+        $config['max_width'] = '3000';
 
-			}
+        $config['max_height'] = '3000';
 
-		}else{
+        $this->load->library('upload', $config);
 
-			redirect('admin/super_admin');
+        $this->upload->initialize($config);
 
-		}	
 
-	}
 
-	/* Seller badge End  */
+        $this->upload->do_upload();
 
-	
+        $data = array('upload_data' => $this->upload->data());
 
-	function seller_membership(){
+        $fileName = $data['upload_data']['file_name'];
 
-		if($this->session->userdata('logged_in')){
+        $result = $this->Seller_model->update_kyc_details($fileName);
 
-			$data['membership'] = $this->Seller_model->getMembershipDetails();
+        if ($result == true) {
 
-			$this->load->view('admin/seller_membership', $data);
+            redirect('admin/sellers/seller_details/' . $slr_id);
+        }
+    }
 
-		}else{
+    // Admin adding products for seller starts
 
-			redirect('admin/super_admin');
 
-		}	
 
-	}
+    function addnew_product_for_seller() {
 
-	function addsellermembershipaddform(){
+        if ($this->session->userdata('logged_in')) {
 
-		if($this->session->userdata('logged_in')){
+            $data['seller_id'] = $this->uri->segment(4);
 
-			$data['sellers_list'] = $this->Seller_model->getMembershipSellersList();
+            $this->load->view('admin/addproduct_forseller', $data);
+        } else {
 
-			$data['membership_list'] = $this->Seller_model->getMembershipList();
+            redirect('admin/super_admin');
+        }
+    }
 
-			$this->load->view('admin/membership_add_form', $data);
+    function new_product_form_seller() {
 
-		}else{
+        if ($this->session->userdata('logged_in')) {
 
-			redirect('admin/super_admin');
+            $data['seller_id'] = $this->uri->segment(4);
 
-		}
+            $data['categories'] = $this->Seller_model->getCategories();
 
-	}
+            $this->load->view('admin/new_product_form_seller', $data);
+        } else {
 
-	function save_new_membership(){
+            redirect('admin/super_admin');
+        }
+    }
 
-		if($this->session->userdata('logged_in')){
+    function save_new_product() {
 
-			$seller_id = urldecode($this->uri->segment(5));
+        if ($this->session->userdata('logged_in')) {
 
-			$membership = $this->uri->segment(4);
+            $seller_id = $this->input->post('hidden_seller_id');
 
-			$result = $this->Seller_model->insert_newseller_membership($membership, $seller_id);
+            $insert_result = $this->Seller_model->insert_new_product($seller_id);
 
-			if($result == true){
 
-				redirect('admin/sellers/seller_membership');
 
-			}else{
 
-				$this->addsellermembershipaddform();
 
-			}
+            //if($insert_result == true || $insert_result ==''){
 
-		}else{
+            redirect('admin/sellers/seller_details/' . $seller_id);
 
-			redirect('admin/super_admin');
+            //}else{
+            //$this->load->view('admin/new_product_form_seller');
+            //}
+        } else {
 
-		}
+            redirect('admin/super_admin');
+        }
+    }
 
-	}
+    function upload_product_tmp_image() {
 
-	
+        $seller_id = $this->uri->segment(4);
 
-	function get_dispatched_time_data(){
+        if (isset($_FILES["userfile"])) {
 
-		$result = $this->Seller_model->insert_dispatched_data();
+            $ret = array();
 
-		if($result == 1){
+            $error = $_FILES["userfile"]["error"];
 
-			$this->session->set_flashdata('ss_msg', 'Saved successfully !');
+            if (!is_array($_FILES["userfile"]["name"])) {
 
-			redirect("admin/sellers/seller_dispatch_time");
+                $fileName = $_FILES["userfile"]["name"];
 
-		}
+                $_FILES['userfile']['type'];
 
-		if($result == 0){
+                $_FILES['userfile']['tmp_name'];
 
-			$this->session->set_flashdata('err_msg', 'This state is already exists! Pleasse Update.');
+                $_FILES['userfile']['error'];
 
-			redirect("admin/sellers/seller_dispatch_time");
+                $_FILES['userfile']['size'];
 
-		}
+                $config['encrypt_name'] = TRUE;
 
-	}
+                $config['upload_path'] = './images/product_img/';
 
-	
+                $config['allowed_types'] = 'gif|jpg|jpeg|png';
 
-	function edit_dispatched_time_data(){
+                $this->load->library('upload');
 
-		$result = $this->Seller_model->insert_update_dispatched_data();
+                $this->upload->initialize($config);
 
-		if($result = true){
+                $ret[] = $fileName;
 
-			$this->session->set_flashdata('ss_msg', 'Updated successfully !');
 
-			redirect("admin/sellers/seller_dispatch_time");
 
-		}
+                if (!$this->upload->do_upload()) {
 
-	}
+                    $error = array('error' => $this->upload->display_errors());
 
-	
+                    $this->load->view('seller/add_new_product', $error);
+                } else {
 
-	
+                    $data = array('upload_data' => $this->upload->data());
 
-	//Reject Product
+                    $path = $data['upload_data']['full_path'];
 
-	function product_inactive(){
+                    $width = $data['upload_data']['image_width'];
 
-		if($this->session->userdata('logged_in')){
+                    $height = $data['upload_data']['image_height'];
 
-						
 
-			$status = $this->input->post('status');
 
-			$sku=$this->input->post('sku');
+                    if ($width > $height) {
 
-		
+                        $configi['image_library'] = 'gd2';
 
-			$this->load->model('Cornjob_productinsermodel');
+                        $configi['source_image'] = $path;
 
-			$this->Cornjob_productinsermodel->update_singleprodapprove_status($status,$sku);
+                        $config['maintain_ratio'] = TRUE;
 
-			
+                        $configi['width'] = 500;
 
-			$result = $this->Seller_model->update_pro_reject_data();
+                        $configi['height'] = 500;
 
-			
+                        $config['master_dim'] = 'width';
 
-			
+                        //$config['master_dim'] = 'height';
+                    } else {
 
-			if($result == true){
+                        $configi['image_library'] = 'gd2';
 
-				echo 'success'; exit;
+                        $configi['source_image'] = $path;
 
-			}else{
+                        $config['maintain_ratio'] = TRUE;
 
-				echo 'fail'; exit;
+                        $configi['width'] = 500;
 
-			}
+                        $configi['height'] = 500;
 
-		}else{
+                        //$config['master_dim'] = 'width';
 
-			redirect('admin/super_admin');
+                        $config['master_dim'] = 'height';
+                    }
 
-		}	
 
-	}
 
-	function default_sellerlist()
+                    $this->load->library('image_lib');
 
-	{
+                    $this->image_lib->initialize($configi);
 
-		if($this->session->userdata('logged_in')){
+                    $success_resize = $this->image_lib->resize();
 
-			
+                    $this->image_lib->clear();
 
-			
 
-			$seller_defaulter['defaulter_seller']=$this->Seller_model->select_defulter_seller();
 
-			$this->load->view('admin/default_seller_list',$seller_defaulter);
+                    if ($success_resize) {
 
-			
+                        /* Second size */
 
-		}else{
+                        if ($width > $height) {
 
-			redirect('admin/super_admin');
+                            $configi2['image_library'] = 'gd2';
 
-		}	
+                            $configi2['source_image'] = $path;
 
-	
+                            $config['maintain_ratio'] = TRUE;
 
-		
+                            $configi2['width'] = 190;
 
-	}
+                            $configi2['height'] = 190;
 
-	
+                            $configi2['master_dim'] = 'width';
 
-	function change_productstatus()
+                            $configi2['new_image'] = 'catalog_' . $data['upload_data']['file_name'];
+                        } else {
 
-	{
+                            $configi2['image_library'] = 'gd2';
 
-		if($this->session->userdata('logged_in')){
+                            $configi2['source_image'] = $path;
 
-			$sku_id=$this->uri->segment(4);
+                            $config['maintain_ratio'] = TRUE;
 
-			$this->Seller_model->change_defulterseller_status($sku_id);
+                            $configi2['width'] = 190;
 
-			$seller_defaulter['defaulter_seller']=$this->Seller_model->select_defulter_seller();
+                            $configi2['height'] = 190;
 
-			$this->load->view('admin/default_seller_list',$seller_defaulter);
+                            //$config['master_dim'] = 'width';
 
-			}else{
+                            $configi2['master_dim'] = 'height';
 
-			redirect('admin/super_admin');
+                            $configi2['new_image'] = 'catalog_' . $data['upload_data']['file_name'];
+                        }
 
-		}	
 
 
+                        $this->load->library('image_lib');
 
-	}
+                        $this->image_lib->initialize($configi2);
 
-	
+                        $success_resize = $this->image_lib->resize();
 
-	function update_seller_info(){
+                        $this->image_lib->clear();
+                    }
 
-		$result = $this->Seller_model->update_inn_slr_info();
 
-		if($result){
 
-			echo $result;
+                    $name_array[] = $data['upload_data']['file_name'];
+                }
+            } else {  //Multiple files, file[]
+                $fileCount = count($_FILES["userfile"]["name"]);
 
-		}
+                for ($s = 0; $s < $fileCount; $s++) {
 
-	}
+                    $fileName = $_FILES['userfile']['name'][$s];
 
-	
+                    $_FILES['userfile']['type'][$s];
 
-	function update_slr_proof(){
+                    $_FILES['userfile']['tmp_name'][$s];
 
-		$slr_id = $this->input->post('slr_id');
+                    $_FILES['userfile']['error'][$s];
 
-		$config['upload_path'] = './images/seller_image_doc/';
+                    $_FILES['userfile']['size'][$s];
 
-		$config['allowed_types'] = 'jpg|jpeg|png';
+                    $config['encrypt_name'] = TRUE;
 
-		$config['max_size']	= '20480000';
+                    $config['upload_path'] = './images/product_img/';
 
-		$config['max_width']  = '3000';
+                    $config['allowed_types'] = 'gif|jpg|jpeg|png';
 
-		$config['max_height']  = '3000';
+                    $this->load->library('upload');
 
-		$this->load->library('upload', $config);
+                    $this->upload->initialize($config);
 
-		$this->upload->initialize($config);
+                    $ret[] = $fileName;
 
-		
 
-		$this->upload->do_upload();
 
-		$data = array('upload_data' => $this->upload->data());
+                    if (!$this->upload->do_upload()) {
 
-		$fileName = $data['upload_data']['file_name'];
+                        $error = array('error' => $this->upload->display_errors());
 
-		$result = $this->Seller_model->update_inn_slr_proof($fileName);
+                        $this->load->view('seller/add_new_product', $error);
+                    } else {
 
-		if($result == true){
+                        $data = array('upload_data' => $this->upload->data());
 
-			redirect('admin/sellers/seller_details/'.$slr_id);
+                        $path = $data['upload_data']['full_path'];
 
-		}
+                        $width = $data['upload_data']['image_width'];
 
-		
+                        $height = $data['upload_data']['image_height'];
 
-	}
 
-	
 
-	
+                        if ($width > $height) {
 
-	
+                            $configi['image_library'] = 'gd2';
 
-	function update_kyc_details(){
+                            $configi['source_image'] = $path;
 
-		$slr_id = $this->input->post('slr_id');
+                            $config['maintain_ratio'] = TRUE;
 
-		$config['upload_path'] = './images/seller_image_doc/';
+                            $configi['width'] = 500;
 
-		$config['allowed_types'] = 'jpg|jpeg|png';
+                            $configi['height'] = 500;
 
-		$config['max_size']	= '20480000';
+                            $config['master_dim'] = 'width';
 
-		$config['max_width']  = '3000';
+                            //$config['master_dim'] = 'height'; 
+                        } else {
 
-		$config['max_height']  = '3000';
+                            $configi['image_library'] = 'gd2';
 
-		$this->load->library('upload', $config);
+                            $configi['source_image'] = $path;
 
-		$this->upload->initialize($config);
+                            $config['maintain_ratio'] = TRUE;
 
-		
+                            $configi['width'] = 500;
 
-		$this->upload->do_upload();
+                            $configi['height'] = 500;
 
-		$data = array('upload_data' => $this->upload->data());
+                            //$config['master_dim'] = 'width';
 
-		$fileName = $data['upload_data']['file_name'];
+                            $config['master_dim'] = 'height';
+                        }
 
-		$result = $this->Seller_model->update_kyc_details($fileName);
 
-		if($result == true){
 
-			redirect('admin/sellers/seller_details/'.$slr_id);
+                        $this->load->library('image_lib');
 
-		}
+                        $this->image_lib->initialize($configi);
 
-		
+                        $success_resize = $this->image_lib->resize();
 
-	}
+                        $this->image_lib->clear();
 
-	// Admin adding products for seller starts
+                        if ($success_resize) {
 
-	
+                            if ($s == 0) {
 
-	function addnew_product_for_seller(){
+                                /* Second size */
 
-		if($this->session->userdata('logged_in')){
+                                if ($width > $height) {
 
-			$data['seller_id'] = $this->uri->segment(4);
+                                    $configi2['image_library'] = 'gd2';
 
-			$this->load->view('admin/addproduct_forseller', $data);
+                                    $configi2['source_image'] = $path;
 
-		}else{
+                                    $config['maintain_ratio'] = TRUE;
 
-			redirect('admin/super_admin');
+                                    $configi2['width'] = 190;
 
-		}
+                                    $configi2['height'] = 190;
 
-	}
+                                    $configi2['master_dim'] = 'width';
 
-	
+                                    $configi2['new_image'] = 'catalog_' . $data['upload_data']['file_name'];
+                                } else {
 
-	function new_product_form_seller(){
+                                    $configi2['image_library'] = 'gd2';
 
-		if($this->session->userdata('logged_in')){
+                                    $configi2['source_image'] = $path;
 
-			$data['seller_id'] = $this->uri->segment(4);
+                                    $config['maintain_ratio'] = TRUE;
 
-			$data['categories'] = $this->Seller_model->getCategories();
+                                    $configi2['width'] = 190;
 
-			$this->load->view('admin/new_product_form_seller', $data);
+                                    $configi2['height'] = 190;
 
-		}else{
+                                    //$config['master_dim'] = 'width';
 
-			redirect('admin/super_admin');
+                                    $configi2['master_dim'] = 'height';
 
-		}
+                                    $configi2['new_image'] = 'catalog_' . $data['upload_data']['file_name'];
+                                }
 
-	}
+                                $this->load->library('image_lib');
 
-	
+                                $this->image_lib->initialize($configi2);
 
-	function save_new_product(){
+                                $success_resize = $this->image_lib->resize();
 
-		if($this->session->userdata('logged_in')){
+                                $this->image_lib->clear();
+                            }
+                        }
+                    }
 
-			$seller_id = $this->input->post('hidden_seller_id');
+                    $name_array[] = $data['upload_data']['file_name'];
+                }
+            }
 
-			$insert_result = $this->Seller_model->insert_new_product($seller_id);
+            $this->Seller_model->insert_product_tmp_img($name_array, $seller_id);
 
-			
+            //echo json_encode($ret);
 
-			
+            echo json_encode($name_array);
+        }
+    }
 
-			//if($insert_result == true || $insert_result ==''){
+    function delete_product_tmp_image() {
 
-				redirect('admin/sellers/seller_details/'.$seller_id);
+        $output_dir = "./images/product_img/";
 
-			//}else{
+        if (isset($_POST["op"]) && $_POST["op"] == "delete" && isset($_POST['name'])) {
 
-				//$this->load->view('admin/new_product_form_seller');
+            $fileName = $_POST['name'];
 
-			//}
+            $seller_id = $_POST['seller_id'];
 
-		}else{
+            $fileName = str_replace("..", ".", $fileName); //required. if somebody is trying parent folder files	
 
-			redirect('admin/super_admin');
+            $filePath = $output_dir . $fileName;
 
-		}
+            $thumb_filePath = $output_dir . 'catalog_' . $fileName;
 
-	}
+            if (file_exists($filePath)) {
 
-	
+                unlink($filePath);
 
-	function upload_product_tmp_image(){
+                unlink($thumb_filePath);
+            }
 
-		$seller_id = $this->uri->segment(4);
+            //delete file from temp_product_img table//
 
-		if(isset($_FILES["userfile"])){
+            $this->Seller_model->delete_product_tmp_img($fileName, $seller_id);
 
-			$ret = array();
+            echo "Deleted File " . $fileName . "<br>";
+        }
+    }
 
-			$error =$_FILES["userfile"]["error"];
+    function search_existing_product() {
 
-			if(!is_array($_FILES["userfile"]["name"])){
+        if ($this->session->userdata('logged_in')) {
 
-				$fileName = $_FILES["userfile"]["name"];
+            $search_tittle = $this->input->post('search_title');
 
-				$_FILES['userfile']['type'];
+            $seller_id = $this->input->post('hidden_seller_id');
 
-				$_FILES['userfile']['tmp_name'];
+            $data['search_result'] = $this->Seller_model->search_existing_product_list($search_tittle, $seller_id);
 
-				$_FILES['userfile']['error'];
+            $data['seller_id'] = $seller_id;
 
-				$_FILES['userfile']['size'];
+            $this->load->view('admin/search_existing_product_list', $data);
+        } else {
 
-				$config['encrypt_name'] = TRUE;
+            redirect('admin/super_admin');
+        }
+    }
 
-				$config['upload_path'] = './images/product_img/';
+    function add_existing_product() {
 
-				$config['allowed_types'] = 'gif|jpg|jpeg|png';
+        if ($this->session->userdata('logged_in')) {
 
-				$this->load->library('upload');
+            $data = array(
+                'master_product_id' => urldecode($this->uri->segment(4)),
+                'seller_id' => $this->uri->segment(5),
+            );
 
-				$this->upload->initialize($config);
+            $skuid = urldecode($this->uri->segment(6));
 
-				$ret[]= $fileName;
+            $prod_id = urldecode($this->uri->segment(4));
 
 
 
-				if(!$this->upload->do_upload()){
+            $data['tax_classes'] = $this->Seller_model->getTaxClasses();
 
-					$error = array('error' => $this->upload->display_errors());    
+            $data['exist_product_info'] = $this->Seller_model->getExistProductInfo($data);
 
-					$this->load->view('seller/add_new_product', $error);
 
-				}else{
 
-					$data = array('upload_data' => $this->upload->data());  
+            // product attribute access start by ssantanu dt:21-09-2016
 
-					$path = $data['upload_data']['full_path'];
+            $data['exist_product_attrbinfo'] = $this->Seller_model->getExistProductattributeInfo($prod_id, $skuid);
 
-					$width = $data['upload_data']['image_width'];  
+            if (count($data['exist_product_attrbinfo']) == 0) {
+                $data['exist_product_attrbinfo'] = '';
+            }
 
-					$height = $data['upload_data']['image_height'];
 
-			
 
-					if($width > $height){
 
-						$configi['image_library'] = 'gd2';
 
-						$configi['source_image']   = $path;
+            $this->load->model('admin/Attribute_model');
 
-						$config['maintain_ratio'] = TRUE;
+            $data['color_result'] = $this->Attribute_model->retrieve_colors();
 
-						$configi['width']  = 500;
+            $data['size_result'] = $this->Attribute_model->retrieve_size();
 
-						$configi['height'] = 500;
+            $data['sub_size_result'] = $this->Attribute_model->retrieve_sub_size();
 
-						$config['master_dim'] = 'width';
+            // product attribute access start by ssantanu dt:21-09-2016
 
-						//$config['master_dim'] = 'height';
 
-					}else{
 
-						$configi['image_library'] = 'gd2';
+            $this->load->view('admin/add_Exisitng_product_for_seller', $data);
+        } else {
 
-						$configi['source_image']   = $path;
+            redirect('admin/super_admin');
+        }
+    }
 
-						$config['maintain_ratio'] = TRUE;
+    function check_sku() {
 
-						$configi['width']  = 500;
+        $sku = $this->input->post('sku');
 
-						$configi['height'] = 500;
+        $data1 = $this->Seller_model->getProductMastersku($sku);
 
-						//$config['master_dim'] = 'width';
+        $data2 = $this->Seller_model->getSellerGeneralsku($sku);
 
-						$config['master_dim'] = 'height';
+        $data3 = $this->Seller_model->getSellerMastersku($sku);
 
-					}
+        if ($data1 == false && $data2 == false && $data3 == false) {
 
-			
+            echo 'avail';
+        } else {
 
-					$this->load->library('image_lib');
+            echo 'exist';
+        }
+    }
 
-					$this->image_lib->initialize($configi);   
+    function save_exist_new_product() {
 
-					$success_resize = $this->image_lib->resize();
+        if ($this->session->userdata('logged_in')) {
 
-					$this->image_lib->clear();
+            $seller_id = $this->input->post('hidden_seller_id');
 
-					
+            $exist_product_result = $this->Seller_model->insert_existing_product($seller_id);
 
-					if($success_resize){
+            redirect('admin/sellers/seller_details/' . $seller_id);
+        } else {
 
-						/* Second size */
+            redirect('admin/super_admin');
+        }
+    }
 
-						if($width > $height){
+    function seller_courier_setting() {
 
-							$configi2['image_library'] = 'gd2';
+        if ($this->session->userdata('logged_in')) {
 
-							$configi2['source_image']   = $path;
 
-							$config['maintain_ratio'] = TRUE;
 
-							$configi2['width']  = 190;
+            $courier_data['courier_info'] = $this->Seller_model->select_courierlist();
 
-							$configi2['height'] = 190;
+            $this->load->view('admin/courier_info_setup', $courier_data);
+        } else {
 
-							$configi2['master_dim'] = 'width';
+            redirect('admin/super_admin');
+        }
+    }
 
-							$configi2['new_image']   = 'catalog_'.$data['upload_data']['file_name'];
+    // Admin adding products for seller starts
 
-						}else{
 
-							$configi2['image_library'] = 'gd2';
 
-							$configi2['source_image']   = $path;
 
-							$config['maintain_ratio'] = TRUE;
 
-							$configi2['width']  = 190;
+    function update_courierinfo() {
 
-							$configi2['height'] = 190;
+        if ($this->session->userdata('logged_in')) {
 
-							//$config['master_dim'] = 'width';
 
-							$configi2['master_dim'] = 'height';
 
-							$configi2['new_image']   = 'catalog_'.$data['upload_data']['file_name'];
+            $this->Seller_model->update_courierinfo();
 
-						}
 
-						
 
-						$this->load->library('image_lib');
+            redirect('admin/sellers/seller_courier_setting');
+        } else {
 
-						$this->image_lib->initialize($configi2);  
+            redirect('admin/super_admin');
+        }
+    }
 
-						$success_resize = $this->image_lib->resize();
+    function addnew_courierinfo() {
 
-						$this->image_lib->clear();
+        if ($this->session->userdata('logged_in')) {
 
-					}
 
-					
 
-					$name_array[] = $data['upload_data']['file_name'];					
+            $this->Seller_model->insert_newcourierinfo();
 
-				}				
 
-			}
 
-			else  //Multiple files, file[]
+            redirect('admin/sellers/seller_courier_setting');
+        } else {
 
-			{
+            redirect('admin/super_admin');
+        }
+    }
 
-				$fileCount = count($_FILES["userfile"]["name"]);
+    function product_detail() {
 
-				for($s=0; $s < $fileCount; $s++){
+        $product_id = $this->uri->segment(4);
 
-					$fileName = $_FILES['userfile']['name'][$s];
+        $sku_id = $this->uri->segment(5);
 
-					$_FILES['userfile']['type'][$s];
+        $this->load->model('Product_descrp_model');
 
-					$_FILES['userfile']['tmp_name'][$s];
+        $this->load->helper('string');
 
-					$_FILES['userfile']['error'][$s];
 
-					$_FILES['userfile']['size'][$s];				
 
-					$config['encrypt_name'] = TRUE;
-
-					$config['upload_path'] = './images/product_img/';
-
-					$config['allowed_types'] = 'gif|jpg|jpeg|png';
-
-					$this->load->library('upload');
-
-					$this->upload->initialize($config);
-
-					$ret[]= $fileName;
-
-				
-
-					if(!$this->upload->do_upload()){
-
-						$error = array('error' => $this->upload->display_errors());    
-
-						$this->load->view('seller/add_new_product', $error);
-
-					}else{
-
-						$data = array('upload_data' => $this->upload->data());  
-
-						$path = $data['upload_data']['full_path'];
-
-						$width = $data['upload_data']['image_width'];  
-
-						$height = $data['upload_data']['image_height'];
-
-				
-
-						if($width > $height){
-
-							$configi['image_library'] = 'gd2';
-
-							$configi['source_image']   = $path;
-
-							$config['maintain_ratio'] = TRUE;
-
-							$configi['width']  = 500;
-
-							$configi['height'] = 500;
-
-							$config['master_dim'] = 'width';
-
-							//$config['master_dim'] = 'height'; 
-
-						}else{
-
-							$configi['image_library'] = 'gd2';
-
-							$configi['source_image']   = $path;
-
-							$config['maintain_ratio'] = TRUE;
-
-							$configi['width']  = 500;
-
-							$configi['height'] = 500;
-
-							//$config['master_dim'] = 'width';
-
-							$config['master_dim'] = 'height';
-
-						}
-
-				
-
-						$this->load->library('image_lib');						
-
-						$this->image_lib->initialize($configi);   
-
-						$success_resize = $this->image_lib->resize();
-
-						$this->image_lib->clear();
-
-						if($success_resize){
-
-							if($s == 0){
-
-								/* Second size */
-
-								if($width > $height){
-
-									$configi2['image_library'] = 'gd2';
-
-									$configi2['source_image']   = $path;
-
-									$config['maintain_ratio'] = TRUE;
-
-									$configi2['width']  = 190;
-
-									$configi2['height'] = 190;
-
-									$configi2['master_dim'] = 'width';
-
-									$configi2['new_image']   = 'catalog_'.$data['upload_data']['file_name'];
-
-								}else{
-
-									$configi2['image_library'] = 'gd2';
-
-									$configi2['source_image']   = $path;
-
-									$config['maintain_ratio'] = TRUE;
-
-									$configi2['width']  = 190;
-
-									$configi2['height'] = 190;
-
-									//$config['master_dim'] = 'width';
-
-									$configi2['master_dim'] = 'height';
-
-									$configi2['new_image']   = 'catalog_'.$data['upload_data']['file_name'];
-
-								}
-
-								$this->load->library('image_lib');
-
-								$this->image_lib->initialize($configi2);  
-
-								$success_resize = $this->image_lib->resize();
-
-								$this->image_lib->clear();
-
-							}
-
-						}
-
-					}
-
-					$name_array[] = $data['upload_data']['file_name'];
-
-				}				
-
-			}
-
-			$this->Seller_model->insert_product_tmp_img($name_array, $seller_id);
-
-			//echo json_encode($ret);
-
-			echo json_encode($name_array);
-
-		}
-
-	}
-
-	
-
-	function delete_product_tmp_image(){
-
-		$output_dir = "./images/product_img/";
-
-		if(isset($_POST["op"]) && $_POST["op"] == "delete" && isset($_POST['name']))
-
-		{
-
-			$fileName =$_POST['name'];
-
-			$seller_id =$_POST['seller_id'];
-
-			$fileName=str_replace("..",".",$fileName); //required. if somebody is trying parent folder files	
-
-			$filePath = $output_dir. $fileName;
-
-			$thumb_filePath = $output_dir. 'catalog_'.$fileName;
-
-			if (file_exists($filePath)) 
-
-			{
-
-				unlink($filePath);
-
-				unlink($thumb_filePath);
-
-			}
-
-			//delete file from temp_product_img table//
-
-			$this->Seller_model->delete_product_tmp_img($fileName, $seller_id);
-
-			echo "Deleted File ".$fileName."<br>";
-
-		}
-
-	}
-
-	
-
-	function search_existing_product(){
-
-		if($this->session->userdata('logged_in')){
-
-			$search_tittle = $this->input->post('search_title');
-
-			$seller_id = $this->input->post('hidden_seller_id');
-
-			$data['search_result'] = $this->Seller_model->search_existing_product_list($search_tittle, $seller_id);
-
-			$data['seller_id'] = $seller_id;
-
-			$this->load->view('admin/search_existing_product_list', $data);
-
-		}else{
-
-			redirect('admin/super_admin');
-
-		}
-
-	}
-
-	
-
-	function add_existing_product(){
-
-		if($this->session->userdata('logged_in')){
-
-			$data = array(
-
-				'master_product_id' => urldecode($this->uri->segment(4)),
-
-				'seller_id' => $this->uri->segment(5),
-
-			);
-
-			$skuid= urldecode($this->uri->segment(6));
-
-			$prod_id=urldecode($this->uri->segment(4));
-
-			
-
-			$data['tax_classes'] = $this->Seller_model->getTaxClasses();
-
-			$data['exist_product_info'] = $this->Seller_model->getExistProductInfo($data);
-
-			
-
-			// product attribute access start by ssantanu dt:21-09-2016
-
-			$data['exist_product_attrbinfo'] = $this->Seller_model->getExistProductattributeInfo($prod_id,$skuid);
-
-			if(count($data['exist_product_attrbinfo'])==0)
-
-			{$data['exist_product_attrbinfo']='';}
-
-				
-
-			
-
-			$this->load->model('admin/Attribute_model');
-
-			$data['color_result'] = $this->Attribute_model->retrieve_colors();			
-
-			$data['size_result'] = $this->Attribute_model->retrieve_size();
-
-			$data['sub_size_result'] = $this->Attribute_model->retrieve_sub_size();
-
-			// product attribute access start by ssantanu dt:21-09-2016
-
-			
-
-			$this->load->view('admin/add_Exisitng_product_for_seller', $data);
-
-		}else{
-
-			redirect('admin/super_admin');
-
-		}
-
-	}
-
-	
-
-	function check_sku(){
-
-		$sku = $this->input->post('sku');
-
-		$data1 = $this->Seller_model->getProductMastersku($sku);
-
-		$data2 = $this->Seller_model->getSellerGeneralsku($sku);
-
-		$data3 = $this->Seller_model->getSellerMastersku($sku);
-
-		if($data1 == false && $data2 == false && $data3 == false){
-
-			echo 'avail';
-
-		}else{
-
-			echo 'exist';
-
-		}
-
-	}
-
-	function save_exist_new_product(){
-
-		if($this->session->userdata('logged_in')){
-
-			$seller_id = $this->input->post('hidden_seller_id');
-
-			$exist_product_result = $this->Seller_model->insert_existing_product($seller_id);
-
-			redirect('admin/sellers/seller_details/'.$seller_id);
-
-		}else{
-
-			redirect('admin/super_admin');
-
-		}
-
-	}
-
-	
-
-	
-
-	function seller_courier_setting()
-
-	{
-
-		if($this->session->userdata('logged_in')){
-
-			
-
-			$courier_data['courier_info'] = $this->Seller_model->select_courierlist();
-
-			$this->load->view('admin/courier_info_setup',$courier_data);
-
-			
-
-		}else{
-
-			redirect('admin/super_admin');
-
-		}	
-
-	}
-
-	
-
-	
-
-	
-
-	
-
-	// Admin adding products for seller starts
-
-	
-
-	
-
-	function update_courierinfo()
-
-	{
-
-		if($this->session->userdata('logged_in')){
-
-			
-
-			$this->Seller_model->update_courierinfo();
-
-			
-
-			redirect('admin/sellers/seller_courier_setting');
-
-			
-
-		}else{
-
-			redirect('admin/super_admin');
-
-		}		
-
-			
-
-	}
-
-	
-
-	function addnew_courierinfo()
-
-	{
-
-		if($this->session->userdata('logged_in')){
-
-		
-
-			$this->Seller_model->insert_newcourierinfo();
-
-			
-
-			redirect('admin/sellers/seller_courier_setting');
-
-			
-
-		}else{
-
-			redirect('admin/super_admin');
-
-		}	
-
-			
-
-	}
-
-	
-
-	
-
-	
-
-	function product_detail()
-
-	{
-
-		$product_id=$this->uri->segment(4);
-
-		$sku_id = $this->uri->segment(5);
-
-		$this->load->model('Product_descrp_model');
-
-		$this->load->helper('string');
-
-		
-
-				//$p['data']=$this->Product_descrp_model->select_prodmeta_info($product_id,$sku_id);
-
-				//$p['page_title']=$this->Product_descrp_model->select_pagetitle($product_id);
-
-				
-
-				//if($this->session->userdata('sesscoke')!='')
-
+        //$p['data']=$this->Product_descrp_model->select_prodmeta_info($product_id,$sku_id);
+        //$p['page_title']=$this->Product_descrp_model->select_pagetitle($product_id);
+        //if($this->session->userdata('sesscoke')!='')
 //				{
-
 //					array_push($this->session->userdata['sesscoke'],$product_id);
-
 //					$prodskarrctr=implode(',',$this->session->userdata('sesscoke'));
-
 //					
-
 //					 
-
 //					$cookie = array(
-
 //					'name'=>'prodid',
-
 //					'value'=>$prodskarrctr,        
-
 //					'expire'=>time()+86500000              
-
 //					);
-
 //					 
-
 //					set_cookie($cookie);
-
 //				}
+        //$p['other_seller_productid']=$this->Product_descrp_model->retrieve_same_productid_different_seller($product_id); //code by santanu dt:28-09-2016
 
-				
 
-				//$p['other_seller_productid']=$this->Product_descrp_model->retrieve_same_productid_different_seller($product_id); //code by santanu dt:28-09-2016
 
-				
+        $p['other_seller_product'] = $this->Product_descrp_model->retrieve_same_product_different_seller($product_id, $sku_id);
 
-				$p['other_seller_product'] = $this->Product_descrp_model->retrieve_same_product_different_seller($product_id,$sku_id);
+        $p['seller_rating_result'] = $this->Product_descrp_model->retrieve_all_seller_rating();
 
-				$p['seller_rating_result'] = $this->Product_descrp_model->retrieve_all_seller_rating();
+        //$p['product_attr_result'] = $this->Product_descrp_model->retrieve_indivisual_product_attr_headings($sku_id,$product_id);
 
-				//$p['product_attr_result'] = $this->Product_descrp_model->retrieve_indivisual_product_attr_headings($sku_id,$product_id);
+        $p['product_attr_result'] = '';
 
-				$p['product_attr_result'] = '';
 
-				
 
-				
 
-				//$p['attribute_color'] = $this->Product_descrp_model->retrieve_attr_color_option($product_id);
 
-				//$p['attribute_size'] = $this->Product_descrp_model->retrieve_attr_size_option($product_id);				
+        //$p['attribute_color'] = $this->Product_descrp_model->retrieve_attr_color_option($product_id);
+        //$p['attribute_size'] = $this->Product_descrp_model->retrieve_attr_size_option($product_id);				
+        //$p['attribute_capacity'] = $this->Product_descrp_model->retrieve_attr_capacity($product_id); //code by santanu dt:28-09-2016
+        //$p['attribute_ram'] = $this->Product_descrp_model->retrieve_attr_ram($product_id);//code by santanu dt:28-09-2016
+        //$p['attribute_rom'] = $this->Product_descrp_model->retrieve_attr_rom($product_id);//code by santanu dt:28-09-2016
 
-				
 
-				//$p['attribute_capacity'] = $this->Product_descrp_model->retrieve_attr_capacity($product_id); //code by santanu dt:28-09-2016
 
-				//$p['attribute_ram'] = $this->Product_descrp_model->retrieve_attr_ram($product_id);//code by santanu dt:28-09-2016
+        $p['seller_badge'] = $this->Product_descrp_model->getSellerBadge($sku_id);
 
-				//$p['attribute_rom'] = $this->Product_descrp_model->retrieve_attr_rom($product_id);//code by santanu dt:28-09-2016
 
-				
 
-				$p['seller_badge'] = $this->Product_descrp_model->getSellerBadge($sku_id);
+        //$p['vertual_inventory_data'] = $this->Product_descrp_model->checking_vertual_inventory_data($sku_id);
 
-				
+        $p['vertual_inventory_data'] = '';
 
-				//$p['vertual_inventory_data'] = $this->Product_descrp_model->checking_vertual_inventory_data($sku_id);
 
-				$p['vertual_inventory_data'] ='';
 
-				
+        if (@$this->session->userdata['session_data']['user_id']) {
 
-				if(@$this->session->userdata['session_data']['user_id']){
 
-					
 
-					$p['data_sku']=$sku_id;
+            $p['data_sku'] = $sku_id;
 
-					$p['product_data']=$this->Product_descrp_model->select_single_product_data($product_id,$sku_id);
+            $p['product_data'] = $this->Product_descrp_model->select_single_product_data($product_id, $sku_id);
 
-					
 
-					$p['review_result']=$this->Product_descrp_model->retrieve_product_review($sku_id);
 
-					$p['related_prod'] = $this->Product_descrp_model->related_prod($product_id);
+            $p['review_result'] = $this->Product_descrp_model->retrieve_product_review($sku_id);
 
-					
+            $p['related_prod'] = $this->Product_descrp_model->related_prod($product_id);
 
-					
 
-					$this->load->view('single_product_admin',$p);
 
-				}else{
 
-					
 
-					$p['data_sku']=$sku_id;
+            $this->load->view('single_product_admin', $p);
+        } else {
 
-					
 
-					$p['product_data']=$this->Product_descrp_model->select_single_product_data($product_id,$sku_id);
 
-					
+            $p['data_sku'] = $sku_id;
 
-					$p['review_result']=$this->Product_descrp_model->retrieve_product_review($sku_id);
 
-					$p['related_prod'] = $this->Product_descrp_model->related_prod($product_id);
 
-					
+            $p['product_data'] = $this->Product_descrp_model->select_single_product_data($product_id, $sku_id);
 
-					
 
-					$this->load->view('single_product_admin',$p);
 
-				}
+            $p['review_result'] = $this->Product_descrp_model->retrieve_product_review($sku_id);
 
-		
+            $p['related_prod'] = $this->Product_descrp_model->related_prod($product_id);
 
-		
 
-	}
-	function seller_products(){
-		
-		if($this->session->userdata('logged_in')){
-			$seller_id=$this->uri->segment(4);
-			//$seller_id = $this->input->post('slr_id');
-			$config = array();
-			$config["base_url"] = base_url()."admin/sellers/seller_products/".$seller_id ;
-			$config["total_rows"] = $this->Seller_model->seller_productcount($seller_id);
-			$config["per_page"] = 50;
-			$config["uri_segment"] = 4;
-			//$config['use_page_numbers'] = TRUE;
-			$config['page_query_string'] = TRUE;
-			$choice = $config["total_rows"] / $config["per_page"];
-			//print_r(round($choice));exit;
-			//$config["num_links"] = round($choice);
-			$config["num_links"] = 3;
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
-			$config['cur_tag_close'] = '</a>';
-			$config['next_link'] = 'Next';
-			$config['prev_link'] = 'Previous';
-			
-			$this->pagination->initialize($config);
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
-			//$this->session->set_flashdata('message', 'Data Updated Successfully..');
-			$data['seller_product'] = $this->Seller_model->seller_product($config["per_page"], $page,$seller_id);
-			//$data['product_details'] = $this->Seller_model->getProductDetails($seller_id);
-			
-			$data['buss_name'] = $this->Seller_model->bussiness_nm($seller_id);
-			$data['links'] = $this->pagination->create_links();
-			
-			$data['fixed_charge_result'] = $this->Catalog_model->getFixedCharges();
-			$data['pg_charge_result'] = $this->Catalog_model->getPgCharges();
-			$data['seasonal_charge_result'] = $this->Catalog_model->getSeasonalCharges();
-			$data['service_tax_res'] =  $this->Catalog_model->getServiceTax();
-			$this->load->view('admin/seller_products', $data);
-		}else{
-			redirect('admin/super_admin');
-		}
-		
-	}
-	
-	function seller_products_forbdm(){
-		
-		if($this->session->userdata('logged_in')){
-			$seller_id=$this->uri->segment(4);
-			//$seller_id = $this->input->post('slr_id');
-			$config = array();
-			$config["base_url"] = base_url()."admin/sellers/seller_products_forbdm/".$seller_id ;
-			$config["total_rows"] = $this->Seller_model->seller_productcount($seller_id);
-			$config["per_page"] = 50;
-			$config["uri_segment"] = 4;
-			//$config['use_page_numbers'] = TRUE;
-			$config['page_query_string'] = TRUE;
-			$choice = $config["total_rows"] / $config["per_page"];
-			//print_r(round($choice));exit;
-			//$config["num_links"] = round($choice);
-			$config["num_links"] = 3;
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
-			$config['cur_tag_close'] = '</a>';
-			$config['next_link'] = 'Next';
-			$config['prev_link'] = 'Previous';
-			
-			$this->pagination->initialize($config);
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
-			//$this->session->set_flashdata('message', 'Data Updated Successfully..');
-			$data['seller_product'] = $this->Seller_model->seller_product($config["per_page"], $page,$seller_id);
-			//$data['product_details'] = $this->Seller_model->getProductDetails($seller_id);
-			
-			$data['buss_name'] = $this->Seller_model->bussiness_nm($seller_id);
-			$data['links'] = $this->pagination->create_links();
-			
-			$data['fixed_charge_result'] = $this->Catalog_model->getFixedCharges();
-			$data['pg_charge_result'] = $this->Catalog_model->getPgCharges();
-			$data['seasonal_charge_result'] = $this->Catalog_model->getSeasonalCharges();
-			$data['service_tax_res'] =  $this->Catalog_model->getServiceTax();
-			$this->load->view('admin/seller_productsforbdm', $data);
-		}else{
-			redirect('admin/super_admin');
-		}
-		
-	}
-	
-	function manual_email() {
+
+
+
+            $this->load->view('single_product_admin', $p);
+        }
+    }
+
+    function seller_products() {
+
+        if ($this->session->userdata('logged_in')) {
+            $seller_id = $this->uri->segment(4);
+            //$seller_id = $this->input->post('slr_id');
+            $config = array();
+            $config["base_url"] = base_url() . "admin/sellers/seller_products/" . $seller_id;
+            $config["total_rows"] = $this->Seller_model->seller_productcount($seller_id);
+            $config["per_page"] = 50;
+            $config["uri_segment"] = 4;
+            //$config['use_page_numbers'] = TRUE;
+            $config['page_query_string'] = TRUE;
+            $choice = $config["total_rows"] / $config["per_page"];
+            //print_r(round($choice));exit;
+            //$config["num_links"] = round($choice);
+            $config["num_links"] = 3;
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
+            $config['cur_tag_close'] = '</a>';
+            $config['next_link'] = 'Next';
+            $config['prev_link'] = 'Previous';
+
+            $this->pagination->initialize($config);
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
+            //$this->session->set_flashdata('message', 'Data Updated Successfully..');
+            $data['seller_product'] = $this->Seller_model->seller_product($config["per_page"], $page, $seller_id);
+            //$data['product_details'] = $this->Seller_model->getProductDetails($seller_id);
+
+            $data['buss_name'] = $this->Seller_model->bussiness_nm($seller_id);
+            $data['links'] = $this->pagination->create_links();
+
+            $data['fixed_charge_result'] = $this->Catalog_model->getFixedCharges();
+            $data['pg_charge_result'] = $this->Catalog_model->getPgCharges();
+            $data['seasonal_charge_result'] = $this->Catalog_model->getSeasonalCharges();
+            $data['service_tax_res'] = $this->Catalog_model->getServiceTax();
+            $this->load->view('admin/seller_products', $data);
+        } else {
+            redirect('admin/super_admin');
+        }
+    }
+
+    function seller_products_forbdm() {
+
+        if ($this->session->userdata('logged_in')) {
+            $seller_id = $this->uri->segment(4);
+            //$seller_id = $this->input->post('slr_id');
+            $config = array();
+            $config["base_url"] = base_url() . "admin/sellers/seller_products_forbdm/" . $seller_id;
+            $config["total_rows"] = $this->Seller_model->seller_productcount($seller_id);
+            $config["per_page"] = 50;
+            $config["uri_segment"] = 4;
+            //$config['use_page_numbers'] = TRUE;
+            $config['page_query_string'] = TRUE;
+            $choice = $config["total_rows"] / $config["per_page"];
+            //print_r(round($choice));exit;
+            //$config["num_links"] = round($choice);
+            $config["num_links"] = 3;
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
+            $config['cur_tag_close'] = '</a>';
+            $config['next_link'] = 'Next';
+            $config['prev_link'] = 'Previous';
+
+            $this->pagination->initialize($config);
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
+            //$this->session->set_flashdata('message', 'Data Updated Successfully..');
+            $data['seller_product'] = $this->Seller_model->seller_product($config["per_page"], $page, $seller_id);
+            //$data['product_details'] = $this->Seller_model->getProductDetails($seller_id);
+
+            $data['buss_name'] = $this->Seller_model->bussiness_nm($seller_id);
+            $data['links'] = $this->pagination->create_links();
+
+            $data['fixed_charge_result'] = $this->Catalog_model->getFixedCharges();
+            $data['pg_charge_result'] = $this->Catalog_model->getPgCharges();
+            $data['seasonal_charge_result'] = $this->Catalog_model->getSeasonalCharges();
+            $data['service_tax_res'] = $this->Catalog_model->getServiceTax();
+            $this->load->view('admin/seller_productsforbdm', $data);
+        } else {
+            redirect('admin/super_admin');
+        }
+    }
+
+    function manual_email() {
         if ($this->session->userdata('logged_in')) {
 
             $id['seller_id'] = $this->uri->segment(4);
@@ -3050,133 +2539,115 @@ function autofill_seller(){
             redirect('admin/super_admin');
         }
     }
-	
-	function exportseller_products()
-	{
-		if($this->session->userdata('logged_in')){
-		$seller_id=$this->uri->segment('4');
-		$data['seller_product'] = $this->Seller_model->exportseller_allproduct($seller_id);
-		$this->load->view('admin/export_allsellerproduct',$data);
-		
-		}else{
-			redirect('admin/super_admin');
-		}	
-			
-			
-	}
-	
-	
-	function retrieve_commission(){
-		$data['cmsn_result'] =  $this->Seller_model->getCommission();
-	}
-	
-	
-	
-	function filter_sellprod()
-		{
-			if($this->session->userdata('logged_in')){
-			//$seller_id = $data['seller_id'] = $_REQUEST['seller_id'];
-			$seller_id=$this->uri->segment(4);
-			$data['prod_id'] = $_REQUEST['prod_id'];
-			$data['sku'] = $_REQUEST['sku'];	
-			$data['prod_nm'] = $_REQUEST['prod_nm'];
-			$data['stock'] = $_REQUEST['stock'];	
-			$data['mrp'] = $_REQUEST['mrp'];
-			$data['sellprce'] = $_REQUEST['sellprce'];
-			$data['stat'] = $_REQUEST['stat'];
-			$data['specprce'] = $_REQUEST['specprce'];
-			$data['status'] = $_REQUEST['status'];
-			
-			
-			$config = array();
-			$config["base_url"] = base_url()."admin/sellers/filter_sellprod/".$seller_id;
-			$config["total_rows"] = $this->Seller_model->select_filter_sellprod_count($seller_id);
-			$config["per_page"] = 50;
-			$config["uri_segment"] = 3;
-			$config["page_query_string"] = TRUE;
-			$config['enable_query_strings'] = TRUE;
-			$config['reuse_query_string'] = TRUE;
-			$choice = $config["total_rows"] / $config["per_page"];
-			//$config["num_links"] = round($choice);
-			$config["num_links"] = 3;
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
-			$config['cur_tag_close'] = '</a>';
-			$config['next_link'] = 'Next';
-			$config['prev_link'] = 'Previous';
-			$config['suffix'] ='&prod_id='.$data['prod_id'].'&sku='.$data['sku'].'&prod_nm='.$data['prod_nm'].'&stock='.$data['stock'].'&mrp='.$data['mrp'].'&sellprce='.$data['sellprce'].'&specprce='.$data['specprce'].'&status='.$data['status'].'&stat='.$data['stat'];
-			
-			$this->pagination->initialize($config);
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
-			$data['seller_product']= $this->Seller_model->select_filtered_sell_prod($config["per_page"], $page,$seller_id);
-			$data['buss_name'] = $this->Seller_model->bussiness_nm($seller_id);
-			$data['links'] = $this->pagination->create_links();
-			$data['fixed_charge_result'] = $this->Catalog_model->getFixedCharges();
-			$data['pg_charge_result'] = $this->Catalog_model->getPgCharges();
-			$data['seasonal_charge_result'] = $this->Catalog_model->getSeasonalCharges();
-			$data['service_tax_res'] =  $this->Catalog_model->getServiceTax();
-			$this->load->view('admin/seller_products', $data);
-		
-			}else{
-				redirect('admin/super_admin');
-			}
-				
-		}
-		
-		
-		function filter_sellprodforbdm()
-		{
-			if($this->session->userdata('logged_in')){
-			//$seller_id = $data['seller_id'] = $_REQUEST['seller_id'];
-			$seller_id=$this->uri->segment(4);
-			$data['prod_id'] = $_REQUEST['prod_id'];
-			$data['sku'] = $_REQUEST['sku'];	
-			$data['prod_nm'] = $_REQUEST['prod_nm'];
-			$data['stock'] = $_REQUEST['stock'];	
-			$data['mrp'] = $_REQUEST['mrp'];
-			$data['sellprce'] = $_REQUEST['sellprce'];
-			$data['stat'] = $_REQUEST['stat'];
-			$data['specprce'] = $_REQUEST['specprce'];
-			$data['status'] = $_REQUEST['status'];
-			
-			
-			$config = array();
-			$config["base_url"] = base_url()."admin/sellers/filter_sellprodforbdm/".$seller_id;
-			$config["total_rows"] = $this->Seller_model->select_filter_sellprod_count($seller_id);
-			$config["per_page"] = 50;
-			$config["uri_segment"] = 3;
-			$config["page_query_string"] = TRUE;
-			$config['enable_query_strings'] = TRUE;
-			$config['reuse_query_string'] = TRUE;
-			$choice = $config["total_rows"] / $config["per_page"];
-			//$config["num_links"] = round($choice);
-			$config["num_links"] = 3;
-			$config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
-			$config['cur_tag_close'] = '</a>';
-			$config['next_link'] = 'Next';
-			$config['prev_link'] = 'Previous';
-			$config['suffix'] ='&prod_id='.$data['prod_id'].'&sku='.$data['sku'].'&prod_nm='.$data['prod_nm'].'&stock='.$data['stock'].'&mrp='.$data['mrp'].'&sellprce='.$data['sellprce'].'&specprce='.$data['specprce'].'&status='.$data['status'].'&stat='.$data['stat'];
-			
-			$this->pagination->initialize($config);
-			$page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
-			$data['seller_product']= $this->Seller_model->select_filtered_sell_prod($config["per_page"], $page,$seller_id);
-			$data['buss_name'] = $this->Seller_model->bussiness_nm($seller_id);
-			$data['links'] = $this->pagination->create_links();
-			$data['fixed_charge_result'] = $this->Catalog_model->getFixedCharges();
-			$data['pg_charge_result'] = $this->Catalog_model->getPgCharges();
-			$data['seasonal_charge_result'] = $this->Catalog_model->getSeasonalCharges();
-			$data['service_tax_res'] =  $this->Catalog_model->getServiceTax();
-			$this->load->view('admin/seller_productsforbdm', $data);
-		
-			}else{
-				redirect('admin/super_admin');
-			}
-				
-		}
-		
-		
+
+    function exportseller_products() {
+        if ($this->session->userdata('logged_in')) {
+            $seller_id = $this->uri->segment('4');
+            $data['seller_product'] = $this->Seller_model->exportseller_allproduct($seller_id);
+            $this->load->view('admin/export_allsellerproduct', $data);
+        } else {
+            redirect('admin/super_admin');
+        }
+    }
+
+    function retrieve_commission() {
+        $data['cmsn_result'] = $this->Seller_model->getCommission();
+    }
+
+    function filter_sellprod() {
+        if ($this->session->userdata('logged_in')) {
+            //$seller_id = $data['seller_id'] = $_REQUEST['seller_id'];
+            $seller_id = $this->uri->segment(4);
+            $data['prod_id'] = $_REQUEST['prod_id'];
+            $data['sku'] = $_REQUEST['sku'];
+            $data['prod_nm'] = $_REQUEST['prod_nm'];
+            $data['stock'] = $_REQUEST['stock'];
+            $data['mrp'] = $_REQUEST['mrp'];
+            $data['sellprce'] = $_REQUEST['sellprce'];
+            $data['stat'] = $_REQUEST['stat'];
+            $data['specprce'] = $_REQUEST['specprce'];
+            $data['status'] = $_REQUEST['status'];
+
+
+            $config = array();
+            $config["base_url"] = base_url() . "admin/sellers/filter_sellprod/" . $seller_id;
+            $config["total_rows"] = $this->Seller_model->select_filter_sellprod_count($seller_id);
+            $config["per_page"] = 50;
+            $config["uri_segment"] = 3;
+            $config["page_query_string"] = TRUE;
+            $config['enable_query_strings'] = TRUE;
+            $config['reuse_query_string'] = TRUE;
+            $choice = $config["total_rows"] / $config["per_page"];
+            //$config["num_links"] = round($choice);
+            $config["num_links"] = 3;
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
+            $config['cur_tag_close'] = '</a>';
+            $config['next_link'] = 'Next';
+            $config['prev_link'] = 'Previous';
+            $config['suffix'] = '&prod_id=' . $data['prod_id'] . '&sku=' . $data['sku'] . '&prod_nm=' . $data['prod_nm'] . '&stock=' . $data['stock'] . '&mrp=' . $data['mrp'] . '&sellprce=' . $data['sellprce'] . '&specprce=' . $data['specprce'] . '&status=' . $data['status'] . '&stat=' . $data['stat'];
+
+            $this->pagination->initialize($config);
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
+            $data['seller_product'] = $this->Seller_model->select_filtered_sell_prod($config["per_page"], $page, $seller_id);
+            $data['buss_name'] = $this->Seller_model->bussiness_nm($seller_id);
+            $data['links'] = $this->pagination->create_links();
+            $data['fixed_charge_result'] = $this->Catalog_model->getFixedCharges();
+            $data['pg_charge_result'] = $this->Catalog_model->getPgCharges();
+            $data['seasonal_charge_result'] = $this->Catalog_model->getSeasonalCharges();
+            $data['service_tax_res'] = $this->Catalog_model->getServiceTax();
+            $this->load->view('admin/seller_products', $data);
+        } else {
+            redirect('admin/super_admin');
+        }
+    }
+
+    function filter_sellprodforbdm() {
+        if ($this->session->userdata('logged_in')) {
+            //$seller_id = $data['seller_id'] = $_REQUEST['seller_id'];
+            $seller_id = $this->uri->segment(4);
+            $data['prod_id'] = $_REQUEST['prod_id'];
+            $data['sku'] = $_REQUEST['sku'];
+            $data['prod_nm'] = $_REQUEST['prod_nm'];
+            $data['stock'] = $_REQUEST['stock'];
+            $data['mrp'] = $_REQUEST['mrp'];
+            $data['sellprce'] = $_REQUEST['sellprce'];
+            $data['stat'] = $_REQUEST['stat'];
+            $data['specprce'] = $_REQUEST['specprce'];
+            $data['status'] = $_REQUEST['status'];
+
+
+            $config = array();
+            $config["base_url"] = base_url() . "admin/sellers/filter_sellprodforbdm/" . $seller_id;
+            $config["total_rows"] = $this->Seller_model->select_filter_sellprod_count($seller_id);
+            $config["per_page"] = 50;
+            $config["uri_segment"] = 3;
+            $config["page_query_string"] = TRUE;
+            $config['enable_query_strings'] = TRUE;
+            $config['reuse_query_string'] = TRUE;
+            $choice = $config["total_rows"] / $config["per_page"];
+            //$config["num_links"] = round($choice);
+            $config["num_links"] = 3;
+            $config['cur_tag_open'] = '&nbsp;<a class="current" style="background-color:lightblue;">';
+            $config['cur_tag_close'] = '</a>';
+            $config['next_link'] = 'Next';
+            $config['prev_link'] = 'Previous';
+            $config['suffix'] = '&prod_id=' . $data['prod_id'] . '&sku=' . $data['sku'] . '&prod_nm=' . $data['prod_nm'] . '&stock=' . $data['stock'] . '&mrp=' . $data['mrp'] . '&sellprce=' . $data['sellprce'] . '&specprce=' . $data['specprce'] . '&status=' . $data['status'] . '&stat=' . $data['stat'];
+
+            $this->pagination->initialize($config);
+            $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
+            $data['seller_product'] = $this->Seller_model->select_filtered_sell_prod($config["per_page"], $page, $seller_id);
+            $data['buss_name'] = $this->Seller_model->bussiness_nm($seller_id);
+            $data['links'] = $this->pagination->create_links();
+            $data['fixed_charge_result'] = $this->Catalog_model->getFixedCharges();
+            $data['pg_charge_result'] = $this->Catalog_model->getPgCharges();
+            $data['seasonal_charge_result'] = $this->Catalog_model->getSeasonalCharges();
+            $data['service_tax_res'] = $this->Catalog_model->getServiceTax();
+            $this->load->view('admin/seller_productsforbdm', $data);
+        } else {
+            redirect('admin/super_admin');
+        }
+    }
+
 }
-
-
-
 
 ?>

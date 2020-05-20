@@ -216,13 +216,13 @@ class User extends CI_Controller {
             $result = $this->Usermodel->insert_social_registration_data($data);
             if ($result == true) {
 
-               
+
                 $user_info['email'] = $email;
 
                 $this->email->set_mailtype("html");
                 $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($email);
-                $this->email->subject('Welcome to '. ucfirst(DOMAIN_NAME));
+                $this->email->subject('Welcome to ' . ucfirst(DOMAIN_NAME));
                 //$this->email->message($message);
                 $this->email->message($this->load->view('email_template/user_social_login', $user_info, true));
                 $this->email->send();
@@ -237,7 +237,7 @@ class User extends CI_Controller {
                         'to_email_id' => $email,
                         'from_email_id' => NO_REPLY_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Welcome to '. ucfirst(DOMAIN_NAME),
+                        'email_sub' => 'Welcome to ' . ucfirst(DOMAIN_NAME),
                         'email_content' => $msg,
                         'email_send_status' => 'Success'
                     );
@@ -246,7 +246,7 @@ class User extends CI_Controller {
                         'to_email_id' => $email,
                         'from_email_id' => NO_REPLY_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Welcome to '. ucfirst(DOMAIN_NAME),
+                        'email_sub' => 'Welcome to ' . ucfirst(DOMAIN_NAME),
                         'email_content' => $msg,
                         'email_send_status' => 'Failure'
                     );
@@ -332,21 +332,21 @@ class User extends CI_Controller {
 
                 $message = "
 		<div style='padding:20px;'> <h5>Hello " . $fname . " ,</h5>
-		<p>Thank you for signing up with ".ucfirst(DOMAIN_NAME)."</p>
+		<p>Thank you for signing up with " . ucfirst(DOMAIN_NAME) . "</p>
 		<strong>Your Log in ID is :  " . $email . " and<br/><br/>
 			    Password is as for your social</strong><br/>
-		<p>You can now log in to ".ucfirst(DOMAIN_NAME)." using this ID and the password. </p><br/>
-           Thanks & regards,<br/>".ucfirst(DOMAIN_NAME)." Team <br/>
+		<p>You can now log in to " . ucfirst(DOMAIN_NAME) . " using this ID and the password. </p><br/>
+           Thanks & regards,<br/>" . ucfirst(DOMAIN_NAME) . " Team <br/>
          </div>
 		
 		<div style='text-align:center; background-color:#0e4370; color:#fff; padding:10px;'>
-	    <p> copyright@ 2015 ".ucfirst(DOMAIN_NAME)." . All rights reserved . </p>
+	    <p> copyright@ 2015 " . ucfirst(DOMAIN_NAME) . " . All rights reserved . </p>
        </div>";
 
                 $this->email->set_mailtype("html");
                 $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($email);
-                $this->email->subject('Welcome to '.ucfirst(DOMAIN_NAME));
+                $this->email->subject('Welcome to ' . ucfirst(DOMAIN_NAME));
                 $this->email->message($message);
                 $this->email->send();
 
@@ -428,7 +428,7 @@ class User extends CI_Controller {
             $result1 = $this->Usermodel->insert_retrive_password_data($retrive_data);
             if ($result1 == true) {
 
-               //sending mail to user program start here
+                //sending mail to user program start here
                 $sess_array = array(
                     'user_id' => $user_id,
                 );
@@ -436,7 +436,7 @@ class User extends CI_Controller {
                 $this->email->set_mailtype("html");
                 $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($data['email']);
-                $this->email->subject('OTP from '.ucfirst(DOMAIN_NAME));
+                $this->email->subject('OTP from ' . ucfirst(DOMAIN_NAME));
                 $this->email->message($this->load->view('email_template/otp_mail', $data, true));
                 $this->email->send();
                 //sending mail to user program end here
@@ -500,7 +500,7 @@ class User extends CI_Controller {
                 $this->email->to($to);
                 $this->email->subject($subject);
                 $this->email->message($this->load->view('email_template/forgot_password', $data, true));
-                
+
                 if ($this->email->send()) {
                     echo 'ok';
                     exit;
