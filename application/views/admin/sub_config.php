@@ -1,5 +1,5 @@
 <ul class="top-menu">
-	<?php if($this->session->userdata('logged_in')=='admin@moonboy.in') { ?>
+	<?php if($this->session->userdata('logged_in')==ADMIN_MAIL) { ?>
     <li class="<?php if($this->uri->segment(3)=="membership" ){echo "selected";} ?>"><a href="<?php echo base_url(); ?>admin/super_admin/membership">Membership</a></li>
     <li class="<?php if($this->uri->segment(3)=="seller_commission" || $this->uri->segment(3)=="global_commission" || $this->uri->segment(3)=="membership_commission" || $this->uri->segment(3)=="special_commission" || $this->uri->segment(3)=="edit_special_commission" || $this->uri->segment(3)=="add_special_commission" ){echo "selected";} ?>"><a href="<?php echo base_url(); ?>admin/super_admin/seller_commission">Seller Commission</a></li>
     <li class="<?php if($this->uri->segment(3)=="charges" ){echo "selected";} ?>"><a href="<?php echo base_url(); ?>admin/super_admin/charges">Other Charges</a></li>

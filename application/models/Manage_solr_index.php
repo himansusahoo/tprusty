@@ -174,7 +174,7 @@ class Manage_solr_index extends CI_Model {
                 if ($operation == 'Edit' && isset($res_prod['sku']) && $res_prod['sku'] != '') {
                     $sku = $res_prod['sku'];
                     $solr_cond = "Sku:$sku";
-                    $this->_delete_one_solr_index($solr_cond);
+                    $this->_delete_one_solr_index($solr_cond,$sku);
                 }
                 $this->_create_index($data, $operation);
                 $counter++;

@@ -216,7 +216,7 @@ if($sec_info->num_rows()>0)
                 
                    <section class="regular slider" style="height:105px;">
                    <!-- <div>
-                       <img src="https://www.moonboy.in/images/pagedesign_image/ghig24zimtntqv920170601142745.jpg">
+                       <img src="<?=APP_BASE?>images/pagedesign_image/ghig24zimtntqv920170601142745.jpg">
                       <p style="font-size:13px; color:#333; text-align:center;padding-bottom: 5px;">1st Image</p>
                     </div>-->
                     

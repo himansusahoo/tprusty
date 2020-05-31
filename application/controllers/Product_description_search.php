@@ -51,18 +51,6 @@ class Product_description_search extends CI_Controller {
         }
     }
 
-    /* function search_firstproductloadajaxmore()
-      {	//echo '<pre>';print_r($_REQUEST);exit;
-      $search_title=$this->input->post('search_data');
-      $more=$this->input->post('more');
-      $p['product_data']=$this->Product_descrp_search_model->select_firstproductajax_searchmore($search_title,$more);
-
-      if ($this->agent->is_mobile())
-      {$this->load->view('m/search_firstproduct_pgwith_ajax',$p);	}
-      else
-      {$this->load->view('d_new/newsearch_firstproduct_pgwith_ajaxview',$p);	}
-      } */
-
     function show_more_search_product_data() {
 
         //echo '<pre>';print_r($_REQUEST);exit;

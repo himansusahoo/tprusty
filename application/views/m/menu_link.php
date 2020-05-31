@@ -552,7 +552,7 @@ if($tot_2ndlvlcount==$tot_img2ndlvlcount)
             <li><a href="#"> Career </a></li>  
             <li><a href="#"> Help </a></li>       
             <li><a href="https://socialmoonboy.wordpress.com/" target="_blank"> Our Blog </a> </li> 
-            <li><a href="https://www.moonboy.in/sitemap.html"> Sitemap </a></li>
+            <li><a href="<?=APP_BASE?>sitemap.html"> Sitemap </a></li>
             <li><a href="<?php echo base_url().'privacy-policy';?>"> Privacy Policy </a></li>
             <li><a href="<?php echo base_url().'terns-and-conditions';?>"> Terms & Conditions </a></li>
             

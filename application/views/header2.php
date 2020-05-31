@@ -606,7 +606,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 						<ul>
                         <li> <!--<a class="blog" href="https://socialmoonboy.wordpress.com/" target="_blank"> Our Blog </a>--> 
                         
-                        <a class="blog" href="https://www.moonboy.in/blog/" target="_blank"> Our Blog </a> 
+                        <a class="blog" href="<?=APP_BASE?>blog/" target="_blank"> Our Blog </a> 
                         </li>
                             <!--<li> <a href="<?php echo base_url();?>user/customersupport"> 24x7 Costumer Support </a> </li>-->
                             <li> <a href="<?php echo base_url();?>contact-us"> Customer Support </a> </li>

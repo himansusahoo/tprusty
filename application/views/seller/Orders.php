@@ -75,36 +75,18 @@ class Orders extends CI_Controller {
 				$data['shipment_address_details'] = $this->Order_model->retrieve_order_shipment_address($order_id);
 				$data['total_amount_result'] = $this->Order_model->retrieve_order_total_amount($order_id);
 				$data['slr_qty_result'] = $this->Order_model->retrieve_slr_qty_data($order_id);
-				//$this->load->view('shipment_mail_template',$data);
-				//exit;
-				//$data['sender_mail'] = $shipment_address_details->email;
-				/* $config = array (
-					  'mailtype' => 'html',
-					  'charset'  => 'utf-8',
-					  'priority' => '1'
-					   );
-				$this->email->initialize($config);
-				$this->email->from('noreply@moonboy.in','Moonboy.in');
-				$this->email->to('lingaraj@paramountitsolutions.co.in');
-				$this->email->subject('Shipment of items by Moonboy.in');
-				$message=$this->load->view('shipment_mail_template',$data,TRUE);
-				$this->email->message($message); */
+				
 				
 				$this->email->set_mailtype("html");
-				$this->email->from('noreply@moonboy.in', 'Moonboy.in');
-				$this->email->to('lingaraj@paramountitsolutions.co.in');
-				$this->email->subject('Shipment of items by Moonboy.in');
-				$message=$this->load->view('shipment_mail_template1',$data,TRUE);
-				//$message='<span>Hi..</span>';
-				$this->email->message($message);
+				$this->email->from(NO_REPLY_MAIL, uc_first(DOMAIN_NAME));
+				$this->email->subject('Shipment of items by '.uc_first(DOMAIN_NAME));
+				$message=$this->load->view('shipment_mail_template1',$data,TRUE);				
+				$this->email->message($message);		
 				
-				//$this->email->send();
 				if(!$this->email->send()){
 					echo "<pre>".$this->email->print_debugger() ."</pre>";  
-				}else{
-					//return TRUE;
-					echo 'success';
-					//redirect('seller/orders/show_active_orders');	
+				}else{				
+					echo 'success';					
 				}       
 			}
 			//redirect('seller/orders/show_active_orders');					

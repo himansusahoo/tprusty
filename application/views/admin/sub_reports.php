@@ -1,6 +1,6 @@
 <ul class="top-menu">
 
-<?php if($this->session->userdata('logged_in')=='admin@moonboy.in') { ?>
+<?php if($this->session->userdata('logged_in')==ADMIN_MAIL) { ?>
 	<li class="<?php if($this->uri->segment(2)=="report" && $this->uri->segment(3)=="" || $this->uri->segment(3)=="filter_order_report" ){echo "selected";} ?>"><a href="<?php echo base_url(); ?>admin/report">Order Report</a></li>
     <li class="<?php if($this->uri->segment(3)=="return_order_report" || $this->uri->segment(3)=="filter_return_order_report" ){echo "selected";} ?>"><a href="<?php echo base_url(); ?>admin/report/return_order_report">Return Order Report</a></li>
 	

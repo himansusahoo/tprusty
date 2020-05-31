@@ -1493,13 +1493,13 @@ $this->session->unset_userdata('sesson_suggestword_arr');
 <div style="text-align:center; font-size:15px;">
         <div class="pad-res singleproduct-grids">
 			<div class="today-deal-left">
-					<a href="https://www.moonboy.in/ansh-fashion-wear-men-denim-lycra-strachable-jeans-&amp;-jogger-pack-of-2/1200974/LTAY-725-2CM-JOGGER-DB-T-20MW-3-34">
-					<img src="https://www.moonboy.in/images/product_img/catalog_utfqgoroipyvnkv20170619121653.jpg" alt="Ansh Fashion Wear Men Denim Lycra Strachable Jeans &amp; Jogger Pack Of 2">
+					<a href="<?=APP_BASE?>ansh-fashion-wear-men-denim-lycra-strachable-jeans-&amp;-jogger-pack-of-2/1200974/LTAY-725-2CM-JOGGER-DB-T-20MW-3-34">
+					<img src="<?=APP_BASE?>images/product_img/catalog_utfqgoroipyvnkv20170619121653.jpg" alt="Ansh Fashion Wear Men Denim Lycra Strachable Jeans &amp; Jogger Pack Of 2">
 				     </a>
 			</div>
 			<div class="today-deal-right">
 				<h5 style="text-align:left; margin-left:0; margin-bottom:8px; font-size:18px; font-family: 'SegoeUI';">
-					<a href="https://www.moonboy.in/ansh-fashion-wear-men-denim-lycra-strachable-jeans-&amp;-jogger-pack-of-2/1200974/LTAY-725-2CM-JOGGER-DB-T-20MW-3-34">Ansh Fashion Wear Men Denim Ly...					</a>
+					<a href="<?=APP_BASE?>ansh-fashion-wear-men-denim-lycra-strachable-jeans-&amp;-jogger-pack-of-2/1200974/LTAY-725-2CM-JOGGER-DB-T-20MW-3-34">Ansh Fashion Wear Men Denim Ly...					</a>
 				</h5>
 				<p style="margin-left:0px; float:left; display:inline-block;">
 					<span style="color:#999; text-decoration:line-through">

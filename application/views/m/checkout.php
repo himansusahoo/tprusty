@@ -869,8 +869,8 @@ $(document).ready(function(){
 				<input type="hidden" name="amount" value="<?php  echo $total_price; ?>"/> 
                            
 				<input type="hidden" name="currency" value="INR"/>
-				<input type="hidden" name="redirect_url" value="https://www.moonboy.in/Online_payment/ccav_response_handler"/>
-				<input type="hidden" name="cancel_url" value="https://www.moonboy.in/Online_payment/ccav_response_handler"/>
+				<input type="hidden" name="redirect_url" value="<?=APP_BASE?>Online_payment/ccav_response_handler"/>
+				<input type="hidden" name="cancel_url" value="<?=APP_BASE?>Online_payment/ccav_response_handler"/>
 			 	<input type="hidden" name="language" value="EN"/>				
 		     	<input type="hidden" name="billing_name" value="<?php echo @$cus_data->full_name; ?>"/>
 		        <input type="hidden" name="billing_address" value="<?php echo @$cus_data->address; ?>"/>

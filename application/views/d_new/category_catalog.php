@@ -81,7 +81,7 @@
 						
 						$('#in_up').val('Processing...');
 						$.ajax({
-							url:'https://www.moonboy.in/user/login',
+							url:"<?=APP_BASE?>user/login",
 							method:'post',
 							data:{email:mail_id,password:pass,flag:1},
 							success:function(result)
@@ -93,7 +93,7 @@
 									$('#in_up').val('login');
 								}
 								if(result == 'success1'){
-									window.location.href="https://www.moonboy.in/product_description/addtocheckout_buynow/"+pname;
+									window.location.href="<?=APP_BASE?>product_description/addtocheckout_buynow/"+pname;
 								}
 								if(result == 'success'){
 								//else{
@@ -119,7 +119,7 @@
 						
 						$('#in_up').val('Processing...');
 						$.ajax({
-							url:'https://www.moonboy.in/user/login',
+							url:"<?=APP_BASE?>user/login",
 							method:'post',
 							data:{email:mail_id,password:pass,flag:2},
 							success:function(result)
@@ -142,7 +142,7 @@
 								}
 								if(result == 'success1'){
 									
-									window.location.href="https://www.moonboy.in/product_description/addtocheckout_buynow/"+pname;							
+									window.location.href="<?=APP_BASE?>product_description/addtocheckout_buynow/"+pname;							
 								}
 							}
 						});
@@ -773,9 +773,9 @@
    <!--------------------------------- End of Filter bar------------------------------------------------------------------------------------------>
     <div class="col-md-9" style="width:80%; background:#fff; padding-top:10px; box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .08); float:right;">
     		<div style="width:1000%;">
-            	<a href="https://www.moonboy.in/" style="color:#878787; font-size:12px;">Home > </a>
-                <a href="https://www.moonboy.in/category/mobiles" style="color:#878787; font-size:12px;">Mobiles > </a>
-                <a href="https://www.moonboy.in/smart-phones" style="color:#878787; font-size:12px;">Smart Phones </a>
+            	<a href="<?=APP_BASE?>" style="color:#878787; font-size:12px;">Home > </a>
+                <a href="<?=APP_BASE?>category/mobiles" style="color:#878787; font-size:12px;">Mobiles > </a>
+                <a href="<?=APP_BASE?>smart-phones" style="color:#878787; font-size:12px;">Smart Phones </a>
             </div>
             
             
@@ -967,7 +967,7 @@
                     <h6>20% <br>OFF</h6>
                <div class="view view-fifth">
                      <a href="#">
-                        <img src="https://www.moonboy.in/images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
+                        <img src="<?=APP_BASE?>images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
                      </a>
                  </div>
                   <div class="wish-list"> 
@@ -993,7 +993,7 @@
                     <h6>20% <br>OFF</h6>
                <div class="view view-fifth">
                      <a href="#">
-                        <img src="https://www.moonboy.in/images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
+                        <img src="<?=APP_BASE?>images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
                      </a>
                  </div>
                   <div class="wish-list"> 
@@ -1019,7 +1019,7 @@
                     <h6>20% <br>OFF</h6>
                <div class="view view-fifth">
                      <a href="#">
-                        <img src="https://www.moonboy.in/images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
+                        <img src="<?=APP_BASE?>images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
                      </a>
                  </div>
                   <div class="wish-list"> 
@@ -1045,7 +1045,7 @@
                     <h6>20% <br>OFF</h6>
                <div class="view view-fifth">
                      <a href="#">
-                        <img src="https://www.moonboy.in/images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
+                        <img src="<?=APP_BASE?>images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
                      </a>
                  </div>
                   <div class="wish-list"> 
@@ -1071,7 +1071,7 @@
                     <h6>20% <br>OFF</h6>
                <div class="view view-fifth">
                      <a href="#">
-                        <img src="https://www.moonboy.in/images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
+                        <img src="<?=APP_BASE?>images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
                      </a>
                  </div>
                   <div class="wish-list"> 
@@ -1097,7 +1097,7 @@
                     <h6>20% <br>OFF</h6>
                <div class="view view-fifth">
                      <a href="#">
-                        <img src="https://www.moonboy.in/images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
+                        <img src="<?=APP_BASE?>images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
                      </a>
                  </div>
                   <div class="wish-list"> 
@@ -1123,7 +1123,7 @@
                     <h6>20% <br>OFF</h6>
                <div class="view view-fifth">
                      <a href="#">
-                        <img src="https://www.moonboy.in/images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
+                        <img src="<?=APP_BASE?>images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
                      </a>
                  </div>
                   <div class="wish-list"> 
@@ -1149,7 +1149,7 @@
                     <h6>20% <br>OFF</h6>
                <div class="view view-fifth">
                      <a href="#">
-                        <img src="https://www.moonboy.in/images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
+                        <img src="<?=APP_BASE?>images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
                      </a>
                  </div>
                   <div class="wish-list"> 
@@ -1175,7 +1175,7 @@
                     <h6>20% <br>OFF</h6>
                <div class="view view-fifth">
                      <a href="#">
-                        <img src="https://www.moonboy.in/images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
+                        <img src="<?=APP_BASE?>images/product_img/catalog_fvyticodlkxqwu320170628175416.jpg"  class="img-responsive" data-wow-delay="1s" alt="">
                      </a>
                  </div>
                   <div class="wish-list"> 
@@ -1200,7 +1200,7 @@
 
            <div class="clearfix"></div>
            <div id="view_more_dv">
-           		<img src="https://www.moonboy.in/images/loader.gif" id="lodr_img" style="display:none;">
+           		<img src="<?=APP_BASE?>images/loader.gif" id="lodr_img" style="display:none;">
                 				<input type="button" id="" class="add-to-cart view_mor" value="View More" name="button" onclick="">
 		</div>
           

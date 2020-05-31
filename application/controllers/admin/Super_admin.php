@@ -49,19 +49,7 @@ class Super_admin extends CI_Controller {
                 $data['confirm_count'] = $this->Super_admin_model->get_confirmed_ordercount();
                 $data['undelivered_count'] = $this->Super_admin_model->get_Undelivered_ordercount();
                 $data['return_count'] = $this->Super_admin_model->get_return_ordercount();
-                $data['order_confirm'] = $this->Super_admin_model->count_orderconfirmed();
-
-                //$this->load->model('admin/Order_model');
-//				$data['transfer_order_data']=$this->Order_model->count_transfered_order();
-//				$data['graceperiod_request']=$this->Order_model->count_graceperiodRequest();
-//				$data['return_orderlist']= $this->Order_model->returned_ordercount();
-//				$data['replacement_orderlist']= $this->Order_model->replacement_ordercount();
-//				
-//				$this->load->model('admin/Report_model');
-//				$data['payout_result'] = $this->Report_model->retrievePayoutData();
-//				
-//				$data['buyer_refund'] = $this->Report_model->get_refundlist();
-                //seller weekly chart access data start
+                $data['order_confirm'] = $this->Super_admin_model->count_orderconfirmed();                
 
                 $data['seller_weekly_sale'] = $this->Super_admin_model->get_seller_sale_weekly();
                 $data['moonboy_sale'] = $this->Super_admin_model->get_moonboy_turnover_monthly();
@@ -86,26 +74,9 @@ class Super_admin extends CI_Controller {
             $data['undelivered_count'] = $this->Super_admin_model->get_Undelivered_ordercount();
             $data['return_count'] = $this->Super_admin_model->get_return_ordercount();
             $data['order_confirm'] = $this->Super_admin_model->count_orderconfirmed();
-
-            //$this->load->model('admin/Order_model');
-//				$data['transfer_order_data']=$this->Order_model->count_transfered_order();
-//				$data['graceperiod_request']=$this->Order_model->count_graceperiodRequest();
-//				$data['return_orderlist']= $this->Order_model->returned_ordercount();
-//				$data['replacement_orderlist']= $this->Order_model->replacement_ordercount();
-//				
-//				$this->load->model('admin/Report_model');
-//				$data['payout_result'] = $this->Report_model->retrievePayoutData();
-//				
-//				$data['buyer_refund'] = $this->Report_model->get_refundlist();
             //seller weekly chart access data start
 
             $data['seller_weekly_sale'] = $this->Super_admin_model->get_seller_sale_weekly();
-
-            //seller weekly chart access data end
-            //$results = $this->Super_admin_model->get_chart_data();
-//				$data['chart_data'] = $results['chart_data'];
-//				$data['min_year'] = $results['min_year'];
-//				$data['max_year'] = $results['max_year'];
             //chart data access end
             $this->load->view('admin/home', $data);
         } else {

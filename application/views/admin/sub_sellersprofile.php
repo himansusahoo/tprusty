@@ -1,6 +1,6 @@
 <ul class="top-menu">
 
-<?php if($this->session->userdata('logged_in')=='admin@moonboy.in') { ?>
+<?php if($this->session->userdata('logged_in')==ADMIN_MAIL) { ?>
 
 	<li class="selected"><a href="<?php echo base_url(); ?>admin/sellers/seller_porfile">BDM</a></li>
 	

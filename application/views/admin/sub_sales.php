@@ -1,5 +1,5 @@
 <ul class="top-menu">
-<?php if($this->session->userdata('logged_in')=='admin@moonboy.in') { ?>
+<?php if($this->session->userdata('logged_in')==ADMIN_MAIL) { ?>
     <li class="<?php if($this->uri->segment(2)=="sales" && $this->uri->segment(3)!="tax" ){echo "selected";} ?>"><a href="<?php echo base_url(); ?>admin/sales">Orders</a></li>
     <?php /*?><li><a href="<?php echo base_url(); ?>admin/sales/invoice">Invoices</a></li><?php */?>
     <li class="<?php if($this->uri->segment(2)=="track_orders"){echo "selected";} ?>"><a href="#">Track Orders</a>

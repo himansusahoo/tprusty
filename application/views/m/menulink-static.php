@@ -251,7 +251,7 @@ $(document).ready(function() {
                <div class="panel-heading">
                   <h4 class="panel-title">
                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                     <img src="https://www.moonboy.in/images/admin/mobile/mobile_menu/tkmb0nlzryw37ju20170708121348.jpg" class="sbdCategoryIcon">
+                     <img src="<?=APP_BASE?>images/admin/mobile/mobile_menu/tkmb0nlzryw37ju20170708121348.jpg" class="sbdCategoryIcon">
                      <span class="menu-head">Mobiles,Tablets &amp; Accessories </span>
                      </a>
                   </h4>
@@ -262,11 +262,11 @@ $(document).ready(function() {
 <!-----------------------------------------------------1st-main-menu-drop-down--------------------------->                  
     <ul style="float: none; padding: 0;">
         <li>
-            <div class="inn-single" onclick="window.location.href='https://www.moonboy.in/category/mobiles'"> 
+            <div class="inn-single" onclick="window.location.href='<?=APP_BASE?>category/mobiles'"> 
                                           
             <div class="menu-link-product-held"> 
             <div class="menu-link-product-held-left">
-                 <img src="https://www.moonboy.in/images/admin/mobile/mobile_menu/uhgxm0bamf8tlid20170609174915.jpg" onclick="window.location.href='#'">
+                 <img src="<?=APP_BASE?>images/admin/mobile/mobile_menu/uhgxm0bamf8tlid20170609174915.jpg" onclick="window.location.href='#'">
             </div> 
             <div class="menu-link-product-held-right">
                 <p><strong>Mobiles</strong></p>
@@ -285,7 +285,7 @@ $(document).ready(function() {
                <div class="panel-heading">
                   <h4 class="panel-title">
                      <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-<img src="https://www.moonboy.in/images/admin/mobile/mobile_menu/tkmb0nlzryw37ju20170708121348.jpg" class="sbdCategoryIcon">
+<img src="<?=APP_BASE?>images/admin/mobile/mobile_menu/tkmb0nlzryw37ju20170708121348.jpg" class="sbdCategoryIcon">
                      <span class="menu-head">Mobiles,Tablets &amp; Accessories </span>                     </a>
                   </h4>
                </div>
@@ -307,7 +307,7 @@ $(document).ready(function() {
                <div class="panel-heading">
                   <h4 class="panel-title" style="margin-bottom: 0px;">
                      <a class="collapsed" data-toggle="collapse" data-parent="#nested" href="#8">
-                     <img src="https://www.moonboy.in/images/admin/mobile/mobile_menu/5anpj3ql9ob2xuz20170708195041.jpg" class="sbdCategoryIcon" height="28" width="28">
+                     <img src="<?=APP_BASE?>images/admin/mobile/mobile_menu/5anpj3ql9ob2xuz20170708195041.jpg" class="sbdCategoryIcon" height="28" width="28">
                      <span class="menu-head">Men;s Fashion </span>
                      </a>
                   </h4>
@@ -316,13 +316,13 @@ $(document).ready(function() {
                   <div class="panel-body " style="padding:0px !important;">
 						<ul style="width:100%; background:#fef9e7; padding-left:0px;">
                         	<li style="width:100%;display:list-item; height:auto;border-bottom:1px solid #ccc;padding:5px;">
-  <a style="font-size: 13px;padding: 0;font-weight: bold; text-transform: capitalize; margin-left: 0; color: #333; width: 100%; text-align: left;margin-top: 0px;font-family: "SegoeUI", Arial, Helvetica, sans-serif;" href="https://www.moonboy.in/category/mens-watches">Watches</a>
+  <a style="font-size: 13px;padding: 0;font-weight: bold; text-transform: capitalize; margin-left: 0; color: #333; width: 100%; text-align: left;margin-top: 0px;font-family: "SegoeUI", Arial, Helvetica, sans-serif;" href="<?=APP_BASE?>category/mens-watches">Watches</a>
                             </li>
                             <li style="width:100%;display:list-item; height:auto;border-bottom:1px solid #ccc;padding:5px;">
-  <a style="font-size: 13px;padding: 0;font-weight: bold; text-transform: capitalize; margin-left: 0; color: #333; width: 100%; text-align: left;margin-top: 0px;font-family: "SegoeUI", Arial, Helvetica, sans-serif;" href="https://www.moonboy.in/category/mens-watches">Watches</a>
+  <a style="font-size: 13px;padding: 0;font-weight: bold; text-transform: capitalize; margin-left: 0; color: #333; width: 100%; text-align: left;margin-top: 0px;font-family: "SegoeUI", Arial, Helvetica, sans-serif;" href="<?=APP_BASE?>category/mens-watches">Watches</a>
                             </li>
                             <li style="width:100%;display:list-item; height:auto;border-bottom:1px solid #ccc;padding:5px;">
-  <a style="font-size: 13px;padding: 0;font-weight: bold; text-transform: capitalize; margin-left: 0; color: #333; width: 100%; text-align: left;margin-top: 0px;font-family: "SegoeUI", Arial, Helvetica, sans-serif;" href="https://www.moonboy.in/category/mens-watches">Watches</a>
+  <a style="font-size: 13px;padding: 0;font-weight: bold; text-transform: capitalize; margin-left: 0; color: #333; width: 100%; text-align: left;margin-top: 0px;font-family: "SegoeUI", Arial, Helvetica, sans-serif;" href="<?=APP_BASE?>category/mens-watches">Watches</a>
                             </li>
                         </ul>
                   </div><!--/.panel-body -->
@@ -369,7 +369,7 @@ $(document).ready(function() {
             <li><a href="#"> Career </a></li>  
             <li><a href="#"> Help </a></li>       
             <li><a href="https://socialmoonboy.wordpress.com/" target="_blank"> Our Blog </a> </li> 
-            <li><a href="https://www.moonboy.in/sitemap.html"> Sitemap </a></li>
+            <li><a href="<?=APP_BASE?>sitemap.html"> Sitemap </a></li>
             <li><a href="<?php echo base_url().'privacy-policy';?>"> Privacy Policy </a></li>
             <li><a href="<?php echo base_url().'terns-and-conditions';?>"> Terms & Conditions </a></li>
             

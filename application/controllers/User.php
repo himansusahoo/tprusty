@@ -23,26 +23,8 @@ class User extends CI_Controller {
 
     public function index() {
 
-        /* $p['slider_box1']=$this->Usermodel->slider_box1_select();
-          $p['sub3_box1_info']=$this->Usermodel->block3_box1_select();
-          $p['sub2_box1_info']=$this->Usermodel->block2_box1_select();
-          $p['sub2_box2_info']=$this->Usermodel->block2_box2_select();
-          $p['sub2_box3_info']=$this->Usermodel->block2_box3_select();
-          $p['sub1_box1_info']=$this->Usermodel->block1_box1_select();
-          $p['sub1_box2_info']=$this->Usermodel->block1_box2_select();
-          //$p['ad_blog']=$this->Usermodel->ad_blog();
-
-          $p['data1']=$this->Usermodel->view_homepage();
-          //$p['root_catg']=$this->Usermodel->select_root_categories();
-
-          $p['new_product_result'] = $this->Usermodel->retrieve_new_product();
-          //$p['product_result'] = $this->Usermodel->retrieve_product();
-          $p['product_result'] = $this->Usermodel->retrieve_trending_products(); */
+        
         $prodid = get_cookie('prodid', TRUE);
-        /* if($prodid!='')
-          {$p['product_result_for_scroll1'] = $this->Usermodel->retrieve_product_for_scroll1();}else
-          {$p['product_result_for_scroll1']='';} */
-        //$p['product_result_for_scroll2'] = $this->Usermodel->retrieve_product_for_scroll2();
         if ($this->agent->is_mobile()) {
             $this->db->cache_on();
             $data['data1'] = $this->Usermodel->view_homepage();
@@ -63,30 +45,14 @@ class User extends CI_Controller {
             $p['sub2_box3_info'] = $this->Usermodel->block2_box3_select();
             $p['sub1_box1_info'] = $this->Usermodel->block1_box1_select();
             $p['sub1_box2_info'] = $this->Usermodel->block1_box2_select();
-            //$p['ad_blog']=$this->Usermodel->ad_blog();
 
             $p['data1'] = $this->Usermodel->view_homepage();
-            //$p['root_catg']=$this->Usermodel->select_root_categories();
-
             $p['new_product_result'] = $this->Usermodel->retrieve_new_product();
-            //$p['product_result'] = $this->Usermodel->retrieve_product();
             $p['product_result'] = $this->Usermodel->retrieve_trending_products();
             $p['sec_info'] = $this->Homemodel->select_desktophomepage_allsections();
-            //$p['sec_info']=$this->Homemodel->select_desktophomepage_allsections();
-
             $this->load->view('home', $p);
         }
     }
-
-    /* function shopbycategory_menu()
-      {
-      if ($this->agent->is_mobile())
-      {
-      $this->load->view('m_new/menu_link');
-      }
-      else
-      {echo "not accessible for desktop PC";}
-      } */
 
     function login() {
         $result = $this->Usermodel->login_register();
@@ -118,22 +84,8 @@ class User extends CI_Controller {
         }
 
         $data['result'] = $result;
-        //$this->load->view('home',$data);
-        //if($this->session->userdata['pre_session_id']['product_id']){
-        //echo 'success1';exit;
-        //}else{
         echo 'success';
         exit;
-        //}
-        /* if(@$this->session->userdata('logintobuysku_id'))
-          {
-          //$this->session->unset_userdata('logintobuysku_id');
-          echo 'success1';exit;
-
-          }
-          else{
-          echo 'success';exit;
-          } */
     }
 
     function shopbycategory_menu() {
@@ -148,9 +100,6 @@ class User extends CI_Controller {
         if ($this->agent->is_mobile()) {
             $data['product_data'] = $this->Homemodel->select_offercatalogproduct();
             $data['no_of_product'] = $this->Homemodel->select_offercatalogproduct_count();
-
-            //$this->load->model('Catalog_offerpage_model');
-            //$data['catg_name']=$this->Homemodel->offerproduct_categoryname();
 
             $this->load->view('m/catalog_offerpage', $data);
         } else {
@@ -887,7 +836,7 @@ class User extends CI_Controller {
     }
 
     function send_customer_support_mail() {
-        //if($this->session->userdata['session_data']['user_id']){
+        
         $data = array(
             'name' => $this->input->post('name'),
             'email' => $this->input->post('email'),
@@ -927,9 +876,7 @@ class User extends CI_Controller {
             echo 'not';
             exit;
         }
-        //}else{
-        //redirect(base_url());
-        //}
+       
     }
 
     /* Customer Support End */
@@ -944,15 +891,9 @@ class User extends CI_Controller {
     }
 
     function search_product() {
-        $keyword = $this->input->post('name');
-
-        //$p['search_prod']=$this->Usermodel->search_product($keyword);
-        //$p['search_prod']=false;
+        $keyword = $this->input->post('name');exit($keyword);
         $p['search_prodclause'] = $this->Usermodel->search_product_clause($keyword);
-
         $p['search_keyword'] = $keyword;
-        //$p['search_catg']=$this->Usermodel->search_category($keyword);
-
         if ($this->agent->is_mobile()) {
             $this->load->view('m/search_product', $p);
         } else {

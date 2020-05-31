@@ -83,29 +83,14 @@ function atrb_group_delete()
 				<div class="main-content">
 					<div class="row content-header"><?php if($msg==true){ ?><div align="center" style="color:#0C6"> <?php  echo $msg ?> </div> <?php } ?>
 						<div class="col-md-8"><b>Attribute List</b></div>
-						<div class="col-md-4 show_report">
-							<!--<button type="button" class="all_buttons" onClick="window.location.href='<?php// echo base_url().'admin/catalog/addnew_product_form1' ?>'">Add Product</button>-->
+						<div class="col-md-4 show_report">						
                             
                             <button type="button" class="all_buttons" onClick="window.location.href='<?php echo base_url().'admin/Attribute/insert_new_attribute' ?>'">Add Attribute </button>
                             
 						</div>
 					</div>
 					<div class="row mb10">
-						<!--<div class="col-md-6">
-							Page 
-							<span class="glyphicon glyphicon-chevron-left arrow_button"></span>
-							<input type="text" name="page" class="input_text" value="1">
-							<span class="glyphicon glyphicon-chevron-right"></span>
-							of 1 pages <span class="separator">|</span> View
-							<select> 
-								<option selected="selected" value="">20</option>
-								<option>30</option>
-								<option>50</option>
-								<option>100</option>
-								<option>200</option>
-							</select>
-							per page <span class="separator">|</span> Total 11 records found
-						</div>-->
+						
 						<form action="<?php echo base_url().'admin/Attribute/filter_attribute' ?>" method="post">
 						<div class="col-md-6 show_report">
 							<input type="submit" class="all_buttons" value="Search">
@@ -115,35 +100,10 @@ function atrb_group_delete()
 					<div>
 						<table class="multi_action">
 							<tr>
-								<!--<td>
-									<a href="#">Select All</a>
-									<span class="separator">|</span>
-									<a href="#">Unselect All</a>
-									<span class="separator">|</span>
-									<a href="#">Select Visible</a>
-									<span class="separator">|</span>
-									<a href="#">Unselect Visible</a>
-									<span class="separator">|</span>
-									0 items selected
-								</td>-->
+								
 								<td>
 									<div class="right">
-										<!--<form>
-											<table>
-												<tr>
-													<td>Actions</td>
-													<td>
-														<select>
-															<option value=""></option>
-															<option value="">Delete</option>
-															<option value="">Change status</option>
-															<option value="">Update Attributes</option>
-														</select>
-													</td>
-													<td><input type="submit" name="submit" class="all_buttons" value="Submit"></td>
-												</tr>
-											</table>
-										</form>--><!--<input type="button" name="delete_attrtbute"  class="all_buttons" onClick="atrb_group_delete()"  value="Delete">-->
+										
 									</div>
 								</td>
 							</tr>

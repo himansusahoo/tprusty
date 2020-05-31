@@ -1230,6 +1230,7 @@ $(window).scroll(function(event){
    {        
 	   if($('#view_more_dv').visible(true) && $('#scrol_tracktxtbox').val()!='' )
 	   {
+               console.log('error',$('#viewmore_prodbtnid'));
 		  $('#viewmore_prodbtnid')[0].click();
 		  $('#scrol_tracktxtbox').val('');
 	   } 

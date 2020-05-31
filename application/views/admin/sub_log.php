@@ -1,5 +1,5 @@
 <ul class="top-menu">
-	<?php if($this->session->userdata('logged_in')=='admin@moonboy.in') { ?>
+	<?php if($this->session->userdata('logged_in')==ADMIN_MAIL) { ?>
     <li class="selected"><a href="<?php echo base_url(); ?>admin/super_admin/email_log">Email Log</a></li>
    
     <!--<li><a href="<?php //echo base_url(); ?>admin/super_admin/errorlog">Error Log</a></li>-->

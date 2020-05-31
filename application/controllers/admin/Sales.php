@@ -78,7 +78,6 @@ class Sales extends CI_Controller {
 
     function invoice() {
         if ($this->session->userdata('logged_in')) {
-
             $invoice_data['invoice_list'] = $this->Invoice_model->select_invoices();
             $this->load->view('admin/invoices', $invoice_data);
         } else {
@@ -86,15 +85,6 @@ class Sales extends CI_Controller {
         }
     }
 
-    //function shipments(){
-//		if($this->session->userdata('logged_in')){
-//			
-//		$shipment_data['shipment_list']= $this->Shipment_model->select_shipment_data();	
-//		$this->load->view('admin/shipments',$shipment_data);
-//		}else{
-//			redirect('admin/super_admin');
-//		}
-//	}
 
     function credit_memo() {
         if ($this->session->userdata('logged_in')) {
