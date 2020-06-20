@@ -5,7 +5,7 @@ date_default_timezone_set('Asia/Calcutta');
 
 <div id="content">    
     <div class="top-bar">
-        <div class="seller_support_mail">Seller Support ID- <?=SELLER_MAIL?> </div>
+        <div class="seller_support_mail">Seller Support ID- seller@moonboy.in </div>
         <!-- header_session included here -->
         <?php require_once('header_session.php'); ?>
     </div>  <!-- @end top-bar  -->
@@ -82,8 +82,6 @@ date_default_timezone_set('Asia/Calcutta');
                                     <?php
                                 }
                                 ?>
-
-                                <!--<div>My Rating</div>-->
                             </div>
                             <div class="clearfix"></div>
 
@@ -109,7 +107,6 @@ date_default_timezone_set('Asia/Calcutta');
                                 <div class="huge">
                                     <?php
                                     $array_ord = array();
-//$date1 = date('y-m-d h:i:s');
                                     $seller_id = $this->session->userdata('seller-session');
                                     $q1 = $this->db->query("SELECT a.order_id FROM order_info a INNER JOIN ordered_product_from_addtocart b ON a.order_id=b.order_id
 		 						WHERE b.seller_id='$seller_id' AND b.seller_id!=0 AND(a.order_status='Order confirmed' OR a.order_status='Ready to shipped') 
@@ -128,26 +125,18 @@ INNER JOIN state h ON g.state = h.state_id
 INNER JOIN dispatched_day_setting k on k.state_id=h.state_id
 WHERE a.order_id='$result1->order_id' group by b.order_id ");
                                             $new_orders_as_per_orderid = $q2->result();
-                                            //============================
                                             foreach ($new_orders_as_per_orderid as $row_as_orderid) {
                                                 $date1 = date('y-m-d h:i:s');
-
-                                                //$day_after_3days=date('y-m-d h:i:s' ,strtotime($row_as_product[0]->order_confirm_for_seller_date.'+ 3 day'));
                                                 $day_after_3days = date('y-m-d h:i:s', strtotime($row_as_orderid->order_confirm_for_seller_date . '+' . $row_as_orderid->dispatch_days . 'day'));
                                                 $grace_days = $row_as_orderid->dispatch_days + $row_as_orderid->grace_period;
 
                                                 $day_after_gracedays = date('y-m-d h:i:s', strtotime($row_as_orderid->order_confirm_for_seller_date . '+' . $grace_days . 'day'));
-                                                //$date2 = new DateTime($day_after_3days);
-                                                //$diff = $date2->diff($date1)->format("%a"); 
-                                                //$row_as_product[0]->dispatch_days
-
                                                 if (($date1 <= $day_after_3days or $date1 <= $day_after_gracedays) and $row_as_orderid->order_confirm_for_seller == 'Approved') {
                                                     foreach ($new_orders_as_per_orderid as $res_ordid) {
                                                         array_push($array_ord, $res_ordid->order_id);
                                                     }
                                                 }
 
-                                                //============================
                                             } //2nd foreach End
                                         } //1st foreach end
                                     }
@@ -204,165 +193,6 @@ WHERE a.order_id='$result1->order_id' group by b.order_id ");
                 </div>
             </div>
         </div>
-        <!-- /.row -->
-
-        <!--<div class="row" style=" height:10px;">
-          <div class="col-lg-12" style=" height:2px;">
-              <div class="panel panel-default"   style=" visibility:hidden;">
-                  <div class="panel-heading" >
-                      <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> Area Chart</h3>
-                  </div>
-                  <div class="panel-body" style=" visibility:hidden; height:5px;">
-                      <div id="morris-area-chart"></div>
-                  </div>
-              </div>
-          </div>
-      </div>-->
-
-        <!-- /.row -->
-
-        <!--<div class="row">
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> Donut Chart</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div id="morris-donut-chart"></div>
-                        <div class="text-right">
-                            <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> Tasks Panel</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="list-group">
-                            <a href="#" class="list-group-item">
-                                <span class="badge">just now</span>
-                                <i class="fa fa-fw fa-calendar"></i> Calendar updated
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">4 minutes ago</span>
-                                <i class="fa fa-fw fa-comment"></i> Commented on a post
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">23 minutes ago</span>
-                                <i class="fa fa-fw fa-truck"></i> Order 392 shipped
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">46 minutes ago</span>
-                                <i class="fa fa-fw fa-money"></i> Invoice 653 has been paid
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">1 hour ago</span>
-                                <i class="fa fa-fw fa-user"></i> A new user has been added
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">2 hours ago</span>
-                                <i class="fa fa-fw fa-check"></i> Completed task: "pick up dry cleaning"
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">yesterday</span>
-                                <i class="fa fa-fw fa-globe"></i> Saved the world
-                            </a>
-                            <a href="#" class="list-group-item">
-                                <span class="badge">two days ago</span>
-                                <i class="fa fa-fw fa-check"></i> Completed task: "fix error on sales page"
-                            </a>
-                        </div>
-                        <div class="text-right">
-                            <a href="#">View All Activity <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Order #</th>
-                                        <th>Order Date</th>
-                                        <th>Order Time</th>
-                                        <th>Amount (USD)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>3326</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:29 PM</td>
-                                        <td>$321.33</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3325</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:20 PM</td>
-                                        <td>$234.34</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3324</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:03 PM</td>
-                                        <td>$724.17</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3323</td>
-                                        <td>10/21/2013</td>
-                                        <td>3:00 PM</td>
-                                        <td>$23.71</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3322</td>
-                                        <td>10/21/2013</td>
-                                        <td>2:49 PM</td>
-                                        <td>$8345.23</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3321</td>
-                                        <td>10/21/2013</td>
-                                        <td>2:23 PM</td>
-                                        <td>$245.12</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3320</td>
-                                        <td>10/21/2013</td>
-                                        <td>2:15 PM</td>
-                                        <td>$5663.54</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3319</td>
-                                        <td>10/21/2013</td>
-                                        <td>2:13 PM</td>
-                                        <td>$943.45</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="text-right">
-                            <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>-->
-        <!-- /.row -->
-
-
-
-
-
-
     </div>  <!-- @end #main-content -->
 </div><!-- @end #content -->
 <?php

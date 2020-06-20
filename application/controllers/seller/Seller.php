@@ -46,7 +46,6 @@ class Seller extends CI_Controller {
     function seller_register() {
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[seller_account.email]');
         $this->form_validation->set_message('valid_email', 'Please enter valid email.');
-        //$this->form_validation->set_message('is_unique', 'Email already registered with a seller.');
         $this->form_validation->set_rules('mobile', 'Mobile', 'required|numeric|is_unique[seller_account.mobile]|min_length[10]|max_length[10]');
         $this->form_validation->set_message('is_unique', '%s already registered with a seller.');
 
@@ -136,7 +135,6 @@ class Seller extends CI_Controller {
     }
 
     function seller_login() {
-
         $data = array(
             'email' => $this->input->post('email'),
             'password' => $this->input->post('password')
@@ -169,6 +167,7 @@ class Seller extends CI_Controller {
             $result2 = $this->Seller_model->update_signupDateTime($seller_id);
             $this->session->set_flashdata('all_data', $data);
             redirect('seller/seller/home');
+            //$this->load->view('seller/home', $data);
         } else {
             $data["error"] = "Invalid Username or Password";
             $this->load->view('seller/signup', $data);
@@ -197,8 +196,8 @@ class Seller extends CI_Controller {
 
             $to = $data['email'];
 
-            $from = SUPPORT_MAIL;
-            $subject = "OTP for Seller in " . DOMAIN_NAME;
+            $from = "support@moonboy.in";
+            $subject = "OTP for Seller in Moonboy.in";
 
             $this->email->set_newline("\r\n");
             $this->email->set_mailtype("html");
@@ -303,7 +302,6 @@ class Seller extends CI_Controller {
                 }
                 $this->session->set_flashdata('all_data', $data);
                 redirect('seller/seller/home');
-                //$this->load->view('seller/home', $data);
             } else {
                 $data["message"] = "Invalid Username or Password";
                 $this->load->view('seller/seller_new_login', $data);
@@ -315,7 +313,6 @@ class Seller extends CI_Controller {
 
     function seller_logout() {
         $this->session->unset_userdata('seller-session');
-        //$this->session->sess_destroy();
         redirect(site_url('seller/seller'));
     }
 
@@ -409,8 +406,6 @@ class Seller extends CI_Controller {
 
     function add_seller_information() {
         if ($this->session->userdata('seller-session')) {
-
-
             $config['upload_path'] = './images/seller_image_doc/';
             $config['allowed_types'] = 'jpg|jpeg|png';
             $config['max_size'] = '20480000';
@@ -434,7 +429,6 @@ class Seller extends CI_Controller {
             $this->upload->do_upload('gstin_img');
             $data = array('gstin_img_upload_data' => $this->upload->data());
             $gstin_img_name = $data['gstin_img_upload_data']['file_name'];
-
             $this->upload->do_upload('address_img');
             $data = array('address_img_upload_data' => $this->upload->data());
             $address_img_name = $data['address_img_upload_data']['file_name'];
@@ -446,7 +440,6 @@ class Seller extends CI_Controller {
             $this->upload->do_upload('Cheque_img');
             $data = array('Cheque_img_upload_data' => $this->upload->data());
             $Cheque_img_name = $data['Cheque_img_upload_data']['file_name'];
-
             $result = $this->Seller_model->insert_seller_info($pan_img_name, $tin_img_name, $tan_img_name, $gstin_img_name, $address_img_name, $ID_img_name, $Cheque_img_name);
             if ($result == true) {
                 $seller_id = $this->session->userdata('seller-session');
@@ -467,6 +460,7 @@ class Seller extends CI_Controller {
                 $data['signin_date'] = $result1[0]->signin_date;
                 $this->session->set_flashdata('all_data', $data);
                 redirect('seller/seller/home');
+                //Comment for issue after login
             } else {
                 $seller_id = $this->session->userdata('seller-session');
                 $data['result'] = $this->Seller_model->get_seller_id($seller_id);

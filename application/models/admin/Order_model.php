@@ -43,15 +43,11 @@ class Order_model extends CI_Model {
     function generate_invoiceid($order_id) {
         date_default_timezone_set('Asia/Calcutta');
         $dt = date('Y-m-d H:i:s');
-
         $invoice_id = random_string('alnum', 5) . '-' . $order_id;
         $query = $this->db->query("update order_info set invoice_id='$invoice_id', invoice_date='$dt' where order_id='$order_id'  ");
-
         //order status log update start
-
         $order_log_status = 'invoice_generate_date';
         $this->update_orderstatus_log($order_id, $order_log_status);
-
         //order status log update end
     }
 
@@ -78,14 +74,6 @@ class Order_model extends CI_Model {
         $id = $maxId + 1;
         return $id;
     }
-
-    //function select_status()
-//		{
-//			$qr=$this->db->query("select * from order_info");
-//			
-//			return $qr;	
-//		}
-
 
     function change_ordertatus() {
         $ordered_id = implode(',', $this->input->post('orderid'));
@@ -141,13 +129,11 @@ class Order_model extends CI_Model {
             //-------------------------Data For message end----------------------------------
 
             $this->email->set_mailtype("html");
-            $this->email->from(SELLER_MAIL, DOMAIN_NAME);
+            $this->email->from('seller@moonboy.in', 'moonboy.in');
             $this->email->to($rw_order->pemail);
             //$this->email->to('santanu@paramountitsolutions.co.in');
             $this->email->subject('New Order Received –' . $ord_val);
             $this->email->message($this->load->view('email_template/order_recived_seller', $cart, true));
-            //$this->email->message($message1);
-            //$this->email->attach(pdf_create($html, 'order_Slip'));
             $this->email->send();
 
 
@@ -159,7 +145,7 @@ class Order_model extends CI_Model {
 
                 $email_data = array(
                     'to_email_id' => $rw_order->pemail,
-                    'from_email_id' => SELLER_MAIL,
+                    'from_email_id' => 'seller@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'New Order Received –' . $ord_val,
                     'email_content' => $msg,
@@ -168,7 +154,7 @@ class Order_model extends CI_Model {
             } else {
                 $email_data = array(
                     'to_email_id' => $rw_order->pemail,
-                    'from_email_id' => SELLER_MAIL,
+                    'from_email_id' => 'seller@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'New Order Received –' . $ord_val,
                     'email_content' => $msg,
@@ -243,16 +229,10 @@ class Order_model extends CI_Model {
             foreach ($ordrid_arr as $k => $v_orderid) {
 
                 //multiple time email send start froeach
-
                 $query_reurn_product_info = $this->db->query("select c.imag,d.name as prd_name, a.quantity, a.sub_total_amount,a.user_id,e.Total_amount from  ordered_product_from_addtocart a inner join product_master b on a.sku=b.sku inner join product_image c on c.product_id=b.product_id inner join product_general_info d on d.product_id=b.product_id inner join order_info e on e.order_id=a.order_id where a.order_id='$v_orderid'  ");
                 $row_reurn_product_info = $query_reurn_product_info->result();
-                //$image=explode(',',$row_reurn_product_info[0]->imag);
 
                 $rtorder_id = $v_orderid;
-
-                //$image_name=$image[0]; //image name
-                //$prd_name=$row_reurn_product_info[0]->prd_name;
-                //$prd_qnt=$row_reurn_product_info[0]->quantity;
                 $prd_totamnt = $row_reurn_product_info[0]->Total_amount;
 
 
@@ -271,7 +251,7 @@ class Order_model extends CI_Model {
 											<table width='600' cellspacing='0' align='center'>
 											<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
 											Call us :  <span style='color:#fff;'> 917874460000  </span><br>
-											Email :   <span style='color:#fff;'> " . SELLER_MAIL . " </span> 
+											Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
 											</td>
 											</tr>
 											
@@ -322,17 +302,11 @@ class Order_model extends CI_Model {
 											</html>";
 
 
-                //$html=$this->load->view('admin/order_slip',$rtorder_id, true) ;
-//										$this->load->helper(array('dompdf/dompdf_helper', 'file'));
-                //pdf_create($html, 'order_Slip');
-
-
                 $this->email->set_mailtype("html");
-                $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
+                $this->email->from('noreply@moonboy.in', 'Moonboy.in');
                 $this->email->to($email1);
                 $this->email->subject('Ordered Product Cancellled');
                 $this->email->message($message1);
-                // $this->email->attach(pdf_create($html, 'order_Slip'));
                 $this->email->send();
             }
 
@@ -348,16 +322,8 @@ class Order_model extends CI_Model {
 
                 $query_reurn_product_info = $this->db->query("select c.imag,d.name as prd_name, a.quantity, a.sub_total_amount,a.user_id,e.Total_amount from  ordered_product_from_addtocart a inner join product_master b on a.sku=b.sku inner join product_image c on c.product_id=b.product_id inner join product_general_info d on d.product_id=b.product_id inner join order_info e on e.order_id=a.order_id where a.order_id='$v_orderid'  ");
                 $row_reurn_product_info = $query_reurn_product_info->result();
-                //$image=explode(',',$row_reurn_product_info[0]->imag);
-
                 $rtorder_id = $v_orderid;
-
-                //$image_name=$image[0]; //image name
-                //$prd_name=$row_reurn_product_info[0]->prd_name;
-                //$prd_qnt=$row_reurn_product_info[0]->quantity;
                 $prd_totamnt = $row_reurn_product_info[0]->Total_amount;
-
-
                 $user_id = $row_reurn_product_info[0]->user_id;
                 $mail_query1 = $this->db->query("select * from user where user_id='$user_id' ");
                 $mail_row1 = $mail_query1->row();
@@ -366,9 +332,9 @@ class Order_model extends CI_Model {
                 $cart['user_id'] = $user_id;
 
                 $this->email->set_mailtype("html");
-                $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
+                $this->email->from('noreply@moonboy.in', 'Moonboy.in');
                 $this->email->to($email1);
-                $this->email->subject('Your ' . DOMAIN_NAME . ' Order-' . $rtorder_id . ' Delivered !!!');
+                $this->email->subject('Your moonboy.in Order-' . $rtorder_id . ' Delivered !!!');
                 $this->email->message($this->load->view('email_template/order_delivered', $cart, true));
                 $this->email->send();
 
@@ -381,9 +347,9 @@ class Order_model extends CI_Model {
 
                     $email_data = array(
                         'to_email_id' => $email1,
-                        'from_email_id' => NO_REPLY_MAIL,
+                        'from_email_id' => 'noreply@moonboy.in',
                         'date' => $dt,
-                        'email_sub' => 'Your ' . DOMAIN_NAME . ' Order-' . $rtorder_id . ' Delivered !!!',
+                        'email_sub' => 'Your moonboy.in Order-' . $rtorder_id . ' Delivered !!!',
                         'email_content' => $msg,
                         'email_send_status' => 'Success'
                     );
@@ -391,9 +357,9 @@ class Order_model extends CI_Model {
 
                     $email_data = array(
                         'to_email_id' => $email1,
-                        'from_email_id' => NO_REPLY_MAIL,
+                        'from_email_id' => 'noreply@moonboy.in',
                         'date' => $dt,
-                        'email_sub' => 'Your' . DOMAIN_NAME . ' Order-' . $rtorder_id . ' Delivered !!!',
+                        'email_sub' => 'Your moonboy.in Order-' . $rtorder_id . ' Delivered !!!',
                         'email_content' => $msg,
                         'email_send_status' => 'Failure'
                     );
@@ -495,9 +461,6 @@ class Order_model extends CI_Model {
 
         $rtorder_id = $order_id;
         $data['rtorder_id'] = $rtorder_id;
-        //$image_name=$image[0]; //image name
-        //$prd_name=$row_reurn_product_info[0]->prd_name;
-        //$prd_qnt=$row_reurn_product_info[0]->quantity;
         $prd_totamnt = $row_reurn_product_info[0]->Total_amount;
 
 
@@ -508,8 +471,9 @@ class Order_model extends CI_Model {
         $fname1 = $mail_row1->fname;
         $data['email1'] = $email1;
         $data['fname1'] = $fname1;
+
         $this->email->set_mailtype("html");
-        $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
+        $this->email->from('noreply@moonboy.in', 'Moonboy.in');
         $this->email->to($email1);
         $this->email->subject('Ordered Product Cancellled');
         $this->email->message($this->load->view('email_template/ordercancel_admin', $data, true));
@@ -549,9 +513,7 @@ class Order_model extends CI_Model {
         }
         if ($custname != "") {
             $condition .= "c.full_name LIKE '%$custname%'";
-            //echo $sql="select a.order_id from order_info a inner join ordered_product_from_addtocart b on a.order_id=b.order_id inner join shipping_address c on a.order_id=c.order_id where ".$condition." group by b.order_id order by a.id desc";
             $query = $this->db->query("select a.order_id from order_info a inner join ordered_product_from_addtocart b on a.order_id=b.order_id inner join shipping_address c on a.order_id=c.order_id where " . $condition . " group by b.order_id order by a.id desc");
-            //echo $query->num_rows();
             return $query->num_rows();
         }
         if ($orderstat != "") {
@@ -609,7 +571,6 @@ class Order_model extends CI_Model {
         }
         if ($customer_name != '') {
             $condition .= "c.full_name LIKE '%$customer_name%'";
-            //echo $sql ="select a.order_confirm_for_seller,a.order_id, a.order_status, a.Total_amount as sub_total_amount, a.date_of_order, a.order_status_modified_date,a.order_confirm_for_seller,a.invoice_id,a.cancelled_by,a.grace_period_approve_status,a.grace_period,b.seller_id,c.full_name from order_info a inner join ordered_product_from_addtocart b on a.order_id=b.order_id inner join shipping_address c on a.order_id=c.order_id where ".$condition." group by b.order_id order by a.id desc LIMIT ".$start.", ".$limit."";
             $query = $this->db->query("select a.order_confirm_for_seller,a.order_id, a.order_status, a.Total_amount as sub_total_amount, a.date_of_order, a.order_status_modified_date,a.order_confirm_for_seller,a.invoice_id,a.cancelled_by,a.grace_period_approve_status,a.grace_period,a.order_processstatus,a.payment_mode,b.seller_id,c.full_name from order_info a inner join ordered_product_from_addtocart b on a.order_id=b.order_id inner join shipping_address c on a.order_id=c.order_id where " . $condition . " group by b.order_id order by a.id desc LIMIT " . $start . ", " . $limit . "");
             return $query;
         }
@@ -649,9 +610,6 @@ class Order_model extends CI_Model {
             $query = $this->db->query("select a.order_confirm_for_seller,a.order_id, a.order_status, a.Total_amount as sub_total_amount, a.date_of_order, a.order_status_modified_date,a.order_confirm_for_seller,a.invoice_id,a.cancelled_by,a.grace_period_approve_status,a.grace_period,a.order_processstatus,a.payment_mode,b.seller_id,c.full_name from order_info a inner join ordered_product_from_addtocart b on a.order_id=b.order_id inner join shipping_address c on a.order_id=c.order_id group by b.order_id order by a.id desc LIMIT " . $start . ", " . $limit . "");
             return $query;
         }
-        /*
-          $query=$this->db->query("select a.order_confirm_for_seller,a.order_id, a.order_status, a.Total_amount as sub_total_amount, a.date_of_order, a.order_status_modified_date,a.order_confirm_for_seller,a.invoice_id,a.cancelled_by,a.grace_period_approve_status,a.grace_period,b.seller_id,c.full_name from order_info a inner join ordered_product_from_addtocart b on a.order_id=b.order_id inner join shipping_address c on a.order_id=c.order_id where ".$condition." group by b.order_id order by a.id desc LIMIT ".$start.", ".$limit."");
-          return $query; */
     }
 
     function insert_shipment_info() {
@@ -727,9 +685,6 @@ GROUP BY b.order_id");
         $dt = date('Y-m-d H:i:s');
         $query1 = $this->db->query("update order_info set order_status='Order confirmed',order_confirm_for_seller='Approved',order_confirm_for_seller_date='$dt' where order_id='$order_id'   ");
         $query2 = $this->db->query("update ordered_product_from_addtocart set product_order_status='Order confirmed' where order_id='$order_id'   ");
-
-        //------------------------------------email start------------------------------------------------
-
         $rder_query = $this->db->query("select a.user_id,b.pemail,b.business_name from ordered_product_from_addtocart a INNER JOIN seller_account_information b 
 				ON a.seller_id=b.seller_id where a.order_id='$order_id' group by a.order_id");
         $rw_order = $rder_query->row();
@@ -739,17 +694,11 @@ GROUP BY b.order_id");
         $cart['slr_name'] = $rw_order->business_name;
 
         $this->email->set_mailtype("html");
-        $this->email->from(SELLER_MAIL, DOMAIN_NAME);
+        $this->email->from('seller@moonboy.in', 'moonboy.in');
         $this->email->to($rw_order->pemail);
-        //$this->email->to('sisir@paramountitsolutions.co.in');
         $this->email->subject('New Order Received –' . $order_id);
         $this->email->message($this->load->view('email_template/order_recived_seller', $cart, true));
-        //$this->email->message($message1);
-        //$this->email->attach(pdf_create($html, 'order_Slip'));
-        //$this->load->view('email_template/order_recived_seller',$cart,true);
         $this->email->send();
-
-
         date_default_timezone_set('Asia/Calcutta');
         $dt = date('Y-m-d H:i:s');
 
@@ -758,7 +707,7 @@ GROUP BY b.order_id");
 
             $email_data = array(
                 'to_email_id' => $rw_order->pemail,
-                'from_email_id' => SELLER_MAIL,
+                'from_email_id' => 'seller@moonboy.in',
                 'date' => $dt,
                 'email_sub' => 'New Order Received –' . $order_id,
                 'email_content' => $msg,
@@ -768,7 +717,7 @@ GROUP BY b.order_id");
 
             $email_data = array(
                 'to_email_id' => $rw_order->pemail,
-                'from_email_id' => SELLER_MAIL,
+                'from_email_id' => 'seller@moonboy.in',
                 'date' => $dt,
                 'email_sub' => 'New Order Received –' . $order_id,
                 'email_content' => $msg,
@@ -776,11 +725,6 @@ GROUP BY b.order_id");
             );
         }
         $this->db->insert('email_log', $email_data);
-
-
-
-        //-------------------------------------email end-------------------------------------------------
-
         $order_log_status = 'order_approved_date';
         $this->update_orderstatus_log($order_id, $order_log_status);
     }
@@ -834,12 +778,6 @@ GROUP BY b.order_id");
         return $query;
     }
 
-    //function view_penaltypaid_list()
-//		{
-//			$query=$this->db->query("select * from penalty_seller_order  ");
-//			return $query;
-//			
-//		}
     function view_penaltypaid_list() {
         $query = $this->db->query("select a.*,b.charges_type,c.name from penalty_seller_order a inner join charges_master b on a.penalty_type_id=b.cat_id inner join seller_account c on a.seller_id=c.seller_id   ");
         return $query;
@@ -847,30 +785,12 @@ GROUP BY b.order_id");
 
     function penalty_data_insert() {
 
-        //
-//			$query = $this->db->query("SELECT a.order_confirm_for_seller,a.date_of_order,a.order_status,b.quantity,a.invoice_id,b.order_id,
-//			b.sku,b.sub_tax_rate,b.sub_shipping_fees,b.sub_total_amount,c.seller_id,c.price,d.name,e.imag,g.*,h.state,f.user_id,i.payment_type,k.dispatch_days
-//			FROM order_info a
-//			INNER JOIN ordered_product_from_addtocart b ON a.order_id = b.order_id
-//			INNER JOIN product_master c ON b.sku = c.sku
-//			INNER JOIN product_general_info d ON c.product_id = d.product_id
-//			INNER JOIN product_image e ON c.product_id = e.product_id
-//			INNER JOIN user f ON b.user_id = f.user_id
-//			INNER JOIN user_address g ON f.address_id = g.address_id
-//			INNER JOIN state h ON g.state = h.state_id
-//			INNER JOIN payment_info i on i.payment_mode_id= a.payment_mode 
-//			INNER JOIN dispatched_day_setting k on k.state_id=h.state_id
-//			WHERE  (a.order_status='Pending payment' OR a.order_status='Processing' OR a.order_status='Failed' OR a.order_status='Order confirmed' OR a.order_status='Ready to shipped' OR a.order_status='Cancelled') AND a.order_confirm_for_seller_date!='0000-00-00 00:00:00'
-//			GROUP BY b.order_id ORDER BY a.date_of_order DESC");
-
-
         $query = $this->db->query("SELECT a.order_id, b.seller_id
 			FROM order_info a
 			INNER JOIN ordered_product_from_addtocart b ON a.order_id = b.order_id
 			
 			WHERE  (a.order_status='Pending payment' OR a.order_status='Processing' OR a.order_status='Failed' OR a.order_status='Order confirmed' OR a.order_status='Ready to shipped' OR a.order_status='Cancelled') AND a.order_confirm_for_seller_date!='0000-00-00 00:00:00'
 			GROUP BY b.order_id ORDER BY a.date_of_order DESC");
-
 
         $row = $query->num_rows();
 
@@ -965,67 +885,6 @@ GROUP BY b.order_id");
                         $this->db->query("update transaction set penalty='$penalty_charge' where order_no='$order_ids'");
                     }
                 }
-                //shipment delay penalty end
-                //cancel order penalty start
-                //if($row_as_product[0]->order_cancel_by_seller=='yes') {
-//									 
-//									
-//								$query_select_penaltydata=	$this->db->query("select * from penalty_seller_order where order_id='$order_ids' ");
-//								
-//								if($query_select_penaltydata->num_rows()==0)
-//								{
-//									$this->sipment_delay_count($order_ids);
-//									
-//									$query_select_charges=$this->db->query("select * from charges_master where id=5 and cat_id=3 and charges_type='Order Cancel Penalty'  ");
-//									
-//									$row_select_charges=$query_select_charges->row();
-//									
-//									//data from transaction table for access of different types of charges start
-//									
-//									$query_transaction_select=$this->db->query("select * from transaction where order_no='$order_ids' and status='Active' ");
-//									$row_transaction_select=$query_transaction_select->result();
-//									
-//									$fixed_chgs=0;
-//									$season_chgs=0;
-//									$pg_chgs=0;
-//									$commission=0;
-//									$service_tax=0;
-//									
-//									foreach($row_transaction_select as $res_trans)
-//									{
-//										$fixed_chgs=$fixed_chgs+$res_trans->fixed_chgs;
-//										$season_chgs=$season_chgs+$res_trans->season_chgs;
-//										$pg_chgs=$pg_chgs+$res_trans->pg_chgs;
-//										$commission=$commission+$res_trans->commission;
-//										$service_tax=$service_tax+$res_trans->service_tax;	
-//											
-//									}
-//									$tot_charges=$fixed_chgs+$season_chgs+$pg_chgs+$commission+$service_tax;
-//									
-//									//data from transaction table for access of different types of charges end
-//									
-//									$penalty_charge=round(($tot_charges/100)*$row_select_charges->percent);
-//
-//									
-//									$data_penalty=array(
-//										'order_id'=>$order_ids,
-//										'seller_id'=>$row_as_product[0]->seller_id,
-//										'penalty_type_id'=>$row_select_charges->cat_id,
-//										'penalty_charges'=>$penalty_charge,
-//										'penalty_date'=>$date1,
-//										'ordered_amount'=>$row_as_product[0]->Total_amount,
-//										'penalty_pecentages'=>$row_select_charges->percent
-//									
-//									);
-//									
-//									$this->db->insert('penalty_seller_order',$data_penalty);
-//								$this->db->query("update transaction set penalty='$penalty_charge' where order_no='$order_ids'");
-//										
-//								}
-//									 
-//								 }
-                //cancel order penalty end	
-                //Order not process penalty start
 
                 if ($row_as_product[0]->grace_period_approve_status == 'Not Approved') {
                     $day_after_dispatchdays = date('y-m-d h:i:s', strtotime($row_as_product[0]->order_confirm_for_seller_date . '+ 3 day'));
@@ -1033,9 +892,6 @@ GROUP BY b.order_id");
                     $dispatch_days = $row_as_product[0]->dispatch_days + $row_as_product[0]->grace_period;
                     $day_after_dispatchdays = date('y-m-d h:i:s', strtotime($row_as_product[0]->order_confirm_for_seller_date . '+' . $dispatch_days . 'day'));
                 }
-
-
-                //$day_after_dispatchdays=date('y-m-d h:i:s' ,strtotime($row_as_product[0]->order_confirm_for_seller_date.'+ 3 day'));
 
                 if ($date1 > $day_after_dispatchdays && $row_as_product[0]->order_status != 'Ready to shipped' && $row_as_product[0]->order_confirm_for_seller_date != '0000-00-00 00:00:00') {
 
@@ -1090,8 +946,6 @@ GROUP BY b.order_id");
                 //Order not process penalty end
             }
         } //inner data for order end
-        //}//first if condition
-//		}//first foreach
     }
 
     function sipment_delay_count($order_ids) {
@@ -1117,23 +971,6 @@ GROUP BY b.order_id");
 
     function count_transfered_order() {
         $transferd_order_arr = array();
-
-        //$query = $this->db->query("SELECT a.order_confirm_for_seller,a.date_of_order,a.order_status,b.quantity,a.invoice_id,b.order_id,
-//		b.sku,b.sub_tax_rate,b.sub_shipping_fees,b.sub_total_amount,c.seller_id,c.price,d.name,e.imag,g.*,h.state,f.user_id,i.payment_type,k.dispatch_days
-//		FROM order_info a
-//		INNER JOIN ordered_product_from_addtocart b ON a.order_id = b.order_id
-//		INNER JOIN product_master c ON b.sku = c.sku
-//		INNER JOIN product_general_info d ON c.product_id = d.product_id
-//		INNER JOIN product_image e ON c.product_id = e.product_id
-//		INNER JOIN user f ON b.user_id = f.user_id
-//		INNER JOIN user_address g ON f.address_id = g.address_id
-//		INNER JOIN state h ON g.state = h.state_id
-//		INNER JOIN payment_info i on i.payment_mode_id= a.payment_mode 
-//		INNER JOIN dispatched_day_setting k on k.state_id=h.state_id
-//		WHERE   (a.order_status='Pending payment' OR a.order_status='Processing' OR a.order_status='Failed' OR a.order_status='Order confirmed' OR a.order_status='Ready to shipped') AND a.order_confirm_for_seller_date!='0000-00-00 00:00:00'
-//		GROUP BY b.order_id ORDER BY a.date_of_order DESC");
-
-
         $query = $this->db->query("SELECT b.order_id,c.seller_id
 		FROM order_info a
 		INNER JOIN ordered_product_from_addtocart b ON a.order_id = b.order_id
@@ -1175,7 +1012,6 @@ GROUP BY b.order_id");
 
                 $date1 = date('y-m-d h:i:s');
 
-                //$day_after_dispatchdays=date('y-m-d h:i:s' ,strtotime($row_as_product[0]->order_confirm_for_seller_date.'+'.$row_as_product[0]->dispatch_days .'day'));
                 if (@$row_as_product[0]->grace_period_approve_status == 'Not Approved') {
                     $day_after_dispatchdays = date('y-m-d h:i:s', strtotime($row_as_product[0]->order_confirm_for_seller_date . '+' . $row_as_product[0]->dispatch_days . 'day'));
                 } else {
@@ -1183,10 +1019,6 @@ GROUP BY b.order_id");
                     @$day_after_dispatchdays = date('y-m-d h:i:s', strtotime($row_as_product[0]->order_confirm_for_seller_date . '+' . $dispatch_days . 'day'));
                 }
                 @$order_ids = $row_as_product[0]->order_id;
-
-                //if($date1 > $day_after_dispatchdays ){
-                //$trans_query=$this->db-query("select * from order_transfer");
-
                 $transfer_orderno = array();
                 $query_ordtrans = $this->db->query("select * from order_transfer ");
                 $row_ordtrans = $query_ordtrans->result();
@@ -1197,9 +1029,6 @@ GROUP BY b.order_id");
 
                     array_push($transferd_order_arr, $order_ids);
                 }
-
-                //}
-                //shipment delay penalty end
             }
         }
 
@@ -1213,17 +1042,6 @@ GROUP BY b.order_id");
 			inner join seller_account e on e.seller_id=b.seller_id  
 			inner join product_general_info f on b.product_id=f.product_id 
 			where a.order_id='$trans_order_id' and e.status='Active' and b.approve_status='Active' and b.stock_availability='In Stock' and b.seller_id NOT IN('$seller_id_trans')   group by b.seller_id    ");
-
-
-        //$Qrs_trans=$this->db->query("select a.user_id, a.quantity as cus_qantity,b.product_id,b.sku,b.mrp,b.price,b.special_price,b.shipping_fee_amount,b.stock_availability,b.approve_status,b.quantity,c.imag,d.business_name,e.name as seller_name,f.name from 
-//			ordered_product_from_addtocart a inner join product_master b on a.product_id = b.product_id 
-//			inner join product_image c on c.product_id = b.product_id inner join seller_account_information  d on d.seller_id=b.seller_id
-//			inner join seller_account e on e.seller_id=b.seller_id  
-//			inner join product_general_info f on b.product_id=f.product_id
-//			inner join cornjob_productsearch g on g.name=f.name 
-//			where a.order_id='$trans_order_id' and e.status='Active' and b.approve_status='Active' and b.stock_availability='In Stock' and b.seller_id NOT IN('$seller_id_trans') group by b.seller_id    ");
-
-
 
         $row = $Qrs_trans->result();
         return $row;
@@ -1263,7 +1081,6 @@ GROUP BY b.order_id");
             $sub_tax_rate = $res_addtocart->sub_tax_rate;
             $sub_shipping_fees = $res_addtocart->sub_shipping_fees;
             $sub_total_amount = $res_addtocart->sub_total_amount;
-            //$seller_id=$seller_id_trans;
             $quantity = $res_addtocart->quantity;
             $product_order_status = $res_addtocart->product_order_status;
 
@@ -1299,19 +1116,11 @@ GROUP BY b.order_id");
 
         foreach ($row_order_info1 as $res_orderinfo1) {
             $addtocart_id = $this->get_unique_id('order_info', 'order_track_id');
-            //$order_id=$new_order_id;
-            //$order_id_payment_gateway=$res_orderinfo->order_id_payment_gateway;
-            //$invoice_id=$res_orderinfo->invoice_id;
-            //$invoice_date=$res_orderinfo->invoice_date;
+
             $Total_amount = $res_orderinfo1->Total_amount;
             $payment_mode = $res_orderinfo1->payment_mode;
             $date_of_order = $new_orders_date;
             $order_status = 'Pending payment';
-            //$order_status_modified_date=$res_orderinfo->order_status_modified_date;
-            //$order_confirm_for_seller=$res_orderinfo->order_confirm_for_seller;
-            //$order_confirm_for_seller_date=$res_orderinfo->order_confirm_for_seller_date;
-            //$order_accept_by_seller=$res_orderinfo->order_accept_by_seller;
-
 
             $data_orderinfo = array(
                 'order_track_id' => $addtocart_id,
@@ -1322,8 +1131,6 @@ GROUP BY b.order_id");
                 'date_of_order' => $date_of_order,
                 'tranfer_new_total_amt' => $order_id_amount
             );
-
-
             $this->db->insert('order_info', $data_orderinfo);
         }
 
@@ -1339,9 +1146,7 @@ GROUP BY b.order_id");
             $query_order_info = $this->db->query("select *  from payment_by_ccavenue_info where order_id='$PG_order_ids' ");
 
             $row_order_info = $query_order_info->result();
-            //print_r($row_order_info);exit;
             foreach ($row_order_info as $res_ccav) {
-
 
                 $data_payment_ccaveneue = array(
                     'order_id' => $res_ccav->order_id . $seller_id_trans,
@@ -1434,13 +1239,7 @@ GROUP BY b.order_id");
         $cdate = date('Y-m-d');
         //program start for getting product sale value//
         $arr_length = count($qantity_arr);
-        /* for($i=0; $i<$arr_length; $i++){
-          $single_product_price_without_shping_fee = $price_arr[$i]/$qantity_arr[$i];
-          $single_product_price[] = $single_product_price_without_shping_fee+$shipping_fees_arr[$i];
-          }
-          $single_product_price_arr = $single_product_price; */
-        //program end of getting product sale value//
-        //program start for getting fixedCharges //
+
         $this->load->model('seller/Catalog_model');
         $fixed_charges_res = $this->Catalog_model->getFixedCharges();
         if ($fixed_charges_res != 'NOT') {
@@ -1502,11 +1301,6 @@ GROUP BY b.order_id");
 
         //getting second label category id start here//
         foreach ($sku_arr as $sku) {
-            /* Second label category id query
-              $query1 = $this->db->query("SELECT parent_id AS SECOND_LEABLE_CAT_ID FROM category_indexing WHERE category_id=(SELECT a.category_id FROM product_category a INNER JOIN product_master b ON a.product_id=b.product_id WHERE b.sku='$sku')");
-              $result1 = $query1->result();
-              $second_leable_cat_id[] = $result1[0]->SECOND_LEABLE_CAT_ID;
-             */
 
             //third label category id query
             $query1 = $this->db->query("SELECT a.category_id FROM product_category a INNER JOIN product_master b ON a.product_id=b.product_id WHERE b.sku='$sku'");
@@ -1518,11 +1312,6 @@ GROUP BY b.order_id");
         //getting second label category id start here//
 
         $commission_arr = $this->commission_calculation($second_leable_cat_id_arr, $sub_total_arr, $seller_id_arr);
-        //print_r($commission_arr);exit;
-        /* foreach($commission_arr as $comsn){
-
-          $servc_tx[] = round($comsn*$tax_decimal);
-          } */
 
         for ($k = 0; $k < $arr_length; $k++) {
             $total_fees = $fixed_fee_arr[$k] + $seasonal_fee_arr[$k] + $pg_fee_arr[$k] + $commission_arr[$k];
@@ -1654,7 +1443,6 @@ GROUP BY b.order_id");
                             array_push($commission_arr, $gbl_cmsn_amt);
                             //Global commission condition program end here//
                         } else {
-                            //echo 'NOT';
                             $commission_arr = array();
                         }
                     }
@@ -1668,17 +1456,13 @@ GROUP BY b.order_id");
                         $gbl_percent_decimal = $gbl_cmsn / 100;
                         $gbl_cmsn_amt = round($sub_total_arr[$x] * $gbl_percent_decimal);
                         array_push($commission_arr, $gbl_cmsn_amt);
-                        //Global commission condition program end here//
                     } else {
-                        //echo 'NOT';
                         $commission_arr = array();
                     }
                 }
             }
         }
         return $commission_arr;
-        //print_r($commission_arr);
-        //program end of commission calculating //
     }
 
     //transaction data insert for commission end
@@ -1688,12 +1472,7 @@ GROUP BY b.order_id");
     function reassign_order_Toseller1($sku_arr_trans, $productid_arr_trans, $addtocarttemp_session_id, $userid_arr_trans, $fixedcharge_arr_trans, $buyerqnt_arr_trans, $old_orderid) {
 
         $user_id = $userid_arr_trans[0];
-
-        //insert in addtocart_temptranfer table start
-
         $ct_sku_trans = count($sku_arr_trans);
-
-
         for ($i = 0; $i < $ct_sku_trans; $i++) {
             $addtocarttemp_id = $this->get_unique_id('addtocart_temptranfer', 'addtocart_id');
 
@@ -1733,18 +1512,12 @@ GROUP BY b.order_id");
             //quantity update in seller product table start here//
             $query1 = $this->db->query("SELECT * FROM seller_product_master WHERE sku='$old_transku'");
             if ($query1->num_rows() > 0) {
-                //$this->db->where('sku',$old_transku);
-//					$this->db->update('seller_product_master',$updated_qnt);
-
                 $this->db->query("update seller_product_master set quantity='$updated_qnt' where sku='$old_transku' ");
             } else {
                 $query2 = $this->db->query("SELECT * FROM seller_product_general_info WHERE sku='$old_transku'");
                 if ($query2->num_rows() > 0) {
                     $result3 = $query2->result();
                     $slr_prdt_id = $result3[0]->seller_product_id;
-                    //$this->db->where('seller_product_id',$slr_prdt_id);
-//						$this->db->update('seller_product_inventory_info',$updated_qnt);
-
                     $this->db->query("update seller_product_inventory_info set quantity='$updated_qnt' where seller_product_id='$slr_prdt_id' ");
                 }
             }
@@ -1775,12 +1548,8 @@ GROUP BY b.order_id");
 
     function calculate_totalamount($cart_data, $user_id, $old_orderid) {
         //access of data from addtocart_temptranfer table and calculate tax, shipping fees, subtotal amount  start
-
-
-
         $seller_id_arr = array();
         $addtocart_id_arr = array();
-
         $tax_arr = array();
         $shipping_fees_arr = array();
         $sub_total_arr = array();
@@ -1810,9 +1579,6 @@ GROUP BY b.order_id");
 
                 if ($count_row != 0) {
                     $rw_sellername = $query_sellername->row();
-
-
-                    //$user_id=$this->session->userdata['session_data']['user_id'];
                     $qr2 = $this->db->query("select * from addtocart_temptranfer where product_id='$rec_cart->product_id' and user_id='$user_id' and sku='$rec_cart->sku' ");
                     $rec_ct = $qr2->num_rows();
 
@@ -1836,8 +1602,6 @@ GROUP BY b.order_id");
                         $tax_res = $tax_sql->row();
                         $tax_persent = $tax_res->tax_rate_percentage;
                         $taxdecimal = $tax_persent / 100;
-
-                        //array_push($tax_arr,$taxdecimal);
                         //tax amount for product price
                         $tax_amount = $rec4[0]->price * $taxdecimal;
 
@@ -1854,8 +1618,6 @@ GROUP BY b.order_id");
 
                                 $price = $price + $rec4[0]->special_price;
                             } else {
-                                //array_push($tax_arr,$tax_amount*$rec_ct);
-                                //$price= $price + $rec4[0]->price;
                                 if ($rec4[0]->price != 0) {
                                     array_push($tax_arr, $tax_amount * $rec_ct);
                                     $price = $price + $rec4[0]->price;
@@ -1865,9 +1627,6 @@ GROUP BY b.order_id");
                                 }
                             } //End of date condition
                         } else {
-                            //array_push($tax_arr,$tax_amount*$rec_ct);
-                            //$price= $price + $rec4[0]->price;
-
                             if ($rec4[0]->price != 0) {
                                 array_push($tax_arr, $tax_amount * $rec_ct);
                                 $price = $price + $rec4[0]->price;
@@ -1968,16 +1727,12 @@ GROUP BY b.order_id");
 
         date_default_timezone_set('Asia/Calcutta');
         $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
-        //$user_id=$this->session->userdata['session_data']['user_id'];
-
         $order_id_arr = array();
 
         foreach ($seller_id_arr as $key => $value) {
             $order_id_arr[$key] = $user_id . implode('', $addtocart_ids) . $dt . $value;
-            //$cart['order_id']=$user_id.implode('',explode('-',$this->uri->segment(3))).$dt.$value;
         }
 
-        //$order_id=$this->session->userdata['session_data']['user_id'].implode('',explode('-',$this->uri->segment(3))).$dt;
         $this->insert_myorderdata($addtocart_ids, $order_id_arr, $tax_arr, $shipping_fees_arr, $sub_total_arr, $qantity_arr, $sku_arr, $total_price, $seller_id_arr, $address_id, $price_arr, $user_id, $old_orderid);
     }
 
@@ -2004,8 +1759,6 @@ GROUP BY b.order_id");
 
         foreach ($query1->result() as $rw) {
 
-            //product quantity update start
-            //$qnt_query=$this->db->query("select * from product_master where sku='$sku_arr[$i]' ");
             $sku_id = $rw->sku;
             $qnt_query = $this->db->query("select * from product_master where sku='$sku_id' ");
 
@@ -2019,18 +1772,12 @@ GROUP BY b.order_id");
             //quantity update in seller product table start here//
             $query1 = $this->db->query("SELECT * FROM seller_product_master WHERE sku='$sku_arr[$i]'");
             if ($query1->num_rows() > 0) {
-                //$this->db->where('sku',$old_transku);
-//					$this->db->update('seller_product_master',$updated_qnt);
-
                 $this->db->query("update seller_product_master set quantity='$avl_qnt' where sku='$sku_arr[$i]' ");
             } else {
                 $query2 = $this->db->query("SELECT * FROM seller_product_general_info WHERE sku='$sku_arr[$i]'");
                 if ($query2->num_rows() > 0) {
                     $result3 = $query2->result();
                     $slr_prdt_id = $result3[0]->seller_product_id;
-                    //$this->db->where('seller_product_id',$slr_prdt_id);
-//						$this->db->update('seller_product_inventory_info',$updated_qnt);
-
                     $this->db->query("update seller_product_inventory_info set quantity='$avl_qnt' where seller_product_id='$slr_prdt_id' ");
                 }
             }
@@ -2179,10 +1926,6 @@ GROUP BY b.order_id");
             );
 
             $this->db->insert('return_product', $data);
-
-
-            //----------------------
-
             $sku_for_qnt = $res_return->sku;
             $cancel_qty = $res_return->quantity;
 
@@ -2209,9 +1952,6 @@ GROUP BY b.order_id");
                     $this->db->update('seller_product_inventory_info', $qty_data);
                 }
             }
-            //quantity update in seller product table end here//
-            //program end of quantity increment in of product//
-            //---------------------			
         }//foreach end
         //insert in order transfer table start
 
@@ -2259,13 +1999,9 @@ GROUP BY b.order_id");
 
     function returned_order_approve($order_id) {
         $this->db->query("update return_product set return_request_approve_status='Approved' where order_id='$order_id' ");
-
-        //=========================Order Status log insert start=================================
-
         $order_log_status = 'return_approve_date';
         $this->update_orderstatus_log($order_id, $order_log_status);
 
-        //=========================Order Status log insert end=================================
         //Return email send to seller start
         $query_reurn_product_info = $this->db->query("select c.imag,d.name as prd_name,a.seller_id,a.order_id, a.quantity, a.total_amount,a.return_id from return_product a inner join product_master b on a.sku=b.sku inner join product_image c on c.product_id=b.product_id inner join product_general_info d on d.product_id=b.product_id where a.order_id='$order_id' and a.return_request_approve_status='Approved'");
         $row_reurn_product_info = $query_reurn_product_info->result();
@@ -2298,7 +2034,7 @@ GROUP BY b.order_id");
 					<table width='600' cellspacing='0' align='center'>
 					<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
 					Call us :  <span style='color:#fff;'> 91-7874460000  </span><br>
-					Email :   <span style='color:#fff;'> " . ucfirst(SELLER_MAIL) . " </span> 
+					Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
 					</td>
 					</tr>
 					
@@ -2324,7 +2060,7 @@ GROUP BY b.order_id");
 					<span style='color:#e25a0c; font-weight:bold;'> Order No.: " . $rtorder_id . "</span> <br /> <br />
 					<span style='color:#e25a0c; font-weight:bold;'> Return Id.: " . $retn_id . "</span> <br /> <br />
 					This Order has approved for return request by buyer with following details.<br />
-					Please email courier detail of returned order with following details to " . INFO_MAIL . " .
+					Please email courier detail of returned order with following details to info@moonboy.in .
 					<table border='1' ><tr bgcolor='#CCC'> <th>Product Name </th><th>Quantity </th><th> Refund Amount </th></tr> 
 					<tr> 
 					<td> " . $prd_name . " </td> <td> " . $prd_qnt . " </td> <td>Rs." . $prd_totamnt . "  </td>  </tr>
@@ -2359,7 +2095,7 @@ GROUP BY b.order_id");
 
             $cart['order_id'] = $rtorder_id;
             $this->email->set_mailtype("html");
-            $this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
+            $this->email->from('support@moonboy.in', 'moonboy.in');
             $this->email->to($cus_data->email);
             $this->email->subject('Your Return Request for the Order –' . $rtorder_id . ' has been Accepted !');
             $this->email->message($this->load->view('email_template/return_accepted', $cart, true));
@@ -2374,7 +2110,7 @@ GROUP BY b.order_id");
 
                 $email_data = array(
                     'to_email_id' => $cus_data->email,
-                    'from_email_id' => SUPPORT_MAIL,
+                    'from_email_id' => 'support@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'Your Return Request for the Order –' . $rtorder_id . ' has been Accepted !',
                     'email_content' => $msg,
@@ -2383,7 +2119,7 @@ GROUP BY b.order_id");
             } else {
                 $email_data = array(
                     'to_email_id' => $cus_data->email,
-                    'from_email_id' => SUPPORT_MAIL,
+                    'from_email_id' => 'support@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'Your Return Request for the Order –' . $rtorder_id . ' has been Accepted !',
                     'email_content' => $msg,
@@ -2395,14 +2131,10 @@ GROUP BY b.order_id");
 
 
             $this->email->set_mailtype("html");
-            $this->email->from(SELLER_MAIL, DOMAIN_NAME);
+            $this->email->from('seller@moonboy.in', 'moonboy.in');
             $this->email->to($email);
             $this->email->subject('Return Request Of Order');
             $this->email->message($message);
-            //$this->email->attach($this->load->view('admin/buyer_RefundExcelReport'));
-            //$path=$_SERVER["DOCUMENT_ROOT"];
-            //$file=$path."/application/views/admin/buyer_RefundExcelReport.php";						
-            //$this->email->attach($file);						
             $this->email->send();
             date_default_timezone_set('Asia/Calcutta');
             $dt = date('Y-m-d H:i:s');
@@ -2412,7 +2144,7 @@ GROUP BY b.order_id");
 
                 $email_data = array(
                     'to_email_id' => $email,
-                    'from_email_id' => SUPPORT_MAIL,
+                    'from_email_id' => 'support@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2421,7 +2153,7 @@ GROUP BY b.order_id");
             } else {
                 $email_data = array(
                     'to_email_id' => $email,
-                    'from_email_id' => SUPPORT_MAIL,
+                    'from_email_id' => 'support@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2462,13 +2194,10 @@ GROUP BY b.order_id");
             $data['prd_totamnt'] = $prd_totamnt;
 
             $this->email->set_mailtype("html");
-            $this->email->from(INFO_MAIL, DOMAIN_NAME);
+            $this->email->from('info@moonboy.in', 'moonboy.in');
             $this->email->to($email_buyer);
-            //$this->email->to('santanu@paramountitsolutions.co.in');
             $this->email->subject('Return Request Of Order');
             $this->email->message($this->load->view('email_template/return_approve', $data, true));
-            //$this->email->message($this->load->view('email_template','',true));
-            //$this->email->message($message_buyer);
             $this->email->send();
 
             date_default_timezone_set('Asia/Calcutta');
@@ -2479,7 +2208,7 @@ GROUP BY b.order_id");
 
                 $email_data = array(
                     'to_email_id' => $email_buyer,
-                    'from_email_id' => INFO_MAIL,
+                    'from_email_id' => 'info@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2488,7 +2217,7 @@ GROUP BY b.order_id");
             } else {
                 $email_data = array(
                     'to_email_id' => $email_buyer,
-                    'from_email_id' => INFO_MAIL,
+                    'from_email_id' => 'info@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2505,9 +2234,6 @@ GROUP BY b.order_id");
         $query = $this->db->query("SELECT sku,quantity FROM return_product WHERE order_id='$order_id'");
         if ($query->num_rows() > 0) {
             foreach ($query->result() as $return_data_row) {
-                //$rtn_sku[] = $return_data_row->sku;
-                //$rtn_qty[] = $return_data_row->quantity;
-                //program start for quantity update in product_master
                 $sql = $this->db->query("SELECT product_id,quantity,seller_id FROM product_master WHERE sku='$return_data_row->sku'");
                 $res = $sql->row();
                 $prev_qty = $res->quantity;
@@ -2585,7 +2311,7 @@ GROUP BY b.order_id");
 					<table width='600' cellspacing='0' align='center'>
 					<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
 					Call us :  <span style='color:#fff;'> 91-7874460000  </span><br>
-					Email :   <span style='color:#fff;'> " . SELLER_MAIL . " </span> 
+					Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
 					</td>
 					</tr>
 					
@@ -2640,17 +2366,10 @@ GROUP BY b.order_id");
 
 
             $this->email->set_mailtype("html");
-            $this->email->from(SELLER_MAIL, DOMAIN_NAME);
+            $this->email->from('seller@moonboy.in', 'moonboy.in');
             $this->email->to($email);
-            //$this->email->to('santanu@paramountitsolutions.co.in');
             $this->email->subject('Return Request Of Order');
-            //$this->email->message($this->load->view('email_template','',true));
             $this->email->message($message);
-            //$this->email->attach($this->load->view('admin/buyer_RefundExcelReport'));
-            //$path=$_SERVER["DOCUMENT_ROOT"];
-            //$file=$path."/application/views/admin/buyer_RefundExcelReport.php";
-            //$this->email->attach($file);
-
             $this->email->send();
 
             date_default_timezone_set('Asia/Calcutta');
@@ -2661,7 +2380,7 @@ GROUP BY b.order_id");
 
                 $email_data = array(
                     'to_email_id' => $email,
-                    'from_email_id' => SELLER_MAIL,
+                    'from_email_id' => 'seller@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2670,7 +2389,7 @@ GROUP BY b.order_id");
             } else {
                 $email_data = array(
                     'to_email_id' => $email,
-                    'from_email_id' => SELLER_MAIL,
+                    'from_email_id' => 'seller@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2711,13 +2430,10 @@ GROUP BY b.order_id");
             $data['prd_totamnt'] = $prd_totamnt;
 
             $this->email->set_mailtype("html");
-            $this->email->from(INFO_MAIL, DOMAIN_NAME);
+            $this->email->from('info@moonboy.in', 'moonboy.in');
             $this->email->to($email_buyer);
-            //$this->email->to('santanu@paramountitsolutions.co.in');
             $this->email->subject('Return Request Of Order');
             $this->email->message($this->load->view('email_template/return_denied', $data, true));
-            //$this->email->message($this->load->view('email_template','',true));
-            //$this->email->message($message_buyer);
             $this->email->send();
 
             date_default_timezone_set('Asia/Calcutta');
@@ -2728,7 +2444,7 @@ GROUP BY b.order_id");
 
                 $email_data = array(
                     'to_email_id' => $email_buyer,
-                    'from_email_id' => INFO_MAIL,
+                    'from_email_id' => 'info@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2737,7 +2453,7 @@ GROUP BY b.order_id");
             } else {
                 $email_data = array(
                     'to_email_id' => $email_buyer,
-                    'from_email_id' => INFO_MAIL,
+                    'from_email_id' => 'info@moonboy.in',
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2819,30 +2535,7 @@ GROUP BY b.order_id");
         $cart_data = $this->db->query("select * from addtocart_temptranfer where user_id='$user_id' group by sku  ");
 
         $this->calculate_totalamount($cart_data->result(), $user_id, $old_orderid);
-
-        //updation of old seller product quantity start
-        //$query_oldsku=$this->db->query("select * from ordered_product_from_addtocart where order_id='$old_orderid' group by sku");
-//		$row_oldsku=$query_oldsku->result();
-//		$s=0;
-//		 foreach($row_oldsku as $res_skutrans)
-//		 {
-//			 $old_transku=$res_skutrans->sku;
-//			$query_sku=$this->db->query("select * from product_master where sku='$old_transku' ");
-//			$row_sku=$query_sku->result();
-//			
-//			$updated_qnt=$row_sku[0]->quantity + $buyerqnt_arr_trans[$s];
-//			
-//			 $this->db->query("update product_master set quantity='$updated_qnt' where sku='$old_transku' ");
-//		     $s++;	 
-//		 }
-        //updation of old seller product quantity end
-        //updation of return_order table is_replace column start
-
-
         $this->db->query("update return_product set is_replace='yes' where order_id='$old_orderid' ");
-
-
-        //updation of return_order table is_replace column  end	 
     }
 
     function count_graceperiodRequest() {
@@ -2875,14 +2568,7 @@ GROUP BY b.order_id");
 
         $query_wallet = $this->db->query("select * from wallet_info where user_id='$user_id' ");
         $row_wallet = $query_wallet->row();
-
         $wallet_user_count = $query_wallet->num_rows();
-
-        //date_default_timezone_set('Asia/Calcutta');
-//				$dt = preg_replace("/[^0-9]+/","", date('Y-m-d H:i:s'));
-        //$user_id=$this->session->userdata['session_data']['user_id'];
-        //$unique_wallet_id='WL-'.$dt.$user_id;
-
         if ($wallet_user_count == 0) {
             $data_wallet = array(
                 'user_id' => $user_id,
