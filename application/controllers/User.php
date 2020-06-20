@@ -23,26 +23,8 @@ class User extends CI_Controller {
 
     public function index() {
 
-        /* $p['slider_box1']=$this->Usermodel->slider_box1_select();
-          $p['sub3_box1_info']=$this->Usermodel->block3_box1_select();
-          $p['sub2_box1_info']=$this->Usermodel->block2_box1_select();
-          $p['sub2_box2_info']=$this->Usermodel->block2_box2_select();
-          $p['sub2_box3_info']=$this->Usermodel->block2_box3_select();
-          $p['sub1_box1_info']=$this->Usermodel->block1_box1_select();
-          $p['sub1_box2_info']=$this->Usermodel->block1_box2_select();
-          //$p['ad_blog']=$this->Usermodel->ad_blog();
-
-          $p['data1']=$this->Usermodel->view_homepage();
-          //$p['root_catg']=$this->Usermodel->select_root_categories();
-
-          $p['new_product_result'] = $this->Usermodel->retrieve_new_product();
-          //$p['product_result'] = $this->Usermodel->retrieve_product();
-          $p['product_result'] = $this->Usermodel->retrieve_trending_products(); */
+        
         $prodid = get_cookie('prodid', TRUE);
-        /* if($prodid!='')
-          {$p['product_result_for_scroll1'] = $this->Usermodel->retrieve_product_for_scroll1();}else
-          {$p['product_result_for_scroll1']='';} */
-        //$p['product_result_for_scroll2'] = $this->Usermodel->retrieve_product_for_scroll2();
         if ($this->agent->is_mobile()) {
             $this->db->cache_on();
             $data['data1'] = $this->Usermodel->view_homepage();
@@ -63,30 +45,14 @@ class User extends CI_Controller {
             $p['sub2_box3_info'] = $this->Usermodel->block2_box3_select();
             $p['sub1_box1_info'] = $this->Usermodel->block1_box1_select();
             $p['sub1_box2_info'] = $this->Usermodel->block1_box2_select();
-            //$p['ad_blog']=$this->Usermodel->ad_blog();
 
             $p['data1'] = $this->Usermodel->view_homepage();
-            //$p['root_catg']=$this->Usermodel->select_root_categories();
-
             $p['new_product_result'] = $this->Usermodel->retrieve_new_product();
-            //$p['product_result'] = $this->Usermodel->retrieve_product();
             $p['product_result'] = $this->Usermodel->retrieve_trending_products();
             $p['sec_info'] = $this->Homemodel->select_desktophomepage_allsections();
-            //$p['sec_info']=$this->Homemodel->select_desktophomepage_allsections();
-
             $this->load->view('home', $p);
         }
     }
-
-    /* function shopbycategory_menu()
-      {
-      if ($this->agent->is_mobile())
-      {
-      $this->load->view('m_new/menu_link');
-      }
-      else
-      {echo "not accessible for desktop PC";}
-      } */
 
     function login() {
         $result = $this->Usermodel->login_register();
@@ -118,22 +84,8 @@ class User extends CI_Controller {
         }
 
         $data['result'] = $result;
-        //$this->load->view('home',$data);
-        //if($this->session->userdata['pre_session_id']['product_id']){
-        //echo 'success1';exit;
-        //}else{
         echo 'success';
         exit;
-        //}
-        /* if(@$this->session->userdata('logintobuysku_id'))
-          {
-          //$this->session->unset_userdata('logintobuysku_id');
-          echo 'success1';exit;
-
-          }
-          else{
-          echo 'success';exit;
-          } */
     }
 
     function shopbycategory_menu() {
@@ -148,9 +100,6 @@ class User extends CI_Controller {
         if ($this->agent->is_mobile()) {
             $data['product_data'] = $this->Homemodel->select_offercatalogproduct();
             $data['no_of_product'] = $this->Homemodel->select_offercatalogproduct_count();
-
-            //$this->load->model('Catalog_offerpage_model');
-            //$data['catg_name']=$this->Homemodel->offerproduct_categoryname();
 
             $this->load->view('m/catalog_offerpage', $data);
         } else {
@@ -216,24 +165,13 @@ class User extends CI_Controller {
             $result = $this->Usermodel->insert_social_registration_data($data);
             if ($result == true) {
 
-                //$message = "
-//		<div style='padding:20px;'> <h5>Hello ".$fname." ,</h5>
-//		<p>Thank you for signing up with Moonboy.in</p>
-//		<strong>Your Log in ID is :  ".$email." and<br/><br/>
-//			    Password is as for your social</strong><br/>
-//		<p>You can now log in to Moonboy using this ID and the password. </p><br/>
-//           Thanks & regards,<br/>Moonboy Team <br/>
-//         </div>
-//		
-//		<div style='text-align:center; background-color:#0e4370; color:#fff; padding:10px;'>
-//	    <p> copyright@ 2015 Moonboy . All rights reserved . </p>
-//       </div>";
+
                 $user_info['email'] = $email;
 
                 $this->email->set_mailtype("html");
-                $this->email->from('noreply@moonboy.in', 'moonboy.in');
+                $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($email);
-                $this->email->subject('Welcome to Moonboy.in');
+                $this->email->subject('Welcome to ' . ucfirst(DOMAIN_NAME));
                 //$this->email->message($message);
                 $this->email->message($this->load->view('email_template/user_social_login', $user_info, true));
                 $this->email->send();
@@ -246,18 +184,18 @@ class User extends CI_Controller {
 
                     $email_data = array(
                         'to_email_id' => $email,
-                        'from_email_id' => 'noreply@moonboy.in',
+                        'from_email_id' => NO_REPLY_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Welcome to Moonboy.in',
+                        'email_sub' => 'Welcome to ' . ucfirst(DOMAIN_NAME),
                         'email_content' => $msg,
                         'email_send_status' => 'Success'
                     );
                 } else {
                     $email_data = array(
                         'to_email_id' => $email,
-                        'from_email_id' => 'noreply@moonboy.in',
+                        'from_email_id' => NO_REPLY_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Welcome to Moonboy.in',
+                        'email_sub' => 'Welcome to ' . ucfirst(DOMAIN_NAME),
                         'email_content' => $msg,
                         'email_send_status' => 'Failure'
                     );
@@ -343,21 +281,21 @@ class User extends CI_Controller {
 
                 $message = "
 		<div style='padding:20px;'> <h5>Hello " . $fname . " ,</h5>
-		<p>Thank you for signing up with Moonboy.in</p>
+		<p>Thank you for signing up with " . ucfirst(DOMAIN_NAME) . "</p>
 		<strong>Your Log in ID is :  " . $email . " and<br/><br/>
 			    Password is as for your social</strong><br/>
-		<p>You can now log in to Moonboy using this ID and the password. </p><br/>
-           Thanks & regards,<br/>Moonboy Team <br/>
+		<p>You can now log in to " . ucfirst(DOMAIN_NAME) . " using this ID and the password. </p><br/>
+           Thanks & regards,<br/>" . ucfirst(DOMAIN_NAME) . " Team <br/>
          </div>
 		
 		<div style='text-align:center; background-color:#0e4370; color:#fff; padding:10px;'>
-	    <p> copyright@ 2015 Moonboy . All rights reserved . </p>
+	    <p> copyright@ 2015 " . ucfirst(DOMAIN_NAME) . " . All rights reserved . </p>
        </div>";
 
                 $this->email->set_mailtype("html");
-                $this->email->from('noreply@moonboy.in', 'Moonboy.in');
+                $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($email);
-                $this->email->subject('Welcome to Moonboy.in');
+                $this->email->subject('Welcome to ' . ucfirst(DOMAIN_NAME));
                 $this->email->message($message);
                 $this->email->send();
 
@@ -439,27 +377,18 @@ class User extends CI_Controller {
             $result1 = $this->Usermodel->insert_retrive_password_data($retrive_data);
             if ($result1 == true) {
 
-                ////sending mail to user program start here ////////
+                //sending mail to user program start here
                 $sess_array = array(
                     'user_id' => $user_id,
                 );
 
-                /* $message = "
-                  <div style='padding:20px;'> <h5>Dear ".$name." ,</h5>
-                  <p>As requested your OTP for Moonboy.in is:</p>
-                  <p>OTP: ".$otp."</p>
-                  <p>To reset your password, Please use the above OTP </p><br/>  <br/>
-                  Thanks & regards,<br/>Moonboy Team <br/>
-                  </div>"; */
-
                 $this->email->set_mailtype("html");
-                $this->email->from('noreply@moonboy.in', 'Moonboy.in');
+                $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($data['email']);
-                $this->email->subject('OTP from Moonboy.in');
+                $this->email->subject('OTP from ' . ucfirst(DOMAIN_NAME));
                 $this->email->message($this->load->view('email_template/otp_mail', $data, true));
-                //$this->email->message($message);
                 $this->email->send();
-                ////sending mail to user program end here ////////
+                //sending mail to user program end here
                 echo "mail_sent";
             }
         } else {
@@ -511,7 +440,7 @@ class User extends CI_Controller {
                 $data['fname'] = $fname;
 
                 $to = $email;
-                $from = 'support@moonboy.in';
+                $from = SUPPORT_MAIL;
                 $subject = 'Regarding Password Change';
 
                 $this->email->set_newline("\r\n");
@@ -520,23 +449,7 @@ class User extends CI_Controller {
                 $this->email->to($to);
                 $this->email->subject($subject);
                 $this->email->message($this->load->view('email_template/forgot_password', $data, true));
-                /* $this->email->message("
-                  <html>
-                  <head>
-                  <title> Moonboy Customer Support </title>
-                  </head>
-                  <body>
-                  <div style='width:50%; margin:0px auto; padding:40px;  background-color:#f4f4f4; border:10px solid #ef3038;'>
-                  <p> Dear ".$fname.", </p>
-                  <p> Greetings from Moonboy Marketplace! </p>
-                  <p> You are trying to change your Password.<p><br/>
-                  <p> Username : ".$email."</p>
-                  <p> Newpassword : ".$password."</p><br/><br/>
-                  Thanks & regards,<br/>Moonboy Team <br/>
-                  </div>
-                  </body>
-                  </html>
-                  "); */
+
                 if ($this->email->send()) {
                     echo 'ok';
                     exit;
@@ -555,7 +468,6 @@ class User extends CI_Controller {
             $data['persional_info'] = $this->Usermodel->retrieve_user_persional_info();
             $data['user_result'] = $this->Usermodel->retrive_user_data();
             $data['state_result'] = $this->Usermodel->retrive_state();
-            //$this->load->view('profile',$data);
             if ($result != false) {
                 $data['data1'] = $this->Usermodel->view_homepage();
                 $data['result'] = $result;
@@ -660,8 +572,6 @@ class User extends CI_Controller {
     function persional_info() {
         $otp = $this->input->post('otp');
         $email = $this->input->post('email');
-        //$result = $this->Usermodel->retrive_mob_otp_details($otp); 
-        //if($email == $result[0]->user_email){
         $result = $this->Usermodel->update_persional_info();
         if ($result == true) {
             echo 'success';
@@ -670,7 +580,6 @@ class User extends CI_Controller {
             echo 'not';
             exit;
         }
-        //}
     }
 
     function send_mobile_change_otp() {
@@ -685,7 +594,7 @@ class User extends CI_Controller {
             $email = $this->input->post('email');
 
             $to = $email;
-            $from = 'support@moonboy.in';
+            $from = SUPPORT_MAIL;
             $subject = 'Regarding Mobile Number Change';
 
             $this->email->set_newline("\r\n");
@@ -739,7 +648,7 @@ class User extends CI_Controller {
                 $password = $this->input->post('opass');
 
                 $to = $email;
-                $from = 'support@moonboy.in';
+                $from = SUPPORT_MAIL;
                 $subject = 'Regarding Password Change';
 
                 $this->email->set_newline("\r\n");
@@ -927,7 +836,7 @@ class User extends CI_Controller {
     }
 
     function send_customer_support_mail() {
-        //if($this->session->userdata['session_data']['user_id']){
+        
         $data = array(
             'name' => $this->input->post('name'),
             'email' => $this->input->post('email'),
@@ -936,8 +845,8 @@ class User extends CI_Controller {
             'content' => $this->input->post('content'),
         );
 
-        //$to = 'support@moonboy.in';
-        $to = 'support@moonboy.in';
+        //$to = SUPPORT_MAIL;
+        $to = SUPPORT_MAIL;
         $from = $this->input->post('email');
         $subject = $this->input->post('title');
         $content = $this->input->post('content');
@@ -967,9 +876,7 @@ class User extends CI_Controller {
             echo 'not';
             exit;
         }
-        //}else{
-        //redirect(base_url());
-        //}
+       
     }
 
     /* Customer Support End */
@@ -984,15 +891,9 @@ class User extends CI_Controller {
     }
 
     function search_product() {
-        $keyword = $this->input->post('name');
-
-        //$p['search_prod']=$this->Usermodel->search_product($keyword);
-        //$p['search_prod']=false;
+        $keyword = $this->input->post('name');exit($keyword);
         $p['search_prodclause'] = $this->Usermodel->search_product_clause($keyword);
-
         $p['search_keyword'] = $keyword;
-        //$p['search_catg']=$this->Usermodel->search_category($keyword);
-
         if ($this->agent->is_mobile()) {
             $this->load->view('m/search_product', $p);
         } else {

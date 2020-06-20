@@ -40,13 +40,13 @@
 			}
 			$category_lvl3=implode(",",$Category_Lvl3);
 	?>
-		<meta name="Description" content="<?php echo 'Moonboy.in:'.str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3 ;?>">
-		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3.',Moonboy.in' ;?>" />
-		<title><?php echo 'Moonboy.in:'.str_replace("%20"," ",$this->uri->segment(2).'-'.$category_lvl3) ;?></title>
+		<meta name="Description" content="<?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3 ;?>">
+		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3.','.uc_first(DOMAIN_NAME) ;?>" />
+		<title><?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2).'-'.$category_lvl3) ;?></title>
 <?php }else{?>
-		<meta name="Description" content="<?php echo 'Moonboy.in:'.str_replace("%20"," ",$this->uri->segment(2)) ;?>">
-		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).',Moonboy.in' ;?>" />
-		<title><?php echo 'Moonboy.in:'.str_replace("%20"," ",$this->uri->segment(2)) ;?></title>
+		<meta name="Description" content="<?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)) ;?>">
+		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).','.uc_first(DOMAIN_NAME) ;?>" />
+		<title><?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)) ;?></title>
 <?php }?>
         
       <link rel="canonical" href="<?php echo base_url().'search-by/'.$this->uri->segment(2); ?>"/>
@@ -100,7 +100,7 @@
 #slider2 .next{right:0;left:auto;top:35%}
 #slider2 .buttons:hover{color:#ed2541;background:#f1f1f1}
 #slider1 .disable,#slider2 .disable{visibility:hidden}
-#slider1 .overview,#slider2 .overview{list-style:none;position:absolute;padding:0;margin:0;left:0 top: 0}
+#slider1 .overview,#slider2 .overview{list-style:none;position:absolute;padding:0;margin:0;left:0; top: 0;}
 #slider3,#slider3 .viewport{position:relative;overflow:hidden}
 #slider1 .overview li,#slider2 .overview li,#slider3 .overview li{float:left;margin:5px;padding:0px;width:170px;height:235px; border:none;}
 #slider1 .overview li:hover i,#slider2 .overview li,#slider3 .overview li:hover i{color:#6bb700}
@@ -110,7 +110,7 @@
 #slider3 .next{right:0;left:auto;top:35%}
 #slider3 .buttons:hover{color:#ed2541;background:#f1f1f1}
 #slider3 .disable{visibility:hidden}
-#slider3 .overview{position:absolute;padding:0;margin:0;left:0 top: 0}
+#slider3 .overview{position:absolute;padding:0;margin:0;left:0; top: 0}
 #slider3 .overview li{float:left;margin:0 10px;padding:10px;width:12.4%}
 #slider3 .overview li:hover{}
 #slider3 .overview li:hover i{color:#6bb700}
@@ -400,7 +400,7 @@ a.button.act {
     content: "";
     display: block;
     background: white;
-    opacity: 0.5; // optional 
+    opacity: 0.5;
     z-index: 999;
     left: -34px;
     top: -5px;

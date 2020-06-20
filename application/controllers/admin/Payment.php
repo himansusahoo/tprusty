@@ -204,7 +204,7 @@ class Payment extends CI_Controller {
 
     function payout_excel_report() {
         if ($this->session->userdata('logged_in')) {
-            $data['result'] = $this->Report_model->getPayoutExcel();            
+            $data['result'] = $this->Report_model->getPayoutExcel();
             $this->load->view('admin/payout_gen', $data);
         } else {
             redirect('admin/super_admin');

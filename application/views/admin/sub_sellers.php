@@ -1,6 +1,6 @@
 <ul class="top-menu">
 
-<?php if($this->session->userdata('logged_in')=='admin@moonboy.in') { ?>
+<?php if($this->session->userdata('logged_in')==ADMIN_MAIL) { ?>
 
 	<li class="<?php if($this->uri->segment(2)=="sellers" && $this->uri->segment(3)=="" ){echo "selected";} ?>"><a href="<?php echo base_url(); ?>admin/sellers">Sellers</a></li>
 	

@@ -4,7 +4,7 @@ require_once('header.php');
 	
 	<div id="content">    
 		<div class="top-bar">
-			<div class="seller_support_mail">For any query, Please Mail us seller@moonboy.in</div>
+			<div class="seller_support_mail">For any query, Please Mail us <?=SELLER_MAIL?></div>
 			<!-- header_session included here -->
 			<?php require_once('header_session.php'); ?>
 		</div>  <!-- @end top-bar  -->

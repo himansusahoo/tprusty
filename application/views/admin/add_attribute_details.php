@@ -16,18 +16,16 @@ require_once('header.php');
                     	<div align="center" style="color:#0C6">  </div> 
 						<div class="col-md-8"><b>Attribute Details</b></div>
 						<div class="col-md-4 show_report">
-							<!--<button type="button" class="all_buttons" onClick="window.location.href='<?php// echo base_url().'admin/catalog/addnew_product_form1' ?>'">Add Product</button>-->
+							
                             
                             <a class='inline' href="#inline_content_add_address"><button type="button" class="all_buttons">Add New </button></a>
                             
 						</div>
 					</div>
-					<div class="row mb10">
+					<div class="row mb10">					
 						
-						<!--<form action="<?php// echo base_url().'admin/Attribute/filter_attribute' ?>" method="post">-->
 						<div class="col-md-6 show_report">
-							<!--<input type="submit" class="all_buttons" value="Search">
-							<input type="reset" class="all_buttons" value="Reset Filter">-->
+							
 						</div>
 					</div>
 					<div>

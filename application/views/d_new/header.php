@@ -601,7 +601,7 @@
         	<a class="inline cboxElement" href="#inline_content" title="your Wishlist!"><i class="fa fa-heart-o"></i> </a>
         </li>
         <li class="cart-top" onmouseover="OverFunction_cart()" onmouseout="OutFunction_cart()"> 
-        	<a href="https://www.moonboy.in/mycart/mycart_detail" title="Show my cart"><i class="fa fa-shopping-cart"></i> </a>
+        	<a href="<?=APP_BASE?>mycart/mycart_detail" title="Show my cart"><i class="fa fa-shopping-cart"></i> </a>
         </li>
         <?php if($this->session->userdata('session_data')){ ?>
         <li class="track"> 
@@ -616,7 +616,7 @@
         	<a href="<?php echo base_url();?>contact-us"> Customer Support </a> 
         </li>
         <li style="margin-top:13px;">  
-        	<a class="blog" href="https://www.moonboy.in/blog/" target="_blank"> Our Blog </a>
+        	<a class="blog" href="<?=APP_BASE?>blog/" target="_blank"> Our Blog </a>
         </li>
     </ul>
 </div>

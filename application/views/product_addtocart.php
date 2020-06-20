@@ -1203,8 +1203,10 @@ $(window).scroll(function(event){
    {        
 	   if($('#view_more_dv').visible(true) && $('#scrol_tracktxtbox').val()!='' )
 	   {
+               if(typeof $('#viewmore_prodbtnid')[0]!='undefined'){
 		  $('#viewmore_prodbtnid')[0].click();
 		  $('#scrol_tracktxtbox').val('');
+              }
 	   } 
    } 
    lastScrollTop = st;

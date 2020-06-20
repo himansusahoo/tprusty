@@ -96,7 +96,7 @@ class Solar_manage_model extends CI_Model {
 								 WHERE b.indexing_status='Pending' and b.prod_process_status='Add' AND b.sku IN ($skuids_strg) group by a.sku");
 
 
-        if (base_url() == 'https://www.moonboy.in/') {
+        if (base_url() == APP_BASE) {
             $solr_colection = SOLR_CORE_NAME;
         } else {
             $solr_colection = 'mycollection4_offline';
@@ -203,7 +203,7 @@ class Solar_manage_model extends CI_Model {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
             curl_setopt($ch, CURLOPT_POST, TRUE);
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
-					
+
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 
             $response = curl_exec($ch);
@@ -308,7 +308,7 @@ class Solar_manage_model extends CI_Model {
 								 FROM cornjob_productsearch a INNER JOIN solar_indexing b ON a.sku=b.sku  
 								 WHERE b.indexing_status='Pending' and b.prod_process_status='Edit' AND b.sku IN ($skuids_strg) group by a.sku");
 
-        if (base_url() == 'https://www.moonboy.in/') {
+        if (base_url() == APP_BASE) {
             $solr_colection = SOLR_CORE_NAME;
         } else {
             $solr_colection = 'mycollection4_offline';
@@ -491,7 +491,7 @@ class Solar_manage_model extends CI_Model {
         $sku_ids = $this->input->post('prod_sku');
         $skuidsarr = array();
 
-        if (base_url() == 'https://www.moonboy.in/') {
+        if (base_url() == APP_BASE) {
             $solr_colection = SOLR_CORE_NAME;
         } else {
             $solr_colection = 'mycollection4_offline';

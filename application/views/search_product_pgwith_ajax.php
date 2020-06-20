@@ -46,13 +46,13 @@
 			}
 			$category_lvl3=implode(",",$Category_Lvl3);
 	?>
-		<meta name="Description" content="<?php echo 'Moonboy.in:'.str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3 ;?>">
-		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3.',Moonboy.in' ;?>" />
-		<title><?php echo 'Moonboy.in:'.str_replace("%20"," ",$this->uri->segment(2).'-'.$category_lvl3) ;?></title>
+		<meta name="Description" content="<?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3 ;?>">
+		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3.','.uc_first(DOMAIN_NAME) ;?>" />
+		<title><?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2).'-'.$category_lvl3) ;?></title>
 <?php }else{?>
-		<meta name="Description" content="<?php echo 'Moonboy.in:'.str_replace("%20"," ",$this->uri->segment(2)) ;?>">
-		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).',Moonboy.in' ;?>" />
-		<title><?php echo 'Moonboy.in:'.str_replace("%20"," ",$this->uri->segment(2)) ;?></title>
+		<meta name="Description" content="<?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)) ;?>">
+		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).','.uc_first(DOMAIN_NAME) ;?>" />
+		<title><?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)) ;?></title>
 <?php }?>
         
 		
@@ -482,7 +482,7 @@ function imgError(image){
 
 .quick_view_img img{width: auto !important; height: auto !important;}
 .quick_view_img{width:500px; height:500px;}
-.quick_view_data{height::500px; width:300px;}
+.quick_view_data{height:500px; width:300px;}
 
 .banner2 img{width:450px !important; height:450px !important;}
 .light-box-product-details{padding: 10px;}

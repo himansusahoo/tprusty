@@ -1161,7 +1161,7 @@
 <?php } ?>       
 
                 <li  style="margin-top:20px;margin-left:0px;">  
-                    <a  class="blog" title="Our Blog" style="background-color:white;color: black" href="https://www.moonboy.in/blog/" target="_blank"><img src="<?php echo base_url(); ?>images/blog.png" style="width:29px; height:29px; margin-top:-18px; margin-left: -9px;"  ></a>
+                    <a  class="blog" title="Our Blog" style="background-color:white;color: black" href="<?=APP_BASE?>blog/" target="_blank"><img src="<?php echo base_url(); ?>images/blog.png" style="width:29px; height:29px; margin-top:-18px; margin-left: -9px;"  ></a>
                 </li>
             </ul>
         </div>

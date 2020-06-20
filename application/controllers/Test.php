@@ -631,21 +631,21 @@ class Test extends CI_Controller {
     public function solr_del_indx() {
         $skuid = 'KPYG-395-shree-726';
         $solr_colection = 'mycollection2_online';
-        $host="http://moonboy.in:8983/solr/";
-        $curl_url=$host . $solr_colection . "/update?wt=json&spellcheck=true&spellcheck.build=true&commit=true";
+        $host = "http://moonboy.in:8983/solr/";
+        $curl_url = $host . $solr_colection . "/update?wt=json&spellcheck=true&spellcheck.build=true&commit=true";
         $ch = curl_init($curl_url);
-         
+
         pma($curl_url);
         $data_string = '{"add":{"doc":{"Title":"Shreenathji Enterprise Designer Lehenga Choli For Women","Category_Lvl1":"Women\'s Fashion","Category_Lvl2":"Ethnic Wear","Category_Lvl3":"Lehenga Choli","Category_Lvl1_Id":"4","Category_Lvl2_Id":"32","Category_Lvl3_Id":"1012","Sku":"KPYG-395-shree-726","Product_Id":"2601","Seller_Name":"SHREENATHJI ENTERPRISE","Catalog_Image":"catalog_jiigfwytkcze7jo20180129141957.jpg","Mrp":"2191","Price":"1327","Special_Price":"0","status":"Enabled","quantity":"12","seller_status":"Active","prod_status":"Active","Brand":"Shreenathji Enterprise","Color":"Green","Size":"Free","Weight":"400 Grams","Suitable_For":"Girls & Women","Type":"Lehenga Choli","Occasion":"Wedding, Festivals, Party"},"commitWithin":1000}}';
-        $data_string =  json_decode($data_string,true);       
-        $data_string =  json_encode($data_string);
-        
+        $data_string = json_decode($data_string, true);
+        $data_string = json_encode($data_string);
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($ch, CURLOPT_POST, TRUE);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json'));
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-        
-        
+
+
         $response = curl_exec($ch);
         pma($response, 1);
         $data3 = json_decode($response, true);

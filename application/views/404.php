@@ -22,7 +22,7 @@
 <div class="error_txt">
 <h1 style=" color: #312857;font-size: 30px; font-weight:300; line-height: normal;">
 <strong style="font-size:100px; color:#6bb700; ">OOPS..</strong> <br><strong> the Page or Product requested was not found</strong> :- ( </h1> <br><br>
-Try to go back to the home page - <a href="http://www.moonboy.in/">Home »</a>
+Try to go back to the home page - <a href="<?=APP_BASE?>">Home »</a>
 </div>
 
 <div class="clearfix"></div>

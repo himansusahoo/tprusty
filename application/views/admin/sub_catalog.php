@@ -1,6 +1,6 @@
 <ul class="top-menu">
 
-<?php if($this->session->userdata('logged_in')=='admin@moonboy.in') { ?>
+<?php if($this->session->userdata('logged_in')==ADMIN_MAIL) { ?>
     <li class="<?php if($this->uri->segment(2)=="catalog" && $this->uri->segment(3)=="" || $this->uri->segment(3)=="product_edit" ){echo "selected";} ?>"><a href="<?php echo base_url(); ?>admin/catalog">Manage Products</a></li>
     <li class="<?php if($this->uri->segment(3)=="manage_category"){echo "selected";} ?>"><a href="<?php echo base_url(); ?>admin/catalog/manage_category">Manage Categories</a></li>
     <li class="<?php if($this->uri->segment(2)=="attribute" || $this->uri->segment(2)=="Attribute"){echo "selected";} ?>"><a href="">Attributes</a>
