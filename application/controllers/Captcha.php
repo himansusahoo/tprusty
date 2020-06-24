@@ -10,18 +10,18 @@ class Captcha extends CI_Controller {
         parent::__construct();
         /* Load the libraries and helpers */
         $this->load->library('form_validation');
-        $this->load->library('session');
+        
         $this->load->helper(array('form', 'url', 'captcha'));
 
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
         $this->load->library('email');
-        $this->load->library('session');
+        
         $this->load->library('upload');
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->library('pagination');
-        $this->load->database();
+        
         $this->load->model('Mycart_model');
         $this->load->model('Captcha_model');
         $this->load->helper('captcha');

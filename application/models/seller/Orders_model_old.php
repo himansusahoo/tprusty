@@ -215,7 +215,7 @@ GROUP BY b.order_id, b.sku ORDER BY a.date_of_order DESC");
 
         $row_as_product = $qrs->result();
 
-        date_default_timezone_set('Asia/Calcutta');
+        
 
         $date1 = date('y-m-d h:i:s');
 

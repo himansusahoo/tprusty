@@ -105,7 +105,7 @@ class Postalcode_update_model extends CI_Model {
         $rowsdata = array();
 
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
         $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
 
@@ -502,7 +502,7 @@ class Postalcode_update_model extends CI_Model {
         //ini_set('display_errors', 1);
         //$this->db->trans_start();
         $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $qr_filetempdata = $this->db->query("SELECT * FROM bulkprodedit_templatelog WHERE blk_tempid='$excelfiluploadid' ");

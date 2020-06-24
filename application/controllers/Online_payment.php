@@ -8,14 +8,13 @@ class Online_payment extends CI_Controller {
         parent::__construct();
 
         $this->load->library('email');
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
-        //$this->load->library('email');
-        $this->load->library('session');
+        
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->helper('string');
-        $this->load->database();
+        
         $this->load->library('user_agent');
         $this->load->helper('file');
         $this->load->model('Order_model');
@@ -23,8 +22,6 @@ class Online_payment extends CI_Controller {
 
     function index() {
         if ($this->session->userdata['session_data']['user_id']) {
-            //if($this->session->userdata['session_data']['user_id']==5)
-//			{
             $this->load->model('Mycart_model');
             $addtocart_ids = explode('-', $this->session->userdata('sessaddtocart_id_arr'));
 
@@ -52,7 +49,7 @@ class Online_payment extends CI_Controller {
 
             $order_id_payment_gateway = $this->session->userdata('sessccavenue_order_id');
 
-            date_default_timezone_set('Asia/Calcutta');
+            
             $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
             $user_id = $this->session->userdata['session_data']['user_id'];
 
@@ -60,7 +57,6 @@ class Online_payment extends CI_Controller {
 
             foreach ($seller_id_arr as $key => $value) {
                 $order_id_arr[$key] = $user_id . implode('', $addtocart_ids) . $dt . $value;
-                //$cart['order_id']=$user_id.implode('',explode('-',$this->uri->segment(3))).$dt.$value;
             }
 
             $this->Mycart_model->insert_orderdata_beforecheckout($addtocart_ids, $order_id_arr, $tax_arr, $shipping_fees_arr, $sub_total_arr, $qantity_arr, $sku_arr, $total_price, $seller_id_arr, $address_id, $order_id_payment_gateway, $price_arr, $color_arr, $size_arr);
@@ -72,10 +68,6 @@ class Online_payment extends CI_Controller {
             $this->Mycart_model->update_ccavenuedata($order_id_payment_gateway, $order_id_arr);
 
             $result = $this->Mycart_model->inserted_into_checkout_temp();
-
-            //}
-
-
             $this->load->view('m/ccavRequestHandler');
         } else {
             redirect(base_url());
@@ -93,58 +85,9 @@ class Online_payment extends CI_Controller {
     function ccav_response_handler() {
         if ($this->session->userdata['session_data']['user_id']) {
 
-            //if($this->session->userdata['session_data']['user_id']==5)
-            //{
             $order_id_arr = $this->session->userdata('orderidarr_seesion');
             $sku_arr = explode('*', $this->session->userdata('sesssku_arr'));
             $this->Order_model->update_onlinepaymentinfo($order_id_arr, $sku_arr);
-
-
-            //}
-//			else	
-//			{
-//			$addtocart_ids=explode('-',$this->session->userdata('sessaddtocart_id_arr'));
-//			
-//			$total_price=$this->session->userdata('sesstotal_price');
-//			
-//			$seller_id_arr=explode('-',$this->session->userdata('sessseller_id_arr'));
-//			
-//			$tax_arr=explode('-',$this->session->userdata('sesstax_arr'));
-//			
-//			$shipping_fees_arr=explode('-',$this->session->userdata('sessshipping_fees_arr'));
-//			
-//			$sub_total_arr=explode('-',$this->session->userdata('subtotal_arr'));
-//			
-//			$price_arr = explode('-',$this->session->userdata('price_arr'));
-//			
-//			$qantity_arr=explode('-',$this->session->userdata('sessqantity_arr'));
-//			
-//			$sku_arr=explode('*',$this->session->userdata('sesssku_arr'));
-//			
-//			$address_id=$this->session->userdata('sesscus_data');
-//			
-//			$color_arr = explode('-',$this->session->userdata('color_arr'));
-//			
-//			$size_arr = explode('-',$this->session->userdata('size_arr'));
-//			
-//			$order_id_payment_gateway=$this->session->userdata('sessccavenue_order_id');
-//			
-//			date_default_timezone_set('Asia/Calcutta');
-//			$dt = preg_replace("/[^0-9]+/","", date('Y-m-d H:i:s'));
-//			$user_id=$this->session->userdata['session_data']['user_id'];
-//			
-//			$order_id_arr=array();
-//			
-//			foreach($seller_id_arr as $key=>$value)
-//			{		
-//				$order_id_arr[$key]=$user_id.implode('',explode('-',$this->uri->segment(3))).$dt.$value;
-//				//$cart['order_id']=$user_id.implode('',explode('-',$this->uri->segment(3))).$dt.$value;
-//			}
-//						
-//			$this->Order_model->insert_onlinepayment_orderdata($addtocart_ids,$order_id_arr,$tax_arr,$shipping_fees_arr,$sub_total_arr,$qantity_arr,$sku_arr,$total_price,$seller_id_arr,$address_id,$order_id_payment_gateway,$price_arr,$color_arr,$size_arr);
-//			
-//			} // condition end for user id 5
-
             redirect('Online_payment/show_my_order_detail/' . implode(',', $order_id_arr));
         } else {
             redirect(base_url());
@@ -154,15 +97,6 @@ class Online_payment extends CI_Controller {
     function paytm_response_handler() {
 
         if ($this->session->userdata['session_data']['user_id']) {
-
-
-            //$order_id_arr=$this->session->userdata('orderidarr_seesion');
-//				$sku_arr=explode('*',$this->session->userdata('sesssku_arr'));
-//				$this->Order_model->update_onlinepaymentinfo($order_id_arr,$sku_arr);				
-//			
-//			
-//					redirect('Online_payment/show_my_order_detail/'.implode(',',$order_id_arr));
-
             redirect(base_url());
         } else {
             redirect(base_url());
@@ -170,46 +104,21 @@ class Online_payment extends CI_Controller {
     }
 
     function manual_ccavenueresponse() {
-        //$addtocart_ids=explode('-',$this->session->userdata('sessaddtocart_id_arr'));
         $addtocart_ids[] = 190;
-
-        //$total_price=$this->session->userdata('sesstotal_price');			
         $total_price = 199;
-
-        //$seller_id_arr=explode('-',$this->session->userdata('sessseller_id_arr'));
         $seller_id_arr[] = 19;
-
-        //$tax_arr=explode('-',$this->session->userdata('sesstax_arr'));
         $tax_arr[] = 9.95;
-
-        //$shipping_fees_arr=explode('-',$this->session->userdata('sessshipping_fees_arr'));
         $shipping_fees_arr[] = 0;
-
-        //$sub_total_arr=explode('-',$this->session->userdata('subtotal_arr'));
         $sub_total_arr = 199;
-
-        //$price_arr = explode('-',$this->session->userdata('price_arr'));
         $price_arr[] = 199;
-
-        //$qantity_arr=explode('-',$this->session->userdata('sessqantity_arr'));
         $qantity_arr[] = 1;
-
-        //$sku_arr=explode('*',$this->session->userdata('sesssku_arr'));
         $sku_arr[] = 'YOZA-19-KB-BTR-KB5C';
-
-        //$address_id=$this->session->userdata('sesscus_data');
         $address_id = 92;
-
-        //$color_arr = explode('-',$this->session->userdata('color_arr'));
         $color_arr[] = 'Black';
-
-        //$size_arr = explode('-',$this->session->userdata('size_arr'));
         $size_arr[] = 'not';
-
-        //$order_id_payment_gateway=$this->session->userdata('sessccavenue_order_id');
         $order_id_payment_gateway = '13818620160817174331';
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
         $user_id = 138;
 
@@ -217,10 +126,7 @@ class Online_payment extends CI_Controller {
 
         foreach ($seller_id_arr as $key => $value) {
             $order_id_arr[$key] = $user_id . '190' . $dt . $value;
-            //$cart['order_id']=$user_id.implode('',explode('-',$this->uri->segment(3))).$dt.$value;
         }
-
-        //$this->Order_model->manual_online_paymentinfo($addtocart_ids,$order_id_arr,$tax_arr,$shipping_fees_arr,$sub_total_arr,$qantity_arr,$sku_arr,$total_price,$seller_id_arr,$address_id,$order_id_payment_gateway,$price_arr,$color_arr,$size_arr);
     }
 
     function show_my_order_detail() {

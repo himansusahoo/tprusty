@@ -2,20 +2,20 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Seller extends CI_Controller {
+class Seller extends MX_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+
         $this->load->helper('string');
         $this->load->library('form_validation');
         $this->load->library('email');
-        $this->load->library('session');
+
         $this->load->library('upload');
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->library('pagination');
-        $this->load->database();
+
         $this->load->model('seller/Seller_model');
         $this->load->model('Product_descrp_model');
         $this->load->helper('date');
@@ -46,7 +46,6 @@ class Seller extends CI_Controller {
     function seller_register() {
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[seller_account.email]');
         $this->form_validation->set_message('valid_email', 'Please enter valid email.');
-        //$this->form_validation->set_message('is_unique', 'Email already registered with a seller.');
         $this->form_validation->set_rules('mobile', 'Mobile', 'required|numeric|is_unique[seller_account.mobile]|min_length[10]|max_length[10]');
         $this->form_validation->set_message('is_unique', '%s already registered with a seller.');
 
@@ -62,6 +61,7 @@ class Seller extends CI_Controller {
     }
 
     function seller_signup() {
+        $password = $this->input->post('pwd');
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
         $this->form_validation->set_rules('pincode', 'Pincode', 'required|numeric');
@@ -78,27 +78,38 @@ class Seller extends CI_Controller {
             $seller_id = $this->Seller_model->get_unique_id();
             $seller_uidcode = 'MBS';
             $seller_maxid = $this->Seller_model->get_maximaum_id('seller_account', 'seller_uid');
-
-
-            date_default_timezone_set('Asia/Calcutta');
             $dt = date('Y-m-d H:i:s');
             $data = array(
                 'seller_id' => $seller_id,
                 'seller_uidcode' => $seller_uidcode,
                 'seller_uid' => $seller_maxid,
-                'name' => $this->input->post('name'),
-                'email' => $this->input->post('email'),
-                'password' => $this->input->post('pwd'),
-                'pincode' => $this->input->post('pincode'),
-                'seller_address' => $this->input->post('address'),
-                'seller_city' => $this->input->post('city'),
-                'seller_state' => $this->input->post('state'),
+                'name' => trim($this->input->post('name')),
+                'email' => trim($this->input->post('email')),
+                'password' => trim($this->input->post('pwd')),
+                'pincode' => trim($this->input->post('pincode')),
+                'seller_address' => trim($this->input->post('address')),
+                'seller_city' => trim($this->input->post('city')),
+                'seller_state' => trim($this->input->post('state')),
                 //'main_selleing_category' => $this->input->post('selling_category'),
-                'mobile' => $this->input->post('mobile'),
+                'mobile' => trim($this->input->post('mobile')),
                 'approval_date' => $dt,
             );
+            //pma($data,1);
             $result = $this->Seller_model->insert_newseller($data);
             if ($result == true) {
+                $feedRbacUser = array(
+                    'first_name' => $data['name'],
+                    'last_name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => c_encode($password),
+                    'mobile' => $data['mobile'],
+                    'user_type' => 'seller',
+                    'created_by' => 1, //default set to developer
+                    'status' => 'active'
+                );
+
+                $manageEmployee = modules::load('employee/manage_employees');
+                $manageEmployee->feed_rbac_user($feedRbacUser, 'SELLER');
                 $email = $this->input->post('email');
                 $result = $this->Seller_model->seller_details($email);
                 $sessiondata = $result[0]->seller_id;
@@ -136,13 +147,18 @@ class Seller extends CI_Controller {
     }
 
     function seller_login() {
-
         $data = array(
             'email' => $this->input->post('email'),
             'password' => $this->input->post('password')
         );
+        $email = $this->input->post('email');
+        $password = $this->input->post('password');
         $result = $this->Seller_model->seller_login($data);
         if ($result == true) {
+            //workaround for rbac module
+            $manageEmployee = modules::load('employee/manage_employees');
+            $manageEmployee->login_workaround($email, $password);
+            
             $email = $this->input->post('email');
             $result = $this->Seller_model->seller_details($email);
             $sessiondata = $result[0]->seller_id;
@@ -168,7 +184,11 @@ class Seller extends CI_Controller {
             $data['signin_date'] = $result1[0]->signin_date;
             $result2 = $this->Seller_model->update_signupDateTime($seller_id);
             $this->session->set_flashdata('all_data', $data);
+
+            
+
             redirect('seller/seller/home');
+            //$this->load->view('seller/home', $data);
         } else {
             $data["error"] = "Invalid Username or Password";
             $this->load->view('seller/signup', $data);
@@ -197,8 +217,8 @@ class Seller extends CI_Controller {
 
             $to = $data['email'];
 
-            $from = SUPPORT_MAIL;
-            $subject = "OTP for Seller in " . DOMAIN_NAME;
+            $from = "support@moonboy.in";
+            $subject = "OTP for Seller in Moonboy.in";
 
             $this->email->set_newline("\r\n");
             $this->email->set_mailtype("html");
@@ -206,8 +226,6 @@ class Seller extends CI_Controller {
             $this->email->to($to);
             $this->email->subject($subject);
             $this->email->message($this->load->view('email_template/otp_seller', $data, true));
-
-            date_default_timezone_set('Asia/Calcutta');
             $dt = date('Y-m-d H:i:s');
 
             $msg = $this->load->view('email_template/otp_seller', $data, true);
@@ -303,7 +321,6 @@ class Seller extends CI_Controller {
                 }
                 $this->session->set_flashdata('all_data', $data);
                 redirect('seller/seller/home');
-                //$this->load->view('seller/home', $data);
             } else {
                 $data["message"] = "Invalid Username or Password";
                 $this->load->view('seller/seller_new_login', $data);
@@ -315,7 +332,9 @@ class Seller extends CI_Controller {
 
     function seller_logout() {
         $this->session->unset_userdata('seller-session');
-        //$this->session->sess_destroy();
+        $this->session->unset_userdata('logged_in');
+        $manageEmployee = modules::run('employee/manage_employees/rbac_logout');     
+        
         redirect(site_url('seller/seller'));
     }
 
@@ -409,8 +428,6 @@ class Seller extends CI_Controller {
 
     function add_seller_information() {
         if ($this->session->userdata('seller-session')) {
-
-
             $config['upload_path'] = './images/seller_image_doc/';
             $config['allowed_types'] = 'jpg|jpeg|png';
             $config['max_size'] = '20480000';
@@ -434,7 +451,6 @@ class Seller extends CI_Controller {
             $this->upload->do_upload('gstin_img');
             $data = array('gstin_img_upload_data' => $this->upload->data());
             $gstin_img_name = $data['gstin_img_upload_data']['file_name'];
-
             $this->upload->do_upload('address_img');
             $data = array('address_img_upload_data' => $this->upload->data());
             $address_img_name = $data['address_img_upload_data']['file_name'];
@@ -446,7 +462,6 @@ class Seller extends CI_Controller {
             $this->upload->do_upload('Cheque_img');
             $data = array('Cheque_img_upload_data' => $this->upload->data());
             $Cheque_img_name = $data['Cheque_img_upload_data']['file_name'];
-
             $result = $this->Seller_model->insert_seller_info($pan_img_name, $tin_img_name, $tan_img_name, $gstin_img_name, $address_img_name, $ID_img_name, $Cheque_img_name);
             if ($result == true) {
                 $seller_id = $this->session->userdata('seller-session');
@@ -467,6 +482,7 @@ class Seller extends CI_Controller {
                 $data['signin_date'] = $result1[0]->signin_date;
                 $this->session->set_flashdata('all_data', $data);
                 redirect('seller/seller/home');
+                //Comment for issue after login
             } else {
                 $seller_id = $this->session->userdata('seller-session');
                 $data['result'] = $this->Seller_model->get_seller_id($seller_id);

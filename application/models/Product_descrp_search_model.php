@@ -35,7 +35,7 @@ class Product_descrp_search_model extends CI_Model {
 
             $sugword = $data2['spellcheck']['collations'][1];
 
-            $this->load->library('session');
+            
 
             $this->session->set_userdata('sugstword', $sugword);
 
@@ -77,7 +77,7 @@ class Product_descrp_search_model extends CI_Model {
             $solar_responsedata = 1;
             $this->solr_search_log($solar_responsedata, $search_title, $data2);
 
-            $this->load->library('session');
+            
             $this->session->unset_userdata('prodcount_solr');
             $this->session->set_userdata('prodcount_solr', $data2['response']['numFound']);
         }

@@ -6,16 +6,16 @@ class User extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
         $this->load->library('email');
-        $this->load->library('session');
+        
         $this->load->library('upload');
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->library('pagination');
         $this->load->library('user_agent');
-        $this->load->database();
+        
         $this->load->helper('cookie');
         $this->load->model('Usermodel');
         $this->load->model('Homemodel');
@@ -132,10 +132,6 @@ class User extends CI_Controller {
                     'fname' => $result[0]->fname
                 );
                 $this->session->set_userdata('session_data', $user_data);
-
-
-
-                //$user_id=$this->session->userdata('user_id');
                 //addtocart &wishlist temp product add start
                 $product_id_arr = count($this->session->userdata('addtocarttemp'));
                 if ($product_id_arr != 0) {
@@ -147,8 +143,6 @@ class User extends CI_Controller {
                 if ($wishlisttemp_sku != 0) {
                     $this->Usermodel->insertfromtemp_wishlist($email);
                 }
-                //addtocart &wishlist temp product add start
-
                 echo 'ok';
                 exit;
             } else {
@@ -176,7 +170,7 @@ class User extends CI_Controller {
                 $this->email->message($this->load->view('email_template/user_social_login', $user_info, true));
                 $this->email->send();
 
-                date_default_timezone_set('Asia/Calcutta');
+                
                 $dt = date('Y-m-d H:i:s');
 
                 $msg = $this->load->view('email_template/user_social_login', $user_info, true);

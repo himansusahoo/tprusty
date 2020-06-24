@@ -16,12 +16,16 @@ application/logs/*
 !application/logs/.htaccess
 /vendor/
 
+.htaccess
+.vscode\
 img
 images
 application/logs
 application/config
+application/third_party
 bulk_existingeditedproductexcel
 bulk_existingproductexcel
 bulk_proddeleteexcelsheet
 bulkproduct_excel
 bulkproductedit_excel
+asset

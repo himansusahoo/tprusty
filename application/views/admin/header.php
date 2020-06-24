@@ -54,7 +54,7 @@
                             echo "open";
                         }
                         ?>"> <i class="fa fa-users"></i> <span>Customers </span></a></li>
-                    <!--<li> <a href="<?php //echo base_url();     ?>admin/promotions"> <i class="fa fa-file-text-o"></i> <span> Promotions </span></a></li>-->
+                    <!--<li> <a href="<?php //echo base_url();      ?>admin/promotions"> <i class="fa fa-file-text-o"></i> <span> Promotions </span></a></li>-->
                     <li> <a href="<?php echo base_url(); ?>admin/pages" class="<?php
                         if ($this->uri->segment(2) == "pages") {
                             echo "open";
@@ -62,19 +62,27 @@
                         ?>"> <i class="fa fa-files-o"></i> <span> Pages </span></a></li>
 
 
-                    <li> <a href="<?php echo base_url(); ?>admin/report" class="<?php
+                    <li> 
+                        <a href="<?php echo base_url(); ?>admin/report" class="<?php
                         if ($this->uri->segment(2) == "report") {
                             echo "open";
                         }
-                        ?>"> <i class="fa fa-file-text"></i> <span>Reports </span></a></li>
-
+                        ?>"> <i class="fa fa-file-text"></i> <span>Reports </span></a>
+                    </li>
+                    <li> 
+                        <a href="<?= base_url('all-reports')?>" class="<?php
+                        if ($this->uri->segment(2) == "report") {
+                            echo "open";
+                        }
+                        ?>"> <i class="fa fa-file-text"></i> <span>New Reports </span></a>
+                    </li>
 
                     <li> <a href="<?php echo base_url(); ?>admin/newsletter" class="<?php
                         if ($this->uri->segment(2) == "newsletter") {
                             echo "open";
                         }
                         ?>"> <i class="fa fa-file-text"></i> <span>Newsletter</span></a></li>
-                                    <!--<li> <a href="<?php //echo base_url();    ?>admin/configuration"> <i class="fa fa-cogs"></i> <span>Config </span></a></li>-->
+                                    <!--<li> <a href="<?php //echo base_url();     ?>admin/configuration"> <i class="fa fa-cogs"></i> <span>Config </span></a></li>-->
                     <li> <a href="<?php echo base_url(); ?>admin/super_admin/membership" class="<?php
                         if ($this->uri->segment(3) == "membership" || $this->uri->segment(3) == "charges" || $this->uri->segment(3) == "image_upload" || $this->uri->segment(3) == "subpage1_setting" || $this->uri->segment(3) == "subpage2_setting" || $this->uri->segment(3) == "subpage3_setting" || $this->uri->segment(3) == "ad_blog" || $this->uri->segment(3) == "user_setup" || $this->uri->segment(3) == "user_log" || $this->uri->segment(3) == "edit_user_role" || $this->uri->segment(3) == "load_user_setup_setting" || $this->uri->segment(3) == "new_user_setup" || $this->uri->segment(3) == "voucher" || $this->uri->segment(3) == "pcmenu_setup" || $this->uri->segment(3) == "mobilemenu_setup" || $this->uri->segment(3) == "edit_pcmenu" || $this->uri->segment(3) == "edit_mobilemenu" || $this->uri->segment(3) == "cod_setup" || $this->uri->segment(3) == "cod_taxrate_setup" || $this->uri->segment(3) == "cod_amounttocharge_setup" || $this->uri->segment(3) == "cod_discount_setup" || $this->uri->segment(3) == "productfilter_setup" || $this->uri->segment(3) == "size_setup" || $this->uri->segment(3) == "color_setup" || $this->uri->segment(3) == "cateattributelink" || $this->uri->segment(3) == "bulk_newproductlog" || $this->uri->segment(3) == "bulk_newproduct_editlog" || $this->uri->segment(3) == "filter_newproduploadlog" || $this->uri->segment(3) == "bulk_newprod_addexcelsheetracking" || $this->uri->segment(2) == "Bulk_newprod_reupload" || $this->uri->segment(3) == "bulk_newprod_deletepanel" || $this->uri->segment(3) == "advance_productsearch" || $this->uri->segment(2) == "Advance_search" || $this->uri->segment(2) == "search_keyword_setup" || $this->uri->segment(2) == "page_setup" || $this->uri->segment(2) == "Page_setup" || $this->uri->segment(2) == "Page_catlog" || $this->uri->segment(2) == "Page_catlog" || $this->uri->segment(2) == "Page_catlog" || $this->uri->segment(2) == "page_catlog" || $this->uri->segment(2) == "Page_single_product" || $this->uri->segment(3) == "seller_commission" || $this->uri->segment(3) == "global_commission" || $this->uri->segment(3) == "membership_commission" || $this->uri->segment(3) == "special_commission" || $this->uri->segment(3) == "edit_special_commission" || $this->uri->segment(3) == "add_special_commission" || $this->uri->segment(2) == "Solar_manage" || $this->uri->segment(2) == "Desktop_page_setup" || $this->uri->segment(2) == "Cache" || $this->uri->segment(2) == "Solar_search_log") {
                             echo "open";
@@ -99,42 +107,7 @@
                     $user_role_id = $this->session->userdata('logged_userrole_id');
                     $query = $this->db->query("select * from dashboard_tab_name where user_role_id='$user_role_id' ");
 
-                    //$res=$query->result();
-                    /* $this->load->helper('url');
-
-                      if(current_url()!=base_url().'admin/super_admin' && $this->session->userdata('logged_userrole_id')!='' && current_url()!=base_url().'admin/super_admin/home')
-                      {	//echo current_url();exit;
-                      $main_query=$this->db->query("SELECT a.main_tab_id,a.main_tab_name,a.user_role_id,b.main_tab_id,b.sub_tab_name
-                      FROM dashboard_tab_name a INNER JOIN dashboard_sub_tab b ON a.main_tab_id = b.main_tab_id
-                      where a.user_role_id='$user_role_id' ");
-
-
-                      $maintab_userprevarr=array();
-                      $subtaball_userprevtab=array();
-                      foreach($main_query->result_array() as $res_alltabprev)
-                      {
-                      $all_userprevtab[]=$res_alltabprev['sub_tab_name'];
-                      $maintab_userprevarr[]=$res_alltabprev['main_tab_name'];
-
-                      }
-                      $all_userprevtabunique=array();
-                      $all_userprevtabunique=array_unique($all_userprevtab);
-
-                      $maintab_userprevarrunique=array();
-                      $maintab_userprevarrunique=array_unique($maintab_userprevarr);
-
-
-                      $exceptbs_url=uri_string();
-
-                      $sub_query=$this->db->query("select * from alltab_track where tab_link='$exceptbs_url' LIMIT 1");
-                      $tab_allow=$sub_query->row()->tab_name;
-                      if(!in_array($tab_allow,$all_userprevtabunique) && !in_array($tab_allow,$maintab_userprevarrunique ) )
-                      {
-
-                      redirect(base_url().'admin/super_admin');
-
-                      }
-                      } */
+                    
                     ?>
                     <li> <a href="<?php echo base_url(); ?>admin/super_admin/home" class="open"> <i class="fa fa-tachometer"></i> <span> Dashboard </span></a></li>
 

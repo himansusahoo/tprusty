@@ -6,16 +6,16 @@ class Mycart extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
         $this->load->library('email');
-        $this->load->library('session');
+        
         $this->load->library('upload');
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->library('pagination');
         $this->load->library('user_agent');
-        $this->load->database();
+        
         $this->load->helper('string');
         $this->load->model('Mycart_model');
         $this->load->helper('cookie');
@@ -315,7 +315,7 @@ class Mycart extends CI_Controller {
 
         $order_id_payment_gateway = $this->session->userdata('sessccavenue_order_id');
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
         $user_id = $this->session->userdata['session_data']['user_id'];
 

@@ -77,7 +77,7 @@ class Product extends CI_Model {
         //program start for sku generate//
         $prdt_name = $this->input->post('name');
         $first_three_char = substr($prdt_name, 0, 3);
-        date_default_timezone_set('Asia/Calcutta');
+        
         $code = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
         $this->load->helper('string');
         $randon_strng = random_string('alnum', 5);
@@ -239,7 +239,7 @@ class Product extends CI_Model {
     }
 
     function insert_product_data_log() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('y-m-d H:i:s');
         $uid = $this->session->userdata('logged_userrole_id');
         $uname = $this->session->userdata('logged_in');
@@ -630,7 +630,7 @@ class Product extends CI_Model {
 
     function update_new_product_log() {
         $product_name = $this->input->post('name');
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('y-m-d H:i:s');
         $uid = $this->session->userdata('logged_userrole_id');
         $uname = $this->session->userdata('logged_in');
@@ -766,7 +766,7 @@ class Product extends CI_Model {
         $qr = $this->db->insert('tax_management', $data);
 
         if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
-            date_default_timezone_set('Asia/Calcutta');
+            
             $cdate = date('y-m-d H:i:s');
             $uid = $this->session->userdata('logged_userrole_id');
             $uname = $this->session->userdata('logged_in');

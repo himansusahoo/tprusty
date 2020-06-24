@@ -6,13 +6,13 @@ class User_role_setup extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
         $this->load->library('email');
-        $this->load->library('session');
+        
         $this->load->library('encrypt');
         $this->load->library('javascript');
-        $this->load->database();
+        
         $this->load->library('pagination');
         $this->load->model('admin/User_role_setup_model');
     }

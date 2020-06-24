@@ -426,7 +426,7 @@
                                         if ($ct11 > 0) {
                                             $days = $res11->dispatch_days + 5;
 
-                                            date_default_timezone_set('Asia/Calcutta');
+                                            
                                             $dt = date('d M', strtotime(+$days . 'days'));
                                             echo "Standard delivery by " . $dt;
                                         } else {
@@ -718,7 +718,7 @@
                 <title><?= DOMAIN_NAME ?> and India's no 1 shopping site.</title>
 
                 <?php
-                date_default_timezone_set('Asia/Calcutta');
+                
                 include "header.php";
                 ?>
                 <!-- Lightbox link start here  -->

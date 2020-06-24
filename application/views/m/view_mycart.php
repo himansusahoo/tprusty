@@ -283,7 +283,7 @@ function removeCartProduct(rec_cart){
 											if($ct11 > 0){
 												$days = $res11->dispatch_days+5; 
 												   
-												date_default_timezone_set('Asia/Calcutta');
+												
 												$dt =  date('d M', strtotime(+$days.'days'));
 												echo "Standard delivery by ". $dt;
 											}else{

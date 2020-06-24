@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Corenjob_email_model extends CI_Model {
 
     function mail_sendTo_buyer() {
-        date_default_timezone_set('Asia/Calcutta');
+        
 
         $query_addtocart_data = $this->db->query("select * from addtocart_temp group by user_id ");
         $row_addtocart_data = $query_addtocart_data->result();

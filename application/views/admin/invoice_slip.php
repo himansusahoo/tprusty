@@ -1,891 +1,257 @@
-<style type="text/css">
-    *{padding:0px; margin:0px;}
-    .main{width:100%; margin:10px auto; font-family:"Times New Roman", Times, serif; font-size:10px;} 
-    .heading{background-color:#000; font-size:11px; color:#fff; padding:3px 5px; font-weight:bold;}
-    .main table{margin:10px 0px;  width:100%;}
-    .main table tr td{font-size:11px;  padding:2px 10px;}
-    .data-table tr td{border-bottom:1px solid #333;}
+<style>
+    @page {
+        margin: 0cm 0cm;
+    }
+    .main{width:100%; margin:1.6cm auto; font-family:"Times New Roman", Times, serif; font-size:11px; padding: 0px 20px 0px 20px;} 
+    .invoice_title{font-weight: bold; font-size: 20px; padding:15px;}
+    /** Define the header rules **/
+    header {
+        position: fixed;
+        top: 0cm;
+        left: 0cm;
+        right: 0cm;
+        height: 1.6cm;
+        background-color: #D1D0CE;
+        color: white;
+        text-align: center;
+        line-height: 1.6cm;
+    }
+    footer {
+        position: fixed; 
+        bottom: 0cm; 
+        left: 0cm; 
+        right: 0cm;
+        height: 1cm;
+        background-color: #D1D0CE;
+        color: #000;
+        text-align: center;
+        line-height: 1cm;
+    }
 
+    .detail_table{
+        width:100%;
+        background-color:#f9f9f9; 
+        border:1px dashed #ccc; 
+        padding:5px;
+        font-size: 11px;
+    }
+    .prod_table{
+        width: 100%;
+        font-size:11px; 
+        border: 1px solid black;
+    }
+    .prod_table th{
+        background-color:#000;         
+        color:#fff; 
+        padding:2px 10px 2px 10px; 
+        font-weight:bold; 
+        text-align: left;
+    } 
+    .prod_table td{padding-left: 10px;}
+    .total_row td{
+        border-top:1px solid black;        
+        text-align:right; 
+        font-weight: 600; 
+        padding-right: 5px;
+        padding-bottom: 3px;
+    }
+    .thank_you_table{font-size: 11px; width: 100%; margin-top: 10px; padding: 0px 10px 0px 10px;}
+    .declaration{font-size: 11px; margin-top: 10px;}
+    .dash_border td{border-bottom: 1px dashed gray;}
 </style>
-
 <div class="main">
-    <table>
-        <tr>
-            <td>
-                <h1> Invoice </h1>
-                <?php
-                $check_order_id = $this->db->query("select * from order_transfer where new_order_id='$orderid' ");
-                $row_checkorder_id = $check_order_id->result();
-
-                //If order_id not in order_transfer table  
-                if (count($row_checkorder_id) == 0) {
-                    ?>
-
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td><h3>Delivery Address</h3></td></tr>
-                        <tr><td>
-                                <?php
-                                $qr = $this->db->query("select * from shipping_address where order_id='$orderid' ");
-                                $rw = $qr->row();
-                                echo $rw->full_name . '<br>';
-                                echo $rw->address . '<br>';
-                                echo $rw->city;
-                                echo "," . $rw->pin_code . '<br>';
-                                echo $rw->country . '<br>';
-                                echo $rw->phone . '<br>';
-                                ?>
-
-
-                            </td></tr>
-                    </table>
-
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td colspan="2"><h3>Buyer Detail</h3></td></tr>
-
-                        <tr>
-                            <td width="50%"> 
-                                <?php
-                                $qr2 = $this->db->query("select a.fname, a.lname,a.mob,a.email from user a inner join ordered_product_from_addtocart b on a.user_id=b.user_id where b.order_id='$orderid' group by b.order_id ");
-                                $rw2 = $qr2->row();
-                                echo $rw2->fname . " " . $rw2->lname;
-                                ?>
-                                <br />
-                                Phone No.:<?php echo $rw2->mob ?><br />
-
-                                <?php
-                                //$qr2=$this->db->query("select a.fname, a.lname,a.mob,a.email from  user a inner join ordered_product_from_addtocart b on a.user_id=b.user_id  where b.order_id='$orderid' group by b.order_id ");
-
-                                $qr4 = $this->db->query("select a.address,a.city,a.state,a.country,a.pin_code,d.state from user_address a inner join user b on a.address_id=b.address_id inner join  ordered_product_from_addtocart c on b.user_id=c.user_id inner join state d on a.state=d.state_id where c.order_id='$orderid' group by c.order_id  ");
-
-                                $rw4 = $qr4->row();
-                                echo $rw4->address;
-                                ?>
-                                <br />
-                                <?php echo $rw4->city; ?> ,
-                                <?php echo $rw4->state; ?><br />
-                                <?php echo $rw4->country; ?>, 
-                                <?php echo $rw4->pin_code; ?><br />
-
-
-                            </td>
-
-
-                            <td style="text-align:center; font-size:10px;border-left:1px solid #ccc;">
-                                Order ID: <?php echo $orderid; ?><br />
-                                Order Date : 
-                                <?php
-                                $qr1 = $this->db->query("select * from order_info where order_id='$orderid' ");
-                                $rw1 = $qr1->row();
-                                echo substr($rw1->date_of_order, 0, 10);
-                                ?><br />  
-                                Invoice Number:  <?php
-                                $qr1 = $this->db->query("select * from order_info where order_id='$orderid' ");
-                                $rw1 = $qr1->row();
-
-                                if ($rw1->invoice_id != "") {
-                                    echo $rw1->invoice_id;
-                                    ?>
-
-                                    <?php
-                                } else {
-                                    echo "Not Available";
-                                }
-                                ?> 
-
-
-
-                        </tr>
-                    </table>
-
-                    <div style="clear:both;"></div>
-
-
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td><h3>Sold By</h3></td></tr>
-                        <tr>
-                            <td style="text-align:left; font-size:10px;">
-
-                                <?php
-                                $sql = $this->db->query("SELECT a.business_name,a.tin,b.seller_address,b.seller_city,b.seller_state,b.pincode,a.display_name FROM seller_account_information a INNER JOIN seller_account b ON a.seller_id=b.seller_id INNER JOIN ordered_product_from_addtocart c ON a.seller_id=c.seller_id INNER JOIN order_info d ON c.order_id=d.order_id WHERE d.order_id='$orderid' GROUP BY c.order_id");
-                                $rslt = $sql->result();
-                                ?>
-                                <?= $rslt[0]->business_name; ?><br/>
-                                <?= $rslt[0]->seller_address; ?>,<br/>
-                                <?= $rslt[0]->seller_city; ?>,<br/>
-                                <?= $rslt[0]->seller_state; ?>, <?= $rslt[0]->pincode; ?><br/>
-
-                                <?= 'VAT/TIN Number: ' . $rslt[0]->tin; ?><br/>
-                            </td>
-
-                        </tr>
-                    </table>
-
-                    <div style="clear:both;"> &nbsp; </div>
-
-
-                    <table cellspacing="0" cellpadding="0" style="border:1px solid #000;" class="data-table">
-
-                        <tr>
-                            <th class="heading"> Product Name </th>	
-
-                            <th class="heading"> Quantity </th>
-
-                            <th class="heading">Price(Without Tax) </th>
-                            <th class="heading">Shipping Fees </th>
-                            <th  class="heading"> Tax Rate </th>
-                            <th class="heading"> Total Price</th>
-
-
-
-                        </tr>
-                        <?php
-                        $total_price = 0;
-                        $qr5 = $this->db->query("select * from ordered_product_from_addtocart where order_id='$orderid' group by sku");
-                        foreach ($qr5->result() as $rw5) {
-                            ?>
-                            <tr >
-                                <td style="width:45%;">                         
-
-                                    <div style="width:90%;"> 
-
-                                        <?php
-                                        $qr7 = $this->db->query("select name from product_general_info where product_id='$rw5->product_id'");
-                                        $rw7 = $qr7->row();
-                                        echo "<b>" . $rw7->name . "</b>";
-                                        ?> <br>
-
-                                        <?php
-                                        $color_sizecronjobquery = $this->db->query("SELECT color,size,Capacity,RAM,ROM FROM  cornjob_productsearch WHERE sku='$rw5->sku' group by sku ");
-                                        if ($color_sizecronjobquery->num_rows() > 0) {
-                                            $color = $color_sizecronjobquery->row()->color;
-                                            $size = $color_sizecronjobquery->row()->size;
-                                            $capacity = $color_sizecronjobquery->row()->Capacity;
-                                            $ram = $color_sizecronjobquery->row()->RAM;
-                                            $rom = $color_sizecronjobquery->row()->ROM;
-                                        }
-
-                                        if ($color != '') {
-                                            echo "<span class='cart_attr'>Color : " . $color . '</span><br/>';
-                                        }
-                                        if ($size != '') {
-                                            echo "<span class='cart_attr'>Size : " . $size . '</span><br/>';
-                                        }
-                                        if ($capacity != '') {
-                                            echo "<span class='cart_attr'>Capacity : " . $capacity . '</span><br/>';
-                                        }
-                                        if ($ram != '') {
-                                            echo "<span class='cart_attr'>RAM : " . $ram . '</span><br/>';
-                                        }
-                                        if ($rom != '') {
-                                            echo "<span class='cart_attr'>ROM : " . $rom . '</span><br/>';
-                                        }
-                                        ?>
-
-
-                                        <?php
-                                        // if($rw5->prdt_color != 'not'){ echo "<span class='cart_attr'>Color : ".$rw5->prdt_color.'</span><br/>'; }
-                                        //if($rw5->prdt_size != 'not'){ echo "<span class='cart_attr'>Size : ".$rw5->prdt_size.'</span><br/>';}
-                                        ?>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </td>	
-
-
-
-                                <td>  <?php
-                                    $qr9 = $this->db->query("select * from ordered_product_from_addtocart where product_id='$rw5->product_id' and                                                 sku='$rw5->sku' and order_id='$orderid'  ");
-                                    //$row3=$qr3->row();
-                                    $price = 0;
-                                    $rw9 = $qr9->row();
-                                    echo $rw9->quantity;
-                                    ?>  </td>
-
-                                <td> <?php
-                                    $tax_amt = $rw9->sub_tax_rate;
-                                    $shipping_amnt = $rw9->sub_shipping_fees;
-                                    $qtn = $rw9->quantity;
-
-                                    $tax_percentage = round((100 / $rw9->sub_total_amount) * $tax_amt, 2);
-
-                                    $single_prod_price_without_tax = round(($rw9->sub_total_amount - $shipping_amnt) - $tax_amt);
-
-
-                                    echo "Rs." . $single_prod_price_without_tax;
-                                    ?>  </td>
-                                <td><?= "Rs." . $shipping_amnt ?></td>
-                                <td> <?php echo "Rs." . round($rw9->sub_tax_rate) . "(" . $tax_percentage . "%)"; ?>   </td>
-                                <td>  <?php echo "Rs." . $rw9->sub_total_amount; ?> </td>
-
-
-                            </tr>
-
-                        <?php } ?>
-
-                        <tr><td colspan="5" style="text-align:right; border-right:1px solid #333;">Total Amount (Including Tax & Shipping Fees)</td><td>Rs.<?php
-                                $qr12 = $this->db->query("select * from order_info where order_id='$orderid' ");
-                                $rec12 = $qr12->result();
-                                echo $rec12[0]->Total_amount;
-                                ?> </td> 
-                        </tr>                                         
-
-                    </table> 
-                    <table><tr><td><h3 style="color:#006400;">Thank you for buying from <?= DOMAIN_NAME ?> ! <br /> For any issue email : <?= SUPPORT_MAIL ?></h3></td>
-                            <td align="right" valign="top">Ordered Through: <h2> <?= DOMAIN_NAME ?> </h2><?php /* ?><img width="130" src="<?php echo base_url().'/images/logo1.jpg'?>" /><?php */ ?></td>
-                        </tr>
-                    </table>
-                    <p style=" text-align:justify;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I <?php echo $rw2->fname . " " . $rw2->lname; ?>, hereby agree and confirm that the above said goods are purchased through the Seller ,<?= $rslt[0]->business_name; ?> on <?= DOMAIN_NAME ?>, the above said goods are being purchased for my internal/personal purpose only and not for re-sale.I have read and understood and am legally bound by terms and conditions of sale available on <?= DOMAIN_NAME ?> </p>
-
-                </td>
-
-
-                <!-- Orderslip -->
-                <td>
-                    <h1> Order </h1>
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td><h3>Delivery Address</h3></td></tr>
-                        <tr><td>
-                                <?php
-                                $qr = $this->db->query("select * from shipping_address where order_id='$orderid' ");
-                                $rw = $qr->row();
-                                echo $rw->full_name . '<br>';
-                                echo $rw->address . '<br>';
-                                echo $rw->city;
-                                echo "," . $rw->pin_code . '<br>';
-                                echo $rw->country . '<br>';
-                                echo $rw->phone . '<br>';
-                                ?>
-                            </td></tr>
-                    </table>
-
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td colspan="2"><h3>Buyer Detail</h3></td></tr>
-
-                        <tr>
-                            <td width="50%"> 
-                                <?php
-                                $qr2 = $this->db->query("select a.fname, a.lname,a.mob,a.email from user a inner join ordered_product_from_addtocart b on a.user_id=b.user_id where b.order_id='$orderid' group by b.order_id ");
-                                $rw2 = $qr2->row();
-                                echo $rw2->fname . " " . $rw2->lname;
-                                ?>
-                                <br />
-                                Phone No.:<?php echo $rw2->mob ?><br />
-
-                                <?php
-                                //$qr2=$this->db->query("select a.fname, a.lname,a.mob,a.email from  user a inner join ordered_product_from_addtocart b on a.user_id=b.user_id  where b.order_id='$orderid' group by b.order_id ");
-
-                                $qr4 = $this->db->query("select a.address,a.city,a.state,a.country,a.pin_code,d.state from user_address a inner join user b on a.address_id=b.address_id inner join  ordered_product_from_addtocart c on b.user_id=c.user_id inner join state d on a.state=d.state_id where c.order_id='$orderid' group by c.order_id  ");
-
-                                $rw4 = $qr4->row();
-                                echo $rw4->address;
-                                ?>
-                                <br />
-                                <?php echo $rw4->city; ?> ,
-                                <?php echo $rw4->state; ?><br />
-                                <?php echo $rw4->country; ?>, 
-                                <?php echo $rw4->pin_code; ?><br />
-
-
-                            </td>
-
-
-                            <td style="text-align:center; font-size:10px;border-left:1px solid #ccc;">
-                                Order ID: <?php echo $orderid; ?><br />
-                                Order Date : 
-                                <?php
-                                $qr1 = $this->db->query("select * from order_info where order_id='$orderid' ");
-                                $rw1 = $qr1->row();
-                                echo substr($rw1->date_of_order, 0, 10);
-                                ?>
-                        </tr>
-                    </table>
-
-                    <div style="clear:both;"></div>
-
-
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td><h3>Sold By</h3></td></tr>
-                        <tr>
-
-
-                            <td style="text-align:left; font-size:10px;">
-
-                                <?php
-                                $sql = $this->db->query("SELECT a.business_name,a.tin,b.seller_address,b.seller_city,b.seller_state,b.pincode,a.display_name FROM seller_account_information a INNER JOIN seller_account b ON a.seller_id=b.seller_id INNER JOIN ordered_product_from_addtocart c ON a.seller_id=c.seller_id INNER JOIN order_info d ON c.order_id=d.order_id WHERE d.order_id='$orderid' GROUP BY c.order_id");
-                                $rslt = $sql->result();
-                                ?>
-                                <?= $rslt[0]->business_name; ?><br/>
-                                <?= $rslt[0]->seller_address; ?>,<br/>
-                                <?= $rslt[0]->seller_city; ?>,<br/>
-                                <?= $rslt[0]->seller_state; ?>, <?= $rslt[0]->pincode; ?><br/>
-
-                                <?= 'VAT/TIN Number: ' . $rslt[0]->tin; ?><br/>
-                            </td>
-
-                        </tr>
-                    </table>
-
-                    <div style="clear:both;"> &nbsp;</div>
-
-
-                    <table cellspacing="0" cellpadding="0" style="border:1px solid #000;" class="data-table">
-
-                        <tr>
-                            <th class="heading"> Product Name </th>									
-                            <th class="heading"> Quantity </th>
-                            <th class="heading"> Price(Without Tax) </th>
-                            <th class="heading"> Shipping Fees </th>
-                            <th class="heading"> Tax Rate </th>
-                            <th class="heading"> Total Price</th>
-
-                        </tr>
-                        <?php
-                        $total_price = 0;
-                        $qr5 = $this->db->query("select * from ordered_product_from_addtocart where order_id='$orderid' group by sku");
-                        foreach ($qr5->result() as $rw5) {
-                            ?>
-                            <tr >
-                                <td style="width:45%;">                         
-
-                                    <div style="width:90%;">
-                                        <?php
-                                        $qr7 = $this->db->query("select name from product_general_info where product_id='$rw5->product_id'");
-                                        $rw7 = $qr7->row();
-                                        echo "<b>" . $rw7->name . "</b>";
-                                        ?> <br>
-
-
-                                        <?php
-                                        $color_sizecronjobquery = $this->db->query("SELECT color,size,Capacity,RAM,ROM FROM  cornjob_productsearch WHERE sku='$rw5->sku' group by sku ");
-                                        if ($color_sizecronjobquery->num_rows() > 0) {
-                                            $color = $color_sizecronjobquery->row()->color;
-                                            $size = $color_sizecronjobquery->row()->size;
-                                            $capacity = $color_sizecronjobquery->row()->Capacity;
-                                            $ram = $color_sizecronjobquery->row()->RAM;
-                                            $rom = $color_sizecronjobquery->row()->ROM;
-                                        }
-
-                                        if ($color != '') {
-                                            echo "<span class='cart_attr'>Color : " . $color . '</span><br/>';
-                                        }
-                                        if ($size != '') {
-                                            echo "<span class='cart_attr'>Size : " . $size . '</span><br/>';
-                                        }
-                                        if ($capacity != '') {
-                                            echo "<span class='cart_attr'>Capacity : " . $capacity . '</span><br/>';
-                                        }
-                                        if ($ram != '') {
-                                            echo "<span class='cart_attr'>RAM : " . $ram . '</span><br/>';
-                                        }
-                                        if ($rom != '') {
-                                            echo "<span class='cart_attr'>ROM : " . $rom . '</span><br/>';
-                                        }
-                                        ?>
-                                        <?php
-                                        // if($rw5->prdt_color != 'not'){ echo "<span class='cart_attr'>Color : ".$rw5->prdt_color.'</span><br/>'; }
-                                        // if($rw5->prdt_size != 'not'){ echo "<span class='cart_attr'>Size : ".$rw5->prdt_size.'</span><br/>';}
-                                        ?>
-
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </td>	
-
-
-
-                                <td>  <?php
-                                    $qr9 = $this->db->query("select * from ordered_product_from_addtocart where product_id='$rw5->product_id' and                                                 sku='$rw5->sku' and order_id='$orderid'  ");
-                                    //$row3=$qr3->row();
-                                    $price = 0;
-                                    $rw9 = $qr9->row();
-                                    echo $rw9->quantity;
-                                    ?>  </td>
-
-                                <td> <?php
-                                    $tax_amt = $rw9->sub_tax_rate;
-                                    $shipping_amnt = $rw9->sub_shipping_fees;
-                                    $qtn = $rw9->quantity;
-
-                                    $tax_percentage = round((100 / $rw9->sub_total_amount) * $tax_amt, 2);
-
-                                    $single_prod_price_without_tax = round(($rw9->sub_total_amount - $shipping_amnt) - $tax_amt);
-
-
-                                    echo "Rs." . $single_prod_price_without_tax;
-                                    ?>  </td>
-                                <td><?= "Rs." . $shipping_amnt ?></td>
-                                <td> <?php echo "Rs." . round($rw9->sub_tax_rate) . "(" . $tax_percentage . "%)"; ?>   </td>
-                                <td>  <?php echo "Rs." . $rw9->sub_total_amount; ?> </td>
-
-
-                            </tr>
-
-                        <?php } ?>
-
-                        <tr><td colspan="5" style="text-align:right; border-right:1px solid #333;">Total Amount (Including Tax & Shipping Fees)</td><td>Rs.<?php
-                                $qr12 = $this->db->query("select * from order_info where order_id='$orderid' ");
-                                $rec12 = $qr12->result();
-                                echo $rec12[0]->Total_amount;
-                                ?> </td> </tr>
-
-                                                    <!-- <tr><td colspan="4" style="text-align:right; border-right:1px solid #333;">Tax</td><td> <i class="fa fa-inr"></i></td></tr>
-                                                    <tr><td colspan="4" style="text-align:right; border-right:1px solid #333;">Shipping Rate</td><td> <i class="fa fa-inr"></i></td></tr>
-                                                    <tr><td colspan="4" style="text-align:right; border-right:1px solid #333;">Total </td><td> <i class="fa fa-inr"></i> </td></tr>-->
-
-
-
-                    </table> 
-                    <table><tr><td><h3 style="color:#006400;">Thank you for buying from <?= DOMAIN_NAME ?> ! <br /> For any issue email : <?= SUPPORT_MAIL ?></h3></td>
-                            <td align="right" valign="top">Ordered Through:<h2> <?= DOMAIN_NAME ?> </h2><?php /* ?><img width="130" src="<?php echo base_url().'/images/logo1.jpg'?>" /><?php */ ?></td>
-                        </tr></table>
-                    <p style=" text-align:justify;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I <?php echo $rw2->fname . " " . $rw2->lname; ?>, hereby agree and confirm that the above said goods are purchased through the Seller ,<?= $rslt[0]->business_name; ?> on <?= DOMAIN_NAME ?>, the above said goods are being purchased for my internal/personal purpose only and not for re-sale.I have read and understood and am legally bound by terms and conditions of sale available on <?= DOMAIN_NAME ?>  </p>
-
-                </td>
-            </tr>
-        </table>
-
+    <!-- Define header and footer blocks before your content -->
+    <header>
+        <?php
+        $imgPath = dirname(BASEPATH) . "/images/logo.png";
+        $imgFile = file_get_contents($imgPath);
+        $img = base64_encode($imgFile);
+        echo "<img src=\"data:image/png;charset=utf8;base64, $img\"/>";
+        ?>
+    </header>
+    <!-- Wrap the content of your PDF inside a main tag -->
+    <main>
 
         <?php
-    } else {
-        $orderid = $row_checkorder_id[0]->old_order_id;
+        if ($invoiceData):
+            $total_record = (count($invoiceData) - 1);
+            $delivery_addr = current($invoiceData);
+            ?> 
+            <div class="invoice_title">Order Invoice</div>
+            <!-- Delivery Address -->
+            <div>
+                <table class="detail_table">
+                    <tr><td><h3>Delivery Address</h3></td></tr>
+                    <tr>
+                        <td>
+                            <div><?= $delivery_addr['full_name'] ?></div>
+                            <div><?= $delivery_addr['ship_addrress'] ?></div>
+                            <div><?= $delivery_addr['ship_city'] . ", " . $delivery_addr['ship_pincode'] ?></div>
+                            <div><?= $delivery_addr['ship_country'] ?></div>
+                            <div><?= $delivery_addr['ship_phone'] ?></div>                                
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <!-- Buyer Detail -->
+                <table class="detail_table">
+                    <tr><td colspan="2"><h3>Buyer Details</h3></td></tr>
+                    <tr>
+                        <td width="50%"> 
+                            <div><?= $delivery_addr['buyer_name'] ?></div>                                    
+                            <div><?= $delivery_addr['address'] ?></div>
+                            <div><?= $delivery_addr['city'] . ", " . $delivery_addr['state'] ?></div>
+                            <div><?= $delivery_addr['country'] . " " . $delivery_addr['buyer_pincode'] ?></div>                               
+                            <div>Contact: <?= $delivery_addr['mob'] ?></div>
+                        </td>
+                        <td>
+                            <div>Order ID: <?= $delivery_addr['order_id'] ?></div>
+                            <div>Order Date: <?= substr($delivery_addr['date_of_order'], 0, 10) ?></div>
+                            <div>Invoice Number: <?= (isset($delivery_addr['invoice_id']) && $delivery_addr['invoice_id'] != '' ? $delivery_addr['invoice_id'] : "Not Available") ?></div>  
+                        </td>
+                    </tr>
+                </table> 
+            </div>
 
-//if order_id in ttransfer table
-        ?>
+            <div>
+                <!-- Sellers Details -->
+                <table class="detail_table">
+                    <tr><td><h3>Sold By</h3></td></tr>
+                    <tr>
+                        <td>
+                            <div><?= $delivery_addr['business_name'] ?></div>
+                            <div><?= $delivery_addr['seller_address'] ?></div>
+                            <div><?= $delivery_addr['seller_city'] ?></div>
+                            <div><?= $delivery_addr['seller_state'] . " " . $delivery_addr['pincode'] ?></div>
+                            <div>Seller GSTIN: <?= $delivery_addr['gstin'] ?></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <!--Display Product list -->                    
+                <table class="prod_table" cellspacing="0" cellpadding="0">
+                    <tr>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Price (Without Tax)</th>
+                        <?php
+                        $cgstFlag = true;
+                        if (strtolower(trim($delivery_addr['seller_state'])) == strtolower(trim($delivery_addr['state']))) {
+                            echo "<th  class='heading'>CGST</th>";
+                            echo "<th  class='heading'>SGST</th>";
+                        } else {
+                            $cgstFlag = false;
+                            echo "<th  class='heading'>IGST</th>";
+                        }
+                        ?>   
+                        <th>Total Price</th>
+                    </tr>
+                    <!-- fetch production general info -->
+                    <?php
+                    $total_amount = 0;
+                    //COD
+                    $codCharg = 0;
+                    $codFlag = false;
+                    if (strtolower(trim($delivery_addr['payment_type'])) == 'cod') {
+                        $codCharg = $delivery_addr['cod_charge'];
+                        $codFlag = true;
+                    }
+                    $shippingFee=0;
+                    foreach ($invoiceData as $key => $product) :
 
-        <table>
-            <tr>
-                <td>
-                    <h1> Invoice </h1>
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td><h3>Delivery Address</h3></td></tr>
-                        <tr><td>
-                                <?php
-                                $qr = $this->db->query("select * from shipping_address where order_id='$orderid' ");
-                                $rw = $qr->row();
-                                echo $rw->full_name . '<br>';
-                                echo $rw->address . '<br>';
-                                echo $rw->city;
-                                echo "," . $rw->pin_code . '<br>';
-                                echo $rw->country . '<br>';
-                                echo $rw->phone . '<br>';
-                                ?>
+                        //find product price without tax
+                        $saleValue = $product['sub_total_amount'];
+                        $noShipSaleValue = $saleValue - $product['sub_shipping_fees'];
+                        $taxRate = 100 + $product['tax_rate'];
+                        $withoutTaxValue = $noShipSaleValue / $taxRate * 100;
 
+                        //find tax amount
+                        $taxAmount = $noShipSaleValue - $withoutTaxValue;
+                        $product_total_amout = $noShipSaleValue;
 
-                            </td></tr>
-                    </table>
-
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td colspan="2"><h3>Buyer Detail</h3></td></tr>
-
-                        <tr>
-                            <td width="50%"> 
-                                <?php
-                                $qr2 = $this->db->query("select a.fname, a.lname,a.mob,a.email from user a inner join ordered_product_from_addtocart b on a.user_id=b.user_id where b.order_id='$orderid' group by b.order_id ");
-                                $rw2 = $qr2->row();
-                                echo $rw2->fname . " " . $rw2->lname;
-                                ?>
-                                <br />
-                                Phone No.:<?php echo $rw2->mob ?><br />
-
-                                <?php
-                                //$qr2=$this->db->query("select a.fname, a.lname,a.mob,a.email from  user a inner join ordered_product_from_addtocart b on a.user_id=b.user_id  where b.order_id='$orderid' group by b.order_id ");
-
-                                $qr4 = $this->db->query("select a.address,a.city,a.state,a.country,a.pin_code,d.state from user_address a inner join user b on a.address_id=b.address_id inner join  ordered_product_from_addtocart c on b.user_id=c.user_id inner join state d on a.state=d.state_id where c.order_id='$orderid' group by c.order_id  ");
-
-                                $rw4 = $qr4->row();
-                                echo $rw4->address;
-                                ?>
-                                <br />
-                                <?php echo $rw4->city; ?> ,
-                                <?php echo $rw4->state; ?><br />
-                                <?php echo $rw4->country; ?>, 
-                                <?php echo $rw4->pin_code; ?><br />
-
-
-                            </td>
-
-
-                            <td style="text-align:center; font-size:10px;border-left:1px solid #ccc;">
-                                Order ID: <?php echo $orderid; ?><br />
-                                Order Date : 
-                                <?php
-                                $qr1 = $this->db->query("select * from order_info where order_id='$orderid' ");
-                                $rw1 = $qr1->row();
-                                echo substr($rw1->date_of_order, 0, 10);
-                                ?><br />  
-                                Invoice Number:  <?php
-                                $qr1 = $this->db->query("select * from order_info where order_id='$orderid' ");
-                                $rw1 = $qr1->row();
-
-                                if ($rw1->invoice_id != "") {
-                                    echo $rw1->invoice_id;
-                                    ?>
-
+                        $shippingFee+=$product['sub_shipping_fees'];
+                        $prodRowClass = "";
+                        if ($key < $total_record) {
+                            $prodRowClass = "class='dash_border'";
+                        }
+                        $total_amount+=$saleValue;
+                        ?>
+                        <tr <?= $prodRowClass ?>>
+                            <td style="width:45%;">                                        
+                                <div><b><?= $product['product_name'] ?></b></div>
+                                <div>
                                     <?php
-                                } else {
-                                    echo "Not Available";
-                                }
-                                ?> 
-
-
-
-                        </tr>
-                    </table>
-
-                    <div style="clear:both;"></div>
-
-
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td><h3>Sold By</h3></td></tr>
-                        <tr>
-
-
-                            <td style="text-align:left; font-size:10px;">
-
-                                <?php
-                                $sql = $this->db->query("SELECT a.business_name,a.tin,b.seller_address,b.seller_city,b.seller_state,b.pincode,a.display_name FROM seller_account_information a INNER JOIN seller_account b ON a.seller_id=b.seller_id INNER JOIN ordered_product_from_addtocart c ON a.seller_id=c.seller_id INNER JOIN order_info d ON c.order_id=d.order_id WHERE d.order_id='$orderid' GROUP BY c.order_id");
-                                $rslt = $sql->result();
-                                ?>
-                                <?= $rslt[0]->business_name; ?><br/>
-                                <?= $rslt[0]->seller_address; ?>,<br/>
-                                <?= $rslt[0]->seller_city; ?>,<br/>
-                                <?= $rslt[0]->seller_state; ?>, <?= $rslt[0]->pincode; ?><br/>
-
-                                <?= 'VAT/TIN Number: ' . $rslt[0]->tin; ?><br/>
+                                    if ($product['color'] != '') {
+                                        echo "<span class='cart_attr'>Color : " . $product['color'] . '</span><br/>';
+                                    }
+                                    if ($product['size'] != '') {
+                                        echo "<span class='cart_attr'>Size : " . $product['size'] . '</span><br/>';
+                                    }
+                                    if ($product['capacity'] != '') {
+                                        echo "<span class='cart_attr'>Capacity : " . $product['capacity'] . '</span><br/>';
+                                    }
+                                    if ($product['ram'] != '') {
+                                        echo "<span class='cart_attr'>RAM : " . $product['ram'] . '</span><br/>';
+                                    }
+                                    if ($product['rom'] != '') {
+                                        echo "<span class='cart_attr'>ROM : " . $product['rom'] . '</span><br/>';
+                                    }
+                                    ?>  
+                                </div>                     
                             </td>
-
-                        </tr>
-                    </table>
-
-                    <div style="clear:both;"> &nbsp; </div>
-
-
-                    <table cellspacing="0" cellpadding="0" style="border:1px solid #000;" class="data-table">
-
-                        <tr>
-                            <th class="heading"> Product Name </th>	
-
-
-
-                            <th class="heading"> Quantity </th>
-
-                            <th class="heading">Price(Without Tax) </th>
-                            <th class="heading">Shipping Fees </th>
-                            <th  class="heading"> Tax Rate </th>
-                            <th class="heading"> Total Price</th>
-
-
-
-                        </tr>
-                        <?php
-                        $total_price = 0;
-                        $qr5 = $this->db->query("select * from ordered_product_from_addtocart where order_id='$orderid' group by sku");
-                        foreach ($qr5->result() as $rw5) {
-                            ?>
-                            <tr >
-                                <td style="width:45%;">                         
-
-                                    <div style="float:left; width:83%;">  <?php
-                                        $qr7 = $this->db->query("select name from product_general_info where product_id='$rw5->product_id'");
-                                        $rw7 = $qr7->row();
-                                        echo "<b>" . $rw7->name . "</b>";
-                                        ?> <br>
-
-
-                                        <?php
-                                        $color_sizecronjobquery = $this->db->query("SELECT color,size,Capacity,RAM,ROM FROM  cornjob_productsearch WHERE sku='$rw5->sku' group by sku ");
-                                        if ($color_sizecronjobquery->num_rows() > 0) {
-                                            $color = $color_sizecronjobquery->row()->color;
-                                            $size = $color_sizecronjobquery->row()->size;
-                                            $capacity = $color_sizecronjobquery->row()->Capacity;
-                                            $ram = $color_sizecronjobquery->row()->RAM;
-                                            $rom = $color_sizecronjobquery->row()->ROM;
-                                        }
-
-                                        if ($color != '') {
-                                            echo "<span class='cart_attr'>Color : " . $color . '</span><br/>';
-                                        }
-                                        if ($size != '') {
-                                            echo "<span class='cart_attr'>Size : " . $size . '</span><br/>';
-                                        }
-                                        if ($capacity != '') {
-                                            echo "<span class='cart_attr'>Capacity : " . $capacity . '</span><br/>';
-                                        }
-                                        if ($ram != '') {
-                                            echo "<span class='cart_attr'>RAM : " . $ram . '</span><br/>';
-                                        }
-                                        if ($rom != '') {
-                                            echo "<span class='cart_attr'>ROM : " . $rom . '</span><br/>';
-                                        }
-                                        ?>
-                                        <?php
-                                        // if($rw5->prdt_color != 'not'){ echo "<span class='cart_attr'>Color : ".$rw5->prdt_color.'</span><br/>'; }
-//   												if($rw5->prdt_size != 'not'){ echo "<span class='cart_attr'>Size : ".$rw5->prdt_size.'</span><br/>';}
-                                        ?>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </td>	
-
-
-
-                                <td>  <?php
-                                    $qr9 = $this->db->query("select * from ordered_product_from_addtocart where product_id='$rw5->product_id' and                                                 sku='$rw5->sku' and order_id='$orderid'  ");
-                                    //$row3=$qr3->row();
-                                    $price = 0;
-                                    $rw9 = $qr9->row();
-                                    echo $rw9->quantity;
-                                    ?>  </td>
-
-                                <td> <?php
-                                    $tax_amt = $rw9->sub_tax_rate;
-                                    $shipping_amnt = $rw9->sub_shipping_fees;
-                                    $qtn = $rw9->quantity;
-
-                                    $tax_percentage = round((100 / $rw9->sub_total_amount) * $tax_amt, 2);
-
-                                    $single_prod_price_without_tax = round(($rw9->sub_total_amount - $shipping_amnt) - $tax_amt);
-
-
-                                    echo "Rs." . $single_prod_price_without_tax;
-                                    ?>  </td>
-                                <td><?= "Rs." . $shipping_amnt ?></td>
-                                <td> <?php echo "Rs." . round($rw9->sub_tax_rate) . "(" . $tax_percentage . "%)"; ?>   </td>
-                                <td>  <?php echo "Rs." . $rw9->sub_total_amount; ?> </td>
-
-
-                            </tr>
-
-                        <?php } ?>
-
-                        <tr>
-                            <td colspan="5" style="text-align:right; border-right:1px solid #333;"> Total Amount (Including Tax & Shipping Fees)</td>
-                            <td>Rs.<?php
-                                $qr12 = $this->db->query("select * from order_info where order_id='$orderid' ");
-                                $rec12 = $qr12->result();
-                                echo $rec12[0]->Total_amount;
-                                ?> </td>
-
-                        </tr>
-
-                                                    <!-- <tr><td colspan="4" style="text-align:right; border-right:1px solid #333;">Tax</td><td> <i class="fa fa-inr"></i></td></tr>
-                                                    <tr><td colspan="4" style="text-align:right; border-right:1px solid #333;">Shipping Rate</td><td> <i class="fa fa-inr"></i></td></tr>
-                                                    <tr><td colspan="4" style="text-align:right; border-right:1px solid #333;">Total </td><td> <i class="fa fa-inr"></i> </td></tr>-->
-
-
-
-                    </table> 
-                    <table><tr><td><h3 style="color:#006400;">Thank you for buying from <?= DOMAIN_NAME ?> ! <br /> For any issue email : <?= SUPPORT_MAIL ?></h3></td>
-                            <td align="right" valign="top">Ordered Through: <h2> <?= DOMAIN_NAME ?> </h2><?php /* ?><img width="130" src="<?php echo base_url().'/images/logo1.jpg'?>" /><?php */ ?></td>
-                        </tr>
-                    </table>
-                    <p style=" text-align:justify;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I <?php echo $rw2->fname . " " . $rw2->lname; ?>, hereby agree and confirm that the above said goods are purchased through the Seller ,<?= $rslt[0]->business_name; ?> on <?= DOMAIN_NAME ?>, the above said goods are being purchased for my internal/personal purpose only and not for re-sale.I have read and understood and am legally bound by terms and conditions of sale available on <?= DOMAIN_NAME ?>  </p>
-
-                </td>
-
-                <!--<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-                --><!-- Orderslip -->
-
-
-                <td> 
-                    <h1> Order </h1>
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td><h3>Delivery Address</h3></td></tr>
-                        <tr><td>
-                                <?php
-                                $qr = $this->db->query("select * from shipping_address where order_id='$orderid' ");
-                                $rw = $qr->row();
-                                echo $rw->full_name . '<br>';
-                                echo $rw->address . '<br>';
-                                echo $rw->city;
-                                echo "," . $rw->pin_code . '<br>';
-                                echo $rw->country . '<br>';
-                                echo $rw->phone . '<br>';
-                                ?>
-
-
-                            </td></tr>
-                    </table>
-
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td colspan="2"><h3>Buyer Detail</h3></td></tr>
-
-                        <tr>
-                            <td width="50%"> 
-                                <?php
-                                $qr2 = $this->db->query("select a.fname, a.lname,a.mob,a.email from user a inner join ordered_product_from_addtocart b on a.user_id=b.user_id where b.order_id='$orderid' group by b.order_id ");
-                                $rw2 = $qr2->row();
-                                echo $rw2->fname . " " . $rw2->lname;
-                                ?>
-                                <br />
-                                Phone No.:<?php echo $rw2->mob ?><br />
-
-                                <?php
-                                //$qr2=$this->db->query("select a.fname, a.lname,a.mob,a.email from  user a inner join ordered_product_from_addtocart b on a.user_id=b.user_id  where b.order_id='$orderid' group by b.order_id ");
-
-                                $qr4 = $this->db->query("select a.address,a.city,a.state,a.country,a.pin_code,d.state from user_address a inner join user b on a.address_id=b.address_id inner join  ordered_product_from_addtocart c on b.user_id=c.user_id inner join state d on a.state=d.state_id where c.order_id='$orderid' group by c.order_id  ");
-
-                                $rw4 = $qr4->row();
-                                echo $rw4->address;
-                                ?>
-                                <br />
-                                <?php echo $rw4->city; ?> ,
-                                <?php echo $rw4->state; ?><br />
-                                <?php echo $rw4->country; ?>, 
-                                <?php echo $rw4->pin_code; ?><br />
-
-
+                            <td>  
+                                <div><?= $product['quantity'] ?></div>                                       
                             </td>
-
-
-                            <td style="text-align:center; font-size:10px;border-left:1px solid #ccc;">
-                                Order ID: <?php echo $orderid; ?><br />
-                                Order Date : 
+                            <td> 
+                                <!-- Without Tax -->
                                 <?php
-                                $qr1 = $this->db->query("select * from order_info where order_id='$orderid' ");
-                                $rw1 = $qr1->row();
-                                echo substr($rw1->date_of_order, 0, 10);
+                                echo "Rs." . round($withoutTaxValue, 2);
                                 ?>
-                        </tr>
-                    </table>
-
-                    <div style="clear:both;"></div>
-
-
-                    <table style="background-color:#f9f9f9; border:1px dashed #ccc; padding:5px;">
-                        <tr><td><h3>Sold By</h3></td></tr>
-                        <tr>
-
-
-                            <td style="text-align:left; font-size:10px;">
-
-                                <?php
-                                $sql = $this->db->query("SELECT a.business_name,a.tin,b.seller_address,b.seller_city,b.seller_state,b.pincode,a.display_name FROM seller_account_information a INNER JOIN seller_account b ON a.seller_id=b.seller_id INNER JOIN ordered_product_from_addtocart c ON a.seller_id=c.seller_id INNER JOIN order_info d ON c.order_id=d.order_id WHERE d.order_id='$orderid' GROUP BY c.order_id");
-                                $rslt = $sql->result();
-                                ?>
-                                <?= $rslt[0]->business_name; ?><br/>
-                                <?= $rslt[0]->seller_address; ?>,<br/>
-                                <?= $rslt[0]->seller_city; ?>,<br/>
-                                <?= $rslt[0]->seller_state; ?>, <?= $rslt[0]->pincode; ?><br/>
-
-                                <?= 'VAT/TIN Number: ' . $rslt[0]->tin; ?><br/>
                             </td>
-
-                        </tr>
-                    </table>
-
-                    <div style="clear:both;"> &nbsp; </div>
-
-
-                    <table cellspacing="0" cellpadding="0" style="border:1px solid #000;" class="data-table">
-
-                        <tr>
-                            <th class="heading"> Product Name </th>	
-                            <th class="heading"> Quantity </th>
-                            <th class="heading">Price(Without Tax) </th>
-                            <th class="heading">Shipping Fees </th>
-                            <th  class="heading"> Tax Rate </th>
-                            <th class="heading"> Total Price</th>
-                        </tr>
-                        <?php
-                        $total_price = 0;
-                        $qr5 = $this->db->query("select * from ordered_product_from_addtocart where order_id='$orderid' group by sku");
-                        foreach ($qr5->result() as $rw5) {
-                            ?>
-                            <tr >
-                                <td style="width:45%;">                         
-                                    <div style="float:left; width:83%;">  <?php
-                                        $qr7 = $this->db->query("select name from product_general_info where product_id='$rw5->product_id'");
-                                        $rw7 = $qr7->row();
-                                        echo "<b>" . $rw7->name . "</b>";
-                                        ?> <br>
-
-
-
-                                        <?php
-                                        $color_sizecronjobquery = $this->db->query("SELECT color,size,Capacity,RAM,ROM FROM  cornjob_productsearch WHERE sku='$rw5->sku' group by sku ");
-                                        if ($color_sizecronjobquery->num_rows() > 0) {
-                                            $color = $color_sizecronjobquery->row()->color;
-                                            $size = $color_sizecronjobquery->row()->size;
-                                            $capacity = $color_sizecronjobquery->row()->Capacity;
-                                            $ram = $color_sizecronjobquery->row()->RAM;
-                                            $rom = $color_sizecronjobquery->row()->ROM;
-                                        }
-
-                                        if ($color != '') {
-                                            echo "<span class='cart_attr'>Color : " . $color . '</span><br/>';
-                                        }
-                                        if ($size != '') {
-                                            echo "<span class='cart_attr'>Size : " . $size . '</span><br/>';
-                                        }
-                                        if ($capacity != '') {
-                                            echo "<span class='cart_attr'>Capacity : " . $capacity . '</span><br/>';
-                                        }
-                                        if ($ram != '') {
-                                            echo "<span class='cart_attr'>RAM : " . $ram . '</span><br/>';
-                                        }
-                                        if ($rom != '') {
-                                            echo "<span class='cart_attr'>ROM : " . $rom . '</span><br/>';
-                                        }
-                                        ?>
-
-                                        <?php
-                                        //if($rw5->prdt_color != 'not'){ echo "<span class='cart_attr'>Color : ".$rw5->prdt_color.'</span><br/>'; }
-//   												if($rw5->prdt_size != 'not'){ echo "<span class='cart_attr'>Size : ".$rw5->prdt_size.'</span><br/>';}
-                                        ?>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                </td>	
-                                <td>  <?php
-                                    $qr9 = $this->db->query("select * from ordered_product_from_addtocart where product_id='$rw5->product_id' and                                                 sku='$rw5->sku' and order_id='$orderid'  ");
-                                    //$row3=$qr3->row();
-                                    $price = 0;
-                                    $rw9 = $qr9->row();
-                                    echo $rw9->quantity;
-                                    ?>  </td>
-
-                                <td> <?php
-                                    $tax_amt = $rw9->sub_tax_rate;
-                                    $shipping_amnt = $rw9->sub_shipping_fees;
-                                    $qtn = $rw9->quantity;
-
-                                    $tax_percentage = round((100 / $rw9->sub_total_amount) * $tax_amt, 2);
-
-                                    $single_prod_price_without_tax = round(($rw9->sub_total_amount - $shipping_amnt) - $tax_amt);
-
-
-                                    echo "Rs." . $single_prod_price_without_tax;
-                                    ?>  </td>
-                                <td> <?= "Rs." . $shipping_amnt ?> </td>
-                                <td> <?php echo "Rs." . round($rw9->sub_tax_rate) . "(" . $tax_percentage . "%)"; ?>   </td>
-                                <td>  <?php echo "Rs." . $rw9->sub_total_amount; ?> </td>
-
-                            </tr>
-
-                        <?php } ?>
-
-                        <tr> <td colspan="5" style="text-align:right; border-right:1px solid #333;"> Total Amount (Including Tax & Shipping Fees)</td>
-                            <td>Rs.<?php
-                                $qr12 = $this->db->query("select * from order_info where order_id='$orderid' ");
-                                $rec12 = $qr12->result();
-                                echo $rec12[0]->Total_amount;
-                                ?> </td>                         
+                            <?php
+                            if ($cgstFlag) {
+                                echo "<td class=\"dash_border\">Rs." . round(($taxAmount / 2), 2) . " (" . ($product['tax_rate'] / 2) . "%)</td>";
+                                echo "<td class=\"dash_border\">Rs." . round(($taxAmount / 2), 2) . " (" . ($product['tax_rate'] / 2) . "%)</td>";
+                            } else {
+                                echo "<td class=\"dash_border\">Rs." . round($taxAmount, 2) . " (" . ($product['tax_rate']) . "%)</td>";
+                            }
+                            ?>    
+                            <td><?= "Rs." . round($product_total_amout, 2); ?></td>
                         </tr>
 
-                                                    <!-- <tr><td colspan="4" style="text-align:right; border-right:1px solid #333;">Tax</td><td> <i class="fa fa-inr"></i></td></tr>
-                                                    <tr><td colspan="4" style="text-align:right; border-right:1px solid #333;">Shipping Rate</td><td> <i class="fa fa-inr"></i></td></tr>
-                                                    <tr><td colspan="4" style="text-align:right; border-right:1px solid #333;">Total </td><td> <i class="fa fa-inr"></i> </td></tr>-->
+                    <?php endforeach; ?>
 
-                    </table> 
-                    <table><tr><td><h3 style="color:#006400;">Thank you for buying from <?= DOMAIN_NAME ?> ! <br /> For any issue email : <?= SUPPORT_MAIL ?></h3></td>
-                            <td align="right" valign="top">Ordered Through:<h2> <?= DOMAIN_NAME ?> </h2><?php /* ?><img width="130" src="<?php echo base_url().'/images/logo1.jpg'?>" /><?php */ ?></td>
-                        </tr></table>
-                    <p style=" text-align:justify;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I <?php echo $rw2->fname . " " . $rw2->lname; ?>, hereby agree and confirm that the above said goods are purchased through the Seller ,<?= $rslt[0]->business_name; ?> on <?= DOMAIN_NAME ?>, the above said goods are being purchased for my internal/personal purpose only and not for re-sale.I have read and understood and am legally bound by terms and conditions of sale available on <?= DOMAIN_NAME ?>  </p>
+                    <tr class="total_row">
+                        <td colspan="<?= ($cgstFlag) ? 3 : 2 ?>" style="text-align:right;"></td>
+                        <td colspan="2">Delivery Charges</td>
+                        <td style="text-align:left; border-left: 1px solid black;">Rs.<?= $shippingFee; ?></td> 
+                    </tr>
+                    <?php if ($codFlag): ?>
+                        <tr class="total_row">
+                            <td colspan="<?= ($cgstFlag) ? 3 : 2 ?>" style="text-align:right;"></td>
+                            <td colspan="2">COD Charges</td>
+                            <td style="text-align:left; border-left: 1px solid black;">Rs.<?= $codCharg; ?></td> 
+                        </tr>
+                    <?php endif; ?>
 
-                </td>
+                    <tr class="total_row">
+                        <td colspan="<?= ($cgstFlag) ? 5 : 4 ?>">Total Amount (Including Tax & Shipping Fees)</td>
+                        <td style="text-align:left;border-left: 1px solid black;">Rs.<?= ($total_amount + $codCharg); ?></td> 
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <p class="declaration">                            
+                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I <b><?= $delivery_addr['buyer_name'] ?></b>, hereby agree and confirm that the above said goods are purchased through the Seller: <b><?= $delivery_addr['business_name']; ?></b> on  <b><?= DOMAIN_NAME ?></b>, the above said goods are being purchased for my internal/personal purpose only and not for re-sale.I have read, understood and i am legally bound by terms and conditions of sale available on  <a target="_blank" href="<?= APP_BASE ?>"><?= DOMAIN_NAME ?></a></span>
+                </p>
+            </div>
 
+        <?php endif; ?>
 
-            </tr>
-        </table>
-
-
-    <?php } ?>
-
-</div> 
+    </main>
+    <footer>
+        Thank you for buying from <?= DOMAIN_NAME ?> ! For any issue email : <a href="mailto:<?= SUPPORT_MAIL ?>"><?= SUPPORT_MAIL ?></a>
+    </footer>
+</div>

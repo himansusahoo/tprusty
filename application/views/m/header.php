@@ -1,7 +1,7 @@
 <?php $this->db->cache_off();
 		if($this->session->userdata('sesscoke')==false)
 		{
-			$this->load->library('session');
+			
 			$data= array();
 			$this->session->set_userdata('sesscoke',$data);
 		}

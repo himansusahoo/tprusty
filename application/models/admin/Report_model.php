@@ -137,7 +137,7 @@ class Report_model extends CI_Model {
     }
 
     function update_inn_transaction_data() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
 
         $id_arr = $this->input->post('hidden_id[]');
@@ -330,7 +330,7 @@ class Report_model extends CI_Model {
         $query = $this->db->query("SELECT id,seller_id,COUNT(seller_id) AS NO_OF_ORDERS, SUM(fnal_settl_amt) AS TOTAL_FNL_STL_AMT FROM transaction WHERE id IN ($ids) GROUP BY seller_id");
         $result = $query->result();
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $rand_id = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
         $cdate = date('Y-m-d');
 
@@ -1591,7 +1591,7 @@ WHERE a.address_id = b.address_id LIMIT " . $start . " , " . $limit . "");
     }
 
     function update_inn_utr_no() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
 
         $id = $this->input->post('hidden_id');
@@ -1650,7 +1650,7 @@ WHERE a.address_id = b.address_id LIMIT " . $start . " , " . $limit . "");
 
     function update_inn_buyerutr_no() {
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
 
         $id = $this->input->post('hidden_id');
@@ -1679,7 +1679,7 @@ WHERE a.address_id = b.address_id LIMIT " . $start . " , " . $limit . "");
 
     function get_refundlist_forExcel($order_id_arr) {
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('y-m-d H:i:s');
 
         for ($i = 0; $i < count($order_id_arr); $i++) {
@@ -1765,7 +1765,7 @@ WHERE a.address_id = b.address_id LIMIT " . $start . " , " . $limit . "");
     }
 
     function update_wallet_debit() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('y-m-d H:i:s');
         $user_idarr = $this->input->post('check_userid');
         $crdr_amtarr = $this->input->post('check_drcramt');
@@ -1806,7 +1806,7 @@ WHERE a.address_id = b.address_id LIMIT " . $start . " , " . $limit . "");
     function update_wallet_credit() {
 
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('y-m-d H:i:s');
         $user_idarr = $this->input->post('check_userid');
         $crdr_amtarr = $this->input->post('check_drcramt');
@@ -2056,7 +2056,7 @@ WHERE a.address_id = b.address_id LIMIT " . $start . " , " . $limit . "");
      */
     private function _insert_seller_payout_details($trans_ids) {
         $this->load->model('Usermodel');
-        date_default_timezone_set('Asia/Calcutta');
+        
         $rand_id = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
         $cdate = date('Y-m-d');
 

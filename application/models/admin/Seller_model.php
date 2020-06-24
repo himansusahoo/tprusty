@@ -2,60 +2,77 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+
+
 class Seller_model extends CI_Model {
 
-    function getSellers() {
+	
 
-        $query = $this->db->query("SELECT a.* , b.* 
+	function getSellers(){
+
+		$query = $this->db->query("SELECT a.* , b.* 
 
 		FROM seller_account a 
 
 		INNER JOIN seller_account_information b ON a.seller_id = b.seller_id ORDER BY a.seller_id DESC");
 
-        return $query->result();
-    }
+		return $query->result();
 
-    function getSellersForAdminList($limit, $start) {
+	}
 
-        $query = $this->db->query("SELECT * FROM seller_account ORDER BY seller_id DESC LIMIT " . $start . ", " . $limit . "");
+	
 
-        return $query->result();
-    }
+	function getSellersForAdminList($limit,$start){
 
-    function getSellersForAdminListcount() {
+		$query = $this->db->query("SELECT * FROM seller_account ORDER BY seller_id DESC LIMIT ".$start.", ".$limit."");
 
-        $query = $this->db->query("SELECT * FROM seller_account ORDER BY seller_id DESC");
+		return $query->result();
 
-        return $query->num_rows();
-    }
+	}
 
-    function getSellerswisepnding_productcount() {
+	
 
-        //$query = $this->db->query("SELECT a.seller_id FROM seller_account a INNER JOIN seller_product_setting b ON a.seller_id=b.seller_id WHERE (b.product_approve='Pending' ) GROUP BY b.seller_id  ORDER BY a.seller_id DESC");
+	function getSellersForAdminListcount(){
 
+		$query = $this->db->query("SELECT * FROM seller_account ORDER BY seller_id DESC");
 
+		return $query->num_rows();
 
-
-
-
-
-        /* $sql = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE product_approve='Pending' ");
-
-          $res = $sql->result();
+	} 
 
 
 
-          $arr = array();
-
-          foreach($res as $row)
-
-          { array_push($arr,$row->seller_product_id);}
-
-          $str=implode(',',$arr); */
 
 
 
-        $query = $this->db->query("SELECT i.* FROM seller_product_setting a 
+
+		function getSellerswisepnding_productcount(){
+
+		//$query = $this->db->query("SELECT a.seller_id FROM seller_account a INNER JOIN seller_product_setting b ON a.seller_id=b.seller_id WHERE (b.product_approve='Pending' ) GROUP BY b.seller_id  ORDER BY a.seller_id DESC");
+
+		
+
+		
+
+		
+
+		 /*$sql = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE product_approve='Pending' ");
+
+		$res = $sql->result();
+
+		
+
+		$arr = array();
+
+		foreach($res as $row)
+
+		{ array_push($arr,$row->seller_product_id);}
+
+		$str=implode(',',$arr);*/
+
+		
+
+		 $query = $this->db->query("SELECT i.* FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -69,43 +86,49 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.product_approve='Pending' AND (i.status='Active' OR i.status='Pending') group by a.seller_id ");
 
+		
 
+		
 
+		
 
+		return $query->num_rows();
 
+	}
 
+	
 
-        return $query->num_rows();
-    }
+	function getSellerswise_productapprovedata($limit,$start){
 
-    function getSellerswise_productapprovedata($limit, $start) {
+		//$query = $this->db->query("SELECT * FROM seller_account ORDER BY seller_id DESC LIMIT ".$start.", ".$limit."");
 
-        //$query = $this->db->query("SELECT * FROM seller_account ORDER BY seller_id DESC LIMIT ".$start.", ".$limit."");
-        //$query = $this->db->query("SELECT a.* FROM seller_account a INNER JOIN seller_product_setting b ON a.seller_id=b.seller_id WHERE (b.product_approve='Pending' ) GROUP BY b.seller_id  ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit." ");
+		
 
+		//$query = $this->db->query("SELECT a.* FROM seller_account a INNER JOIN seller_product_setting b ON a.seller_id=b.seller_id WHERE (b.product_approve='Pending' ) GROUP BY b.seller_id  ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit." ");
 
+		
 
+		
 
+		/*$sql = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE product_approve='Pending' ORDER BY date_added DESC LIMIT ".$start.", ".$limit." ");
 
-        /* $sql = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE product_approve='Pending' ORDER BY date_added DESC LIMIT ".$start.", ".$limit." ");
+		
 
+		$res = $sql->result();
 
+		
 
-          $res = $sql->result();
+		$arr = array();
 
+		foreach($res as $row)
 
+		{ array_push($arr,$row->seller_product_id);}
 
-          $arr = array();
+		$str=implode(',',$arr);*/
 
-          foreach($res as $row)
+		
 
-          { array_push($arr,$row->seller_product_id);}
-
-          $str=implode(',',$arr); */
-
-
-
-        $query = $this->db->query("SELECT i.* FROM seller_product_setting a 
+		 $query = $this->db->query("SELECT i.* FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -117,559 +140,613 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
 
-		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.product_approve='Pending' AND (i.status='Active' OR i.status='Pending') group by a.seller_id LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.product_approve='Pending' AND (i.status='Active' OR i.status='Pending') group by a.seller_id LIMIT ".$start.", ".$limit.""); 
 
+		
 
+		
 
+		
 
+		return $query->result();
 
+	}
 
+	
 
-        return $query->result();
-    }
+	function changed_productprocess_statusstart()
 
-    function changed_productprocess_statusstart() {
+	{
 
-        $this->db->query("UPDATE product_process_status SET prod_approv='process' WHERE status_id='1' ");
-    }
+		$this->db->query("UPDATE product_process_status SET prod_approv='process' WHERE status_id='1' ");
 
-    function changed_productprocess_statusfinish() {
+	}
 
-        $this->db->query("UPDATE product_process_status SET prod_approv='not process' WHERE status_id='1' ");
-    }
+	
 
-    /* function filter_sellers_data()
+	function changed_productprocess_statusfinish()
 
-      {
+	{
 
-      $seller_from = $this->input->post('seller_id_from');
+			$this->db->query("UPDATE product_process_status SET prod_approv='not process' WHERE status_id='1' ");	
 
+		
 
+	}  	
 
-      $seller_to = $this->input->post('seller_id_to');
+	
 
-      //print_r($seller_to);exit;
+	/*function filter_sellers_data()
 
-      $name1 = $this->input->post('name1');
+	{
 
-      //print_r($name1);exit;
+		    $seller_from = $this->input->post('seller_id_from');
 
-      $phone = $this->input->post('phone');
 
-      //print_r($phone);exit;
 
-      $reg_date_from = $this->input->post('reg_date_from');
+			$seller_to = $this->input->post('seller_id_to');			
 
+			//print_r($seller_to);exit;			
 
+			$name1 = $this->input->post('name1');
 
-      $reg_date_to = $this->input->post('reg_date_to');
+			//print_r($name1);exit;	
 
-      //print_r($reg_date_to);exit;
+			$phone = $this->input->post('phone');
 
-      $state = $this->input->post('state');
+			//print_r($phone);exit;
 
+			$reg_date_from = $this->input->post('reg_date_from');
 
+			
 
-      $city = $this->input->post('city');
+			$reg_date_to = $this->input->post('reg_date_to');
 
+			//print_r($reg_date_to);exit;
 
+			$state = $this->input->post('state');	
 
-      $email = $this->input->post('email');
 
-      $approval_from = $this->input->post('approval_from');
 
-      $approval_to = $this->input->post('approval_to');
+			$city = $this->input->post('city');	
 
-      $seller_status = $this->input->post('seller_status');
+			
 
-      //print_r($category_search_input);exit;
+			$email = $this->input->post('email');
 
+			$approval_from = $this->input->post('approval_from');
 
+			$approval_to = $this->input->post('approval_to');
 
-      $condition = '';
+			$seller_status = $this->input->post('seller_status');
 
-      if( $seller_from!='' && $seller_to!='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
+			//print_r($category_search_input);exit;
 
-      $condition .= "a.seller_id>='$seller_from' and a.seller_id<='$seller_to'" ;}
+			
 
-      if( $seller_from=='' && $seller_to=='' && $name1!='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
+			$condition = '';
 
-      $condition .= "a.name='$name1'" ;}
+			if( $seller_from!='' && $seller_to!='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
 
+				    $condition .= "a.seller_id>='$seller_from' and a.seller_id<='$seller_to'" ;}
 
+			if( $seller_from=='' && $seller_to=='' && $name1!='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
 
-      if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone!='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
+				    $condition .= "a.name='$name1'" ;}		
 
-      $condition .= "a.mobile='$phone'" ;}
+			
 
-      if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from!='' && $reg_date_to!='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
+			if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone!='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
 
-      $condition .= "a.register_date>='$reg_date_from' and a.register_date<='$reg_date_to'" ;}
+				    $condition .= "a.mobile='$phone'" ;}
 
+			if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from!='' && $reg_date_to!='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
 
+				    $condition .= "a.register_date>='$reg_date_from' and a.register_date<='$reg_date_to'" ;}
 
-      if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state!='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
+			
 
-      $condition .= "b.state='$state'" ;}
+			if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state!='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
 
+				    $condition .= "b.state='$state'" ;}
 
+					
 
-      if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city!='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
+			if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city!='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
 
-      $condition .= "b.city='$city'" ;}
+				    $condition .= "b.city='$city'" ;}
 
+			
 
+			if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from!='' && $approval_to!='' && $seller_status=='' ){
 
-      if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from!='' && $approval_to!='' && $seller_status=='' ){
+				    $condition .= "a.approval_date>='$approval_from' and a.approval_date<='$approval_to'" ;}
 
-      $condition .= "a.approval_date>='$approval_from' and a.approval_date<='$approval_to'" ;}
+				
 
+			if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status!='' ){
 
+				    $condition .= "a.status='$seller_status'" ;}
 
-      if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status!='' ){
+					if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email!='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
 
-      $condition .= "a.status='$seller_status'" ;}
+				    $condition .= "a.email='$email'" ;}	
 
-      if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email!='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
+										
 
-      $condition .= "a.email='$email'" ;}
+			if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
 
-
-
-      if( $seller_from=='' && $seller_to=='' && $name1=='' && $phone=='' && $reg_date_from=='' && $reg_date_to=='' && $state=='' && $city=='' && $email=='' && $approval_from=='' && $approval_to=='' && $seller_status=='' ){
-
-      $query = $this->db->query("SELECT a.* , b.*
-
-      FROM seller_account a
-
-      INNER JOIN seller_account_information b ON a.seller_id = b.seller_id ORDER BY a.seller_id DESC");
-
-      return $query->result();
-
-      }
-
-      //echo $condition;exit;
-
-
-
-      $query = $this->db->query("SELECT a.* , b.*
-
-      FROM seller_account a
-
-      INNER JOIN seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC");
-
-      return $query->result();
-
-      } */
-
-    function filter_sellers_data($limit, $start) {
-
-        $seller_id11 = $_REQUEST['seller_id'];
-
-        $seller_id = preg_replace("/[^0-9,.]/", "", $seller_id11);
-
-        $name1 = $_REQUEST['name1'];
-
-        $phone = $_REQUEST['phone'];
-
-        $reg_date_from = $_REQUEST['regdate_from'];
-
-        $reg_date_to = $_REQUEST['regdate_to'];
-
-        $state = $_REQUEST['state'];
-
-        $city = $_REQUEST['city'];
-
-        $email = $_REQUEST['email'];
-
-        $approval_from = $_REQUEST['approval_from'];
-
-        $approval_to = $_REQUEST['approval_to'];
-
-        $seller_status = $_REQUEST['seller_status'];
-
-
-
-        $condition = '';
-
-        if ($seller_id != "") {
-
-            $condition .= "a.seller_uid like '%$seller_id' or a.seller_uid like '%$seller_id%' or a.seller_uid like '$seller_id%'";
-
-            $query = $this->db->query("SELECT a.* , b.* 
+			$query = $this->db->query("SELECT a.* , b.* 
 
 		FROM seller_account a 
 
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN seller_account_information b ON a.seller_id = b.seller_id ORDER BY a.seller_id DESC");
 
-            return $query->result();
-        }
+		return $query->result();	
 
+			}
 
+		//echo $condition;exit; 
 
-        if ($name1 != "") {
+					
 
-            $condition .= "a.name  like '%$name1' or a.name  like '%$name1%' or a.name  like '$name1%' or b.business_name  like '%$name1' or b.business_name  like '%$name1%' or b.business_name  like '$name1%'";
-
-            $query = $this->db->query("SELECT a.* , b.* 
-
-		FROM seller_account a 
-
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC LIMIT " . $start . ", " . $limit . "");
-
-            return $query->result();
-        }
-
-
-
-        if ($phone != "") {
-
-            $condition .= "a.mobile='$phone' or b.pmobile='$phone'";
-
-            $query = $this->db->query("SELECT a.* , b.* 
+		$query = $this->db->query("SELECT a.* , b.* 
 
 		FROM seller_account a 
 
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC");
 
-            return $query->result();
-        }
+		return $query->result();	
 
+	}*/
 
+	
 
-        if ($reg_date_from != "" && $reg_date_to != "") {
+	function filter_sellers_data($limit,$start)
 
-            $condition .= "a.register_date>='$reg_date_from' and a.register_date<='$reg_date_to'";
+	{
 
-            $query = $this->db->query("SELECT a.* , b.* 
+		    $seller_id11 = $_REQUEST['seller_id'];
 
-		FROM seller_account a 
+			$seller_id=preg_replace("/[^0-9,.]/", "", $seller_id11);
 
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC LIMIT " . $start . ", " . $limit . "");
+			$name1 = $_REQUEST['name1'];
 
-            return $query->result();
-        }
+			$phone = $_REQUEST['phone'];
 
+			$reg_date_from =$_REQUEST['regdate_from'];
 
+			$reg_date_to = $_REQUEST['regdate_to'];
 
-        if ($state != "") {
+			$state = $_REQUEST['state'];	
 
-            $condition .= "b.state like '%$state' or b.state like '%$state%' or b.state like '$state%' or a.seller_state like '%$state' or a.seller_state like '%$state%' or a.seller_state like '$state%'";
+			$city = $_REQUEST['city'];	
 
-            $query = $this->db->query("SELECT a.* , b.* 
+			$email = $_REQUEST['email'];
 
-		FROM seller_account a 
+			$approval_from = $_REQUEST['approval_from'];
 
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC LIMIT " . $start . ", " . $limit . "");
+			$approval_to = $_REQUEST['approval_to'];
 
-            return $query->result();
-        }
+			$seller_status = $_REQUEST['seller_status'];
 
+			
 
+			$condition = '';
 
-        if ($city != "") {
+			if($seller_id != ""){
 
-            $condition .= "b.city like '%$city' or b.city like '%$city%' or b.city like '$city%' or a.seller_city like '%$city' or a.seller_city like '%$city%' or a.seller_city like '$city%'";
+					$condition .= "a.seller_uid like '%$seller_id' or a.seller_uid like '%$seller_id%' or a.seller_uid like '$seller_id%'" ;
 
-            $query = $this->db->query("SELECT a.* , b.* 
-
-		FROM seller_account a 
-
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC LIMIT " . $start . ", " . $limit . "");
-
-            return $query->result();
-        }
-
-
-
-        if ($email != "") {
-
-            $condition .= "a.email like '%$email' or a.email like '%$email%' or a.email like '$email%' or b.pemail like '%$email' or b.pemail like '%$email%' or b.pemail like '$email%'";
-
-            $query = $this->db->query("SELECT a.* , b.* 
+					$query = $this->db->query("SELECT a.* , b.* 
 
 		FROM seller_account a 
 
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC LIMIT " . $start . ", " . $limit . "");
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit."");
 
-            return $query->result();
-        }
+		return $query->result();
 
+				}
 
+			
 
-        if ($approval_from != "" && $approval_to != "") {
+			if($name1 != ""){
 
-            $condition .= "a.approval_date>='$approval_from' and a.approval_date<='$approval_to'";
+					$condition .= "a.name  like '%$name1' or a.name  like '%$name1%' or a.name  like '$name1%' or b.business_name  like '%$name1' or b.business_name  like '%$name1%' or b.business_name  like '$name1%'" ;
 
-            $query = $this->db->query("SELECT a.* , b.* 
-
-		FROM seller_account a 
-
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC LIMIT " . $start . ", " . $limit . "");
-
-            return $query->result();
-        }
-
-
-
-        if ($seller_status != "") {
-
-            $condition .= "a.status='$seller_status'";
-
-            $query = $this->db->query("SELECT a.* , b.* 
+					$query = $this->db->query("SELECT a.* , b.* 
 
 		FROM seller_account a 
 
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC LIMIT " . $start . ", " . $limit . "");
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit."");
 
-            return $query->result();
-        }
+		return $query->result();
 
+				}
 
+				
 
+			if($phone != ""){
 
+					$condition .= "a.mobile='$phone' or b.pmobile='$phone'" ;
 
-
-
-        if ($condition == "") {
-
-            $query = $this->db->query("SELECT a.* , b.* 
-
-		FROM seller_account a 
-
-		left join seller_account_information b ON a.seller_id = b.seller_id ORDER BY a.seller_id DESC LIMIT " . $start . ", " . $limit . "");
-
-            return $query->result();
-        }
-
-
-
-        /* echo $sql="SELECT a.* , b.* 
-
-          FROM seller_account a
-
-          left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC";exit; */
-    }
-
-    function filter_sellers_datacount() {
-
-        $seller_id11 = $_REQUEST['seller_id'];
-
-        $seller_id = preg_replace("/[^0-9,.]/", "", $seller_id11);
-
-        $name1 = $_REQUEST['name1'];
-
-        $phone = $_REQUEST['phone'];
-
-        $reg_date_from = $_REQUEST['regdate_from'];
-
-        $reg_date_to = $_REQUEST['regdate_to'];
-
-        $state = $_REQUEST['state'];
-
-        $city = $_REQUEST['city'];
-
-        $email = $_REQUEST['email'];
-
-        $approval_from = $_REQUEST['approval_from'];
-
-        $approval_to = $_REQUEST['approval_to'];
-
-        $seller_status = $_REQUEST['seller_status'];
-
-
-
-        $condition = '';
-
-        if ($seller_id != "") {
-
-            $condition .= "a.seller_uid like '%$seller_id' or a.seller_uid like '%$seller_id%' or a.seller_uid like '$seller_id%'";
-
-            $query = $this->db->query("SELECT a.* , b.* 
+					$query = $this->db->query("SELECT a.* , b.* 
 
 		FROM seller_account a 
 
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC");
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit."");
 
-            return $query->num_rows();
-        }
+		return $query->result();
 
+				}
 
+				
 
-        if ($name1 != "") {
+			if($reg_date_from != "" && $reg_date_to != ""){
 
-            $condition .= "a.name  like '%$name1' or a.name  like '%$name1%' or a.name  like '$name1%' or b.business_name  like '%$name1' or b.business_name  like '%$name1%' or b.business_name  like '$name1%'";
+					$condition .= "a.register_date>='$reg_date_from' and a.register_date<='$reg_date_to'" ;
 
-            $query = $this->db->query("SELECT a.* , b.* 
-
-		FROM seller_account a 
-
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC");
-
-            return $query->num_rows();
-        }
-
-
-
-        if ($phone != "") {
-
-            $condition .= "a.mobile='$phone' or b.pmobile='$phone'";
-
-            $query = $this->db->query("SELECT a.* , b.* 
+					$query = $this->db->query("SELECT a.* , b.* 
 
 		FROM seller_account a 
 
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC");
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit."");
 
-            return $query->num_rows();
-        }
+		return $query->result();
 
+				}
 
+				
 
-        if ($reg_date_from != "" && $reg_date_to != "") {
+			if($state != ""){
 
-            $condition .= "a.register_date>='$reg_date_from' and a.register_date<='$reg_date_to'";
+					$condition .= "b.state like '%$state' or b.state like '%$state%' or b.state like '$state%' or a.seller_state like '%$state' or a.seller_state like '%$state%' or a.seller_state like '$state%'" ;
 
-            $query = $this->db->query("SELECT a.* , b.* 
-
-		FROM seller_account a 
-
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC");
-
-            return $query->num_rows();
-        }
-
-
-
-        if ($state != "") {
-
-            $condition .= "b.state like '%$state' or b.state like '%$state%' or b.state like '$state%' or a.seller_state like '%$state' or a.seller_state like '%$state%' or a.seller_state like '$state%'";
-
-            $query = $this->db->query("SELECT a.* , b.* 
+					$query = $this->db->query("SELECT a.* , b.* 
 
 		FROM seller_account a 
 
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC");
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit."");
 
-            return $query->num_rows();
-        }
+		return $query->result();
 
+				}
 
+				
 
-        if ($city != "") {
+			if($city != ""){
 
-            $condition .= "b.city like '%$city' or b.city like '%$city%' or b.city like '$city%' or a.seller_city like '%$city' or a.seller_city like '%$city%' or a.seller_city like '$city%'";
+					$condition .= "b.city like '%$city' or b.city like '%$city%' or b.city like '$city%' or a.seller_city like '%$city' or a.seller_city like '%$city%' or a.seller_city like '$city%'" ;
 
-            $query = $this->db->query("SELECT a.* , b.* 
-
-		FROM seller_account a 
-
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC");
-
-            return $query->num_rows();
-        }
-
-
-
-        if ($email != "") {
-
-            $condition .= "a.email like '%$email' or a.email like '%$email%' or a.email like '$email%' or b.pemail like '%$email' or b.pemail like '%$email%' or b.pemail like '$email%'";
-
-            $query = $this->db->query("SELECT a.* , b.* 
+					$query = $this->db->query("SELECT a.* , b.* 
 
 		FROM seller_account a 
 
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC");
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit."");
 
-            return $query->num_rows();
-        }
+		return $query->result();
 
+				}
 
+				
 
-        if ($approval_from != "" && $approval_to != "") {
+			if($email != ""){
 
-            $condition .= "a.approval_date>='$approval_from' and a.approval_date<='$approval_to'";
+					$condition .= "a.email like '%$email' or a.email like '%$email%' or a.email like '$email%' or b.pemail like '%$email' or b.pemail like '%$email%' or b.pemail like '$email%'" ;
 
-            $query = $this->db->query("SELECT a.* , b.* 
-
-		FROM seller_account a 
-
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC");
-
-            return $query->num_rows();
-        }
-
-
-
-        if ($seller_status != "") {
-
-            $condition .= "a.status='$seller_status'";
-
-            $query = $this->db->query("SELECT a.* , b.* 
+					$query = $this->db->query("SELECT a.* , b.* 
 
 		FROM seller_account a 
 
-		left join seller_account_information b ON a.seller_id = b.seller_id where " . $condition . " ORDER BY a.seller_id DESC");
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit."");
 
-            return $query->num_rows();
-        }
+		return $query->result();
 
+				}
 
+				
 
+			if($approval_from != "" && $approval_to != ""){
 
+					$condition .= "a.approval_date>='$approval_from' and a.approval_date<='$approval_to'" ;
 
+					$query = $this->db->query("SELECT a.* , b.* 
 
+		FROM seller_account a 
 
-        if ($condition == "") {
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit."");
 
-            $query = $this->db->query("SELECT a.* , b.* 
+		return $query->result();
+
+				}
+
+				
+
+			if($seller_status != ""){
+
+					$condition .= "a.status='$seller_status'";
+
+					$query = $this->db->query("SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit."");
+
+		return $query->result();
+
+				}
+
+			
+
+			
+
+										
+
+			if($condition=="" ){
+
+			$query = $this->db->query("SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id ORDER BY a.seller_id DESC LIMIT ".$start.", ".$limit."");
+
+		return $query->result();	
+
+			}
+
+		 
+
+		/*echo $sql="SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC";exit;*/		
+
+			
+
+	}
+
+	
+
+	function filter_sellers_datacount()
+
+	{
+
+		     $seller_id11 = $_REQUEST['seller_id'];
+
+			$seller_id=preg_replace("/[^0-9,.]/", "", $seller_id11);	
+
+			$name1 = $_REQUEST['name1'];
+
+			$phone = $_REQUEST['phone'];
+
+			$reg_date_from =$_REQUEST['regdate_from'];
+
+			$reg_date_to = $_REQUEST['regdate_to'];
+
+			$state = $_REQUEST['state'];	
+
+			$city = $_REQUEST['city'];	
+
+			$email = $_REQUEST['email'];
+
+			$approval_from = $_REQUEST['approval_from'];
+
+			$approval_to = $_REQUEST['approval_to'];
+
+			$seller_status = $_REQUEST['seller_status'];
+
+			
+
+			$condition = '';
+
+			if($seller_id != ""){
+
+					$condition .= "a.seller_uid like '%$seller_id' or a.seller_uid like '%$seller_id%' or a.seller_uid like '$seller_id%'" ;
+
+					$query = $this->db->query("SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC");
+
+		return $query->num_rows();
+
+				}
+
+			
+
+			if($name1 != ""){
+
+					$condition .= "a.name  like '%$name1' or a.name  like '%$name1%' or a.name  like '$name1%' or b.business_name  like '%$name1' or b.business_name  like '%$name1%' or b.business_name  like '$name1%'" ;
+
+					$query = $this->db->query("SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC");
+
+		return $query->num_rows();
+
+				}
+
+				
+
+			if($phone != ""){
+
+					$condition .= "a.mobile='$phone' or b.pmobile='$phone'" ;
+
+					$query = $this->db->query("SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC");
+
+		return $query->num_rows();
+
+				}
+
+				
+
+			if($reg_date_from != "" && $reg_date_to != ""){
+
+					$condition .= "a.register_date>='$reg_date_from' and a.register_date<='$reg_date_to'" ;
+
+					$query = $this->db->query("SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC");
+
+		return $query->num_rows();
+
+				}
+
+				
+
+			if($state != ""){
+
+					$condition .= "b.state like '%$state' or b.state like '%$state%' or b.state like '$state%' or a.seller_state like '%$state' or a.seller_state like '%$state%' or a.seller_state like '$state%'" ;
+
+					$query = $this->db->query("SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC");
+
+		return $query->num_rows();
+
+				}
+
+				
+
+			if($city != ""){
+
+					$condition .= "b.city like '%$city' or b.city like '%$city%' or b.city like '$city%' or a.seller_city like '%$city' or a.seller_city like '%$city%' or a.seller_city like '$city%'" ;
+
+					$query = $this->db->query("SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC");
+
+		return $query->num_rows();
+
+				}
+
+				
+
+			if($email != ""){
+
+					$condition .= "a.email like '%$email' or a.email like '%$email%' or a.email like '$email%' or b.pemail like '%$email' or b.pemail like '%$email%' or b.pemail like '$email%'" ;
+
+					$query = $this->db->query("SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC");
+
+		return $query->num_rows();
+
+				}
+
+				
+
+			if($approval_from != "" && $approval_to != ""){
+
+					$condition .= "a.approval_date>='$approval_from' and a.approval_date<='$approval_to'" ;
+
+					$query = $this->db->query("SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC");
+
+		return $query->num_rows();
+
+				}
+
+				
+
+			if($seller_status != ""){
+
+					$condition .= "a.status='$seller_status'";
+
+					$query = $this->db->query("SELECT a.* , b.* 
+
+		FROM seller_account a 
+
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC");
+
+		return $query->num_rows();
+
+				}
+
+			
+
+			
+
+										
+
+			if($condition=="" ){
+
+			$query = $this->db->query("SELECT a.* , b.* 
 
 		FROM seller_account a 
 
 		left join seller_account_information b ON a.seller_id = b.seller_id ORDER BY a.seller_id DESC");
 
-            return $query->num_rows();
-        }
+		return $query->num_rows();	
 
+			}
 
+		 
 
-        /* echo $sql="SELECT a.* , b.* 
+		/*echo $sql="SELECT a.* , b.* 
 
-          FROM seller_account a
+		FROM seller_account a 
 
-          left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC";exit; */
-    }
+		left join seller_account_information b ON a.seller_id = b.seller_id where ".$condition." ORDER BY a.seller_id DESC";exit;*/		
 
-    function update_sellers_status($seller_id, $status) {
+			 
 
-        date_default_timezone_set('Asia/Calcutta');
+	}
 
-        $dt = date('Y-m-d H:i:s');
+	function update_sellers_status($seller_id, $status){
 
-        $query = $this->db->query("UPDATE seller_account SET status='$status', approval_date='$dt' WHERE seller_id='$seller_id'");
+		
 
-        if ($query) {
+		$dt =  date('Y-m-d H:i:s');
 
-            return true;
-        } else {
+		$query = $this->db->query("UPDATE seller_account SET status='$status', approval_date='$dt' WHERE seller_id='$seller_id'");
 
-            return false;
-        }
-    }
+		if($query){
 
-    function getSearchedSellers($cate_search_title) {
+			return true;
 
-        /* echo $h = "SELECT a.*, b.*
+		}else{
 
-          FROM seller_account a
+			return false;
 
-          INNER JOIN seller_account_information b ON a.seller_id = b.seller_id
+		}
 
-          WHERE a.main_selleing_category LIKE '$cate_search_title%' OR a.main_selleing_category LIKE '%$cate_search_title%' OR a.main_selleing_category LIKE '%$cate_search_title'
+	}
 
-          ORDER BY a.seller_id DESC"; exit; */
+	
 
-        $query = $this->db->query("SELECT a.*, b.*
+	function getSearchedSellers($cate_search_title){
+
+		/*echo $h = "SELECT a.*, b.*
+
+		FROM seller_account a
+
+		INNER JOIN seller_account_information b ON a.seller_id = b.seller_id
+
+		WHERE a.main_selleing_category LIKE '$cate_search_title%' OR a.main_selleing_category LIKE '%$cate_search_title%' OR a.main_selleing_category LIKE '%$cate_search_title'
+
+		ORDER BY a.seller_id DESC"; exit;*/
+
+		$query = $this->db->query("SELECT a.*, b.*
 
 		FROM seller_account a
 
@@ -679,20 +756,27 @@ class Seller_model extends CI_Model {
 
 		ORDER BY a.seller_id DESC");
 
-        $row = $query->num_rows();
+		$row = $query->num_rows();
 
-        if ($row > 0) {
+		if($row > 0){
 
-            return $query->result();
-        } else {
+			return $query->result();
 
-            return false;
-        }
-    }
+		}
 
-    function retrive_seller_product_data() {
+		else{
 
-        $query = $this->db->query("SELECT a.*,b.*,c.*,d.*,e.*,f.*,g.*,h.name AS seller_name FROM seller_product_setting a 
+			return false;
+
+		}
+
+	}
+
+	
+
+	function retrive_seller_product_data(){
+
+		$query = $this->db->query("SELECT a.*,b.*,c.*,d.*,e.*,f.*,g.*,h.name AS seller_name FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 
 
@@ -708,12 +792,15 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account h ON a.seller_id=h.seller_id AND h.status='Active' WHERE a.product_approve='Pending' ORDER BY a.seller_product_id DESC");
 
-        return $query;
-    }
+		return $query;
 
-    function retrive_seller_product_data_4_approvecount() {
+	}
 
-        $query = $this->db->query("SELECT a.seller_product_id
+	
+
+	function retrive_seller_product_data_4_approvecount(){
+
+		$query = $this->db->query("SELECT a.seller_product_id
 
 		FROM seller_product_setting a
 
@@ -725,48 +812,69 @@ class Seller_model extends CI_Model {
 
 		WHERE a.product_approve =  'Pending' AND (i.status='Active' OR i.status='Pending') group by b.sku,a.seller_product_id ORDER BY a.date_added DESC");
 
+		
 
+		//$sql = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE product_approve='Pending' ORDER BY date_added DESC ");
 
-        //$sql = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE product_approve='Pending' ORDER BY date_added DESC ");
 //		$res = $sql->result_array();
+
 //		
+
 //		$arr = array();
+
 //		foreach($res as $row)
+
 //		{ array_push($arr,$row['seller_product_id']);}
+
 //		$str=implode(',',$arr);
+
 //		
+
 //		 $query = $this->db->query("SELECT count(a.seller_product_id) as tot_pendingproduct FROM seller_product_setting a 
+
 //		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 		
+
 //		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
+
 //		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending') group by a.seller_product_id"); 
-        //return $tot_pendingproduct=$query->row()->tot_pendingproduct;
 
+		
 
+		//return $tot_pendingproduct=$query->row()->tot_pendingproduct;
 
-        return $query->num_rows();
-    }
+		
 
-    function retrive_seller_product_data_4_approve($limit, $start) {
+		return $query->num_rows();
 
-        $sql = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE product_approve='Pending' ORDER BY date_added DESC LIMIT " . $start . ", " . $limit . "");
+	}
 
-        if ($sql->num_rows() > 0) {
+	
 
-            $res = $sql->result();
+	
 
+	function retrive_seller_product_data_4_approve($limit,$start){
 
+		 $sql = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE product_approve='Pending' ORDER BY date_added DESC LIMIT ".$start.", ".$limit."");
 
-            $arr = array();
+		 if($sql->num_rows()>0)
 
-            foreach ($res as $row) {
-                array_push($arr, $row->seller_product_id);
-            }
+		 {
 
-            $str = implode(',', $arr);
+					$res = $sql->result();
 
+				
 
+				$arr = array();
 
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+				foreach($res as $row)
+
+				{ array_push($arr,$row->seller_product_id);}
+
+				$str=implode(',',$arr);
+
+				
+
+				 $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
 
 				INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -778,74 +886,89 @@ class Seller_model extends CI_Model {
 
 				INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
 
-				INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending') group by a.seller_product_id");
+				INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending') group by a.seller_product_id"); 
+
+				
+
+				
+
+				//$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name FROM seller_product_setting a 
+
+		//		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
+
+		//		INNER JOIN seller_product_image f ON a.seller_product_id=f.seller_product_id 
+
+		//		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
+
+		//		INNER JOIN seller_account i ON h.seller_id=i.seller_id AND i.status='Active' WHERE a.product_approve='Pending' ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
 
 
 
+		return $query;
 
+		 }
 
-            //$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name FROM seller_product_setting a 
-            //		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
-            //		INNER JOIN seller_product_image f ON a.seller_product_id=f.seller_product_id 
-            //		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
-            //		INNER JOIN seller_account i ON h.seller_id=i.seller_id AND i.status='Active' WHERE a.product_approve='Pending' ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
+		 else
 
+		 {return $sql;}
 
+	}
 
-            return $query;
-        } else {
-            return $sql;
-        }
-    }
+	
 
-    function filter_seller_product_datacount() {
+	
 
+	function filter_seller_product_datacount()
 
+	{
 
-        //@$from_dt = $_REQUEST['from_dt'];
+			
+
+			//@$from_dt = $_REQUEST['from_dt'];
+
 //			@$to_dt = $_REQUEST['to_dt'];
 
-        $from_dt = '';
+			$from_dt ='';
 
-        $to_dt = '';
+			$to_dt = '';
 
-        $fltr_product_nm = $_REQUEST['fltr_product_nm'];
+			$fltr_product_nm = $_REQUEST['fltr_product_nm'];
 
-        $fltr_slr_nm = $_REQUEST['fltr_slr_nm'];
+			$fltr_slr_nm = $_REQUEST['fltr_slr_nm'];		
 
-        $product_sts = $_REQUEST['product_sts'];
+			$product_sts  = $_REQUEST['product_sts'];
 
+			
 
+			//$product_sts  ='';
 
-        //$product_sts  ='';
+			$fltr_product_sku=	$_REQUEST['fltr_product_sku'];
 
-        $fltr_product_sku = $_REQUEST['fltr_product_sku'];
+			$seller_sts=$_REQUEST['seller_sts'];
 
-        $seller_sts = $_REQUEST['seller_sts'];
+			$prod_mrp=$_REQUEST['prod_mrp'];
 
-        $prod_mrp = $_REQUEST['prod_mrp'];
+			$prod_saleprice=$_REQUEST['prod_saleprice'];
 
-        $prod_saleprice = $_REQUEST['prod_saleprice'];
+			$prod_qnt=$_REQUEST['prod_qnt'];
 
-        $prod_qnt = $_REQUEST['prod_qnt'];
+			$catg_id=$_REQUEST['catg_id'];
 
-        $catg_id = $_REQUEST['catg_id'];
+			
 
+			$condition = '';
 
+			
 
-        $condition = '';
+			if( $from_dt!='' && $to_dt!='' && $fltr_product_nm=='' && $fltr_slr_nm=='' && $product_sts=='' ){
 
+				    $condition .= "a.date_added>='$from_dt' and a.date_added<='$to_dt'" ;
 
+				
 
-        if ($from_dt != '' && $to_dt != '' && $fltr_product_nm == '' && $fltr_slr_nm == '' && $product_sts == '') {
+				
 
-            $condition .= "a.date_added>='$from_dt' and a.date_added<='$to_dt'";
-
-
-
-
-
-            $query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
+				$query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -853,37 +976,51 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
 
-		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where " . $condition . " AND (i.status='Active' OR i.status='Pending')ORDER BY a.seller_product_id DESC");
+		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where ".$condition." AND (i.status='Active' OR i.status='Pending')ORDER BY a.seller_product_id DESC");
 
+		
 
+		return $tot_pendingproduct=$query->row()->tot_pendingproduct;
 
-            return $tot_pendingproduct = $query->row()->tot_pendingproduct;
+		
 
+		//$query =$this->db->query("SELECT a.seller_product_id
 
-
-            //$query =$this->db->query("SELECT a.seller_product_id
 //		FROM seller_product_setting a			
+
 //		INNER JOIN seller_account_information h ON a.seller_id = h.seller_id
+
 //		INNER JOIN seller_account i ON h.seller_id = i.seller_id
+
 //		AND i.status =  'Active'
+
 //		WHERE ".$condition."  
+
 //		ORDER BY a.seller_product_id DESC");
-            //return $query->num_rows();	
-        }
 
+		
 
+		
 
-        if ($from_dt == '' && $to_dt == '' && $fltr_product_nm != '' && $fltr_slr_nm == '' && $product_sts == '') {
+		//return $query->num_rows();	
 
-            $condition .= "b.name LIKE '$fltr_product_nm%'";
+					
 
+					}
 
+			
 
+			if( $from_dt=='' && $to_dt=='' && $fltr_product_nm!='' && $fltr_slr_nm=='' && $product_sts=='' ){
 
+				    $condition .= "b.name LIKE '$fltr_product_nm%'";
 
+					
 
+				
 
-            $query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
+				
+
+				$query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -891,37 +1028,47 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
 
-		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where " . $condition . " AND (i.status='Active' OR i.status='Pending') ORDER BY a.seller_product_id DESC");
+		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where ".$condition." AND (i.status='Active' OR i.status='Pending') ORDER BY a.seller_product_id DESC");
 
+		
 
+		return $tot_pendingproduct=$query->row()->tot_pendingproduct;
 
-            return $tot_pendingproduct = $query->row()->tot_pendingproduct;
+					
 
+		
 
+			//$query =$this->db->query("SELECT a.seller_product_id
 
-
-
-            //$query =$this->db->query("SELECT a.seller_product_id
 //		FROM seller_product_setting a INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id		
+
 //		INNER JOIN seller_account_information h ON a.seller_id = h.seller_id
+
 //		INNER JOIN seller_account i ON h.seller_id = i.seller_id
+
 //		AND i.status =  'Active'
+
 //		WHERE ".$condition."  
+
 //		ORDER BY a.seller_product_id DESC");
-            //return $query->num_rows();
-        }
 
+		
 
+		//return $query->num_rows();
 
-        if ($from_dt == '' && $to_dt == '' && $fltr_product_nm == '' && $fltr_slr_nm != '' && $product_sts == '') {
+					}	
 
-            $condition .= "h.business_name LIKE '$fltr_slr_nm%'";
+			
 
+			if( $from_dt=='' && $to_dt=='' && $fltr_product_nm=='' && $fltr_slr_nm!='' && $product_sts=='' ){
 
+				    $condition .= "h.business_name LIKE '$fltr_slr_nm%'";
 
+					
 
+					
 
-            $query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
+	$query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -929,37 +1076,45 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
 
-		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where " . $condition . " AND (i.status='Active' OR i.status='Pending') ORDER BY a.seller_product_id DESC");
+		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where ".$condition." AND (i.status='Active' OR i.status='Pending') ORDER BY a.seller_product_id DESC");
 
+		
 
+		return $tot_pendingproduct=$query->row()->tot_pendingproduct;
 
-            return $tot_pendingproduct = $query->row()->tot_pendingproduct;
+		
 
+		//$query =$this->db->query("SELECT a.seller_product_id
 
-
-            //$query =$this->db->query("SELECT a.seller_product_id
 //		FROM seller_product_setting a			
+
 //		INNER JOIN seller_account_information h ON a.seller_id = h.seller_id
+
 //		INNER JOIN seller_account i ON h.seller_id = i.seller_id
+
 //		AND i.status =  'Active'
+
 //		WHERE ".$condition." 
+
 //		ORDER BY a.seller_product_id DESC");
+
 //		return $query->num_rows();
-        }
 
+					}
 
+					
 
-        if ($from_dt == '' && $to_dt == '' && $fltr_product_nm == '' && $fltr_slr_nm == '' && $product_sts != '') {
+			if( $from_dt=='' && $to_dt=='' && $fltr_product_nm=='' && $fltr_slr_nm=='' && $product_sts!='' ){
 
-            $condition .= "a.product_approve='$product_sts'";
+				    $condition .= "a.product_approve='$product_sts'";
 
+					
 
+		
 
+		
 
-
-
-
-            $query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
+		$query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -967,33 +1122,43 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
 
-		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where " . $condition . " AND (i.status='Active' OR i.status='Pending') ORDER BY a.seller_product_id DESC");
+		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where ".$condition." AND (i.status='Active' OR i.status='Pending') ORDER BY a.seller_product_id DESC");
 
+		
 
+		return $tot_pendingproduct=$query->row()->tot_pendingproduct;
 
-            return $tot_pendingproduct = $query->row()->tot_pendingproduct;
+		
 
+		//$query =$this->db->query("SELECT a.seller_product_id
 
-
-            //$query =$this->db->query("SELECT a.seller_product_id
 //		FROM seller_product_setting a			
+
 //		INNER JOIN seller_account_information h ON a.seller_id = h.seller_id
+
 //		INNER JOIN seller_account i ON h.seller_id = i.seller_id
+
 //		AND i.status =  'Active'
+
 //		WHERE ".$condition."  
+
 //		ORDER BY a.seller_product_id DESC");
+
 //		return $query->num_rows();
-        }
 
-        if ($fltr_product_sku != '') {
+				
 
-            $condition .= "b.sku='$fltr_product_sku'";
+				}	
 
+		if( $fltr_product_sku!=''  ){
 
+				    $condition .= "b.sku='$fltr_product_sku'";				
 
+		
 
+		
 
-            $query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
+		$query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -1001,36 +1166,47 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
 
-		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where " . $condition . " AND (i.status='Active' OR i.status='Pending') ORDER BY a.seller_product_id DESC");
+		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where ".$condition." AND (i.status='Active' OR i.status='Pending') ORDER BY a.seller_product_id DESC");
 
+		
 
+		return $tot_pendingproduct=$query->row()->tot_pendingproduct;
 
-            return $tot_pendingproduct = $query->row()->tot_pendingproduct;
+		
 
+		//$query =$this->db->query("SELECT a.seller_product_id
 
-
-            //$query =$this->db->query("SELECT a.seller_product_id
 //		FROM seller_product_setting a
+
 //		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id			
+
 //		INNER JOIN seller_account_information h ON a.seller_id = h.seller_id
+
 //		INNER JOIN seller_account i ON h.seller_id = i.seller_id
+
 //		AND i.status =  'Active'
+
 //		WHERE ".$condition."  
+
 //		ORDER BY a.seller_product_id DESC");
+
 //		return $query->num_rows();
-        }
 
+				
 
+				}
 
-        if ($seller_sts != '') {
+				
 
-            $condition .= "i.status='$seller_sts'";
+		if( $seller_sts!=''  ){
 
+				    $condition .= "i.status='$seller_sts'";				
 
+		
 
+		
 
-
-            $query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
+		$query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -1038,38 +1214,49 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
 
-		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where " . $condition . " AND (i.status='Active' OR i.status='Pending') ORDER BY a.seller_product_id DESC");
+		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where ".$condition." AND (i.status='Active' OR i.status='Pending') ORDER BY a.seller_product_id DESC");
 
+		
 
+		return $tot_pendingproduct=$query->row()->tot_pendingproduct;
 
-            return $tot_pendingproduct = $query->row()->tot_pendingproduct;
+		
 
+		//$query =$this->db->query("SELECT a.seller_product_id
 
-
-            //$query =$this->db->query("SELECT a.seller_product_id
 //		FROM seller_product_setting a
+
 //		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id			
+
 //		INNER JOIN seller_account_information h ON a.seller_id = h.seller_id
+
 //		INNER JOIN seller_account i ON h.seller_id = i.seller_id
+
 //		AND i.status =  'Active'
+
 //		WHERE ".$condition."  
+
 //		ORDER BY a.seller_product_id DESC");
+
 //		return $query->num_rows();
-        }
 
+				
 
+				}
 
-        if ($prod_mrp != '') {
+				
 
-            $condition .= "c.mrp='$prod_mrp'";
+			if( $prod_mrp!=''  ){
 
+			$condition .= "c.mrp='$prod_mrp'";				
 
+		
 
+		
 
+		
 
-
-
-            $query = $this->db->query("SELECT a.seller_product_id
+		$query =$this->db->query("SELECT a.seller_product_id
 
 		FROM seller_product_setting a
 
@@ -1083,24 +1270,27 @@ class Seller_model extends CI_Model {
 
 		
 
-		WHERE " . $condition . "  AND (i.status='Active' OR i.status='Pending')
+		WHERE ".$condition."  AND (i.status='Active' OR i.status='Pending')
 
 		ORDER BY a.seller_product_id DESC");
 
-            return $query->num_rows();
-        }
+		return $query->num_rows();
 
+				
 
+				}
 
-        if ($prod_saleprice != '') {
+				
 
-            $condition .= "c.price='$prod_saleprice'";
+		if( $prod_saleprice!=''  ){
 
+		$condition .= "c.price='$prod_saleprice'";				
 
+		
 
+				
 
-
-            $query = $this->db->query("SELECT a.seller_product_id
+		$query =$this->db->query("SELECT a.seller_product_id
 
 		FROM seller_product_setting a
 
@@ -1112,24 +1302,27 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id = i.seller_id		
 
-		WHERE " . $condition . " AND (i.status='Active' OR i.status='Pending') 
+		WHERE ".$condition." AND (i.status='Active' OR i.status='Pending') 
 
 		ORDER BY a.seller_product_id DESC");
 
-            return $query->num_rows();
-        }
+		return $query->num_rows();
 
+				
 
+				}
 
-        if ($prod_qnt != '') {
+				
 
-            $condition .= "c.quantity='$prod_qnt'";
+		if($prod_qnt!=''  ){
 
+		$condition .= "c.quantity='$prod_qnt'";				
 
+		
 
+				
 
-
-            $query = $this->db->query("SELECT a.seller_product_id
+		$query =$this->db->query("SELECT a.seller_product_id
 
 		FROM seller_product_setting a
 
@@ -1141,22 +1334,25 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id = i.seller_id		
 
-		WHERE " . $condition . " AND (i.status='Active' OR i.status='Pending')  
+		WHERE ".$condition." AND (i.status='Active' OR i.status='Pending')  
 
 		ORDER BY a.seller_product_id DESC");
 
-            return $query->num_rows();
-        }
+		return $query->num_rows();
 
-        if ($catg_id != '') {
+				
 
-            $condition .= "c.category='$catg_id'";
+				}
 
+		if($catg_id!=''){
 
+		$condition .= "c.category='$catg_id'";				
 
+		
 
+				
 
-            $query = $this->db->query("SELECT a.seller_product_id
+		$query =$this->db->query("SELECT a.seller_product_id
 
 		FROM seller_product_setting a
 
@@ -1168,18 +1364,21 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id = i.seller_id		
 
-		WHERE " . $condition . " AND (i.status='Active' OR i.status='Pending')  
+		WHERE ".$condition." AND (i.status='Active' OR i.status='Pending')  
 
 		ORDER BY a.seller_product_id DESC");
 
-            return $query->num_rows();
-        }
+		return $query->num_rows();
 
+				
 
+				}				
 
+					
 
+			
 
-        $query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
+		$query = $this->db->query(" SELECT count(a.seller_product_id) as tot_pendingproduct  FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -1189,89 +1388,107 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id=i.seller_id  where (i.status='Active' OR i.status='Pending') ORDER BY a.seller_product_id DESC");
 
+		
 
+		return $tot_pendingproduct=$query->row()->tot_pendingproduct;
 
-        return $tot_pendingproduct = $query->row()->tot_pendingproduct;
+		
 
+		//$query =$this->db->query("SELECT a.seller_product_id
 
-
-        //$query =$this->db->query("SELECT a.seller_product_id
 //		FROM seller_product_setting a			
+
 //		INNER JOIN seller_account_information h ON a.seller_id = h.seller_id
+
 //		INNER JOIN seller_account i ON h.seller_id = i.seller_id
+
 //		AND i.status =  'Active'
+
 //		WHERE a.product_approve =  'Pending'
+
 //		ORDER BY a.seller_product_id DESC");
-        //return $query->num_rows();	
-    }
 
-    function filter_seller_product_data($limit, $start) {
+		
 
+		//return $query->num_rows();	
 
+	
 
+	}
 
+	
 
-        //$from_dt = $_REQUEST['from_dt'];
+	
 
-        $from_dt = '';
+	function filter_seller_product_data($limit,$start)
 
-        //@$to_dt = $_REQUEST['to_dt'];
+	{
 
+		 
 
+			
 
-        $to_dt = '';
+			//$from_dt = $_REQUEST['from_dt'];
 
-        $fltr_product_nm = $_REQUEST['fltr_product_nm'];
+			$from_dt ='';
 
-        $fltr_slr_nm = $_REQUEST['fltr_slr_nm'];
+			//@$to_dt = $_REQUEST['to_dt'];
 
-        $product_sts = $_REQUEST['product_sts'];
+			
 
+			$to_dt = '';
 
+			$fltr_product_nm = $_REQUEST['fltr_product_nm'];
 
-        //$product_sts  = '';
+			$fltr_slr_nm = $_REQUEST['fltr_slr_nm'];		
 
-        $fltr_product_sku = $_REQUEST['fltr_product_sku'];
+			$product_sts  = $_REQUEST['product_sts'];
 
-        $seller_sts = $_REQUEST['seller_sts'];
+			
 
-        $prod_mrp = $_REQUEST['prod_mrp'];
+			//$product_sts  = '';
 
-        $prod_saleprice = $_REQUEST['prod_saleprice'];
+			$fltr_product_sku=	$_REQUEST['fltr_product_sku'];
 
-        $prod_qnt = $_REQUEST['prod_qnt'];
+			$seller_sts=$_REQUEST['seller_sts'];
 
-        $catg_id = $_REQUEST['catg_id'];
+			$prod_mrp=$_REQUEST['prod_mrp'];
 
+			$prod_saleprice=$_REQUEST['prod_saleprice'];
 
+			$prod_qnt=$_REQUEST['prod_qnt'];
 
-        $condition = '';
+			$catg_id=$_REQUEST['catg_id'];
 
+			
 
+			$condition = '';
 
-        if ($fltr_product_sku != '') {
+			
 
-            $condition .= "b.sku LIKE '$fltr_product_sku%'";
+			if( $fltr_product_sku!=''  ){
 
-            $sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id WHERE " . $condition . "  ORDER BY a.seller_product_id DESC LIMIT " . $start . ", " . $limit . "");
+				    $condition .= "b.sku LIKE '$fltr_product_sku%'";
 
-            $res = $sql->result_array();
+				$sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id WHERE ".$condition."  ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
 
+		$res = $sql->result_array();
 
+		
 
-            $arr = array();
+		$arr = array();
 
-            foreach ($res as $row) {
-                array_push($arr, $row['seller_product_id']);
-            }
+		foreach($res as $row)
 
-            $str = implode(',', $arr);
+		{ array_push($arr,$row['seller_product_id']);}
 
+		$str=implode(',',$arr);
 
+					
 
+		
 
-
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -1285,75 +1502,37 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')   group by a.seller_product_id ORDER BY a.seller_product_id DESC");
 
-            return $query;
-        }
+		return $query;	
 
-        if ($seller_sts != '') {
+					
 
-            $condition .= "b.status='$seller_sts'";
+					
 
-            $sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_account b ON a.seller_id=b.seller_id WHERE " . $condition . "  ORDER BY a.seller_product_id DESC LIMIT " . $start . ", " . $limit . "");
+			}
 
-            $res = $sql->result_array();
+			if( $seller_sts!=''  ){
 
+				    $condition .= "b.status='$seller_sts'";
 
+				$sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_account b ON a.seller_id=b.seller_id WHERE ".$condition."  ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
 
-            $arr = array();
+		$res = $sql->result_array();
 
-            foreach ($res as $row) {
-                array_push($arr, $row['seller_product_id']);
-            }
+		
 
-            $str = implode(',', $arr);
+		$arr = array();
 
+		foreach($res as $row)
 
+		{ array_push($arr,$row['seller_product_id']);}
 
+		$str=implode(',',$arr);
 
+					
 
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+		
 
-		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
-
-		INNER JOIN seller_product_image f ON a.seller_product_id=f.seller_product_id 
-
-		INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id
-
-		INNER JOIN seller_product_inventory_info k ON k.seller_product_id=a.seller_product_id
-
-		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
-
-		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
-
-            return $query;
-        }
-
-
-
-
-
-        if ($prod_mrp != '') {
-
-            $condition .= "j.mrp='$prod_mrp'";
-
-            $sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id WHERE " . $condition . "  ORDER BY a.seller_product_id DESC LIMIT " . $start . ", " . $limit . "");
-
-            $res = $sql->result_array();
-
-
-
-            $arr = array();
-
-            foreach ($res as $row) {
-                array_push($arr, $row['seller_product_id']);
-            }
-
-            $str = implode(',', $arr);
-
-
-
-
-
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -1367,75 +1546,41 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
 
-            return $query;
-        }
+		return $query;	
 
+					
 
+					
 
-        if ($prod_saleprice != '') {
+			}
 
-            $condition .= "j.price='$prod_saleprice'";
+			
 
-            $sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id WHERE " . $condition . "  ORDER BY a.seller_product_id DESC LIMIT " . $start . ", " . $limit . "");
+			
 
-            $res = $sql->result_array();
+			if( $prod_mrp!=''  ){
 
+				 $condition .= "j.mrp='$prod_mrp'";
 
+				$sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id WHERE ".$condition."  ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
 
-            $arr = array();
+		$res = $sql->result_array();
 
-            foreach ($res as $row) {
-                array_push($arr, $row['seller_product_id']);
-            }
+		
 
-            $str = implode(',', $arr);
+		$arr = array();
 
+		foreach($res as $row)
 
+		{ array_push($arr,$row['seller_product_id']);}
 
+		$str=implode(',',$arr);
 
+					
 
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+		
 
-		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
-
-		INNER JOIN seller_product_image f ON a.seller_product_id=f.seller_product_id 
-
-		INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id
-
-		INNER JOIN seller_product_inventory_info k ON k.seller_product_id=a.seller_product_id
-
-		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
-
-		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
-
-            return $query;
-        }
-
-
-
-        if ($prod_qnt != '') {
-
-            $condition .= "k.quantity='$prod_qnt'";
-
-            $sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_inventory_info k ON k.seller_product_id=a.seller_product_id WHERE " . $condition . "  ORDER BY a.seller_product_id DESC LIMIT " . $start . ", " . $limit . "");
-
-            $res = $sql->result_array();
-
-
-
-            $arr = array();
-
-            foreach ($res as $row) {
-                array_push($arr, $row['seller_product_id']);
-            }
-
-            $str = implode(',', $arr);
-
-
-
-
-
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -1449,38 +1594,135 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
 
-            return $query;
-        }
+		return $query;	
 
+					
 
+					
 
+			}
 
+			
 
+			if( $prod_saleprice!=''  ){
 
+				 $condition .= "j.price='$prod_saleprice'";
 
-        if ($catg_id != '') {
+				$sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id WHERE ".$condition."  ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
 
-            $condition .= "l.category='$catg_id'";
+		$res = $sql->result_array();
 
-            $sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_category l ON l.seller_product_id=a.seller_product_id WHERE " . $condition . "  ORDER BY a.seller_product_id DESC LIMIT " . $start . ", " . $limit . "");
+		
 
-            $res = $sql->result_array();
+		$arr = array();
 
+		foreach($res as $row)
 
+		{ array_push($arr,$row['seller_product_id']);}
 
-            $arr = array();
+		$str=implode(',',$arr);
 
-            foreach ($res as $row) {
-                array_push($arr, $row['seller_product_id']);
-            }
+					
 
-            $str = implode(',', $arr);
+		
 
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
 
+		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
+		INNER JOIN seller_product_image f ON a.seller_product_id=f.seller_product_id 
 
+		INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id
 
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+		INNER JOIN seller_product_inventory_info k ON k.seller_product_id=a.seller_product_id
+
+		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
+
+		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
+
+		return $query;	
+
+					
+
+					
+
+			}
+
+			
+
+		if( $prod_qnt!=''  ){
+
+				 $condition .= "k.quantity='$prod_qnt'";
+
+				$sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_inventory_info k ON k.seller_product_id=a.seller_product_id WHERE ".$condition."  ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
+
+		$res = $sql->result_array();
+
+		
+
+		$arr = array();
+
+		foreach($res as $row)
+
+		{ array_push($arr,$row['seller_product_id']);}
+
+		$str=implode(',',$arr);
+
+					
+
+		
+
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+
+		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
+
+		INNER JOIN seller_product_image f ON a.seller_product_id=f.seller_product_id 
+
+		INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id
+
+		INNER JOIN seller_product_inventory_info k ON k.seller_product_id=a.seller_product_id
+
+		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
+
+		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
+
+		return $query;	
+
+					
+
+					
+
+			}
+
+			
+
+			
+
+			
+
+			if($catg_id!=''  ){
+
+				 $condition .= "l.category='$catg_id'";
+
+				$sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_category l ON l.seller_product_id=a.seller_product_id WHERE ".$condition."  ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
+
+		$res = $sql->result_array();
+
+		
+
+		$arr = array();
+
+		foreach($res as $row)
+
+		{ array_push($arr,$row['seller_product_id']);}
+
+		$str=implode(',',$arr);
+
+					
+
+		
+
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -1494,93 +1736,53 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
 
-            return $query;
-        }
+		return $query;	
 
+					
 
+					
 
-        if ($from_dt != '' && $to_dt != '' && $fltr_product_nm == '' && $fltr_slr_nm == '' && $product_sts == '') {
+			}
 
-            $condition .= "a.date_added>='$from_dt' and a.date_added<='$to_dt'";
+			
 
+			if( $from_dt!='' && $to_dt!='' && $fltr_product_nm=='' && $fltr_slr_nm=='' && $product_sts=='' ){
 
+				    $condition .= "a.date_added>='$from_dt' and a.date_added<='$to_dt'" ;
 
-            $sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a WHERE " . $condition . "  ORDER BY a.seller_product_id DESC LIMIT " . $start . ", " . $limit . "");
+					
 
-            $res = $sql->result_array();
+					$sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a WHERE ".$condition."  ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
 
+		$res = $sql->result_array();
 
+		
 
-            $arr = array();
+		$arr = array();
 
-            foreach ($res as $row) {
-                array_push($arr, $row['seller_product_id']);
-            }
+		foreach($res as $row)
 
-            $str = implode(',', $arr);
+		{ array_push($arr,$row['seller_product_id']);}
 
+		$str=implode(',',$arr);
 
+					
 
+					
 
+					//$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS 		         seller_name FROM seller_product_setting a 
 
-            //$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS 		         seller_name FROM seller_product_setting a 
 //		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
+
 //		INNER JOIN seller_product_image f ON a.seller_product_id=f.seller_product_id 
+
 //		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
+
 //		INNER JOIN seller_account i ON h.seller_id=i.seller_id AND i.status='Active' where ".$condition." ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
 
+		
 
-
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
-
-		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
-
-		INNER JOIN seller_product_image f ON a.seller_product_id=f.seller_product_id 
-
-		INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id
-
-		INNER JOIN seller_product_inventory_info k ON k.seller_product_id=a.seller_product_id
-
-		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
-
-		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
-
-            return $query;
-        }
-
-
-
-        if ($from_dt == '' && $to_dt == '' && $fltr_product_nm != '' && $fltr_slr_nm == '' && $product_sts == '') {
-
-            $condition .= "b.name LIKE '$fltr_product_nm%'";
-
-
-
-
-
-            $sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id WHERE " . $condition . "  ORDER BY a.seller_product_id DESC LIMIT " . $start . ", " . $limit . "");
-
-            $res = $sql->result();
-
-
-
-            $arr = array();
-
-            foreach ($res as $row) {
-                array_push($arr, $row->seller_product_id);
-            }
-
-            $str = implode(',', $arr);
-
-
-
-
-
-
-
-
-
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -1594,85 +1796,45 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
 
-            return $query;
-        }
+		return $query;					
 
+					
 
+					}
 
-        if ($from_dt == '' && $to_dt == '' && $fltr_product_nm == '' && $fltr_slr_nm != '' && $product_sts == '') {
+			
 
-            $condition .= "h.business_name LIKE '$fltr_slr_nm%'";
+			if( $from_dt=='' && $to_dt=='' && $fltr_product_nm!='' && $fltr_slr_nm=='' && $product_sts=='' ){
 
+				    $condition .= "b.name LIKE '$fltr_product_nm%'";
 
+					
 
+					
 
+					$sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id WHERE ".$condition."  ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
 
-            $sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_account_information h ON a.seller_id=h.seller_id  WHERE " . $condition . "  ORDER BY a.seller_product_id DESC LIMIT " . $start . ", " . $limit . "");
+		$res = $sql->result();
 
-            $res = $sql->result();
+		
 
+		$arr = array();
 
+		foreach($res as $row)
 
-            $arr = array();
+		{ array_push($arr,$row->seller_product_id);}
 
-            foreach ($res as $row) {
-                array_push($arr, $row->seller_product_id);
-            }
+		$str=implode(',',$arr);
 
-            $str = implode(',', $arr);
+					
 
+				
 
+		
 
+		
 
-
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
-
-		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
-
-		INNER JOIN seller_product_image f ON a.seller_product_id=f.seller_product_id 
-
-		INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id
-
-		INNER JOIN seller_product_inventory_info k ON k.seller_product_id=a.seller_product_id
-
-		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
-
-		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
-
-            return $query;
-        }
-
-
-
-        if ($from_dt == '' && $to_dt == '' && $fltr_product_nm == '' && $fltr_slr_nm == '' && $product_sts != '') {
-
-            $condition .= "a.product_approve='$product_sts'";
-
-
-
-
-
-            $sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a WHERE " . $condition . "  ORDER BY a.seller_product_id DESC LIMIT " . $start . ", " . $limit . "");
-
-            $res = $sql->result();
-
-
-
-            $arr = array();
-
-            foreach ($res as $row) {
-                array_push($arr, $row->seller_product_id);
-            }
-
-            $str = implode(',', $arr);
-
-
-
-
-
-
-
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -1686,25 +1848,41 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
 
-            return $query;
-        } else {
-            $sql = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE product_approve='Pending' ORDER BY seller_product_id DESC LIMIT " . $start . ", " . $limit . "");
+		return $query;		
 
-            $res = $sql->result();
+					
 
+					}	
 
+			
 
-            $arr = array();
+			if( $from_dt=='' && $to_dt=='' && $fltr_product_nm=='' && $fltr_slr_nm!='' && $product_sts=='' ){
 
-            foreach ($res as $row) {
-                array_push($arr, $row->seller_product_id);
-            }
+				    $condition .= "h.business_name LIKE '$fltr_slr_nm%'";
 
-            $str = implode(',', $arr);
+					
 
+					
 
+					$sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a INNER JOIN seller_account_information h ON a.seller_id=h.seller_id  WHERE ".$condition."  ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
 
-            $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+		$res = $sql->result();
+
+		
+
+		$arr = array();
+
+		foreach($res as $row)
+
+		{ array_push($arr,$row->seller_product_id);}
+
+		$str=implode(',',$arr);
+
+					
+
+			
+
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
 
 		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
 
@@ -1718,15 +1896,113 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
 
-            return $query;
-        }
-    }
+		return $query;		
 
-    function retrieve_categorysearch() {
+					
 
-        $catg_name = $this->input->post('catg_nm');
+					}
 
-        $qr = $this->db->query("
+					
+
+			if( $from_dt=='' && $to_dt=='' && $fltr_product_nm=='' && $fltr_slr_nm=='' && $product_sts!='' ){
+
+				    $condition .= "a.product_approve='$product_sts'";
+
+					
+
+					
+
+					$sql = $this->db->query("SELECT a.seller_product_id FROM seller_product_setting a WHERE ".$condition."  ORDER BY a.seller_product_id DESC LIMIT ".$start.", ".$limit."");
+
+		$res = $sql->result();
+
+		
+
+		$arr = array();
+
+		foreach($res as $row)
+
+		{ array_push($arr,$row->seller_product_id);}
+
+		$str=implode(',',$arr);
+
+					
+
+		
+
+		
+
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+
+		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
+
+		INNER JOIN seller_product_image f ON a.seller_product_id=f.seller_product_id 
+
+		INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id
+
+		INNER JOIN seller_product_inventory_info k ON k.seller_product_id=a.seller_product_id
+
+		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
+
+		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
+
+		return $query;		
+
+					
+
+					}
+
+					
+
+			else{		$sql = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE product_approve='Pending' ORDER BY seller_product_id DESC LIMIT ".$start.", ".$limit."");
+
+		$res = $sql->result();
+
+		
+
+		$arr = array();
+
+		foreach($res as $row)
+
+		{ array_push($arr,$row->seller_product_id);}
+
+		$str=implode(',',$arr);
+
+			
+
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.seller_id,a.date_added,a.product_approve,b.name,b.sku,f.image,h.business_name AS seller_name,i.status,j.mrp,j.price,k.quantity FROM seller_product_setting a 
+
+		INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 	
+
+		INNER JOIN seller_product_image f ON a.seller_product_id=f.seller_product_id 
+
+		INNER JOIN seller_product_price_info j ON j.seller_product_id=a.seller_product_id
+
+		INNER JOIN seller_product_inventory_info k ON k.seller_product_id=a.seller_product_id
+
+		INNER JOIN seller_account_information h ON a.seller_id=h.seller_id 
+
+		INNER JOIN seller_account i ON h.seller_id=i.seller_id WHERE a.seller_product_id IN ($str) AND (i.status='Active' OR i.status='Pending')  group by a.seller_product_id ORDER BY a.seller_product_id DESC");
+
+		return $query;	
+
+			}
+
+	
+
+			
+
+	}
+
+	
+
+	function retrieve_categorysearch()
+
+		{		
+
+			$catg_name = $this->input->post('catg_nm');
+
+			$qr=$this->db->query("
 
 			SELECT DISTINCT lvl2, lvl2_name, lvl1, lvl1_name , lvlmain_name
 
@@ -1734,13 +2010,15 @@ class Seller_model extends CI_Model {
 
 			WHERE lvl1 !=0 AND lvl2_name LIKE '%$catg_name%' ");
 
+			
 
+			return $qr->result_array();	
 
-        return $qr->result_array();
-    }
+		}
 
-    function retrive_seller_product_exiting_datacount() {
-        $query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+	
+function retrive_seller_product_exiting_datacount(){
+		$query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 		INNER JOIN product_image c ON a.product_id=c.product_id 
 		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
@@ -1749,11 +2027,13 @@ class Seller_model extends CI_Model {
 		INNER JOIN seller_account g ON f.seller_id=g.seller_id 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		WHERE a.status='Active' AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC");
-        return $query->num_rows();
-    }
-
-    function retrive_seller_product_exiting_data($limit, $start) {
-        $query = $this->db->query("
+		return $query->num_rows();
+	}
+	
+	
+	
+	function retrive_seller_product_exiting_data($limit,$start){
+		$query = $this->db->query("
 		SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 		INNER JOIN product_image c ON a.product_id=c.product_id 
@@ -1762,62 +2042,67 @@ class Seller_model extends CI_Model {
 		INNER JOIN seller_product_master f ON a.product_id=f.master_product_id 
 		INNER JOIN seller_account g ON f.seller_id=g.seller_id 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
-		WHERE a.status='Active' AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC LIMIT " . $start . " , " . $limit . "");
-        return $query;
-    }
+		WHERE a.status='Active' AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."");
+		return $query;
+	}
 
-    function filter_seller_product_exiting_datacount() {
-
-
-
-        $fltr_product_sku = $_REQUEST['fltr_product_sku'];
-        $fltr_product_nm = $_REQUEST['fltr_product_nm'];
-        $prod_cate = $_REQUEST['prod_cate'];
-        $fltr_slr_nm = $_REQUEST['fltr_slr_nm'];
-        $mrp = $_REQUEST['mrp'];
-        $sell_prices = $_REQUEST['sell_prices'];
-        $quantity = $_REQUEST['quantity'];
-        $product_sts = $_REQUEST['product_sts'];
-        /* $fltr_product_sku = $this->input->post('fltr_product_sku');
-          $from_dt = $this->input->post('from_dt1');
-          // print_r($shipment);exit;
-
-          $to_dt = $this->input->post('to_dt1');
-          //print_r($to_dt);exit;
-          $fltr_product_nm = $this->input->post('fltr_product_nm1');
-          $prod_cate = $this->input->post('prod_cate');
-          $fltr_slr_nm = $this->input->post('fltr_slr_nm1');
-          //print_r($fltr_product_nm);exit;
-          $mrp = $this->input->post('mrp');
-          $sell_prices = $this->input->post('sell_prices');
-          $quantity = $this->input->post('quantity');
-          $product_sts = $this->input->post('product_sts'); */
-
-        $condition = "";
+	
 
 
 
 
-
-        /* if($from_dt!='' && $to_dt!=''){
-          $condition .= "f.current_date>='$from_dt' and f.current_date<='$to_dt'" ;
-
-          $query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a
-          INNER JOIN product_general_info b ON a.product_id=b.product_id
-          INNER JOIN product_image c ON a.product_id=c.product_id
-          INNER JOIN product_meta_info d ON a.product_id=d.product_id
-          INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
-          INNER JOIN seller_product_master f ON a.product_id=f.master_product_id
-          INNER JOIN seller_account g ON f.seller_id=g.seller_id
-          INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
-          WHERE a.status='Active' AND ".$condition." AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC ");
-          return $query->num_rows();
-          } */
-
-
-        if ($fltr_product_sku != "") {
-            $condition .= "f.sku LIKE '%$fltr_product_sku%'";
-            $query = $this->db->query("SELECT a.product_id FROM product_setting a 
+function filter_seller_product_exiting_datacount(){
+			
+			
+			
+			$fltr_product_sku = $_REQUEST['fltr_product_sku'];
+			$fltr_product_nm = $_REQUEST['fltr_product_nm'];
+			$prod_cate = $_REQUEST['prod_cate'];
+			$fltr_slr_nm = $_REQUEST['fltr_slr_nm'];
+			$mrp = $_REQUEST['mrp'];
+			$sell_prices = $_REQUEST['sell_prices'];
+			$quantity = $_REQUEST['quantity'];
+			$product_sts = $_REQUEST['product_sts'];
+			/*$fltr_product_sku = $this->input->post('fltr_product_sku');
+		   $from_dt = $this->input->post('from_dt1');
+		   // print_r($shipment);exit;
+			
+			$to_dt = $this->input->post('to_dt1');			
+			//print_r($to_dt);exit;		
+			$fltr_product_nm = $this->input->post('fltr_product_nm1');
+			$prod_cate = $this->input->post('prod_cate');
+			$fltr_slr_nm = $this->input->post('fltr_slr_nm1');
+			//print_r($fltr_product_nm);exit;
+			$mrp = $this->input->post('mrp');
+			$sell_prices = $this->input->post('sell_prices');
+			$quantity = $this->input->post('quantity');
+			$product_sts = $this->input->post('product_sts');*/
+				
+				$condition = "";
+				
+				
+				
+				
+				
+				/*if($from_dt!='' && $to_dt!=''){
+				$condition .= "f.current_date>='$from_dt' and f.current_date<='$to_dt'" ;
+		
+		$query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+		INNER JOIN product_general_info b ON a.product_id=b.product_id 
+		INNER JOIN product_image c ON a.product_id=c.product_id 
+		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
+		INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
+		INNER JOIN seller_product_master f ON a.product_id=f.master_product_id 
+		INNER JOIN seller_account g ON f.seller_id=g.seller_id 
+		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
+		WHERE a.status='Active' AND ".$condition." AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC ");
+						return $query->num_rows();
+					}*/
+					
+					
+				if($fltr_product_sku != ""){
+				$condition .= "f.sku LIKE '%$fltr_product_sku%'" ;
+				$query = $this->db->query("SELECT a.product_id FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -1833,38 +2118,14 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
-            return $query->num_rows();
-        }
-
-
-        if ($fltr_product_nm != "") {
-            $condition .= "b.name LIKE '%$fltr_product_nm%'";
-            $query = $this->db->query("SELECT a.product_id FROM product_setting a 
-
-		INNER JOIN product_general_info b ON a.product_id=b.product_id 
-
-		INNER JOIN product_image c ON a.product_id=c.product_id 
-
-		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
-		
-		INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
-
-		INNER JOIN seller_product_master f ON a.product_id=f.master_product_id 
-		
-		INNER JOIN seller_account g ON f.seller_id=g.seller_id
-
-		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
-		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
-
-            return $query->num_rows();
-        }
-
-
-        if ($prod_cate != "") {
-            $condition .= "h.lvl2_name LIKE '%$prod_cate%'";
-            $query = $this->db->query("SELECT a.product_id FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC " );
+						return $query->num_rows();
+					}
+					
+					
+				if($fltr_product_nm != "" ){
+					 	$condition .= "b.name LIKE '%$fltr_product_nm%'";
+						$query = $this->db->query("SELECT a.product_id FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -1880,12 +2141,15 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
-            return $query->num_rows();
-        }
-        if ($fltr_slr_nm != "") {
-            $condition .= "s.business_name = '$fltr_slr_nm'";
-            $query = $this->db->query("SELECT a.product_id FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
+					 
+							return $query->num_rows();
+					}
+					
+					
+					if($prod_cate != ""){
+				$condition .= "h.lvl2_name LIKE '%$prod_cate%'" ;
+				$query = $this->db->query("SELECT a.product_id FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -1901,12 +2165,12 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
-            return $query->num_rows();
-        }
-        if ($mrp != '') {
-            $condition .= "f.mrp='$mrp'";
-            $query = $this->db->query("SELECT a.product_id FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC " );
+						return $query->num_rows();
+					}
+				if($fltr_slr_nm != "" ){
+					 	$condition .= "s.business_name = '$fltr_slr_nm'";
+						$query = $this->db->query("SELECT a.product_id FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -1922,12 +2186,12 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
-            return $query->num_rows();
-        }
-        if ($sell_prices != '') {
-            $condition .= "f.price='$sell_prices'";
-            $query = $this->db->query("SELECT a.product_id FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
+						return $query->num_rows();
+					}
+				if($mrp !='' ){
+				  		$condition .= "f.mrp='$mrp'";
+						$query = $this->db->query("SELECT a.product_id FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -1943,12 +2207,12 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
-            return $query->num_rows();
-        }
-        if ($quantity != '') {
-            $condition .= "f.quantity='$quantity'";
-            $query = $this->db->query("SELECT a.product_id FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
+						return $query->num_rows();
+					}
+					if($sell_prices !='' ){
+				  		$condition .= "f.price='$sell_prices'";
+						$query = $this->db->query("SELECT a.product_id FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -1964,14 +2228,12 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
-            return $query->num_rows();
-        }
-
-
-        if ($product_sts != '') {
-            $condition .= "f.approve_status='$product_sts'";
-            $query = $this->db->query("SELECT a.product_id FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
+						return $query->num_rows();
+					}
+					if($quantity !='' ){
+				  		$condition .= "f.quantity='$quantity'";
+						$query = $this->db->query("SELECT a.product_id FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -1987,13 +2249,36 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
-            return $query->num_rows();
-        }
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
+						return $query->num_rows();
+					}
+					
+					
+					if($product_sts !='' ){
+				  		$condition .= "f.approve_status='$product_sts'";
+						$query = $this->db->query("SELECT a.product_id FROM product_setting a 
 
+		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
-        if ($condition == "") {
-            $query = $this->db->query("SELECT a.product_id FROM product_setting a 
+		INNER JOIN product_image c ON a.product_id=c.product_id 
+
+		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
+		
+		INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
+
+		INNER JOIN seller_product_master f ON a.product_id=f.master_product_id 
+		
+		INNER JOIN seller_account g ON f.seller_id=g.seller_id
+
+		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
+		
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC ");
+						return $query->num_rows();
+					}
+					
+					
+				if($condition == ""){
+					$query = $this->db->query("SELECT a.product_id FROM product_setting a 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 		INNER JOIN product_image c ON a.product_id=c.product_id 
 		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
@@ -2002,61 +2287,66 @@ class Seller_model extends CI_Model {
 		INNER JOIN seller_account g ON f.seller_id=g.seller_id
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		WHERE a.status='Active' AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC ");
-            return $query->num_rows();
-        }
-    }
+					return $query->num_rows();
+					}
+				}
+				
+				
+				
+				
+				
+				
+	function filter_seller_existing_product($limit,$start){
+		$fltr_product_sku = $_REQUEST['fltr_product_sku'];
+			$fltr_product_nm = $_REQUEST['fltr_product_nm'];
+			$prod_cate = $_REQUEST['prod_cate'];
+			$fltr_slr_nm = $_REQUEST['fltr_slr_nm'];
+			$mrp = $_REQUEST['mrp'];
+			$sell_prices = $_REQUEST['sell_prices'];
+			$quantity = $_REQUEST['quantity'];
+			$product_sts = $_REQUEST['product_sts'];
+			
 
-    function filter_seller_existing_product($limit, $start) {
-        $fltr_product_sku = $_REQUEST['fltr_product_sku'];
-        $fltr_product_nm = $_REQUEST['fltr_product_nm'];
-        $prod_cate = $_REQUEST['prod_cate'];
-        $fltr_slr_nm = $_REQUEST['fltr_slr_nm'];
-        $mrp = $_REQUEST['mrp'];
-        $sell_prices = $_REQUEST['sell_prices'];
-        $quantity = $_REQUEST['quantity'];
-        $product_sts = $_REQUEST['product_sts'];
-
-
-        /* $fltr_product_sku = $this->input->post('fltr_product_sku');
-          //$from_dt = $this->input->post('from_dt1');
-          // print_r($shipment);exit;
-
-          //$to_dt = $this->input->post('to_dt1');
-          //print_r($to_dt);exit;
-          $fltr_product_nm = $this->input->post('fltr_product_nm');
-          $prod_cate = $this->input->post('prod_cate');
-          $fltr_slr_nm = $this->input->post('fltr_slr_nm');
-          //print_r($fltr_product_nm);exit;
-          $mrp = $this->input->post('mrp');
-          $sell_prices = $this->input->post('sell_prices');
-          $quantity = $this->input->post('quantity');
-          $product_sts = $this->input->post('product_sts'); */
-
-        $condition = "";
-
-
-
-
-
-        /* if($from_dt!='' && $to_dt!=''){
-          $condition .= "f.current_date>='$from_dt' and f.current_date<='$to_dt'" ;
-
-          $query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a
-          INNER JOIN product_general_info b ON a.product_id=b.product_id
-          INNER JOIN product_image c ON a.product_id=c.product_id
-          INNER JOIN product_meta_info d ON a.product_id=d.product_id
-          INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
-          INNER JOIN seller_product_master f ON a.product_id=f.master_product_id
-          INNER JOIN seller_account g ON f.seller_id=g.seller_id
-          INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
-          WHERE a.status='Active' AND ".$condition." AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."");
-          return $query;
-          } */
-
-
-        if ($fltr_product_sku != "") {
-            $condition .= "f.sku LIKE '%$fltr_product_sku%'";
-            $query = $this->db->query("
+			/*$fltr_product_sku = $this->input->post('fltr_product_sku');
+		   //$from_dt = $this->input->post('from_dt1');
+		   // print_r($shipment);exit;
+			
+			//$to_dt = $this->input->post('to_dt1');			
+			//print_r($to_dt);exit;		
+			$fltr_product_nm = $this->input->post('fltr_product_nm');
+			$prod_cate = $this->input->post('prod_cate');
+			$fltr_slr_nm = $this->input->post('fltr_slr_nm');
+			//print_r($fltr_product_nm);exit;
+			$mrp = $this->input->post('mrp');
+			$sell_prices = $this->input->post('sell_prices');
+			$quantity = $this->input->post('quantity');
+			$product_sts = $this->input->post('product_sts');*/
+				
+				$condition = "";
+				
+				
+				
+				
+				
+				/*if($from_dt!='' && $to_dt!=''){
+				$condition .= "f.current_date>='$from_dt' and f.current_date<='$to_dt'" ;
+		
+		$query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+		INNER JOIN product_general_info b ON a.product_id=b.product_id 
+		INNER JOIN product_image c ON a.product_id=c.product_id 
+		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
+		INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
+		INNER JOIN seller_product_master f ON a.product_id=f.master_product_id
+		INNER JOIN seller_account g ON f.seller_id=g.seller_id 
+		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
+		WHERE a.status='Active' AND ".$condition." AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."");
+						return $query;
+					}*/
+					
+					
+				if($fltr_product_sku != ""){
+				$condition .= "f.sku LIKE '%$fltr_product_sku%'" ;
+				$query = $this->db->query("
 				
 				
 				SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
@@ -2075,37 +2365,37 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT " . $start . " , " . $limit . "");
-
-
-
-
-
-
-            /* SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
-
-              INNER JOIN product_general_info b ON a.product_id=b.product_id
-
-              INNER JOIN product_image c ON a.product_id=c.product_id
-
-              INNER JOIN product_meta_info d ON a.product_id=d.product_id
-
-              INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
-
-              INNER JOIN seller_product_master f ON a.product_id=f.master_product_id
-
-              INNER JOIN seller_account g ON f.seller_id=g.seller_id
-
-              INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
-
-              WHERE a.status='Active' AND ".$condition." AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."" ); */
-            return $query;
-        }
-
-
-        if ($fltr_product_nm != "") {
-            $condition .= "b.name LIKE '%$fltr_product_nm%'";
-            $query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."" );
+				
+				
+				
+				
+				
+				
+				/*SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+				
+		INNER JOIN product_general_info b ON a.product_id=b.product_id 
+		
+		INNER JOIN product_image c ON a.product_id=c.product_id 
+		
+		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
+		
+		INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
+		
+		INNER JOIN seller_product_master f ON a.product_id=f.master_product_id
+		 
+		INNER JOIN seller_account g ON f.seller_id=g.seller_id
+		
+		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
+		
+		WHERE a.status='Active' AND ".$condition." AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."" );*/
+						return $query;
+					}
+					
+					
+				if($fltr_product_nm != "" ){
+					 	$condition .= "b.name LIKE '%$fltr_product_nm%'";
+						$query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -2121,36 +2411,15 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT " . $start . " , " . $limit . "");
-
-            return $query;
-        }
-
-
-        if ($prod_cate != "") {
-            $condition .= "h.lvl2_name LIKE '%$prod_cate%'";
-            $query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
-
-		INNER JOIN product_general_info b ON a.product_id=b.product_id 
-
-		INNER JOIN product_image c ON a.product_id=c.product_id 
-
-		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
-		
-		INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
-
-		INNER JOIN seller_product_master f ON a.product_id=f.master_product_id 
-		
-		INNER JOIN seller_account g ON f.seller_id=g.seller_id
-
-		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
-		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT " . $start . " , " . $limit . "");
-            return $query;
-        }
-        if ($fltr_slr_nm != "") {
-            $condition .= "s.business_name LIKE '%$fltr_slr_nm%'";
-            $query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."");
+					 
+							return $query;
+					}
+					
+					
+					if($prod_cate != ""){
+				$condition .= "h.lvl2_name LIKE '%$prod_cate%'" ;
+				$query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -2166,34 +2435,12 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT " . $start . " , " . $limit . "");
-            return $query;
-        }
-
-        if ($mrp != '') {
-            $condition .= "f.mrp='$mrp'";
-            $query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
-
-		INNER JOIN product_general_info b ON a.product_id=b.product_id 
-
-		INNER JOIN product_image c ON a.product_id=c.product_id 
-
-		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
-		
-		INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
-
-		INNER JOIN seller_product_master f ON a.product_id=f.master_product_id 
-		
-		INNER JOIN seller_account g ON f.seller_id=g.seller_id
-
-		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
-		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT " . $start . " , " . $limit . "");
-            return $query;
-        }
-        if ($sell_prices != '') {
-            $condition .= "f.price='$sell_prices'";
-            $query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."" );
+						return $query;
+					}
+				if($fltr_slr_nm != "" ){
+					 	$condition .= "s.business_name LIKE '%$fltr_slr_nm%'";
+						$query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -2209,12 +2456,13 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT " . $start . " , " . $limit . "");
-            return $query;
-        }
-        if ($quantity != '') {
-            $condition .= "f.quantity='$quantity'";
-            $query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."");
+						return $query;
+					}
+				
+					if($mrp !='' ){
+				  		$condition .= "f.mrp='$mrp'";
+						$query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -2230,13 +2478,12 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT " . $start . " , " . $limit . "");
-            return $query;
-        }
-
-        if ($product_sts != '') {
-            $condition .= "f.approve_status='$product_sts'";
-            $query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."");
+						return $query;
+					}
+					if($sell_prices !='' ){
+				  		$condition .= "f.price='$sell_prices'";
+						$query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 
@@ -2252,11 +2499,54 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		
-		WHERE a.status='Active' AND g.status='Active' AND " . $condition . " GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT " . $start . " , " . $limit . "");
-            return $query;
-        }
-        if ($condition == "") {
-            $query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."");
+						return $query;
+					}
+					if($quantity !='' ){
+				  		$condition .= "f.quantity='$quantity'";
+						$query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+
+		INNER JOIN product_general_info b ON a.product_id=b.product_id 
+
+		INNER JOIN product_image c ON a.product_id=c.product_id 
+
+		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
+		
+		INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
+
+		INNER JOIN seller_product_master f ON a.product_id=f.master_product_id 
+		
+		INNER JOIN seller_account g ON f.seller_id=g.seller_id
+
+		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
+		
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."");
+						return $query;
+					}
+					
+					if($product_sts !='' ){
+				  		$condition .= "f.approve_status='$product_sts'";
+						$query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
+
+		INNER JOIN product_general_info b ON a.product_id=b.product_id 
+
+		INNER JOIN product_image c ON a.product_id=c.product_id 
+
+		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
+		
+		INNER JOIN cornjob_productsearch h ON a.product_id=h.product_id
+
+		INNER JOIN seller_product_master f ON a.product_id=f.master_product_id 
+		
+		INNER JOIN seller_account g ON f.seller_id=g.seller_id
+
+		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
+		
+		WHERE a.status='Active' AND g.status='Active' AND ".$condition." GROUP BY a.product_id ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."");
+						return $query;
+					}
+				if($condition == ""){
+					$query = $this->db->query("SELECT DISTINCT h.lvlmain_name,h.lvl1_name,h.lvl2_name,a.*,b.*,c.*,d.*,f.*,g.name AS seller_name,s.business_name FROM product_setting a 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 		INNER JOIN product_image c ON a.product_id=c.product_id 
 		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
@@ -2264,28 +2554,27 @@ class Seller_model extends CI_Model {
 		INNER JOIN seller_product_master f ON a.product_id=f.master_product_id 
 		INNER JOIN seller_account g ON f.seller_id=g.seller_id 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
-		WHERE a.status='Active' AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC LIMIT " . $start . " , " . $limit . "");
-            return $query;
-        }
-    }
+		WHERE a.status='Active' AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' ORDER BY f.seller_exist_product_id DESC LIMIT ".$start." , ".$limit."");
+					return $query;
+					}
+				}
 
-    function search_existseller_name() {
-        $slr_name = $this->input->post('fltr_slr_nm');
-        $query = $this->db->query("SELECT business_name FROM seller_account_information WHERE business_name LIKE '$slr_name%' ORDER BY business_name");
-        return $query;
-    }
-
-    /* function search_existprod_name(){
-      $prod_name = $this->input->post('fltr_product_nm');
-      $query = $this->db->query("SELECT b.name FROM product_setting a
-      INNER JOIN product_general_info b ON a.product_id=b.product_id
-      WHERE b.name LIKE '%$prod_name%'  GROUP BY b.name ");
-      return $query;
-      } */
-
-    function search_existprod_name() {
-        $prod_name = $this->input->post('fltr_product_nm');
-        $query = $this->db->query("SELECT b.name FROM product_setting a 
+	
+function search_existseller_name(){
+		$slr_name = $this->input->post('fltr_slr_nm');
+		$query = $this->db->query("SELECT business_name FROM seller_account_information WHERE business_name LIKE '$slr_name%' ORDER BY business_name");
+		return $query;
+	}
+	/*function search_existprod_name(){
+		$prod_name = $this->input->post('fltr_product_nm');
+		$query = $this->db->query("SELECT b.name FROM product_setting a 
+		INNER JOIN product_general_info b ON a.product_id=b.product_id 
+		WHERE b.name LIKE '%$prod_name%'  GROUP BY b.name ");
+		return $query;
+	}*/
+	function search_existprod_name(){
+		$prod_name = $this->input->post('fltr_product_nm');
+		$query = $this->db->query("SELECT b.name FROM product_setting a 
 		INNER JOIN product_general_info b ON a.product_id=b.product_id 
 		INNER JOIN product_image c ON a.product_id=c.product_id 
 		INNER JOIN product_meta_info d ON a.product_id=d.product_id 
@@ -2294,120 +2583,167 @@ class Seller_model extends CI_Model {
 		INNER JOIN seller_account g ON f.seller_id=g.seller_id 
 		INNER JOIN seller_account_information s ON s.seller_id=g.seller_id
 		WHERE a.status='Active' AND b.name LIKE '%$prod_name%' AND (g.status='Active' OR g.status='Pending')  AND f.approve_status='Pending' GROUP BY b.name ");
-        return $query;
-    }
-
-    function existcategorysearch() {
-        $cate_name = $this->input->post('cate_name');
-        $qr = $this->db->query("
+		return $query;
+	}
+	function existcategorysearch()
+		{		
+			$cate_name = $this->input->post('cate_name');
+			$qr=$this->db->query("
 			SELECT DISTINCT lvl2, lvl2_name, lvl1, lvl1_name , lvlmain_name
 			FROM  temp_category 
 			WHERE lvl1 !=0 AND lvl2_name LIKE '%$cate_name%' ");
+			
+			return $qr->result_array();	
+		}
+	//==================================== check product approve process status start================================//
 
-        return $qr->result_array();
-    }
+	
 
-    //==================================== check product approve process status start================================//
+	function productapprove_precessstatus($loged_username)
 
+	{
 
+		if($loged_username=='admin@moonboy.in')
 
-    function productapprove_precessstatus($loged_username) {
+		{
 
-        if ($loged_username == ADMIN_MAIL) {
+			$qr=$this->db->query("SELECT * FROM user_role_previleges WHERE uname='Adminstrator' ");
 
-            $qr = $this->db->query("SELECT * FROM user_role_previleges WHERE uname='Adminstrator' ");
+			return $process_status=$qr->row()->product_approve;	
 
-            return $process_status = $qr->row()->product_approve;
-        } else {
+		}
 
-            $qr = $this->db->query("SELECT * FROM user_role_previleges WHERE uname='$loged_username' ");
+		else
 
-            return $process_status = $qr->row()->product_approve;
-        }
-    }
+		{
 
-    function productapprove_start_precessstatus($loged_username) {
+			$qr=$this->db->query("SELECT * FROM user_role_previleges WHERE uname='$loged_username' ");
 
-        if ($loged_username == ADMIN_MAIL) {
+			return $process_status=$qr->row()->product_approve;		
 
-            $this->db->query("UPDATE user_role_previleges SET product_approve='process' WHERE uname='Adminstrator' ");
-        } else {
+		}
 
-            $this->db->query("UPDATE user_role_previleges SET product_approve='process' WHERE uname='$loged_username' ");
-        }
-    }
+	}
 
-    function productapprove_finish_precessstatus($loged_username) {
+	
 
-        if ($loged_username == ADMIN_MAIL) {
+	function productapprove_start_precessstatus($loged_username)
 
-            $this->db->query("UPDATE user_role_previleges SET product_approve='not process' WHERE uname='Adminstrator' ");
-        } else {
+	{
 
-            $this->db->query("UPDATE user_role_previleges SET product_approve='not process' WHERE uname='$loged_username' ");
-        }
-    }
+		if($loged_username=='admin@moonboy.in')
 
-    //==================================== check product approve process status end================================//
+		{
+
+			$this->db->query("UPDATE user_role_previleges SET product_approve='process' WHERE uname='Adminstrator' ");
+
+		}
+
+		else
+
+		{
+
+			$this->db->query("UPDATE user_role_previleges SET product_approve='process' WHERE uname='$loged_username' ");	
+
+		}
+
+	}
+
+	
+
+	function productapprove_finish_precessstatus($loged_username)
+
+	{
+
+		if($loged_username=='admin@moonboy.in')
+
+		{
+
+			$this->db->query("UPDATE user_role_previleges SET product_approve='not process' WHERE uname='Adminstrator' ");
+
+		}
+
+		else
+
+		{
+
+			$this->db->query("UPDATE user_role_previleges SET product_approve='not process' WHERE uname='$loged_username' ");	
+
+		}
+
+	}
+
+	//==================================== check product approve process status end================================//
+
+	
+
 //===============================================Product Approval Start=========================================================================//	
 
-    function changed_seller_product_status() {
+	function changed_seller_product_status(){
+
+		
+
+		//$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
+
+		$ids = implode(',',$this->input->post('id'));
+
+		$status = $this->input->post('status');
 
 
 
-        //$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
+		if($status == 'Active'){
 
-        $ids = implode(',', $this->input->post('id'));
+			$query2 = $this->db->query("SELECT master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids)");
 
-        $status = $this->input->post('status');
+			$result2 = $query2->result();
 
+			//print_r($result2);exit;
 
+			foreach($result2 as $val){
 
-        if ($status == 'Active') {
+				//echo $val->master_product_id.'<br/>';
 
-            $query2 = $this->db->query("SELECT master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids)");
+				$master_product_id[] = $val->master_product_id;		
 
-            $result2 = $query2->result();
+			}
 
-            //print_r($result2);exit;
+			//print_r($master_product_id);exit;
 
-            foreach ($result2 as $val) {
-
-                //echo $val->master_product_id.'<br/>';
-
-                $master_product_id[] = $val->master_product_id;
-            }
-
-            //print_r($master_product_id);exit;
-
-            $master_product_id_length = count($master_product_id);
+			$master_product_id_length = count($master_product_id);
 
 
 
-            for ($j = 0; $j < $master_product_id_length; $j++) {
+			for($j=0; $j<$master_product_id_length; $j++){
 
-                if ($master_product_id[$j] == 0) {
+				if($master_product_id[$j] == 0){
 
+				
 
+				//$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
 
-                    //$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
-                    ///////start retrieve seller_product_id whose master_product_id is 0 ////////////
+				
 
-                    $query4 = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id=0");
+					///////start retrieve seller_product_id whose master_product_id is 0 ////////////
 
-                    $result4 = $query4->result();
+					$query4 = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id=0");
 
-                    foreach ($result4 as $val1) {
+					$result4 = $query4->result();
 
-                        $slr_prdt_id[] = $val1->seller_product_id;
-                    }
+					foreach($result4 as $val1){
 
-                    $slr_prdt_ids = implode(',', $slr_prdt_id);
+						$slr_prdt_id[] = $val1->seller_product_id;
 
-                    ///////end retrieve seller_product_id whose master_product_id is 0 ////////////
-                    /////retrieve selected seller's product data and insert into admin product tables script start here//////
+					}
 
-                    $query = $this->db->query("SELECT a.*,b.*,c.*,d.*,e.*,f.*,g.* FROM seller_product_setting a 
+					$slr_prdt_ids = implode(',',$slr_prdt_id);
+
+					///////end retrieve seller_product_id whose master_product_id is 0 ////////////
+
+					
+
+					/////retrieve selected seller's product data and insert into admin product tables script start here//////
+
+					$query = $this->db->query("SELECT a.*,b.*,c.*,d.*,e.*,f.*,g.* FROM seller_product_setting a 
 
 					INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 
 
@@ -2423,386 +2759,477 @@ class Seller_model extends CI_Model {
 
 					WHERE a.seller_product_id IN ($slr_prdt_ids)");
 
-                    $result = $query->result();
+					$result = $query->result();
 
-                    //$array_length = count($result);
+					//$array_length = count($result);
 
-                    $array_length = $query->num_rows();
+					$array_length = $query->num_rows();
 
+					
 
+					$this->load->model('Usermodel');
 
-                    $this->load->model('Usermodel');
+					$product_id = $this->Usermodel->get_unique_id('product_setting','product_id');
 
-                    $product_id = $this->Usermodel->get_unique_id('product_setting', 'product_id');
+					
 
+					//program start for generating product unique id//
 
+					$product_uid = $this->generate_product_unique_id($result[$j]->category);
 
-                    //program start for generating product unique id//
+					//program start for generating product unique id//
 
-                    $product_uid = $this->generate_product_unique_id($result[$j]->category);
+					 
 
-                    //program start for generating product unique id//
-                    //for($i=0; $i<$array_length; $i++){
+					//for($i=0; $i<$array_length; $i++){
 
-                    $product_master_data = array(
-                        'seller_id' => $result[$j]->seller_id,
-                        'product_id' => $product_id,
-                        'product_uid' => $product_uid,
-                        'sku' => $result[$j]->sku,
-                        'set_product_as_nw_frm_dt' => $result[$j]->product_fr_dt,
-                        'set_product_as_nw_to_dt' => $result[$j]->product_to_dt,
-                        'status' => $result[$j]->status,
-                        'manufacture_country' => $result[$j]->manufacture_country,
-                        'mrp' => $result[$j]->mrp,
-                        'price' => $result[$j]->price,
-                        'special_price' => $result[$j]->special_price,
-                        'special_pric_from_dt' => $result[$j]->price_fr_dt,
-                        'special_pric_to_dt' => $result[$j]->price_to_dt,
-                        'tax_amount' => $result[$j]->tax_amount,
-                        'shipping_fee' => $result[$j]->shipping_fee,
-                        'shipping_fee_amount' => $result[$j]->shipping_fee_amount,
-                        'quantity' => $result[$j]->quantity,
-                        'max_qty_allowed_in_shopng_cart' => $result[$j]->max_quantity,
-                        'enable_qty_increment' => $result[$j]->qty_increment,
-                        'stock_availability' => $result[$j]->stock_avail
-                    );
+						$product_master_data = array(
 
+							'seller_id' => $result[$j]->seller_id,
 
+							'product_id' => $product_id,
 
-                    $product_setting_data = array(
-                        'product_id' => $product_id,
-                        'attribut_set' => $result[$j]->attribute_set,
-                        'product_type' => $result[$j]->product_type,
-                        'add_date' => $result[$j]->date_added,
-                        'status' => 'Active'
-                    );
+							'product_uid' => $product_uid,
 
+							'sku' => $result[$j]->sku,
 
+							'set_product_as_nw_frm_dt' => $result[$j]->product_fr_dt,
 
-                    $product_general_info_data = array(
-                        'product_id' => $product_id,
-                        'name' => $result[$j]->name,
-                        'description' => $result[$j]->description,
-                        'short_desc' => $result[$j]->short_desc,
-                        'weight' => $result[$j]->weight,
-                        'featured' => $result[$j]->featured
-                    );
+							'set_product_as_nw_to_dt' => $result[$j]->product_to_dt,
 
+							'status' => $result[$j]->status,
 
+							'manufacture_country' => $result[$j]->manufacture_country,
 
-                    $product_meta_data = array(
-                        'product_id' => $product_id,
-                        'meta_title' => $result[$j]->meta_title,
-                        'meta_keywords' => $result[$j]->meta_keyword,
-                        'meta_desc' => $result[$j]->meta_description
-                    );
+							'mrp' => $result[$j]->mrp,
 
+							'price' => $result[$j]->price,
 
+							'special_price' => $result[$j]->special_price,
 
-                    $product_category_data = array(
-                        'product_id' => $product_id,
-                        'category_id' => $result[$j]->category
-                    );
+							'special_pric_from_dt' => $result[$j]->price_fr_dt,
 
+							'special_pric_to_dt' => $result[$j]->price_to_dt,
 
+							'tax_amount' => $result[$j]->tax_amount,
 
-                    $product_image_data = array(
-                        'product_id' => $product_id,
-                        'imag' => $result[$j]->image,
-                        'catelog_img_url' => $result[$j]->catelog_img_url
-                    );
+							'shipping_fee' => $result[$j]->shipping_fee,
 
+							'shipping_fee_amount' => $result[$j]->shipping_fee_amount,
 
+							'quantity' => $result[$j]->quantity,
 
-                    //$arr_seller_product_id = $result[$j]->seller_product_id;
-                    //$arr_product_id = $product_id;						
+							'max_qty_allowed_in_shopng_cart' => $result[$j]->max_quantity,
 
+							'enable_qty_increment' => $result[$j]->qty_increment,
 
+							'stock_availability' => $result[$j]->stock_avail
 
-                    $this->db->insert('product_master', $product_master_data);
+						);
 
-                    $this->db->insert('product_setting', $product_setting_data);
+						
 
-                    $this->db->insert('product_general_info', $product_general_info_data);
+						$product_setting_data = array(
 
-                    $this->db->insert('product_meta_info', $product_meta_data);
+							'product_id' => $product_id,
 
-                    $this->db->insert('product_category', $product_category_data);
+							'attribut_set' => $result[$j]->attribute_set,
 
-                    $this->db->insert('product_image', $product_image_data);
+							'product_type' => $result[$j]->product_type,
 
+							'add_date' => $result[$j]->date_added,
 
+							'status' => 'Active'
 
-                    $this->insert_master_product_id($slr_prdt_id[$j], $product_id);
+						);
 
+						
 
+						$product_general_info_data = array(
 
-                    //}
-                    //$this->insert_master_product_id($slr_prdt_id,$arr_product_id);
+							'product_id' => $product_id,
 
+							'name' => $result[$j]->name,
 
+							'description' => $result[$j]->description,
 
+							'short_desc' => $result[$j]->short_desc,
 
+							'weight' => $result[$j]->weight,
 
-                    /* $this->db->insert_batch('product_master',$product_master_data);
+							'featured' => $result[$j]->featured
 
-                      $this->db->insert_batch('product_setting',$product_setting_data);
+						);
 
-                      $this->db->insert_batch('product_general_info',$product_general_info_data);
+						
 
-                      $this->db->insert_batch('product_meta_info',$product_meta_data);
+						$product_meta_data = array(
 
-                      $this->db->insert_batch('product_category',$product_category_data);
+							'product_id' => $product_id,
 
-                      $this->db->insert_batch('product_image',$product_image_data); */
+							'meta_title' => $result[$j]->meta_title,
 
-                    /////retrieve selected seller's product data and insert into admin product tables script start here//////
+							'meta_keywords' => $result[$j]->meta_keyword,
 
-                    $query1 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids)");
+							'meta_desc' => $result[$j]->meta_description
 
-                    //continue ;
-                } else {
+						);
 
-                    ///////start retrieve seller_product_id whose master_product_id is not 0 ////////////
-                    //$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
+						
 
+						$product_category_data = array(
 
+							'product_id' => $product_id,
 
-                    $query5 = $this->db->query("SELECT seller_product_id,master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id!=0");
+							'category_id' => $result[$j]->category
 
-                    $result5 = $query5->result();
+						);
 
-                    foreach ($result5 as $val2) {
+						
 
-                        $slr_prdt_id1[] = $val2->seller_product_id;
+						$product_image_data = array(
 
-                        $slr_master_product_id1[] = $val2->master_product_id;
-                    }
+							'product_id' => $product_id,
 
-                    $slr_prdt_ids1 = implode(',', $slr_prdt_id1);
+							'imag' => $result[$j]->image,
 
-                    $slr_master_product_ids1 = implode(',', $slr_master_product_id1);
+							'catelog_img_url' => $result[$j]->catelog_img_url
 
-                    ///////end retrieve seller_product_id whose master_product_id is not 0 ////////////
+						);
 
-                    $query3 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids1)");
+						
 
+						//$arr_seller_product_id = $result[$j]->seller_product_id;
 
+						//$arr_product_id = $product_id;						
 
-                    $querys1 = $this->db->query("UPDATE product_setting SET status='Active' WHERE product_id IN ($slr_master_product_ids1)");
+						
 
-                    $this->db->query("update cornjob_productsearch SET prod_status='Active' WHERE product_id IN ($slr_master_product_ids1) ");
+						$this->db->insert('product_master',$product_master_data);
 
-                    //continue ;
-                }
-            }
+						$this->db->insert('product_setting',$product_setting_data);
 
-            return true;
-        } else {
+						$this->db->insert('product_general_info',$product_general_info_data);
 
+						$this->db->insert('product_meta_info',$product_meta_data);
 
+						$this->db->insert('product_category',$product_category_data);
 
-            //$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
+						$this->db->insert('product_image',$product_image_data);
 
 
 
-            $query7 = $this->db->query("SELECT master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids)");
+						$this->insert_master_product_id($slr_prdt_id[$j],$product_id);
 
-            $result7 = $query7->result();
+						
 
-            foreach ($result7 as $val) {
+					//}
 
-                $master_product_id[] = $val->master_product_id;
-            }
+					//$this->insert_master_product_id($slr_prdt_id,$arr_product_id);
 
-            $master_product_id_length = count($master_product_id);
+										
 
-            for ($j = 0; $j < $master_product_id_length; $j++) {
+					
 
-                if ($master_product_id[$j] == 0) {
+					/*$this->db->insert_batch('product_master',$product_master_data);
 
+					$this->db->insert_batch('product_setting',$product_setting_data);
 
+					$this->db->insert_batch('product_general_info',$product_general_info_data);
 
-                    //$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
-                    ///////start retrieve seller_product_id whose master_product_id is 0 ////////////
+					$this->db->insert_batch('product_meta_info',$product_meta_data);
 
-                    $query6 = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id=0");
+					$this->db->insert_batch('product_category',$product_category_data);
 
-                    $result6 = $query6->result();
+					$this->db->insert_batch('product_image',$product_image_data);*/
 
-                    foreach ($result6 as $val1) {
+					/////retrieve selected seller's product data and insert into admin product tables script start here//////
 
-                        $slr_prdt_id[] = $val1->seller_product_id;
-                    }
+					$query1 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids)");
 
-                    $slr_prdt_ids = implode(',', $slr_prdt_id);
+					//continue ;
 
-                    ///////end retrieve seller_product_id whose master_product_id is 0 ////////////					
+				}else{
 
+					///////start retrieve seller_product_id whose master_product_id is not 0 ////////////
 
+					//$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
 
-                    $query8 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids)");
-                } else {
+					
 
-                    ///////start retrieve seller_product_id whose master_product_id is not 0 ////////////
-                    //$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
+					$query5 = $this->db->query("SELECT seller_product_id,master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id!=0");
 
+					$result5 = $query5->result();
 
+					foreach($result5 as $val2){
 
-                    $query9 = $this->db->query("SELECT seller_product_id,master_product_id,seller_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id!=0");
+						$slr_prdt_id1[] = $val2->seller_product_id;
 
-                    $result9 = $query9->result();
+						$slr_master_product_id1[] = $val2->master_product_id;
 
-                    foreach ($result9 as $val2) {
+					}
 
-                        $slr_prdt_id1[] = $val2->seller_product_id;
+					$slr_prdt_ids1 = implode(',',$slr_prdt_id1);
 
-                        $slr_master_product_id[] = $val2->master_product_id;
+					$slr_master_product_ids1 = implode(',',$slr_master_product_id1);
 
-                        $seller_id[] = $val2->seller_id;
-                    }
+					///////end retrieve seller_product_id whose master_product_id is not 0 ////////////
 
-                    $slr_prdt_ids1 = implode(',', $slr_prdt_id1);
+					$query3 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids1)");
 
-                    $slr_master_product_ids = implode(',', $slr_master_product_id);
 
-                    $seller_ids1 = implode(',', $seller_id);
 
-                    ///////end retrieve seller_product_id whose master_product_id is not 0 ////////////
+					$querys1 = $this->db->query("UPDATE product_setting SET status='Active' WHERE product_id IN ($slr_master_product_ids1)");
 
-                    $querys = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids1)");
+					$this->db->query("update cornjob_productsearch SET prod_status='Active' WHERE product_id IN ($slr_master_product_ids1) ");
 
+					//continue ;
 
+				}
 
-                    $querys1 = $this->db->query("UPDATE product_master SET approve_status='Inactive' WHERE product_id IN ($slr_master_product_ids) AND seller_id IN ($seller_ids1)");
+			}
 
-                    $this->db->query("update cornjob_productsearch SET prod_status='Inactive' WHERE product_id IN ($slr_master_product_ids) ");
-                }
-            }
+			return true;
 
-            return true;
-        }
-    }
+		}else{
 
-    //=======================================================================Product Approval End =============================================//
+			
 
+			//$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
 
+			
 
+			$query7 = $this->db->query("SELECT master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids)");
 
+			$result7 = $query7->result();
 
-    function changed_sellerwiseproduct_status_sp() {
-        set_time_limit(0);
+			foreach($result7 as $val){
 
-        $seller_ids = $this->input->post('id');
+				$master_product_id[] = $val->master_product_id;			
 
-        //$seller_ids=440;				
+			}
 
+			$master_product_id_length = count($master_product_id);
 
+			for($j=0; $j<$master_product_id_length; $j++){
 
-        /* $qr=$this->db->query("SELECT seller_id FROM seller_product_setting WHERE seller_id='$seller_ids' AND master_product_id=0 AND product_approve='Pending' GROUP BY  seller_id");						
+				if($master_product_id[$j] == 0){
 
-          while($qr->num_rows()>0)
+					
 
-          { */
+					//$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
 
-        $sql = "call bulk_newproductapproval(" . $seller_ids . ");";
+					
 
-        $this->db->query($sql);
+					///////start retrieve seller_product_id whose master_product_id is 0 ////////////
 
+					$query6 = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id=0");
 
+					$result6 = $query6->result();
 
-        /* if($qr->num_rows()==0){break;}														
+					foreach($result6 as $val1){
 
+						$slr_prdt_id[] = $val1->seller_product_id;
 
+					}
 
-          } */
+					$slr_prdt_ids = implode(',',$slr_prdt_id);
 
+					///////end retrieve seller_product_id whose master_product_id is 0 ////////////					
 
+					
 
-        $this->db->query("UPDATE product_process_status SET prod_approv='not process' WHERE status_id='1' ");
+					$query8 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids)");
 
-        //return true;
-    }
+				}else{
 
-    //=========================================sellerwise Approval Start=============================================================================//	
+					///////start retrieve seller_product_id whose master_product_id is not 0 ////////////
 
-    function changed_sellerwiseproduct_status() {
+					
 
-        $ids = implode(',', $this->input->post('id'));
+					//$this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
 
+					
 
+					$query9 = $this->db->query("SELECT seller_product_id,master_product_id,seller_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id!=0");
 
-        //-----------------------seller product id for approve start-----------//
+					$result9 = $query9->result();
 
+					foreach($result9 as $val2){
 
+						$slr_prdt_id1[] = $val2->seller_product_id;
 
-        $query_slrprod = $this->db->query("SELECT b.seller_product_id FROM seller_product_setting b WHERE (b.product_approve='Pending')  AND b.seller_id IN ($ids)  GROUP BY b.seller_product_id  ");
+						$slr_master_product_id[] = $val2->master_product_id;
 
+						$seller_id[] = $val2->seller_id;
 
+					}
 
-        $ids = '';
+					$slr_prdt_ids1 = implode(',',$slr_prdt_id1);
 
-        $slrprodarr = array();
+					$slr_master_product_ids = implode(',',$slr_master_product_id);
 
-        foreach ($query_slrprod->result_array() as $res_slrprod) {
+					$seller_ids1 = implode(',',$seller_id);
 
-            $slrprodarr[] = $res_slrprod['seller_product_id'];
-        }
+					///////end retrieve seller_product_id whose master_product_id is not 0 ////////////
 
-        $ids = implode(',', $slrprodarr);
+					$querys = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids1)");
 
+					
 
+				$querys1 = $this->db->query("UPDATE product_master SET approve_status='Inactive' WHERE product_id IN ($slr_master_product_ids) AND seller_id IN ($seller_ids1)");					
 
-        //-----------------------seller product id for approve end-------------//
+					$this->db->query("update cornjob_productsearch SET prod_status='Inactive' WHERE product_id IN ($slr_master_product_ids) ");
 
+				}
 
+			}
 
-        $status = $this->input->post('status');
+			return true;
 
+		}
 
+	}
 
-        if ($status == 'Active') {
+	//=======================================================================Product Approval End =============================================//
 
-            $query2 = $this->db->query("SELECT master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids)");
 
-            $result2 = $query2->result();
 
-            //print_r($result2);exit;
 
-            foreach ($result2 as $val) {
 
-                //echo $val->master_product_id.'<br/>';
+			function changed_sellerwiseproduct_status_sp()
 
-                $master_product_id[] = $val->master_product_id;
-            }
+			{		set_time_limit(0);					
 
-            //print_r($master_product_id);exit;
+					$seller_ids = $this->input->post('id');				
 
-            $master_product_id_length = count($master_product_id);
+					//$seller_ids=440;				
 
+									
 
+						/*$qr=$this->db->query("SELECT seller_id FROM seller_product_setting WHERE seller_id='$seller_ids' AND master_product_id=0 AND product_approve='Pending' GROUP BY  seller_id");						
 
-            for ($j = 0; $j < $master_product_id_length; $j++) {
+							while($qr->num_rows()>0)
 
-                if ($master_product_id[$j] == 0) {
+							{*/
 
-                    ///////start retrieve seller_product_id whose master_product_id is 0 ////////////
+									$sql="call bulk_newproductapproval(".$seller_ids.");";
 
-                    $query4 = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id=0");
+									$this->db->query($sql);
 
-                    $result4 = $query4->result();
+																		
 
-                    foreach ($result4 as $val1) {
+									/*if($qr->num_rows()==0){break;}														
 
-                        $slr_prdt_id[] = $val1->seller_product_id;
-                    }
+								
 
-                    $slr_prdt_ids = implode(',', $slr_prdt_id);
+							}*/
 
-                    ///////end retrieve seller_product_id whose master_product_id is 0 ////////////
-                    /////retrieve selected seller's product data and insert into admin product tables script start here//////
+							
 
-                    $query = $this->db->query("SELECT a.*,b.*,c.*,d.*,e.*,f.*,g.* FROM seller_product_setting a 
+							$this->db->query("UPDATE product_process_status SET prod_approv='not process' WHERE status_id='1' ");
+
+							//return true;
+
+						
+
+				}
+
+
+
+
+
+
+
+	//=========================================sellerwise Approval Start=============================================================================//	
+
+	function changed_sellerwiseproduct_status()
+
+	{
+
+		$ids = implode(',',$this->input->post('id'));
+
+		
+
+		//-----------------------seller product id for approve start-----------//
+
+			
+
+		$query_slrprod = $this->db->query("SELECT b.seller_product_id FROM seller_product_setting b WHERE (b.product_approve='Pending')  AND b.seller_id IN ($ids)  GROUP BY b.seller_product_id  ");
+
+		
+
+		$ids='';
+
+		$slrprodarr=array();
+
+		foreach($query_slrprod->result_array() as $res_slrprod )
+
+		{
+
+			$slrprodarr[]= $res_slrprod['seller_product_id'];	
+
+		}
+
+		$ids=implode(',',$slrprodarr);
+
+		
+
+		//-----------------------seller product id for approve end-------------//
+
+		
+
+		$status = $this->input->post('status');
+
+
+
+		if($status == 'Active'){
+
+			$query2 = $this->db->query("SELECT master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids)");
+
+			$result2 = $query2->result();
+
+			//print_r($result2);exit;
+
+			foreach($result2 as $val){
+
+				//echo $val->master_product_id.'<br/>';
+
+				$master_product_id[] = $val->master_product_id;		
+
+			}
+
+			//print_r($master_product_id);exit;
+
+			$master_product_id_length = count($master_product_id);
+
+
+
+			for($j=0; $j<$master_product_id_length; $j++){
+
+				if($master_product_id[$j] == 0){
+
+					///////start retrieve seller_product_id whose master_product_id is 0 ////////////
+
+					$query4 = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id=0");
+
+					$result4 = $query4->result();
+
+					foreach($result4 as $val1){
+
+						$slr_prdt_id[] = $val1->seller_product_id;
+
+					}
+
+					$slr_prdt_ids = implode(',',$slr_prdt_id);
+
+					///////end retrieve seller_product_id whose master_product_id is 0 ////////////
+
+					
+
+					/////retrieve selected seller's product data and insert into admin product tables script start here//////
+
+					$query = $this->db->query("SELECT a.*,b.*,c.*,d.*,e.*,f.*,g.* FROM seller_product_setting a 
 
 					INNER JOIN seller_product_general_info b ON a.seller_product_id=b.seller_product_id 
 
@@ -2818,1024 +3245,1226 @@ class Seller_model extends CI_Model {
 
 					WHERE a.seller_product_id IN ($slr_prdt_ids)");
 
-                    $result = $query->result();
+					$result = $query->result();
 
-                    //$array_length = count($result);
+					//$array_length = count($result);
 
-                    $array_length = $query->num_rows();
+					$array_length = $query->num_rows();
 
+					
 
+					$this->load->model('Usermodel');
 
-                    $this->load->model('Usermodel');
+					$product_id = $this->Usermodel->get_unique_id('product_setting','product_id');
 
-                    $product_id = $this->Usermodel->get_unique_id('product_setting', 'product_id');
+					
 
+					//program start for generating product unique id//
 
+					$product_uid = $this->generate_product_unique_id($result[$j]->category);
 
-                    //program start for generating product unique id//
+					//program start for generating product unique id//
 
-                    $product_uid = $this->generate_product_unique_id($result[$j]->category);
+					 
 
-                    //program start for generating product unique id//
-                    //for($i=0; $i<$array_length; $i++){
+					//for($i=0; $i<$array_length; $i++){
 
-                    $product_master_data = array(
-                        'seller_id' => $result[$j]->seller_id,
-                        'product_id' => $product_id,
-                        'product_uid' => $product_uid,
-                        'sku' => $result[$j]->sku,
-                        'set_product_as_nw_frm_dt' => $result[$j]->product_fr_dt,
-                        'set_product_as_nw_to_dt' => $result[$j]->product_to_dt,
-                        'status' => $result[$j]->status,
-                        'manufacture_country' => $result[$j]->manufacture_country,
-                        'mrp' => $result[$j]->mrp,
-                        'price' => $result[$j]->price,
-                        'special_price' => $result[$j]->special_price,
-                        'special_pric_from_dt' => $result[$j]->price_fr_dt,
-                        'special_pric_to_dt' => $result[$j]->price_to_dt,
-                        'tax_amount' => $result[$j]->tax_amount,
-                        'shipping_fee' => $result[$j]->shipping_fee,
-                        'shipping_fee_amount' => $result[$j]->shipping_fee_amount,
-                        'quantity' => $result[$j]->quantity,
-                        'max_qty_allowed_in_shopng_cart' => $result[$j]->max_quantity,
-                        'enable_qty_increment' => $result[$j]->qty_increment,
-                        'stock_availability' => $result[$j]->stock_avail
-                    );
+						$product_master_data = array(
 
+							'seller_id' => $result[$j]->seller_id,
 
+							'product_id' => $product_id,
 
-                    $product_setting_data = array(
-                        'product_id' => $product_id,
-                        'attribut_set' => $result[$j]->attribute_set,
-                        'product_type' => $result[$j]->product_type,
-                        'add_date' => $result[$j]->date_added,
-                        'status' => 'Active'
-                    );
+							'product_uid' => $product_uid,
 
+							'sku' => $result[$j]->sku,
 
+							'set_product_as_nw_frm_dt' => $result[$j]->product_fr_dt,
 
-                    $product_general_info_data = array(
-                        'product_id' => $product_id,
-                        'name' => $result[$j]->name,
-                        'description' => $result[$j]->description,
-                        'short_desc' => $result[$j]->short_desc,
-                        'weight' => $result[$j]->weight,
-                        'featured' => $result[$j]->featured
-                    );
+							'set_product_as_nw_to_dt' => $result[$j]->product_to_dt,
 
+							'status' => $result[$j]->status,
 
+							'manufacture_country' => $result[$j]->manufacture_country,
 
-                    $product_meta_data = array(
-                        'product_id' => $product_id,
-                        'meta_title' => $result[$j]->meta_title,
-                        'meta_keywords' => $result[$j]->meta_keyword,
-                        'meta_desc' => $result[$j]->meta_description
-                    );
+							'mrp' => $result[$j]->mrp,
 
+							'price' => $result[$j]->price,
 
+							'special_price' => $result[$j]->special_price,
 
-                    $product_category_data = array(
-                        'product_id' => $product_id,
-                        'category_id' => $result[$j]->category
-                    );
+							'special_pric_from_dt' => $result[$j]->price_fr_dt,
 
+							'special_pric_to_dt' => $result[$j]->price_to_dt,
 
+							'tax_amount' => $result[$j]->tax_amount,
 
-                    $product_image_data = array(
-                        'product_id' => $product_id,
-                        'imag' => $result[$j]->image,
-                        'catelog_img_url' => $result[$j]->catelog_img_url
-                    );
+							'shipping_fee' => $result[$j]->shipping_fee,
 
+							'shipping_fee_amount' => $result[$j]->shipping_fee_amount,
 
+							'quantity' => $result[$j]->quantity,
 
-                    //$arr_seller_product_id = $result[$j]->seller_product_id;
-                    //$arr_product_id = $product_id;						
+							'max_qty_allowed_in_shopng_cart' => $result[$j]->max_quantity,
 
+							'enable_qty_increment' => $result[$j]->qty_increment,
 
+							'stock_availability' => $result[$j]->stock_avail
 
-                    $this->db->insert('product_master', $product_master_data);
+						);
 
-                    $this->db->insert('product_setting', $product_setting_data);
+						
 
-                    $this->db->insert('product_general_info', $product_general_info_data);
+						$product_setting_data = array(
 
-                    $this->db->insert('product_meta_info', $product_meta_data);
+							'product_id' => $product_id,
 
-                    $this->db->insert('product_category', $product_category_data);
+							'attribut_set' => $result[$j]->attribute_set,
 
-                    $this->db->insert('product_image', $product_image_data);
+							'product_type' => $result[$j]->product_type,
 
+							'add_date' => $result[$j]->date_added,
 
+							'status' => 'Active'
 
-                    $this->insert_master_product_id($slr_prdt_id[$j], $product_id);
+						);
 
+						
 
+						$product_general_info_data = array(
 
-                    //}
-                    //$this->insert_master_product_id($slr_prdt_id,$arr_product_id);
+							'product_id' => $product_id,
 
+							'name' => $result[$j]->name,
 
+							'description' => $result[$j]->description,
 
+							'short_desc' => $result[$j]->short_desc,
 
+							'weight' => $result[$j]->weight,
 
-                    /* $this->db->insert_batch('product_master',$product_master_data);
+							'featured' => $result[$j]->featured
 
-                      $this->db->insert_batch('product_setting',$product_setting_data);
+						);
 
-                      $this->db->insert_batch('product_general_info',$product_general_info_data);
+						
 
-                      $this->db->insert_batch('product_meta_info',$product_meta_data);
+						$product_meta_data = array(
 
-                      $this->db->insert_batch('product_category',$product_category_data);
+							'product_id' => $product_id,
 
-                      $this->db->insert_batch('product_image',$product_image_data); */
+							'meta_title' => $result[$j]->meta_title,
 
-                    /////retrieve selected seller's product data and insert into admin product tables script start here//////
+							'meta_keywords' => $result[$j]->meta_keyword,
 
-                    $query1 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids)");
+							'meta_desc' => $result[$j]->meta_description
 
-                    //continue ;
-                } else {
+						);
 
-                    ///////start retrieve seller_product_id whose master_product_id is not 0 ////////////
+						
 
-                    $query5 = $this->db->query("SELECT seller_product_id,master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id!=0");
+						$product_category_data = array(
 
-                    $result5 = $query5->result();
+							'product_id' => $product_id,
 
-                    foreach ($result5 as $val2) {
+							'category_id' => $result[$j]->category
 
-                        $slr_prdt_id1[] = $val2->seller_product_id;
+						);
 
-                        $slr_master_product_id1[] = $val2->master_product_id;
-                    }
+						
 
-                    $slr_prdt_ids1 = implode(',', $slr_prdt_id1);
+						$product_image_data = array(
 
-                    $slr_master_product_ids1 = implode(',', $slr_master_product_id1);
+							'product_id' => $product_id,
 
-                    ///////end retrieve seller_product_id whose master_product_id is not 0 ////////////
+							'imag' => $result[$j]->image,
 
-                    $query3 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids1)");
+							'catelog_img_url' => $result[$j]->catelog_img_url
 
+						);
 
+						
 
-                    $querys1 = $this->db->query("UPDATE product_setting SET status='Active' WHERE product_id IN ($slr_master_product_ids1)");
+						//$arr_seller_product_id = $result[$j]->seller_product_id;
 
-                    $this->db->query("update cornjob_productsearch SET prod_status='Active' WHERE product_id IN ($slr_master_product_ids1) ");
+						//$arr_product_id = $product_id;						
 
-                    //continue ;
-                }
-            }
+						
 
-            return true;
-        } else {
+						$this->db->insert('product_master',$product_master_data);
 
-            $query7 = $this->db->query("SELECT master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids)");
+						$this->db->insert('product_setting',$product_setting_data);
 
-            $result7 = $query7->result();
+						$this->db->insert('product_general_info',$product_general_info_data);
 
-            foreach ($result7 as $val) {
+						$this->db->insert('product_meta_info',$product_meta_data);
 
-                $master_product_id[] = $val->master_product_id;
-            }
+						$this->db->insert('product_category',$product_category_data);
 
-            $master_product_id_length = count($master_product_id);
+						$this->db->insert('product_image',$product_image_data);
 
-            for ($j = 0; $j < $master_product_id_length; $j++) {
 
-                if ($master_product_id[$j] == 0) {
 
-                    ///////start retrieve seller_product_id whose master_product_id is 0 ////////////
+						$this->insert_master_product_id($slr_prdt_id[$j],$product_id);
 
-                    $query6 = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id=0");
+						
 
-                    $result6 = $query6->result();
+					//}
 
-                    foreach ($result6 as $val1) {
+					//$this->insert_master_product_id($slr_prdt_id,$arr_product_id);
 
-                        $slr_prdt_id[] = $val1->seller_product_id;
-                    }
+										
 
-                    $slr_prdt_ids = implode(',', $slr_prdt_id);
+					
 
-                    ///////end retrieve seller_product_id whose master_product_id is 0 ////////////					
+					/*$this->db->insert_batch('product_master',$product_master_data);
 
+					$this->db->insert_batch('product_setting',$product_setting_data);
 
+					$this->db->insert_batch('product_general_info',$product_general_info_data);
 
-                    $query8 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids)");
-                } else {
+					$this->db->insert_batch('product_meta_info',$product_meta_data);
 
-                    ///////start retrieve seller_product_id whose master_product_id is not 0 ////////////
+					$this->db->insert_batch('product_category',$product_category_data);
 
-                    $query9 = $this->db->query("SELECT seller_product_id,master_product_id,seller_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id!=0");
+					$this->db->insert_batch('product_image',$product_image_data);*/
 
-                    $result9 = $query9->result();
+					/////retrieve selected seller's product data and insert into admin product tables script start here//////
 
-                    foreach ($result9 as $val2) {
+					$query1 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids)");
 
-                        $slr_prdt_id1[] = $val2->seller_product_id;
+					//continue ;
 
-                        $slr_master_product_id[] = $val2->master_product_id;
+				}else{
 
-                        $seller_id[] = $val2->seller_id;
-                    }
+					///////start retrieve seller_product_id whose master_product_id is not 0 ////////////
 
-                    $slr_prdt_ids1 = implode(',', $slr_prdt_id1);
+					$query5 = $this->db->query("SELECT seller_product_id,master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id!=0");
 
-                    $slr_master_product_ids = implode(',', $slr_master_product_id);
+					$result5 = $query5->result();
 
-                    $seller_ids1 = implode(',', $seller_id);
+					foreach($result5 as $val2){
 
-                    ///////end retrieve seller_product_id whose master_product_id is not 0 ////////////
+						$slr_prdt_id1[] = $val2->seller_product_id;
 
-                    $querys = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids1)");
+						$slr_master_product_id1[] = $val2->master_product_id;
 
+					}
 
+					$slr_prdt_ids1 = implode(',',$slr_prdt_id1);
 
-                    $querys1 = $this->db->query("UPDATE product_master SET approve_status='Inactive' WHERE product_id IN ($slr_master_product_ids) AND seller_id IN ($seller_ids1)");
+					$slr_master_product_ids1 = implode(',',$slr_master_product_id1);
 
-                    $this->db->query("update cornjob_productsearch SET prod_status='Inactive' WHERE product_id IN ($slr_master_product_ids) ");
-                }
-            }
+					///////end retrieve seller_product_id whose master_product_id is not 0 ////////////
 
-            return true;
-        }
-    }
+					$query3 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids1)");
 
-    //=============================sellerwise Product Approval End =============================================================================//
 
 
+					$querys1 = $this->db->query("UPDATE product_setting SET status='Active' WHERE product_id IN ($slr_master_product_ids1)");
 
+					$this->db->query("update cornjob_productsearch SET prod_status='Active' WHERE product_id IN ($slr_master_product_ids1) ");
 
+					//continue ;
 
+				}
 
+			}
 
-    /* function insert_master_product_id($seller_product_id,$arr_product_id){
+			return true;
 
-      $arr_length = count($seller_product_id);
+		}else{
 
-      for($i=0; $i<=$arr_length-1; $i++){
+			$query7 = $this->db->query("SELECT master_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids)");
 
-      $query = $this->db->query("UPDATE seller_product_setting SET master_product_id='$arr_product_id[$i]' WHERE seller_product_id='$seller_product_id[$i]'");
+			$result7 = $query7->result();
 
-      }
+			foreach($result7 as $val){
 
-      } */
+				$master_product_id[] = $val->master_product_id;			
 
+			}
 
+			$master_product_id_length = count($master_product_id);
 
+			for($j=0; $j<$master_product_id_length; $j++){
 
+				if($master_product_id[$j] == 0){
 
-    function insert_master_product_id($seller_product_id, $product_id) {
+					///////start retrieve seller_product_id whose master_product_id is 0 ////////////
 
-        $query = $this->db->query("UPDATE seller_product_setting SET master_product_id='$product_id' WHERE seller_product_id='$seller_product_id'");
-    }
+					$query6 = $this->db->query("SELECT seller_product_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id=0");
 
-    /* function changed_seller_exiting_product_status(){
+					$result6 = $query6->result();
 
-      $ids = implode(',',$this->input->post('id'));
+					foreach($result6 as $val1){
 
-      $status = $this->input->post('status');
+						$slr_prdt_id[] = $val1->seller_product_id;
 
-      if($status == 'Active'){
+					}
 
-      $query = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id IN ($ids)");
+					$slr_prdt_ids = implode(',',$slr_prdt_id);
 
-      $result = $query->result();
+					///////end retrieve seller_product_id whose master_product_id is 0 ////////////					
 
-      foreach ($result as $row){
+					
 
-      $seller_id[] = $row->seller_id;
+					$query8 = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids)");
 
-      $master_product_id[] = $row->master_product_id;
+				}else{
 
-      $seller_exiting_product_id[] = $row->seller_exist_product_id;
+					///////start retrieve seller_product_id whose master_product_id is not 0 ////////////
 
-      }
+					$query9 = $this->db->query("SELECT seller_product_id,master_product_id,seller_id FROM seller_product_setting WHERE seller_product_id IN ($ids) AND master_product_id!=0");
 
-      $seller_exiting_product_ids = implode(',',$seller_exiting_product_id);
+					$result9 = $query9->result();
 
-      $arr_length = count($seller_id);
+					foreach($result9 as $val2){
 
-      for($i=0; $i<$arr_length; $i++){
+						$slr_prdt_id1[] = $val2->seller_product_id;
 
-      //////script start for selected product id and seller id is exit in product master or not//////
+						$slr_master_product_id[] = $val2->master_product_id;
 
-      $query1 = $this->db->query("SELECT * FROM product_master WHERE seller_id='$seller_id[$i]' AND product_id='$master_product_id[$i]'");
+						$seller_id[] = $val2->seller_id;
 
-      $row1 = $query1->num_rows();
+					}
 
-      //////start script for selected product id and seller id is not in product master ///////
+					$slr_prdt_ids1 = implode(',',$slr_prdt_id1);
 
-      if($row1 < 1){
+					$slr_master_product_ids = implode(',',$slr_master_product_id);
 
-      $query2 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
+					$seller_ids1 = implode(',',$seller_id);
 
-      $result2 = $query2->result();
+					///////end retrieve seller_product_id whose master_product_id is not 0 ////////////
 
-      $length = count($result2);
+					$querys = $this->db->query("UPDATE seller_product_setting SET product_approve='$status' WHERE seller_product_id IN ($slr_prdt_ids1)");
 
-      for($j=0; $j<$length; $j++){
+					
 
+				$querys1 = $this->db->query("UPDATE product_master SET approve_status='Inactive' WHERE product_id IN ($slr_master_product_ids) AND seller_id IN ($seller_ids1)");					
 
+					$this->db->query("update cornjob_productsearch SET prod_status='Inactive' WHERE product_id IN ($slr_master_product_ids) ");
 
-      //program start for generating product unique id//
+				}
 
-      $this->load->model('Usermodel');
+			}
 
-      $mstr_product_id = $result2[$j]->master_product_id;
+			return true;
 
-      $cat_sql = $this->db->query("SELECT a.category_id FROM category_indexing a INNER JOIN product_category b ON a.category_id=b.category_id WHERE b.product_id='$mstr_product_id'");
+		}
 
-      $cat_res = $cat_sql->result();
+	}
 
-      $cat_id = $cat_res[0]->category_id;
+	//=============================sellerwise Product Approval End =============================================================================//
 
-      $product_uid = $this->generate_product_unique_id($cat_id);
+	
 
-      //echo $product_uid;exit;
+	
 
-      //program start for generating product unique id//
+	
 
+	/*function insert_master_product_id($seller_product_id,$arr_product_id){
 
+		$arr_length = count($seller_product_id);
 
-      $seller_exit_product_data[] = array(
+		for($i=0; $i<=$arr_length-1; $i++){
 
-      'seller_id' =>$result2[$j]->seller_id,
+			$query = $this->db->query("UPDATE seller_product_setting SET master_product_id='$arr_product_id[$i]' WHERE seller_product_id='$seller_product_id[$i]'");
 
-      'product_id' =>$result2[$j]->master_product_id,
+		}
 
-      'product_uid' => $product_uid,
+	}*/
 
-      'sku' =>$result2[$j]->sku,
+	
 
-      'set_product_as_nw_frm_dt' =>$result2[$j]->set_product_as_nw_frm_dt,
+	
 
-      'set_product_as_nw_to_dt' =>$result2[$j]->set_product_as_nw_to_dt,
+	function insert_master_product_id($seller_product_id,$product_id){
 
-      'status' =>$result2[$j]->status,
+			$query = $this->db->query("UPDATE seller_product_setting SET master_product_id='$product_id' WHERE seller_product_id='$seller_product_id'");
 
-      'manufacture_country' =>$result2[$j]->manufacture_country,
+	}
 
-      'mrp' =>$result2[$j]->mrp,
+	
 
-      'price' =>$result2[$j]->price,
+	/*function changed_seller_exiting_product_status(){
 
-      'special_price' =>$result2[$j]->special_price,
+		$ids = implode(',',$this->input->post('id'));
 
-      'special_pric_from_dt' =>$result2[$j]->special_pric_from_dt,
+		$status = $this->input->post('status');
 
-      'special_pric_to_dt' =>$result2[$j]->special_pric_to_dt,
+		if($status == 'Active'){
 
-      'tax_amount' =>$result2[$j]->tax_amount,
+			$query = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id IN ($ids)");
 
-      'shipping_fee' =>$result2[$j]->shipping_fee,
+			$result = $query->result();
 
-      'shipping_fee_amount' =>$result2[$j]->shipping_fee_amount,
+			foreach ($result as $row){
 
-      'quantity' =>$result2[$j]->quantity,
+				$seller_id[] = $row->seller_id;
 
-      'max_qty_allowed_in_shopng_cart' =>$result2[$j]->max_qty_allowed_in_shopng_cart,
+				$master_product_id[] = $row->master_product_id;
 
-      'enable_qty_increment' =>$result2[$j]->enable_qty_increment,
+				$seller_exiting_product_id[] = $row->seller_exist_product_id;
 
-      'stock_availability' =>$result2[$j]->stock_availability,
+			}
 
-      'approve_status' =>$status
+			$seller_exiting_product_ids = implode(',',$seller_exiting_product_id);
 
-      );
+			$arr_length = count($seller_id);
 
-      }
+			for($i=0; $i<$arr_length; $i++){
 
+				//////script start for selected product id and seller id is exit in product master or not//////
 
+				$query1 = $this->db->query("SELECT * FROM product_master WHERE seller_id='$seller_id[$i]' AND product_id='$master_product_id[$i]'");
 
-      $this->db->insert_batch('product_master',$seller_exit_product_data);
+				$row1 = $query1->num_rows();
 
-      $this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids)");
+				//////start script for selected product id and seller id is not in product master ///////
 
-      //////end script for selected product id and seller id is not in product master ///////
+				if($row1 < 1){
 
-      //////start script for selected product id and seller id is avail in product master ///////
+					$query2 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
 
-      }else{
+					$result2 = $query2->result();
 
-      $query3 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
+					$length = count($result2);
 
-      $result3 = $query3->result();
+					for($j=0; $j<$length; $j++){
 
-      foreach($result3 as $val){
+						
 
-      $slr_id[] = $val->seller_id;
+					//program start for generating product unique id//
 
-      $prdt_id[] = $val->master_product_id;
+					$this->load->model('Usermodel');
 
-      }
+					$mstr_product_id = $result2[$j]->master_product_id;
 
-      $slr_ids = implode(',',$slr_id);
+					$cat_sql = $this->db->query("SELECT a.category_id FROM category_indexing a INNER JOIN product_category b ON a.category_id=b.category_id WHERE b.product_id='$mstr_product_id'");
 
-      $prdt_ids = implode(',',$prdt_id);
+					$cat_res = $cat_sql->result();
 
+					$cat_id = $cat_res[0]->category_id;			
 
+					$product_uid = $this->generate_product_unique_id($cat_id);
 
-      $this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids)");
+					//echo $product_uid;exit;
 
+					//program start for generating product unique id//
 
+						
 
-      $this->db->query("UPDATE product_master SET approve_status='$status' WHERE seller_id IN ($slr_ids) AND product_id IN ($prdt_ids)");
+						$seller_exit_product_data[] = array(
 
-      }
+							'seller_id' =>$result2[$j]->seller_id,
 
-      //////end script for selected product id and seller id is avail in product master ///////
+							'product_id' =>$result2[$j]->master_product_id,
 
-      //////script end for selected product id and seller id is exit in product master or not//////
+							'product_uid' => $product_uid,
 
-      }
+							'sku' =>$result2[$j]->sku,
 
-      return true;
+							'set_product_as_nw_frm_dt' =>$result2[$j]->set_product_as_nw_frm_dt,
 
-      } //if status is not avtive condtion else part start
+							'set_product_as_nw_to_dt' =>$result2[$j]->set_product_as_nw_to_dt,
 
+							'status' =>$result2[$j]->status,
 
+							'manufacture_country' =>$result2[$j]->manufacture_country,
 
-      else{
+							'mrp' =>$result2[$j]->mrp,
 
-      $query = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id IN ($ids)");
+							'price' =>$result2[$j]->price,
 
-      $result = $query->result();
+							'special_price' =>$result2[$j]->special_price,
 
-      foreach ($result as $row){
+							'special_pric_from_dt' =>$result2[$j]->special_pric_from_dt,
 
-      $seller_id[] = $row->seller_id;
+							'special_pric_to_dt' =>$result2[$j]->special_pric_to_dt,
 
-      $master_product_id[] = $row->master_product_id;
+							'tax_amount' =>$result2[$j]->tax_amount,
 
-      $seller_exiting_product_id[] = $row->seller_exist_product_id;
+							'shipping_fee' =>$result2[$j]->shipping_fee,
 
-      }
+							'shipping_fee_amount' =>$result2[$j]->shipping_fee_amount,
 
-      $seller_exiting_product_ids = implode(',',$seller_exiting_product_id);
+							'quantity' =>$result2[$j]->quantity,
 
-      $arr_length = count($seller_id);
+							'max_qty_allowed_in_shopng_cart' =>$result2[$j]->max_qty_allowed_in_shopng_cart,
 
-      for($i=0; $i<$arr_length; $i++){
+							'enable_qty_increment' =>$result2[$j]->enable_qty_increment,
 
-      //////script start for selected product id and seller id is exit in product master or not//////
+							'stock_availability' =>$result2[$j]->stock_availability,
 
-      $query1 = $this->db->query("SELECT * FROM product_master WHERE seller_id='$seller_id[$i]' AND product_id='$master_product_id[$i]'");
+							'approve_status' =>$status
 
-      $row1 = $query1->num_rows();
+						);
 
-      //////start script for selected product id and seller id is not in product master ///////
+					}
 
-      if($row1 < 1){
+					
 
-      $query2 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
+					$this->db->insert_batch('product_master',$seller_exit_product_data);
 
-      $result2 = $query2->result();
+					$this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids)");
 
-      $length = count($result2);
+				//////end script for selected product id and seller id is not in product master ///////
 
-      for($j=0; $j<$length; $j++){
+				//////start script for selected product id and seller id is avail in product master ///////
 
-      $seller_exiting_product_id1[] = $result2[$j]->seller_exist_product_id;
+				}else{
 
-      }
+					$query3 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
 
-      $seller_exiting_product_ids1 = implode(',',$seller_exiting_product_id1);
+					$result3 = $query3->result();
 
-      $this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids1)");
+					foreach($result3 as $val){
 
-      //////end script for selected product id and seller id is not in product master ///////
+						$slr_id[] = $val->seller_id;
 
-      //////start script for selected product id and seller id is avail in product master ///////
+						$prdt_id[] = $val->master_product_id;
 
-      }else{
+					}
 
-      $query3 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
+					$slr_ids = implode(',',$slr_id);
 
-      $result3 = $query3->result();
+					$prdt_ids = implode(',',$prdt_id);
 
-      foreach($result3 as $val){
+					
 
-      $slr_id[] = $val->seller_id;
+					$this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids)");
 
-      $prdt_id[] = $val->master_product_id;
+					
 
-      $slr_ext_prdt_id[] = $val->seller_exist_product_id;
+					$this->db->query("UPDATE product_master SET approve_status='$status' WHERE seller_id IN ($slr_ids) AND product_id IN ($prdt_ids)");
 
-      }
+				}
 
-      $slr_ids = implode(',',$slr_id);
+				//////end script for selected product id and seller id is avail in product master ///////
 
-      $prdt_ids = implode(',',$prdt_id);
+				//////script end for selected product id and seller id is exit in product master or not//////
 
-      $slr_ext_prdt_ids = implode(',',$slr_ext_prdt_id);
+			}
 
+			return true;
 
+		} //if status is not avtive condtion else part start
 
-      $this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($slr_ext_prdt_ids)");
+		
 
+		else{
 
+			$query = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id IN ($ids)");
 
-      $this->db->query("UPDATE product_master SET approve_status='Inactive' WHERE seller_id IN ($slr_ids) AND product_id IN ($prdt_ids)");
+			$result = $query->result();
 
-      $this->db->query("update cornjob_productsearch SET prod_status='Inactive'  WHERE product_id IN ($prdt_ids) ");
+			foreach ($result as $row){
 
-      }
+				$seller_id[] = $row->seller_id;
 
-      //////end script for selected product id and seller id is avail in product master ///////
+				$master_product_id[] = $row->master_product_id;
 
-      //////script end for selected product id and seller id is exit in product master or not//////
+				$seller_exiting_product_id[] = $row->seller_exist_product_id;
 
-      }
+			}
 
-      return true;
+			$seller_exiting_product_ids = implode(',',$seller_exiting_product_id);
 
-      }
+			$arr_length = count($seller_id);
 
-      } */
+			for($i=0; $i<$arr_length; $i++){
 
-    function changed_seller_exiting_product_status() {
+				//////script start for selected product id and seller id is exit in product master or not//////
 
-        $ids = implode(',', $this->input->post('id'));
-        //$prodskuids = $this->input->post('prodextsku');	
+				$query1 = $this->db->query("SELECT * FROM product_master WHERE seller_id='$seller_id[$i]' AND product_id='$master_product_id[$i]'");
 
-        $status = $this->input->post('status');
+				$row1 = $query1->num_rows();
 
-        if ($status == 'Active') {
+				//////start script for selected product id and seller id is not in product master ///////
 
-            $query = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id IN ($ids)");
+				if($row1 < 1){
 
-            $result = $query->result();
+					$query2 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
 
-            foreach ($result as $row) {
+					$result2 = $query2->result();
 
-                $seller_id[] = $row->seller_id;
+					$length = count($result2);
 
-                $master_product_id[] = $row->master_product_id;
+					for($j=0; $j<$length; $j++){
 
-                $seller_exiting_product_id[] = $row->seller_exist_product_id;
+						$seller_exiting_product_id1[] = $result2[$j]->seller_exist_product_id;
 
-                $seller_sku[] = $row->sku;
-            }
+					}
 
-            $seller_exiting_product_ids = implode(',', $seller_exiting_product_id);
+					$seller_exiting_product_ids1 = implode(',',$seller_exiting_product_id1);		
 
+					$this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids1)");
 
+				//////end script for selected product id and seller id is not in product master ///////
 
-            $arr_length = count($seller_id);
+				//////start script for selected product id and seller id is avail in product master ///////
 
-            for ($i = 0; $i < $arr_length; $i++) {
+				}else{
 
-                //////script start for selected product id and seller id is exit in product master or not//////
+					$query3 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
 
-                $query1 = $this->db->query("SELECT * FROM product_master WHERE seller_id='$seller_id[$i]' AND product_id='$master_product_id[$i]' AND sku='$seller_sku[$i]'  ");
+					$result3 = $query3->result();
 
-                $row1 = $query1->num_rows();
+					foreach($result3 as $val){
 
-                //////start script for selected product id and seller id is not in product master ///////
+						$slr_id[] = $val->seller_id;
 
-                if ($row1 < 1) {
+						$prdt_id[] = $val->master_product_id;
 
-                    $query2 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
+						$slr_ext_prdt_id[] = $val->seller_exist_product_id;
 
-                    $result2 = $query2->result();
+					}
 
-                    $length = count($result2);
+					$slr_ids = implode(',',$slr_id);
 
-                    for ($j = 0; $j < $length; $j++) {
+					$prdt_ids = implode(',',$prdt_id);
 
+					$slr_ext_prdt_ids = implode(',',$slr_ext_prdt_id);
 
+					
 
-                        //program start for generating product unique id//
+					$this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($slr_ext_prdt_ids)");
 
-                        $this->load->model('Usermodel');
+					
 
-                        $mstr_product_id = $result2[$j]->master_product_id;
+					$this->db->query("UPDATE product_master SET approve_status='Inactive' WHERE seller_id IN ($slr_ids) AND product_id IN ($prdt_ids)");
 
-                        $cat_sql = $this->db->query("SELECT a.category_id FROM category_indexing a INNER JOIN product_category b ON a.category_id=b.category_id WHERE b.product_id='$mstr_product_id'");
+					$this->db->query("update cornjob_productsearch SET prod_status='Inactive'  WHERE product_id IN ($prdt_ids) ");
 
-                        $cat_res = $cat_sql->result();
+				}
 
-                        $cat_id = $cat_res[0]->category_id;
+				//////end script for selected product id and seller id is avail in product master ///////
 
-                        $product_uid = $this->generate_product_unique_id($cat_id);
+				//////script end for selected product id and seller id is exit in product master or not//////
 
-                        //echo $product_uid;exit;
-                        //program start for generating product unique id//
-                        //------------------------------------major problem in $seller_exit_product_data array initialize --------------------//
-                        $seller_exit_product_data = array();
-                        $seller_exit_product_data = array(
-                            'seller_id' => $result2[$j]->seller_id,
-                            'product_id' => $result2[$j]->master_product_id,
-                            'product_uid' => $product_uid,
-                            'sku' => $result2[$j]->sku,
-                            'set_product_as_nw_frm_dt' => $result2[$j]->set_product_as_nw_frm_dt,
-                            'set_product_as_nw_to_dt' => $result2[$j]->set_product_as_nw_to_dt,
-                            'status' => $result2[$j]->status,
-                            'manufacture_country' => $result2[$j]->manufacture_country,
-                            'mrp' => $result2[$j]->mrp,
-                            'price' => $result2[$j]->price,
-                            'special_price' => $result2[$j]->special_price,
-                            'special_pric_from_dt' => $result2[$j]->special_pric_from_dt,
-                            'special_pric_to_dt' => $result2[$j]->special_pric_to_dt,
-                            'tax_amount' => $result2[$j]->tax_amount,
-                            'shipping_fee' => $result2[$j]->shipping_fee,
-                            'shipping_fee_amount' => $result2[$j]->shipping_fee_amount,
-                            'quantity' => $result2[$j]->quantity,
-                            'max_qty_allowed_in_shopng_cart' => $result2[$j]->max_qty_allowed_in_shopng_cart,
-                            'enable_qty_increment' => $result2[$j]->enable_qty_increment,
-                            'stock_availability' => $result2[$j]->stock_availability,
-                            'approve_status' => $status
-                        );
-                    }
+			}	
 
+			return true;
 
+		}
 
-                    $this->db->insert('product_master', $seller_exit_product_data);
+	}*/
 
-                    $this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids)");
+	
 
-                    //////end script for selected product id and seller id is not in product master ///////
-                    //////start script for selected product id and seller id is avail in product master ///////
-                } else {
+	
 
-                    $query3 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
+	
 
-                    $result3 = $query3->result();
 
-                    foreach ($result3 as $val) {
 
-                        $slr_id[] = $val->seller_id;
+	function changed_seller_exiting_product_status(){
 
-                        $prdt_id[] = $val->master_product_id;
-                    }
+		$ids = implode(',',$this->input->post('id'));
+		//$prodskuids = $this->input->post('prodextsku');	
 
-                    $slr_ids = implode(',', $slr_id);
+		$status = $this->input->post('status');
+		
+		if($status == 'Active'){
 
-                    $prdt_ids = implode(',', $prdt_id);
+			$query = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id IN ($ids)");
 
+			$result = $query->result();
 
+			foreach ($result as $row){
 
-                    $this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids)");
+				$seller_id[] = $row->seller_id;
 
+				$master_product_id[] = $row->master_product_id;
 
+				$seller_exiting_product_id[] = $row->seller_exist_product_id;
 
-                    $this->db->query("UPDATE product_master SET approve_status='$status' WHERE seller_id IN ($slr_ids) AND product_id IN ($prdt_ids)");
-                }
+				$seller_sku[]=$row->sku;
 
-                //////end script for selected product id and seller id is avail in product master ///////
-                //////script end for selected product id and seller id is exit in product master or not//////
-            }
+			}
 
-            return true;
-        } //if status is not avtive condtion else part start
-        else {
+			$seller_exiting_product_ids = implode(',',$seller_exiting_product_id);
 
-            $query = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id IN ($ids)");
+			
 
-            $result = $query->result();
+			$arr_length = count($seller_id);
 
-            foreach ($result as $row) {
+			for($i=0; $i<$arr_length; $i++){
 
-                $seller_id[] = $row->seller_id;
+				//////script start for selected product id and seller id is exit in product master or not//////
 
-                $master_product_id[] = $row->master_product_id;
+				$query1 = $this->db->query("SELECT * FROM product_master WHERE seller_id='$seller_id[$i]' AND product_id='$master_product_id[$i]' AND sku='$seller_sku[$i]'  ");
 
-                $seller_exiting_product_id[] = $row->seller_exist_product_id;
-            }
+				$row1 = $query1->num_rows();
 
-            $seller_exiting_product_ids = implode(',', $seller_exiting_product_id);
+				//////start script for selected product id and seller id is not in product master ///////
 
-            $arr_length = count($seller_id);
+				if($row1 < 1){
 
-            for ($i = 0; $i < $arr_length; $i++) {
+					$query2 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
 
-                //////script start for selected product id and seller id is exit in product master or not//////
+					$result2 = $query2->result();
 
-                $query1 = $this->db->query("SELECT * FROM product_master WHERE seller_id='$seller_id[$i]' AND product_id='$master_product_id[$i]'");
+					$length = count($result2);
 
-                $row1 = $query1->num_rows();
+					for($j=0; $j<$length; $j++){
 
-                //////start script for selected product id and seller id is not in product master ///////
+						
 
-                if ($row1 < 1) {
+					//program start for generating product unique id//
 
-                    $query2 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
+					$this->load->model('Usermodel');
 
-                    $result2 = $query2->result();
+					$mstr_product_id = $result2[$j]->master_product_id;
 
-                    $length = count($result2);
+					$cat_sql = $this->db->query("SELECT a.category_id FROM category_indexing a INNER JOIN product_category b ON a.category_id=b.category_id WHERE b.product_id='$mstr_product_id'");
 
-                    for ($j = 0; $j < $length; $j++) {
+					$cat_res = $cat_sql->result();
 
-                        $seller_exiting_product_id1[] = $result2[$j]->seller_exist_product_id;
-                    }
+					$cat_id = $cat_res[0]->category_id;			
 
-                    $seller_exiting_product_ids1 = implode(',', $seller_exiting_product_id1);
+					$product_uid = $this->generate_product_unique_id($cat_id);
 
-                    $this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids1)");
+					//echo $product_uid;exit;
 
-                    //////end script for selected product id and seller id is not in product master ///////
-                    //////start script for selected product id and seller id is avail in product master ///////
-                } else {
+					//program start for generating product unique id//
 
-                    $query3 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
+						//------------------------------------major problem in $seller_exit_product_data array initialize --------------------//
+						$seller_exit_product_data=array();
+						$seller_exit_product_data = array(
 
-                    $result3 = $query3->result();
+							'seller_id' =>$result2[$j]->seller_id,
 
-                    foreach ($result3 as $val) {
+							'product_id' =>$result2[$j]->master_product_id,
 
-                        $slr_id[] = $val->seller_id;
+							'product_uid' => $product_uid,
 
-                        $prdt_id[] = $val->master_product_id;
+							'sku' =>$result2[$j]->sku,
 
-                        $slr_ext_prdt_id[] = $val->seller_exist_product_id;
-                    }
+							'set_product_as_nw_frm_dt' =>$result2[$j]->set_product_as_nw_frm_dt,
 
-                    $slr_ids = implode(',', $slr_id);
+							'set_product_as_nw_to_dt' =>$result2[$j]->set_product_as_nw_to_dt,
 
-                    $prdt_ids = implode(',', $prdt_id);
+							'status' =>$result2[$j]->status,
 
-                    $slr_ext_prdt_ids = implode(',', $slr_ext_prdt_id);
+							'manufacture_country' =>$result2[$j]->manufacture_country,
 
+							'mrp' =>$result2[$j]->mrp,
 
+							'price' =>$result2[$j]->price,
 
-                    $this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($slr_ext_prdt_ids)");
+							'special_price' =>$result2[$j]->special_price,
 
+							'special_pric_from_dt' =>$result2[$j]->special_pric_from_dt,
 
+							'special_pric_to_dt' =>$result2[$j]->special_pric_to_dt,
 
-                    $this->db->query("UPDATE product_master SET approve_status='Inactive' WHERE seller_id IN ($slr_ids) AND product_id IN ($prdt_ids)");
+							'tax_amount' =>$result2[$j]->tax_amount,
 
-                    $this->db->query("update cornjob_productsearch SET prod_status='Inactive'  WHERE product_id IN ($prdt_ids) ");
-                }
+							'shipping_fee' =>$result2[$j]->shipping_fee,
 
-                //////end script for selected product id and seller id is avail in product master ///////
-                //////script end for selected product id and seller id is exit in product master or not//////
-            }
+							'shipping_fee_amount' =>$result2[$j]->shipping_fee_amount,
 
-            return true;
-        }
-    }
+							'quantity' =>$result2[$j]->quantity,
 
-    /* function retrive_approved_seller_product_data(){
+							'max_qty_allowed_in_shopng_cart' =>$result2[$j]->max_qty_allowed_in_shopng_cart,
 
-      $query = $this->db->query("SELECT a.*,b.*,c.*,d.*,e.*,f* FROM ");
+							'enable_qty_increment' =>$result2[$j]->enable_qty_increment,
 
-      } */
+							'stock_availability' =>$result2[$j]->stock_availability,
 
-    function generate_product_unique_id($cat_id) {
+							'approve_status' =>$status
 
-        //echo $cat_id;exit;
+						);
 
-        $sql_id = $this->Usermodel->get_unique_id('product_master', 'id');
+					}
 
-        //echo $sql_id;exit;
+					
 
-        date_default_timezone_set('Asia/Calcutta');
+					$this->db->insert('product_master',$seller_exit_product_data);
 
-        $dt_id = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
+					$this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids)");
 
+				//////end script for selected product id and seller id is not in product master ///////
 
+				//////start script for selected product id and seller id is avail in product master ///////
 
-        $query = $this->db->query("SELECT category_name	FROM category_indexing WHERE category_id='$cat_id'");
+				}else{
 
-        $result = $query->result();
+					$query3 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
 
-        $cat_name = $result[0]->category_name;
+					$result3 = $query3->result();
 
-        $hlf_cat_name = strtoupper(substr($cat_name, 0, 3));
+					foreach($result3 as $val){
 
-        $product_uid = $hlf_cat_name . $dt_id . $sql_id;
+						$slr_id[] = $val->seller_id;
 
-        return $product_uid;
-    }
+						$prdt_id[] = $val->master_product_id;
 
-    /** Seller Notification Start * */
-    function getSellerNotification() {
+					}
 
-        $query = $this->db->query("SELECT * FROM seller_notification");
+					$slr_ids = implode(',',$slr_id);
 
-        $row = $query->num_rows();
+					$prdt_ids = implode(',',$prdt_id);
 
-        if ($row > 0) {
+					
 
-            return $query->result();
-        } else {
+					$this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids)");
 
-            return false;
-        }
-    }
+					
 
-    function getSellerNotificationForEdit($id) {
+					$this->db->query("UPDATE product_master SET approve_status='$status' WHERE seller_id IN ($slr_ids) AND product_id IN ($prdt_ids)");
 
-        $query = $this->db->query("SELECT * FROM seller_notification WHERE id='$id'");
+				}
 
-        $row = $query->num_rows();
+				//////end script for selected product id and seller id is avail in product master ///////
 
-        if ($row > 0) {
+				//////script end for selected product id and seller id is exit in product master or not//////
 
-            return $query->result();
-        } else {
+			}
 
-            return false;
-        }
-    }
+			return true;
 
-    function getSellerNotification2() {
+		} //if status is not avtive condtion else part start
 
-        $query = $this->db->query("SELECT a.*, b.business_name FROM seller_notification2 a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id");
+		
 
-        $row = $query->num_rows();
+		else{
 
-        if ($row > 0) {
+			$query = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id IN ($ids)");
 
-            return $query->result();
-        } else {
+			$result = $query->result();
 
-            return false;
-        }
-    }
+			foreach ($result as $row){
 
-    function getSellerNotificationForEdit2($id) {
+				$seller_id[] = $row->seller_id;
 
-        $query = $this->db->query("SELECT a.*, b.business_name FROM seller_notification2 a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id WHERE a.id='$id'");
+				$master_product_id[] = $row->master_product_id;
 
-        $row = $query->num_rows();
+				$seller_exiting_product_id[] = $row->seller_exist_product_id;
 
-        if ($row > 0) {
+			}
 
-            return $query->result();
-        } else {
+			$seller_exiting_product_ids = implode(',',$seller_exiting_product_id);
 
-            return false;
-        }
-    }
+			$arr_length = count($seller_id);
 
-    function insert_newseller_notice() {
+			for($i=0; $i<$arr_length; $i++){
 
-        date_default_timezone_set('Asia/Calcutta');
+				//////script start for selected product id and seller id is exit in product master or not//////
 
-        $dt = date('Y-m-d H:i:s');
+				$query1 = $this->db->query("SELECT * FROM product_master WHERE seller_id='$seller_id[$i]' AND product_id='$master_product_id[$i]'");
 
-        $notice_data = array(
-            'title' => $this->input->post('title'),
-            'content' => $this->input->post('page_content'),
-            'create_date' => $dt,
-            'status' => $this->input->post('status'),
-        );
+				$row1 = $query1->num_rows();
 
-        $query = $this->db->insert('seller_notification', $notice_data);
+				//////start script for selected product id and seller id is not in product master ///////
 
-        if ($query) {
+				if($row1 < 1){
 
-            return true;
-        } else {
+					$query2 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
 
-            return false;
-        }
-    }
+					$result2 = $query2->result();
 
-    function insert_newseller_notice2() {
+					$length = count($result2);
 
-        //date_default_timezone_set('Asia/Calcutta');
-        //$dt =  date('Y-m-d H:i:s');
+					for($j=0; $j<$length; $j++){
 
-        $notice_data = array(
-            'title' => $this->input->post('title'),
-            'content' => $this->input->post('page_content'),
-            'seller_id' => $this->input->post('seller'),
-            'status' => $this->input->post('status'),
-        );
+						$seller_exiting_product_id1[] = $result2[$j]->seller_exist_product_id;
 
-        $query = $this->db->insert('seller_notification2', $notice_data);
+					}
 
-        if ($query) {
+					$seller_exiting_product_ids1 = implode(',',$seller_exiting_product_id1);		
 
-            return true;
-        } else {
+					$this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($seller_exiting_product_ids1)");
 
-            return false;
-        }
-    }
+				//////end script for selected product id and seller id is not in product master ///////
 
-    function getSellerEmail($seller_id) {
+				//////start script for selected product id and seller id is avail in product master ///////
 
-        $this->db->where('seller_id', $seller_id);
+				}else{
 
-        $d = $this->db->get('seller_account');
+					$query3 = $this->db->query("SELECT * FROM seller_product_master WHERE seller_exist_product_id='$seller_exiting_product_id[$i]'");
 
-        $h = $d->result();
+					$result3 = $query3->result();
 
-        return $h[0]->email;
-    }
+					foreach($result3 as $val){
 
-    function getseller_notification_update() {
+						$slr_id[] = $val->seller_id;
 
-        date_default_timezone_set('Asia/Calcutta');
+						$prdt_id[] = $val->master_product_id;
 
-        $dt = date('Y-m-d H:i:s');
+						$slr_ext_prdt_id[] = $val->seller_exist_product_id;
 
-        $id = $this->input->post('hidden_id');
+					}
 
-        $notice_data = array(
-            'title' => $this->input->post('title'),
-            'content' => $this->input->post('page_content'),
-            'modify_date' => $dt,
-            'status' => $this->input->post('status'),
-        );
+					$slr_ids = implode(',',$slr_id);
 
-        $this->db->where('id', $id);
+					$prdt_ids = implode(',',$prdt_id);
 
-        $query = $this->db->update('seller_notification', $notice_data);
+					$slr_ext_prdt_ids = implode(',',$slr_ext_prdt_id);
 
-        if ($query) {
+					
 
-            return true;
-        } else {
+					$this->db->query("UPDATE seller_product_master SET approve_status='$status' WHERE seller_exist_product_id IN ($slr_ext_prdt_ids)");
 
-            return false;
-        }
-    }
+					
 
-    function getseller_notification_update2() {
+					$this->db->query("UPDATE product_master SET approve_status='Inactive' WHERE seller_id IN ($slr_ids) AND product_id IN ($prdt_ids)");
 
-        $id = $this->input->post('hidden_id');
+					$this->db->query("update cornjob_productsearch SET prod_status='Inactive'  WHERE product_id IN ($prdt_ids) ");
 
-        $notice_data = array(
-            'title' => $this->input->post('title'),
-            'content' => $this->input->post('page_content'),
-            'seller_id' => $this->input->post('seller'),
-            'status' => $this->input->post('status'),
-        );
+				}
 
-        $this->db->where('id', $id);
+				//////end script for selected product id and seller id is avail in product master ///////
 
-        $query = $this->db->update('seller_notification2', $notice_data);
+				//////script end for selected product id and seller id is exit in product master or not//////
 
-        if ($query) {
+			}	
 
-            return true;
-        } else {
+			return true;
 
-            return false;
-        }
-    }
+		}
 
-    function delete_seller_notification($id) {
+	}
 
-        $this->db->where('id', $id);
+	
 
-        $query = $this->db->delete('seller_notification');
+	/*function retrive_approved_seller_product_data(){
 
-        if ($query) {
+		$query = $this->db->query("SELECT a.*,b.*,c.*,d.*,e.*,f* FROM ");
 
-            return true;
-        } else {
+	}*/
 
-            return false;
-        }
-    }
+	
 
-    function delete_seller_notification2($id) {
+	
 
-        $this->db->where('id', $id);
+	function generate_product_unique_id($cat_id){
 
-        $query = $this->db->delete('seller_notification2');
+		//echo $cat_id;exit;
 
-        if ($query) {
+		$sql_id = $this->Usermodel->get_unique_id('product_master','id');
 
-            return true;
-        } else {
+		//echo $sql_id;exit;
 
-            return false;
-        }
-    }
+		
 
-    function getSellersBadgeDetails() {
+		$dt_id = preg_replace("/[^0-9]+/","", date('Y-m-d H:i:s'));
 
-        $query = $this->db->query("SELECT a.*, b.business_name
+		
+
+		$query = $this->db->query("SELECT category_name	FROM category_indexing WHERE category_id='$cat_id'");
+
+		$result = $query->result();
+
+		$cat_name = $result[0]->category_name;
+
+		$hlf_cat_name = strtoupper(substr($cat_name, 0, 3));
+
+		$product_uid = $hlf_cat_name.$dt_id.$sql_id;
+
+		return $product_uid;
+
+	}
+
+	
+
+	
+
+	
+
+	/** Seller Notification Start **/
+
+	function getSellerNotification(){
+
+		$query = $this->db->query("SELECT * FROM seller_notification");
+
+		$row = $query->num_rows();
+
+		if($row > 0){
+
+			return $query->result();
+
+		}
+
+		else{
+
+			return false;
+
+		}
+
+	}
+
+	function getSellerNotificationForEdit($id){
+
+		$query = $this->db->query("SELECT * FROM seller_notification WHERE id='$id'");
+
+		$row = $query->num_rows();
+
+		if($row > 0){
+
+			return $query->result();
+
+		}
+
+		else{
+
+			return false;
+
+		}
+
+	}
+
+	function getSellerNotification2(){
+
+		$query = $this->db->query("SELECT a.*, b.business_name FROM seller_notification2 a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id");
+
+		$row = $query->num_rows();
+
+		if($row > 0){
+
+			return $query->result();
+
+		}
+
+		else{
+
+			return false;
+
+		}
+
+	}
+
+	function getSellerNotificationForEdit2($id){
+
+		$query = $this->db->query("SELECT a.*, b.business_name FROM seller_notification2 a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id WHERE a.id='$id'");
+
+		$row = $query->num_rows();
+
+		if($row > 0){
+
+			return $query->result();
+
+		}
+
+		else{
+
+			return false;
+
+		}
+
+	}
+
+	function insert_newseller_notice(){
+
+		
+
+		$dt =  date('Y-m-d H:i:s');
+
+		$notice_data = array(
+
+			'title' => $this->input->post('title'),
+
+			'content' => $this->input->post('page_content'),
+
+			'create_date' => $dt,
+
+			'status' => $this->input->post('status'),
+
+		);
+
+		$query = $this->db->insert('seller_notification', $notice_data);
+
+		if($query){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+	}
+
+	
+
+	function insert_newseller_notice2(){
+
+		//
+
+		//$dt =  date('Y-m-d H:i:s');
+
+		$notice_data = array(
+
+			'title' => $this->input->post('title'),
+
+			'content' => $this->input->post('page_content'),
+
+			'seller_id' => $this->input->post('seller'),
+
+			'status' => $this->input->post('status'),
+
+		);
+
+		$query = $this->db->insert('seller_notification2', $notice_data);
+
+		if($query){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+	}
+
+	function getSellerEmail($seller_id){
+
+		$this->db->where('seller_id', $seller_id);
+
+		$d = $this->db->get('seller_account');
+
+		$h = $d->result(); 
+
+		return $h[0]->email;
+
+	}
+
+	function getseller_notification_update(){
+
+		
+
+		$dt =  date('Y-m-d H:i:s');
+
+		$id = $this->input->post('hidden_id');
+
+		$notice_data = array(
+
+			'title' => $this->input->post('title'),
+
+			'content' => $this->input->post('page_content'),
+
+			'modify_date' => $dt,
+
+			'status' => $this->input->post('status'),
+
+		);
+
+		$this->db->where('id', $id);
+
+		$query = $this->db->update('seller_notification', $notice_data);
+
+		if($query){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+	}
+
+	function getseller_notification_update2(){
+
+		$id = $this->input->post('hidden_id');
+
+		$notice_data = array(
+
+			'title' => $this->input->post('title'),
+
+			'content' => $this->input->post('page_content'),
+
+			'seller_id' => $this->input->post('seller'),
+
+			'status' => $this->input->post('status'),
+
+		);
+
+		$this->db->where('id', $id);
+
+		$query = $this->db->update('seller_notification2', $notice_data);
+
+		if($query){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+	}
+
+	function delete_seller_notification($id){
+
+		$this->db->where('id', $id);
+
+		$query = $this->db->delete('seller_notification'); 
+
+		if($query){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+	}
+
+	function delete_seller_notification2($id){
+
+		$this->db->where('id', $id);
+
+		$query = $this->db->delete('seller_notification2'); 
+
+		if($query){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+	}
+
+	
+
+	function getSellersBadgeDetails(){
+
+		$query = $this->db->query("SELECT a.*, b.business_name
 
 		FROM seller_badge a 
 
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id");
 
-        $row = $query->num_rows();
+		$row = $query->num_rows();
 
-        if ($row > 0) {
+		if($row > 0){
 
-            return $query->result();
-        } else {
+			return $query->result();
 
-            return false;
-        }
-    }
+		}else{
 
-    function getBadgeSellersList() {
+			return false;
 
-        $query = $this->db->query("SELECT a.*, b.* 
+		}
+
+	}
+
+	function getBadgeSellersList(){
+
+		$query = $this->db->query("SELECT a.*, b.* 
 
 		FROM seller_account a
 
@@ -3843,59 +4472,73 @@ class Seller_model extends CI_Model {
 
 		WHERE a.seller_id NOT IN (SELECT seller_id FROM membership_seller) ");
 
-        $row = $query->num_rows();
+		$row = $query->num_rows();
 
-        if ($row > 0) {
+		if($row > 0){
 
-            return $query->result();
-        } else {
+			return $query->result();
 
-            return false;
-        }
-    }
+		}else{
 
-    function insert_newseller_badge() {
+			return false;
 
-        $seller_type1 = $this->input->post('seller_type');
+		}
 
-        $seller_type2 = implode(',', $seller_type1);
+	}
 
-        $badge_data = array(
-            'seller_id' => $this->input->post('seller_list'),
-            'seller_badge_type' => $seller_type2,
-            'from_date' => $this->input->post('from_date'),
-            'to_date' => $this->input->post('to_date'),
-        );
+	function insert_newseller_badge(){
 
-        $query = $this->db->insert('seller_badge', $badge_data);
+		$seller_type1 = $this->input->post('seller_type'); 
 
-        if ($query) {
+		$seller_type2 = implode(',', $seller_type1);
 
-            return true;
-        } else {
+		$badge_data = array(
 
-            return false;
-        }
-    }
+			'seller_id' => $this->input->post('seller_list'),
 
-    function deleteSellerBadge($id) {
+			'seller_badge_type' => $seller_type2,
 
-        $this->db->where('id', $id);
+			'from_date' => $this->input->post('from_date'),
 
-        $query = $this->db->delete('seller_badge');
+			'to_date' => $this->input->post('to_date'),
 
-        if ($query) {
+		);
 
-            return true;
-        } else {
+		$query = $this->db->insert('seller_badge', $badge_data);
 
-            return false;
-        }
-    }
+		if($query){
 
-    function getBadgeSellerList() {
+			return true;
 
-        $query = $this->db->query("SELECT b.business_name, b.seller_id
+		}else{
+
+			return false;
+
+		}
+
+	}
+
+	function deleteSellerBadge($id){
+
+		$this->db->where('id', $id);
+
+		$query = $this->db->delete('seller_badge'); 
+
+		if($query){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+	}
+
+	function getBadgeSellerList(){
+
+		$query = $this->db->query("SELECT b.business_name, b.seller_id
 
 		FROM seller_account a 
 
@@ -3903,20 +4546,23 @@ class Seller_model extends CI_Model {
 
 		ORDER BY a.seller_id DESC");
 
-        $row = $query->num_rows();
+		$row = $query->num_rows();
 
-        if ($row > 0) {
+		if($row > 0){
 
-            return $query->result();
-        } else {
+			return $query->result();
 
-            return false;
-        }
-    }
+		}else{
 
-    function getSellerBadgeDetails($id) {
+			return false;
 
-        $query = $this->db->query("SELECT a.*, b.business_name
+		}
+
+	}
+
+	function getSellerBadgeDetails($id){
+
+		$query = $this->db->query("SELECT a.*, b.business_name
 
 		FROM seller_badge a 
 
@@ -3924,118 +4570,155 @@ class Seller_model extends CI_Model {
 
 		WHERE a.id='$id'");
 
-        $row = $query->num_rows();
+		$row = $query->num_rows();
 
-        if ($row > 0) {
+		if($row > 0){
 
-            return $query->result();
-        } else {
+			return $query->result();
 
-            return false;
-        }
-    }
+		}else{
 
-    function seller_badge_update() {
+			return false;
 
-        $id = $this->input->post('hidden_id');
+		}
 
-        $seller_type1 = $this->input->post('seller_type');
+	}
 
-        $seller_type2 = implode(',', $seller_type1);
+	function seller_badge_update(){
 
-        $badge_data = array(
-            'seller_id' => $this->input->post('seller_list'),
-            'seller_badge_type' => $seller_type2,
-            'from_date' => $this->input->post('from_date'),
-            'to_date' => $this->input->post('to_date'),
-        );
+		$id = $this->input->post('hidden_id');
 
-        $this->db->where('id', $id);
+		$seller_type1 = $this->input->post('seller_type'); 
 
-        $query = $this->db->update('seller_badge', $badge_data);
+		$seller_type2 = implode(',', $seller_type1);
 
-        if ($query) {
+		$badge_data = array(
 
-            return true;
-        } else {
+			'seller_id' => $this->input->post('seller_list'),
 
-            return false;
-        }
-    }
+			'seller_badge_type' => $seller_type2,
 
-    function insert_dispatched_data() {
+			'from_date' => $this->input->post('from_date'),
 
-        $state_id = $this->input->post('state');
+			'to_date' => $this->input->post('to_date'),
 
-        $data = array(
-            'state_id' => $state_id,
-            'dispatch_days' => $this->input->post('dispatch_time')
-        );
+		);
 
-        $query = $this->db->query("SELECT * FROM dispatched_day_setting WHERE state_id=$state_id");
+		$this->db->where('id', $id);
 
-        $rows = $query->num_rows();
+		$query = $this->db->update('seller_badge', $badge_data);
 
+		if($query){
 
+			return true;
 
-        if ($rows > 0) {
+		}else{
 
-            return 0;
-        } else {
+			return false;
 
-            $this->db->insert('dispatched_day_setting', $data);
+		}
 
-            if ($this->db->affected_rows() > 0) {
+	}
 
-                return 1;
-            }
-        }
-    }
+	
 
-    function insert_update_dispatched_data() {
+	function insert_dispatched_data(){
 
-        $state_id = $this->input->post('state');
+		$state_id = $this->input->post('state');
 
-        $data = array(
-            'state_id' => $state_id,
-            'dispatch_days' => $this->input->post('dispatch_time')
-        );
+		$data = array(
 
-        $query = $this->db->query("SELECT * FROM dispatched_day_setting WHERE state_id=$state_id");
+			'state_id' => $state_id,
 
-        $rows = $query->num_rows();
+			'dispatch_days' => $this->input->post('dispatch_time')
 
-        if ($rows > 0) {
+		);		
 
-            $this->db->where('state_id', $state_id);
+		$query = $this->db->query("SELECT * FROM dispatched_day_setting WHERE state_id=$state_id");
 
-            $this->db->update('dispatched_day_setting', $data);
+		$rows = $query->num_rows();
 
-            if ($this->db->affected_rows() > 0) {
+		
 
-                return true;
-            }
-        } else {
+		if($rows > 0){
 
-            $this->db->insert('dispatched_day_setting', $data);
+			return 0;
 
-            if ($this->db->affected_rows() > 0) {
+		}else{
 
-                return true;
-            }
-        }
-    }
+			$this->db->insert('dispatched_day_setting',$data);
 
-    function retrieve_dispatch_details() {
+			if($this->db->affected_rows() > 0){
 
-        $query = $this->db->query("SELECT a.state, a.state_id, b.dispatch_days FROM state a LEFT JOIN dispatched_day_setting b ON a.state_id = b.state_id");
+				return 1;
 
-        return $query->result();
-    }
+			}
 
-    function getMembershipDetails() {
+		}
 
-        $query = $this->db->query("SELECT b.membrship_name, c.business_name 
+	}
+
+	
+
+	function insert_update_dispatched_data(){
+
+		$state_id = $this->input->post('state');
+
+		$data = array(
+
+			'state_id' => $state_id,
+
+			'dispatch_days' => $this->input->post('dispatch_time')
+
+		);
+
+		$query = $this->db->query("SELECT * FROM dispatched_day_setting WHERE state_id=$state_id");
+
+		$rows = $query->num_rows();
+
+		if($rows > 0){
+
+			$this->db->where('state_id',$state_id);
+
+			$this->db->update('dispatched_day_setting',$data);
+
+			if($this->db->affected_rows() > 0){
+
+				return true;
+
+			}
+
+		}else{
+
+			$this->db->insert('dispatched_day_setting',$data);
+
+			if($this->db->affected_rows() > 0){
+
+				return true;
+
+			}
+
+		}
+
+	}
+
+	
+
+	function retrieve_dispatch_details(){
+
+		$query = $this->db->query("SELECT a.state, a.state_id, b.dispatch_days FROM state a LEFT JOIN dispatched_day_setting b ON a.state_id = b.state_id");
+
+		return $query->result();
+
+	}
+
+	
+
+	
+
+	function getMembershipDetails(){
+
+		$query = $this->db->query("SELECT b.membrship_name, c.business_name 
 
 		FROM membership_seller a
 
@@ -4043,12 +4726,13 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id=c.seller_id");
 
-        return $query->result();
-    }
+		return $query->result();
 
-    function getMembershipSellersList() {
+	}
 
-        $query = $this->db->query("SELECT a.*, b.* 
+	function getMembershipSellersList(){
+
+		$query = $this->db->query("SELECT a.*, b.* 
 
 		FROM seller_account a
 
@@ -4056,1557 +4740,2029 @@ class Seller_model extends CI_Model {
 
 		WHERE a.seller_id NOT IN (SELECT seller_id FROM membership_seller) ");
 
-        $row = $query->num_rows();
+		$row = $query->num_rows();
 
-        if ($row > 0) {
+		if($row > 0){
 
-            return $query->result();
-        } else {
+			return $query->result();
 
-            return false;
-        }
-    }
+		}else{
 
-    function getMembershipList() {
+			return false;
 
-        $query = $this->db->query("SELECT * FROM membership");
+		}
 
-        $row = $query->num_rows();
+	}
 
-        if ($row > 0) {
+	function getMembershipList(){
 
-            return $query->result();
-        } else {
+		$query = $this->db->query("SELECT * FROM membership");
 
-            return false;
-        }
-    }
+		$row = $query->num_rows();
 
-    function insert_newseller_membership($membership, $seller_id) {
+		if($row > 0){
 
-        $seller_id = explode(',', $seller_id);
+			return $query->result();
 
-        $count = count($seller_id);
+		}else{
 
-        for ($i = 0; $i < $count; $i++) {
+			return false;
 
-            $data = array(
-                'memb_id' => $membership,
-                'seller_id' => $seller_id[$i],
-            );
+		}
 
-            $this->db->insert('membership_seller', $data);
-        }
+	}
 
-        return true;
-    }
+	function insert_newseller_membership($membership, $seller_id){ 
 
-    // Update Product Reject Reason
+		$seller_id = explode(',', $seller_id);
 
-    function update_pro_reject_data() {
+		$count = count($seller_id);
 
-        $status = $this->input->post('status');
+		for($i=0; $i<$count; $i++){
 
-        $reason = $this->input->post('reason');
+			$data = array(
 
-        $sku = $this->input->post('sku');
+				'memb_id' => $membership,
 
-        $product_id = $this->input->post('product_id');   //echo $sku; exit;
+				'seller_id' => $seller_id[$i],
 
+			);
 
+			$this->db->insert('membership_seller',$data);
 
-        if ($status == 'Active') {
+		}
 
-            $data1 = array(
-                'approve_status' => $status,
-            );
+		return true;
 
-            $this->db->where('product_id', $product_id);
+	}
 
-            $this->db->where('sku', $sku);
+	
 
-            $query = $this->db->update('product_master', $data1);
+	// Update Product Reject Reason
 
+	function update_pro_reject_data(){
 
+		$status = $this->input->post('status'); 
 
-            $qr = $this->db->query("SELECT b.seller_product_id FROM seller_product_general_info a INNER JOIN seller_product_setting b ON a.seller_product_id = b.seller_product_id WHERE a.sku = '$sku'");
+		$reason = $this->input->post('reason'); 
 
-            $row = $qr->num_rows();
+		$sku = $this->input->post('sku'); 
 
-            $res = $qr->result(); //print_r($res); exit;
+		$product_id = $this->input->post('product_id');   //echo $sku; exit;
 
-            if ($row > 0) {
+		
 
-                $data2 = array('product_approve' => $status);
+		if($status == 'Active'){
 
-                $this->db->where('seller_product_id', $res[0]->seller_product_id);
+			$data1 = array(
 
-                $this->db->update('seller_product_setting', $data2);
-            } else {
+				'approve_status' => $status,
 
-                $data3 = array('approve_status' => $status);
+			);
 
-                $this->db->where('sku', $sku);
+			$this->db->where('product_id', $product_id);
 
-                $this->db->update('seller_product_master', $data3);
-            }
+			$this->db->where('sku', $sku);
 
-            return true;
-        } else if ($status == 'Suspended') {
+			$query = $this->db->update('product_master', $data1);
 
-            $data1 = array(
-                'approve_status' => 'Inactive',
-            );
+			
 
-            $this->db->where('product_id', $product_id);
+			$qr = $this->db->query("SELECT b.seller_product_id FROM seller_product_general_info a INNER JOIN seller_product_setting b ON a.seller_product_id = b.seller_product_id WHERE a.sku = '$sku'");
 
-            $this->db->where('sku', $sku);
+			$row = $qr->num_rows();
 
-            $query = $this->db->update('product_master', $data1);
+			$res = $qr->result(); //print_r($res); exit;
 
+			if($row > 0){
 
+				$data2 = array('product_approve' => $status);
 
-            $qr = $this->db->query("SELECT b.seller_product_id FROM seller_product_general_info a INNER JOIN seller_product_setting b ON a.seller_product_id = b.seller_product_id WHERE a.sku = '$sku'");
+				$this->db->where('seller_product_id', $res[0]->seller_product_id);
 
-            $row = $qr->num_rows();
+				$this->db->update('seller_product_setting', $data2);
 
-            $res = $qr->result(); //print_r($res); exit;
+			}else{
 
-            if ($row > 0) {
+				$data3 = array('approve_status' => $status);
 
-                $data2 = array(
-                    'product_approve' => $status,
-                    'reject_reason' => $reason
-                );
+				$this->db->where('sku', $sku);
 
-                $this->db->where('seller_product_id', $res[0]->seller_product_id);
+				$this->db->update('seller_product_master', $data3);
 
-                $this->db->update('seller_product_setting', $data2);
-            } else {
+			}
 
-                $data3 = array(
-                    'approve_status' => $status,
-                    'reject_reason' => $reason
-                );
+			return true;
 
-                $this->db->where('sku', $sku);
+		}else if($status == 'Suspended'){ 
 
-                $this->db->update('seller_product_master', $data3);
-            }
+			$data1 = array(
 
-            return true;
-        } else {
+				'approve_status' => 'Inactive',
 
-            $data1 = array(
-                'approve_status' => 'Inactive',
-                'reject_reason' => $reason
-            );
+			);
 
-            $this->db->where('product_id', $product_id);
+			$this->db->where('product_id', $product_id);
 
-            $this->db->where('sku', $sku);
+			$this->db->where('sku', $sku);
 
-            $query = $this->db->update('product_master', $data1);
+			$query = $this->db->update('product_master', $data1);
 
+			
 
+			$qr = $this->db->query("SELECT b.seller_product_id FROM seller_product_general_info a INNER JOIN seller_product_setting b ON a.seller_product_id = b.seller_product_id WHERE a.sku = '$sku'");
 
-            $qr = $this->db->query("SELECT b.seller_product_id FROM seller_product_general_info a INNER JOIN seller_product_setting b ON a.seller_product_id = b.seller_product_id WHERE a.sku = '$sku'");
+			$row = $qr->num_rows();
 
-            $row = $qr->num_rows();
+			$res = $qr->result(); //print_r($res); exit;
 
-            $res = $qr->result();
+			if($row > 0){
 
-            if ($row > 0) {
+				$data2 = array(
 
-                $data2 = array(
-                    'product_approve' => $status,
-                    'reject_reason' => $reason
-                );
+					'product_approve' => $status,
 
-                $this->db->where('seller_product_id', $res[0]->seller_product_id);
+					'reject_reason' => $reason
 
-                $this->db->update('seller_product_setting', $data2);
-            } else {
+				);
 
-                $data3 = array(
-                    'approve_status' => $status,
-                    'reject_reason' => $reason
-                );
+				$this->db->where('seller_product_id', $res[0]->seller_product_id);
 
-                $this->db->where('sku', $sku);
+				$this->db->update('seller_product_setting', $data2);
 
-                $this->db->update('seller_product_master', $data3);
-            }
+			}else{
 
-            return true;
-        }
-    }
+				$data3 = array(
 
-    function select_defailt_seller() {
+					'approve_status' => $status,
 
+					'reject_reason' => $reason
 
+				);
 
-        $default_seller_query = $this->db->query("select * from product_master where seller_id!=0 AND shipment_delay_count > 1 ");
+				$this->db->where('sku', $sku);
 
-        $row_default_seller_query = $default_seller_query->result();
+				$this->db->update('seller_product_master', $data3);
 
+			}
 
+			return true;
 
-        return $row_default_seller_query;
-    }
+		}else{
 
-    function select_defulter_seller() {
+			$data1 = array(
 
-        $default_seller_query = $this->db->query("select a.*,a.sku as prd_sku, a.approve_status as prd_status,b.name,c.imag,d.name as product_name from product_master a inner join seller_account b on a.seller_id=b.seller_id inner join product_image c on c.product_id=a.product_id inner join product_general_info d on a.product_id=d.product_id where  a.seller_id != 0 AND a.shipment_delay_count > 1 ");
+				'approve_status' => 'Inactive',
 
+				'reject_reason' => $reason
 
+			);
 
+			$this->db->where('product_id', $product_id);
 
+			$this->db->where('sku', $sku);
 
-        $row_default_seller_query = $default_seller_query->result();
+			$query = $this->db->update('product_master', $data1);
 
+			
 
+			$qr = $this->db->query("SELECT b.seller_product_id FROM seller_product_general_info a INNER JOIN seller_product_setting b ON a.seller_product_id = b.seller_product_id WHERE a.sku = '$sku'");
 
-        return $row_default_seller_query;
-    }
+			$row = $qr->num_rows();
 
-    function change_defulterseller_status($sku_id) {
+			$res = $qr->result();
 
+			if($row > 0){
 
+				$data2 = array(
 
-        $this->db->query("update product_master set approve_status='Inactive' where sku='$sku_id' ");
+					'product_approve' => $status,
 
+					'reject_reason' => $reason
 
+				);
 
-        $query_seller_product_master = $this->db->query("select * from seller_product_master  where sku='$sku_id' ");
+				$this->db->where('seller_product_id', $res[0]->seller_product_id);
 
+				$this->db->update('seller_product_setting', $data2);
 
+			}else{
 
-        if ($query_seller_product_master->num_rows() != 0) {
+				$data3 = array(
 
-            $this->db->query("update seller_product_master set approve_status='Suspended' where sku='$sku_id' ");
-        }
+					'approve_status' => $status,
 
+					'reject_reason' => $reason
 
+				);
 
+				$this->db->where('sku', $sku);
 
+				$this->db->update('seller_product_master', $data3);
 
-        $query_seller_product_geninfo = $this->db->query("select * from seller_product_general_info  where sku='$sku_id' ");
+			}
 
+			return true;
 
+		}
 
-        if ($query_seller_product_geninfo->num_rows() != 0) {
+		
 
-            $rows_seller_product_geninfo = $query_seller_product_geninfo->result();
+	}
 
-            $seller_product_id = $rows_seller_product_geninfo[0]->seller_product_id;
+	
 
-            $this->db->query("update seller_product_setting set product_approve='Suspended' where seller_product_id='$seller_product_id' ");
-        }
-    }
+	function select_defailt_seller()
 
-    function update_inn_slr_info() {
+	{
 
-        $sl = $this->input->post('sl');
+		
 
-        $slr_id = $this->input->post('slr_id');
+		$default_seller_query=$this->db->query("select * from product_master where seller_id!=0 AND shipment_delay_count > 1 ");
 
-        $slr_data = $this->input->post('slr_data');
+		$row_default_seller_query=$default_seller_query->result();
 
-        if ($sl == 1 || $sl == 13) {
+		
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+		return $row_default_seller_query;
 
-            $rows = $query->num_rows();
+	}
 
-            if ($rows > 0) {
+	
 
-                $data = array('pname' => $slr_data);
+	function select_defulter_seller()
 
-                $this->db->where('seller_id', $slr_id);
+	{
 
-                $this->db->update('seller_account_information', $data);
+		$default_seller_query=$this->db->query("select a.*,a.sku as prd_sku, a.approve_status as prd_status,b.name,c.imag,d.name as product_name from product_master a inner join seller_account b on a.seller_id=b.seller_id inner join product_image c on c.product_id=a.product_id inner join product_general_info d on a.product_id=d.product_id where  a.seller_id != 0 AND a.shipment_delay_count > 1 ");
 
+		
 
+		
 
-                if ($this->db->affected_rows() > 0) {
+		$row_default_seller_query=$default_seller_query->result();
 
-                    //return true;
+		
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+		return $row_default_seller_query;
 
-                    return $query1->row()->pname;
-                }
-            } else {
+			
 
-                $data = array('seller_id' => $slr_id, 'pname' => $slr_data);
+	}
 
-                $this->db->insert('seller_account_information', $data);
+	
 
-                if ($this->db->affected_rows() > 0) {
+	function change_defulterseller_status($sku_id)
 
-                    return true;
-                }
-            }
-        } else if ($sl == 2) {
+	{
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+		
 
-            $rows = $query->num_rows();
+		$this->db->query("update product_master set approve_status='Inactive' where sku='$sku_id' ");
 
-            if ($rows > 0) {
+		
 
-                $data = array('pemail' => $slr_data);
+		$query_seller_product_master=$this->db->query("select * from seller_product_master  where sku='$sku_id' ");
 
-                $this->db->where('seller_id', $slr_id);
+		
 
-                $this->db->update('seller_account_information', $data);
+		if($query_seller_product_master->num_rows()!=0)
 
-                if ($this->db->affected_rows() > 0) {
+		{
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+			$this->db->query("update seller_product_master set approve_status='Suspended' where sku='$sku_id' ");
 
-                    return $query1->row()->pemail;
+		}
 
-                    //return true;
-                }
-            } else {
+		
 
-                $data = array('seller_id' => $slr_id, 'pemail' => $slr_data);
+		
 
-                $this->db->insert('seller_account_information', $data);
+		$query_seller_product_geninfo=$this->db->query("select * from seller_product_general_info  where sku='$sku_id' ");
 
-                if ($this->db->affected_rows() > 0) {
+		
 
-                    return true;
-                }
-            }
-        } else if ($sl == 3) {
+		if($query_seller_product_geninfo->num_rows()!=0)
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+		{
 
-            $rows = $query->num_rows();
+			$rows_seller_product_geninfo=$query_seller_product_geninfo->result();
 
-            if ($rows > 0) {
+			$seller_product_id=$rows_seller_product_geninfo[0]->seller_product_id;
 
-                $data = array('pmobile' => $slr_data);
+			$this->db->query("update seller_product_setting set product_approve='Suspended' where seller_product_id='$seller_product_id' ");	
 
-                $this->db->where('seller_id', $slr_id);
 
-                $this->db->update('seller_account_information', $data);
 
-                if ($this->db->affected_rows() > 0) {
+		}
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+	}
 
-                    return $query1->row()->pmobile;
+	
 
-                    //return true;
-                }
-            } else {
+	
 
-                $data = array('seller_id' => $slr_id, 'pmobile' => $slr_data);
+	
 
-                $this->db->insert('seller_account_information', $data);
+	
 
-                if ($this->db->affected_rows() > 0) {
+	function update_inn_slr_info(){
 
-                    return true;
-                }
-            }
-        } else if ($sl == 4) {
+		$sl = $this->input->post('sl');
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+		$slr_id = $this->input->post('slr_id');
 
-            $rows = $query->num_rows();
+		$slr_data = $this->input->post('slr_data');
 
-            if ($rows > 0) {
+		if($sl == 1 || $sl == 13){
 
-                $data = array('business_name' => $slr_data);
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                $this->db->where('seller_id', $slr_id);
+			$rows = $query->num_rows();
 
-                $this->db->update('seller_account_information', $data);
+			if($rows > 0){
 
-                if ($this->db->affected_rows() > 0) {
+				$data = array('pname' => $slr_data);
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+				$this->db->where('seller_id',$slr_id);
 
-                    return $query1->row()->business_name;
-                }
-            } else {
+				$this->db->update('seller_account_information',$data);
 
-                $data = array('seller_id' => $slr_id, 'business_name' => $slr_data);
+				
 
-                $this->db->insert('seller_account_information', $data);
+				if($this->db->affected_rows() > 0){
 
-                if ($this->db->affected_rows() > 0) {
+					//return true;
 
-                    return true;
-                }
-            }
-        } else if ($sl == 5) {
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+					return $query1->row()->pname;
 
-            $rows = $query->num_rows();
+				}
 
-            if ($rows > 0) {
+			}else{
 
-                $data = array('business_desc' => $slr_data);
+				$data = array('seller_id' => $slr_id,'pname' => $slr_data);
 
-                $this->db->where('seller_id', $slr_id);
+				$this->db->insert('seller_account_information',$data);
 
-                $this->db->update('seller_account_information', $data);
+				if($this->db->affected_rows() > 0){
 
-                if ($this->db->affected_rows() > 0) {
+					return true;
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+				}
 
-                    return $query1->row()->business_desc;
-                }
-            } else {
+			}
 
-                $data = array('seller_id' => $slr_id, 'business_desc' => $slr_data);
+		}
 
-                $this->db->insert('seller_account_information', $data);
+		else if($sl == 2){
 
-                if ($this->db->affected_rows() > 0) {
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                    return true;
-                }
-            }
-        } else if ($sl == 6) {
+			$rows = $query->num_rows();
 
-            $data = array('name' => $slr_data);
+			if($rows > 0){
 
-            $this->db->where('seller_id', $slr_id);
+				$data = array('pemail' => $slr_data);
 
-            $this->db->update('seller_account', $data);
+				$this->db->where('seller_id',$slr_id);
 
-            if ($this->db->affected_rows() > 0) {
+				$this->db->update('seller_account_information',$data);
 
+				if($this->db->affected_rows() > 0){
 
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                $query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
+					return $query1->row()->pemail;
 
-                return $query1->row()->name;
-            }
-        } else if ($sl == 7) {
+					//return true;
 
-            $data = array('email' => $slr_data);
+				}
 
-            $this->db->where('seller_id', $slr_id);
+			}else{
 
-            $this->db->update('seller_account', $data);
+				$data = array('seller_id' => $slr_id,'pemail' => $slr_data);
 
-            if ($this->db->affected_rows() > 0) {
+				$this->db->insert('seller_account_information',$data);
 
-                $query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
+				if($this->db->affected_rows() > 0){
 
-                return $query1->row()->email;
-            }
-        } else if ($sl == 8) {
+					return true;
 
-            $data = array('mobile' => $slr_data);
+				}
 
-            $this->db->where('seller_id', $slr_id);
+			}
 
-            $this->db->update('seller_account', $data);
+		}
 
-            if ($this->db->affected_rows() > 0) {
+		else if($sl == 3){
 
-                $query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                return $query1->row()->mobile;
-            }
-        } else if ($sl == 9) {
+			$rows = $query->num_rows();
 
-            $data = array('seller_address' => $slr_data);
+			if($rows > 0){
 
-            $this->db->where('seller_id', $slr_id);
+				$data = array('pmobile' => $slr_data);
 
-            $this->db->update('seller_account', $data);
+				$this->db->where('seller_id',$slr_id);
 
-            if ($this->db->affected_rows() > 0) {
+				$this->db->update('seller_account_information',$data);
 
-                $query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
+				if($this->db->affected_rows() > 0){	
 
-                return $query1->row()->seller_address;
-            }
-        } else if ($sl == 10) {
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-            $data = array('seller_city' => $slr_data);
+					return $query1->row()->pmobile;		
 
-            $this->db->where('seller_id', $slr_id);
+					//return true;
 
-            $this->db->update('seller_account', $data);
+				}
 
-            if ($this->db->affected_rows() > 0) {
+			}else{
 
-                $query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
+				$data = array('seller_id' => $slr_id,'pmobile' => $slr_data);
 
-                return $query1->row()->seller_city;
-            }
-        } else if ($sl == 11) {
+				$this->db->insert('seller_account_information',$data);
 
-            $data = array('pincode' => $slr_data);
+				if($this->db->affected_rows() > 0){
 
-            $this->db->where('seller_id', $slr_id);
+					return true;
 
-            $this->db->update('seller_account', $data);
+				}
 
-            if ($this->db->affected_rows() > 0) {
+			}
 
-                $query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
+		}
 
-                return $query1->row()->pincode;
-            }
-        } else if ($sl == 12) {
+		else if($sl == 4){
 
-            /* $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-              $rows = $query->num_rows();
+			$rows = $query->num_rows();
 
-              if($rows > 0){
+			if($rows > 0){
 
-              $data = array('seller_state' => $slr_data);
+				$data = array('business_name' => $slr_data);
 
-              $this->db->where('seller_id',$slr_id);
+				$this->db->where('seller_id',$slr_id);
 
-              $this->db->update('seller_account_information',$data);
+				$this->db->update('seller_account_information',$data);
 
-              if($this->db->affected_rows() > 0){
+				if($this->db->affected_rows() > 0){
 
-              $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-              return $query1->row()->seller_state; */
+					return $query1->row()->business_name;	
 
+				}
 
+			}else{
 
-            $data = array('seller_state' => $slr_data);
+				$data = array('seller_id' => $slr_id,'business_name' => $slr_data);
 
-            $this->db->where('seller_id', $slr_id);
+				$this->db->insert('seller_account_information',$data);
 
-            $this->db->update('seller_account', $data);
+				if($this->db->affected_rows() > 0){
 
-            if ($this->db->affected_rows() > 0) {
+					return true;
 
-                $query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
+				}
 
-                return $query1->row()->seller_state;
-            }
-        } else if ($sl == 14) {
+			}
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+		}
 
-            $rows = $query->num_rows();
+		else if($sl == 5){
 
-            if ($rows > 0) {
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                $data = array('ac_holder_name' => $slr_data);
+			$rows = $query->num_rows();
 
-                $this->db->where('seller_id', $slr_id);
+			if($rows > 0){
 
-                $this->db->update('seller_account_information', $data);
+				$data = array('business_desc' => $slr_data);
 
-                if ($this->db->affected_rows() > 0) {
+				$this->db->where('seller_id',$slr_id);
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+				$this->db->update('seller_account_information',$data);
 
-                    return $query1->row()->ac_holder_name;
-                }
-            } else {
+				if($this->db->affected_rows() > 0){
 
-                $data = array('seller_id' => $slr_id, 'ac_holder_name' => $slr_data);
+				$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                $this->db->insert('seller_account_information', $data);
+					return $query1->row()->business_desc;
 
-                if ($this->db->affected_rows() > 0) {
+				}
 
-                    return true;
-                }
-            }
-        } else if ($sl == 15) {
+			}else{
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+				$data = array('seller_id' => $slr_id,'business_desc' => $slr_data);
 
-            $rows = $query->num_rows();
+				$this->db->insert('seller_account_information',$data);
 
-            if ($rows > 0) {
+				if($this->db->affected_rows() > 0){
 
-                $data = array('ac_number' => $slr_data);
+					return true;
 
-                $this->db->where('seller_id', $slr_id);
+				}
 
-                $this->db->update('seller_account_information', $data);
+			}
 
-                if ($this->db->affected_rows() > 0) {
+		}
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+		else if($sl == 6){
 
-                    return $query1->row()->ac_number;
-                }
-            } else {
+			$data = array('name' => $slr_data);
 
-                $data = array('seller_id' => $slr_id, 'ac_number' => $slr_data);
+			$this->db->where('seller_id',$slr_id);
 
-                $this->db->insert('seller_account_information', $data);
+			$this->db->update('seller_account',$data);
 
-                if ($this->db->affected_rows() > 0) {
+			if($this->db->affected_rows() > 0){
 
-                    return true;
-                }
-            }
-        } else if ($sl == 16) {
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-            $rows = $query->num_rows();
+				$query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
 
-            if ($rows > 0) {
+					return $query1->row()->name;
 
-                $data = array('ifsc_code' => $slr_data);
+			}
 
-                $this->db->where('seller_id', $slr_id);
+		}else if($sl == 7){
 
-                $this->db->update('seller_account_information', $data);
+			$data = array('email' => $slr_data);
 
-                if ($this->db->affected_rows() > 0) {
+			$this->db->where('seller_id',$slr_id);
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+			$this->db->update('seller_account',$data);
 
-                    return $query1->row()->ifsc_code;
-                }
-            } else {
+			if($this->db->affected_rows() > 0){				
 
-                $data = array('seller_id' => $slr_id, 'ifsc_code' => $slr_data);
+				$query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
 
-                $this->db->insert('seller_account_information', $data);
+					return $query1->row()->email;
 
-                if ($this->db->affected_rows() > 0) {
+			}
 
-                    return true;
-                }
-            }
-        } else if ($sl == 17) {
+		}else if($sl == 8){
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+			$data = array('mobile' => $slr_data);
 
-            $rows = $query->num_rows();
+			$this->db->where('seller_id',$slr_id);
 
-            if ($rows > 0) {
+			$this->db->update('seller_account',$data);
 
-                $data = array('bank' => $slr_data);
+			if($this->db->affected_rows() > 0){			
 
-                $this->db->where('seller_id', $slr_id);
+				$query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
 
-                $this->db->update('seller_account_information', $data);
+					return $query1->row()->mobile;
 
-                if ($this->db->affected_rows() > 0) {
+			}
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+		}else if($sl == 9){
 
-                    return $query1->row()->bank;
-                }
-            } else {
+			$data = array('seller_address' => $slr_data);
 
-                $data = array('seller_id' => $slr_id, 'bank' => $slr_data);
+			$this->db->where('seller_id',$slr_id);
 
-                $this->db->insert('seller_account_information', $data);
+			$this->db->update('seller_account',$data);
 
-                if ($this->db->affected_rows() > 0) {
+			if($this->db->affected_rows() > 0){
 
-                    return true;
-                }
-            }
-        } else if ($sl == 18) {
+				$query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+					return $query1->row()->seller_address;
 
-            $rows = $query->num_rows();
+			}
 
-            if ($rows > 0) {
+		}
 
-                $data = array('branch' => $slr_data);
+		else if($sl == 10){
 
-                $this->db->where('seller_id', $slr_id);
+			$data = array('seller_city' => $slr_data);
 
-                $this->db->update('seller_account_information', $data);
+			$this->db->where('seller_id',$slr_id);
 
-                if ($this->db->affected_rows() > 0) {
+			$this->db->update('seller_account',$data);
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+			if($this->db->affected_rows() > 0){
 
-                    return $query1->row()->branch;
-                }
-            } else {
+				$query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
 
-                $data = array('seller_id' => $slr_id, 'branch' => $slr_data);
+					return $query1->row()->seller_city;
 
-                $this->db->insert('seller_account_information', $data);
+			}
 
-                if ($this->db->affected_rows() > 0) {
+		}
 
-                    return true;
-                }
-            }
-        } else if ($sl == 22) {
+		else if($sl == 11){
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+			$data = array('pincode' => $slr_data);
 
-            $rows = $query->num_rows();
+			$this->db->where('seller_id',$slr_id);
 
-            if ($rows > 0) {
+			$this->db->update('seller_account',$data);
 
-                $data = array('city' => $slr_data);
+			if($this->db->affected_rows() > 0){
 
-                $this->db->where('seller_id', $slr_id);
+				$query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
 
-                $this->db->update('seller_account_information', $data);
+					return $query1->row()->pincode;
 
-                if ($this->db->affected_rows() > 0) {
+			}
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+		}
 
-                    return $query1->row()->city;
-                }
-            } else {
+		else if($sl == 12){
 
-                $data = array('seller_id' => $slr_id, 'branch' => $slr_data);
+			/*$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                $this->db->insert('seller_account_information', $data);
+			$rows = $query->num_rows();
 
-                if ($this->db->affected_rows() > 0) {
+			if($rows > 0){
 
-                    return true;
-                }
-            }
-        } else if ($sl == 23) {
+				$data = array('seller_state' => $slr_data);
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+				$this->db->where('seller_id',$slr_id);
 
-            $rows = $query->num_rows();
+				$this->db->update('seller_account_information',$data);
 
-            if ($rows > 0) {
+				if($this->db->affected_rows() > 0){
 
-                $data = array('state' => $slr_data);
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                $this->db->where('seller_id', $slr_id);
+					return $query1->row()->seller_state;*/
 
-                $this->db->update('seller_account_information', $data);
+					
 
-                if ($this->db->affected_rows() > 0) {
+			$data = array('seller_state' => $slr_data);
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+			$this->db->where('seller_id',$slr_id);
 
-                    return $query1->row()->state;
-                }
-            } else {
+			$this->db->update('seller_account',$data);
 
-                $data = array('seller_id' => $slr_id, 'state' => $slr_data);
+			if($this->db->affected_rows() > 0){
 
-                $this->db->insert('seller_account_information', $data);
+				$query1 = $this->db->query("SELECT * FROM seller_account WHERE seller_id='$slr_id'");
 
-                if ($this->db->affected_rows() > 0) {
+					return $query1->row()->seller_state;
 
-                    return true;
-                }
-            }
-        } else if ($sl == 28) {
+			}
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+				
 
-            $rows = $query->num_rows();
+		}
 
-            if ($rows > 0) {
+		else if($sl == 14){
 
-                $data = array('display_name' => $slr_data);
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                $this->db->where('seller_id', $slr_id);
+			$rows = $query->num_rows();
 
-                $this->db->update('seller_account_information', $data);
+			if($rows > 0){
 
-                if ($this->db->affected_rows() > 0) {
+				$data = array('ac_holder_name' => $slr_data);
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+				$this->db->where('seller_id',$slr_id);
 
-                    return $query1->row()->display_name;
-                }
-            } else {
+				$this->db->update('seller_account_information',$data);
 
-                $data = array('seller_id' => $slr_id, 'display_name' => $slr_data);
+				if($this->db->affected_rows() > 0){
 
-                $this->db->insert('seller_account_information', $data);
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                if ($this->db->affected_rows() > 0) {
+					return $query1->row()->ac_holder_name;
 
-                    return true;
-                }
-            }
-        } else if ($sl == 29) {
+				}
 
-            $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+			}else{
 
-            $rows = $query->num_rows();
+				$data = array('seller_id' => $slr_id,'ac_holder_name' => $slr_data);
 
-            if ($rows > 0) {
+				$this->db->insert('seller_account_information',$data);
 
-                $data = array('store_description' => $slr_data);
+				if($this->db->affected_rows() > 0){
 
-                $this->db->where('seller_id', $slr_id);
+					return true;
 
-                $this->db->update('seller_account_information', $data);
+				}
 
-                if ($this->db->affected_rows() > 0) {
+			}
 
-                    $query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+		}
 
-                    return $query1->row()->store_description;
-                }
-            } else {
+		else if($sl == 15){
 
-                $data = array('seller_id' => $slr_id, 'store_description' => $slr_data);
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                $this->db->insert('seller_account_information', $data);
+			$rows = $query->num_rows();
 
-                if ($this->db->affected_rows() > 0) {
+			if($rows > 0){
 
-                    return true;
-                }
-            }
-        }
-    }
+				$data = array('ac_number' => $slr_data);
 
-    function update_inn_slr_proof($fileName) {
+				$this->db->where('seller_id',$slr_id);
 
-        $case = $this->input->post('fldnm');
+				$this->db->update('seller_account_information',$data);
 
-        $slr_id = $this->input->post('slr_id');
+				if($this->db->affected_rows() > 0){
 
-        $number = $this->input->post('cardno');
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-        $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+					return $query1->row()->ac_number;
 
-        $rows = $query->num_rows();
+				}
 
-        if ($rows > 0) {
+			}else{
 
-            if ($fileName == '') {
+				$data = array('seller_id' => $slr_id,'ac_number' => $slr_data);
 
-                if ($case == 'pan') {
+				$this->db->insert('seller_account_information',$data);
 
-                    $data = array(
-                        'pan' => $number,
-                    );
+				if($this->db->affected_rows() > 0){
 
-                    $this->db->where('seller_id', $slr_id);
+					return true;
 
-                    $this->db->update('seller_account_information', $data);
+				}
 
-                    return true;
-                } else if ($case == 'tin') {
+			}
 
-                    $data = array(
-                        'tin' => $number,
-                    );
+		}
 
-                    $this->db->where('seller_id', $slr_id);
+		else if($sl == 16){
 
-                    $this->db->update('seller_account_information', $data);
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                    return true;
-                } else if ($case == 'tan') {
+			$rows = $query->num_rows();
 
-                    $data = array(
-                        'tan' => $number,
-                    );
+			if($rows > 0){
 
-                    $this->db->where('seller_id', $slr_id);
+				$data = array('ifsc_code' => $slr_data);
 
-                    $this->db->update('seller_account_information', $data);
+				$this->db->where('seller_id',$slr_id);
 
-                    return true;
-                }
+				$this->db->update('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+					return $query1->row()->ifsc_code;
+
+				}
+
+			}else{
+
+				$data = array('seller_id' => $slr_id,'ifsc_code' => $slr_data);
+
+				$this->db->insert('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					return true;
+
+				}
+
+			}
+
+		}
+
+		else if($sl == 17){
+
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+			$rows = $query->num_rows();
+
+			if($rows > 0){
+
+				$data = array('bank' => $slr_data);
+
+				$this->db->where('seller_id',$slr_id);
+
+				$this->db->update('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+					return $query1->row()->bank;
+
+				}
+
+			}else{
+
+				$data = array('seller_id' => $slr_id,'bank' => $slr_data);
+
+				$this->db->insert('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					return true;
+
+				}
+
+			}
+
+		}
+
+		else if($sl == 18){
+
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+			$rows = $query->num_rows();
+
+			if($rows > 0){
+
+				$data = array('branch' => $slr_data);
+
+				$this->db->where('seller_id',$slr_id);
+
+				$this->db->update('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+					return $query1->row()->branch;
+
+				}
+
+			}else{
+
+				$data = array('seller_id' => $slr_id,'branch' => $slr_data);
+
+				$this->db->insert('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					return true;
+
+				}
+
+			}
+
+		}
+
+		else if($sl == 22){
+
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+			$rows = $query->num_rows();
+
+			if($rows > 0){
+
+				$data = array('city' => $slr_data);
+
+				$this->db->where('seller_id',$slr_id);
+
+				$this->db->update('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+					return $query1->row()->city;
+
+				}
+
+			}else{
+
+				$data = array('seller_id' => $slr_id,'branch' => $slr_data);
+
+				$this->db->insert('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					return true;
+
+				}
+
+			}
+
+		}
+
+		else if($sl == 23){
+
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+			$rows = $query->num_rows();
+
+			if($rows > 0){
+
+				$data = array('state' => $slr_data);
+
+				$this->db->where('seller_id',$slr_id);
+
+				$this->db->update('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+					return $query1->row()->state;
+
+				}
+
+			}else{
+
+				$data = array('seller_id' => $slr_id,'state' => $slr_data);
+
+				$this->db->insert('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					return true;
+
+				}
+
+			}
+
+		}
+
+		else if($sl == 28){
+
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+			$rows = $query->num_rows();
+
+			if($rows > 0){
+
+				$data = array('display_name' => $slr_data);
+
+				$this->db->where('seller_id',$slr_id);
+
+				$this->db->update('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+					return $query1->row()->display_name;
+
+				}
+
+			}else{
+
+				$data = array('seller_id' => $slr_id,'display_name' => $slr_data);
+
+				$this->db->insert('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					return true;
+
+				}
+
+			}
+
+		}
+
+		else if($sl == 29){
+
+			$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+			$rows = $query->num_rows();
+
+			if($rows > 0){
+
+				$data = array('store_description' => $slr_data);
+
+				$this->db->where('seller_id',$slr_id);
+
+				$this->db->update('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					$query1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+					return $query1->row()->store_description;
+
+				}
+
+			}else{
+
+				$data = array('seller_id' => $slr_id,'store_description' => $slr_data);
+
+				$this->db->insert('seller_account_information',$data);
+
+				if($this->db->affected_rows() > 0){
+
+					return true;
+
+				}
+
+			}
+
+		}
+
+	}
+
+	
+
+	
+
+	function update_inn_slr_proof($fileName){
+
+		$case = $this->input->post('fldnm');
+
+		$slr_id = $this->input->post('slr_id');
+
+		$number = $this->input->post('cardno');
+
+		$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+
+		$rows = $query->num_rows();
+
+		if($rows > 0){
+
+			if($fileName == ''){
+
+				if($case == 'pan'){
+
+					$data = array(
+
+						'pan' => $number,
+
+					);
+
+					$this->db->where('seller_id',$slr_id);
+
+					$this->db->update('seller_account_information',$data);
+
+					return true;
+
+				}
+
+				else if($case == 'tin'){
+
+					$data = array(
+
+						'tin' => $number,				
+
+					);
+
+					$this->db->where('seller_id',$slr_id);
+
+					$this->db->update('seller_account_information',$data);
+
+					return true;
+
+				}
+
+				else if($case == 'tan'){
+
+					$data = array(
+
+						'tan' => $number,				
+
+					);
+
+					$this->db->where('seller_id',$slr_id);
+
+					$this->db->update('seller_account_information',$data);
+
+					return true;
+
+				}
 //----------------------------------sujit start for gstin-----------------------------//			
-                else if ($case == 'gstin') {
+				else if($case == 'gstin'){
 
-                    $data = array(
-                        'gstin' => $number,
-                    );
+					$data = array(
 
-                    $this->db->where('seller_id', $slr_id);
+						'gstin' => $number,				
 
-                    $this->db->update('seller_account_information', $data);
+					);
 
-                    return true;
-                }
+					$this->db->where('seller_id',$slr_id);
+
+					$this->db->update('seller_account_information',$data);
+
+					return true;
+
+				}
 //----------------------------------sujit end for gstin-----------------------------//				
-            } else {
+			}else{
 
-                if ($case == 'pan') {
+				if($case == 'pan'){
 
-                    $data = array(
-                        'pan' => $number,
-                        'pan_img' => $fileName,
-                    );
+					$data = array(
 
-                    $this->db->where('seller_id', $slr_id);
+						'pan' => $number,
 
-                    $this->db->update('seller_account_information', $data);
+						'pan_img' => $fileName,
 
-                    return true;
-                } else if ($case == 'tin') {
+					);
 
-                    $data = array(
-                        'tin' => $number,
-                        'tin_img' => $fileName,
-                    );
+					$this->db->where('seller_id',$slr_id);
 
-                    $this->db->where('seller_id', $slr_id);
+					$this->db->update('seller_account_information',$data);
 
-                    $this->db->update('seller_account_information', $data);
+					return true;
 
-                    return true;
-                } else if ($case == 'tan') {
+				}
 
-                    $data = array(
-                        'tan' => $number,
-                        'tan_img' => $fileName,
-                    );
+				else if($case == 'tin'){
 
-                    $this->db->where('seller_id', $slr_id);
+					$data = array(
 
-                    $this->db->update('seller_account_information', $data);
+						'tin' => $number,
 
-                    return true;
-                }
+						'tin_img' => $fileName,
+
+					);
+
+					$this->db->where('seller_id',$slr_id);
+
+					$this->db->update('seller_account_information',$data);
+
+					return true;
+
+				}
+
+				else if($case == 'tan'){
+
+					$data = array(
+
+						'tan' => $number,
+
+						'tan_img' => $fileName,
+
+					);
+
+					$this->db->where('seller_id',$slr_id);
+
+					$this->db->update('seller_account_information',$data);
+
+					return true;
+
+				}
 
 //----------------------------------sujit start for gstin_img-----------------------------//
-                else if ($case == 'gstin') {
+				else if($case == 'gstin'){
 
-                    $data = array(
-                        'gstin' => $number,
-                        'gstin_img' => $fileName,
-                    );
+					$data = array(
 
-                    $this->db->where('seller_id', $slr_id);
+						'gstin' => $number,
 
-                    $this->db->update('seller_account_information', $data);
+						'gstin_img' => $fileName,
 
-                    return true;
-                }
+					);
+
+					$this->db->where('seller_id',$slr_id);
+
+					$this->db->update('seller_account_information',$data);
+
+					return true;
+
+				}
 
 //----------------------------------sujit end for gstin_img-----------------------------//
-            }
-        } else {
 
-            if ($case == 'pan') {
+			}
 
-                $data = array(
-                    'seller_id' => $slr_id,
-                    'pan' => $number,
-                    'pan_img' => $fileName,
-                );
+		}else{
 
-                $this->db->insert('seller_account_information', $data);
+			if($case == 'pan'){
 
-                return true;
-            } else if ($case == 'tin') {
+				$data = array(
 
-                $data = array(
-                    'seller_id' => $slr_id,
-                    'tin' => $number,
-                    'tin_img' => $fileName,
-                );
+					'seller_id' => $slr_id,
 
-                $this->db->insert('seller_account_information', $data);
+					'pan' => $number,
 
-                return true;
-            } else if ($case == 'tan') {
+					'pan_img' => $fileName,
 
-                $data = array(
-                    'seller_id' => $slr_id,
-                    'tan' => $number,
-                    'tan_img' => $fileName,
-                );
+				);
 
-                $this->db->insert('seller_account_information', $data);
+				$this->db->insert('seller_account_information',$data);
 
-                return true;
-            }
+				return true;
+
+			}
+
+			else if($case == 'tin'){
+
+				$data = array(
+
+					'seller_id' => $slr_id,
+
+					'tin' => $number,
+
+					'tin_img' => $fileName,
+
+				);				
+
+				$this->db->insert('seller_account_information',$data);
+
+				return true;
+
+			}
+
+			else if($case == 'tan'){
+
+				$data = array(
+
+					'seller_id' => $slr_id,
+
+					'tan' => $number,
+
+					'tan_img' => $fileName,
+
+				);				
+
+				$this->db->insert('seller_account_information',$data);
+
+				return true;
+
+			}
 //----------------------------sujit start else part for gstin_img & gstin--------------------------//
-            else if ($case == 'gstin') {
+			else if($case == 'gstin'){
 
-                $data = array(
-                    'seller_id' => $slr_id,
-                    'gstin' => $number,
-                    'gstin_img' => $fileName,
-                );
+				$data = array(
 
-                $this->db->insert('seller_account_information', $data);
+					'seller_id' => $slr_id,
 
-                return true;
-            }
+					'gstin' => $number,
+
+					'gstin_img' => $fileName,
+
+				);				
+
+				$this->db->insert('seller_account_information',$data);
+
+				return true;
+
+			}
 //-------------------------------sujit end else part for gstin_img & gstin------------------------//
-        }
-    }
 
-    function update_kyc_details($fileName) {
+		}
 
-        $case = $this->input->post('fldnm');
+	}
 
-        $slr_id = $this->input->post('slr_id');
+	
 
-        $number = $this->input->post('cardno');
+	
 
-        $query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
+	
 
-        $rows = $query->num_rows();
+	
 
-        if ($rows > 0) {
+	
 
-            if ($fileName !== '') {
+	function update_kyc_details($fileName){
 
-                if ($case == 'address_img') {
+		$case = $this->input->post('fldnm');
 
-                    $data = array(
-                        'address_img' => $fileName,
-                    );
+		$slr_id = $this->input->post('slr_id');
 
-                    $this->db->where('seller_id', $slr_id);
+		$number = $this->input->post('cardno');
 
-                    $this->db->update('seller_account_information', $data);
+		$query = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id='$slr_id'");
 
-                    return true;
-                } else if ($case == 'id_proof') {
+		$rows = $query->num_rows();
 
-                    $data = array(
-                        'ID_img' => $fileName,
-                    );
+		if($rows > 0){
 
-                    $this->db->where('seller_id', $slr_id);
+			if($fileName !== ''){
 
-                    $this->db->update('seller_account_information', $data);
+				if($case == 'address_img'){
 
-                    return true;
-                } else if ($case == 'cancle_cheque') {
+					$data = array(
 
-                    $data = array(
-                        'Cheque_img' => $fileName,
-                    );
+						'address_img' => $fileName,
 
-                    $this->db->where('seller_id', $slr_id);
+					);
 
-                    $this->db->update('seller_account_information', $data);
+					$this->db->where('seller_id',$slr_id);
 
-                    return true;
-                }
-            }
-        } else {
+					$this->db->update('seller_account_information',$data);
 
-            if ($case == 'address_img') {
+					return true;
 
-                $data = array(
-                    'seller_id' => $slr_id,
-                    'address_img' => $fileName,
-                );
+				}
 
-                $this->db->insert('seller_account_information', $data);
+				else if($case == 'id_proof'){
 
-                return true;
-            } else if ($case == 'id_proof') {
+					$data = array(
 
-                $data = array(
-                    'seller_id' => $slr_id,
-                    'ID_img' => $fileName,
-                );
+						'ID_img' => $fileName,
 
-                $this->db->insert('seller_account_information', $data);
+					);
 
-                return true;
-            } else if ($case == 'cancle_cheque') {
+					$this->db->where('seller_id',$slr_id);
 
-                $data = array(
-                    'seller_id' => $slr_id,
-                    'Cheque_img' => $fileName,
-                );
+					$this->db->update('seller_account_information',$data);
 
-                $this->db->insert('seller_account_information', $data);
+					return true;
 
-                return true;
-            }
-        }
-    }
+				}
 
-    // Admin adding products for seller starts
+				else if($case == 'cancle_cheque'){
 
-    function get_seller_product_id($table, $field) {
+					$data = array(
 
-        $query = $this->db->query("SELECT MAX($field) AS `maxid` FROM " . $table);
+						'Cheque_img' => $fileName,
 
-        $maxId = $query->row()->maxid;
+					);
 
-        $id = $maxId + 1;
+					$this->db->where('seller_id',$slr_id);
 
-        return $id;
-    }
+					$this->db->update('seller_account_information',$data);
 
-    function insert_new_product($seller_id) {
+					return true;
 
-        $sesson_seller_id = $this->session->userdata('seller_session_id');
+				}
 
-        $seller_product_id = $this->get_seller_product_id('seller_product_setting', 'seller_product_id');
+			}
 
-        $chars = 4;
+		}else{
 
-        $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			if($case == 'address_img'){
 
-        $rand_letter = substr(str_shuffle($letters), 0, $chars);
+				$data = array(
 
-        $sku1 = str_replace(' ', '-', $this->input->post('sku'));
+					'seller_id' => $slr_id,
 
-        $sku = $rand_letter . '-' . $seller_id . '-' . $sku1;
+					'address_img' => $fileName,
 
+				);
 
+				$this->db->insert('seller_account_information',$data);
 
-        $product_setting_data = array(
-            'seller_product_id' => $seller_product_id,
-            'seller_id' => $seller_id,
-            'attribute_set' => $this->input->post('attribute_set'),
-                //'product_type' => $this->input->post('product_type'),
-        );
+				return true;
 
-        $this->db->insert('seller_product_setting', $product_setting_data);
+			}
 
+			else if($case == 'id_proof'){
 
+				$data = array(
 
-        $product_general_data = array(
-            'seller_product_id' => $seller_product_id,
-            'name' => $this->input->post('name'),
-            'sku' => $sku,
-            'description' => $this->input->post('description'),
-            'short_desc' => serialize($this->input->post('seller_prodt_highlit[]')),
-            'weight' => $this->input->post('weight'),
-            'status' => $this->input->post('status'),
-            'product_fr_dt' => $this->input->post('product_from_date'),
-            'product_to_dt' => $this->input->post('product_to_date'),
-            //'visibility' => $this->input->post('visibility'),
-            'manufacture_country' => $this->input->post('country2'),
-            'featured' => $this->input->post('featured'),
-        );
+					'seller_id' => $slr_id,
 
-        $this->db->insert('seller_product_general_info', $product_general_data);
+					'ID_img' => $fileName,
 
+				);				
 
+				$this->db->insert('seller_account_information',$data);
 
-        /* On 26/10/15
+				return true;
 
-          $shipping_fee_type = $this->input->post('shippingfee');
+			}
 
-          if($shipping_fee_type == ''){
+			else if($case == 'cancle_cheque'){
 
-          $shipping_fee = $this->input->post('local_shipng_fee').','.$this->input->post('zonal_shipng_fee').','.$this->input->post('national_shipng_fee');
+				$data = array(
 
-          }else if($shipping_fee_type == 'flat'){
+					'seller_id' => $slr_id,
 
-          $shipping_fee = $this->input->post('flat_shipng_fee');
+					'Cheque_img' => $fileName,
 
-          }else{
+				);				
 
-          $shipping_fee = $this->input->post('shippingfee');
+				$this->db->insert('seller_account_information',$data);
 
-          }
+				return true;
 
-         */
+			}
 
-        $shipping_fee_type = $this->input->post('shipping_typ');
+		}
 
-        if ($shipping_fee_type == 'Free') {
+	}
 
-            $shipping_fee = 0;
+	// Admin adding products for seller starts
 
-            $shipping_fee_amount = 0;
-        } else {
+	function get_seller_product_id($table, $field){
 
-            $shipping_fee = $this->input->post('default_shipng_fee');
+		$query = $this->db->query("SELECT MAX($field) AS `maxid` FROM ".$table);
 
-            $shipping_fee_amount = $this->input->post('hidden_shipping_fee');
-        }
+		$maxId = $query->row()->maxid;
 
+		$id = $maxId+1;
 
+		return $id;
 
-        $product_price_data = array(
-            'seller_product_id' => $seller_product_id,
-            'mrp' => $this->input->post('price'),
-            'special_price' => $this->input->post('special_price'),
-            'price' => $this->input->post('selling_price'),
-            'price_fr_dt' => $this->input->post('price_from_date'),
-            'price_to_dt' => $this->input->post('price_to_date'),
-            'tax_amount' => $this->input->post('vat_cst'),
-            'shipping_fee' => $shipping_fee,
-            'shipping_fee_amount' => $shipping_fee_amount,
-        );
+	}
 
-        $this->db->insert('seller_product_price_info', $product_price_data);
+	
 
+	function insert_new_product($seller_id){
 
+		$sesson_seller_id = $this->session->userdata('seller_session_id');
 
-        /* $img_list = implode(",", $arr_image);
+		$seller_product_id = $this->get_seller_product_id('seller_product_setting', 'seller_product_id');
 
-          $product_image_data = array(
+		$chars = 4;
 
-          'seller_product_id' => $seller_product_id,
+		$letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-          'image' => $img_list,
+		$rand_letter = substr(str_shuffle($letters), 0, $chars);
 
-          );
+		$sku1 = str_replace(' ','-',$this->input->post('sku'));
 
-          $this->db->insert('seller_product_image', $product_image_data); */
+		$sku = $rand_letter.'-'.$seller_id.'-'.$sku1;
 
+		
 
+		$product_setting_data = array(
 
-        $product_meta_data = array(
-            'seller_product_id' => $seller_product_id,
-            'meta_title' => $this->input->post('meta_title'),
-            'meta_keyword' => $this->input->post('meta_keyword'),
-            'meta_description' => $this->input->post('meta_description'),
-        );
+			'seller_product_id' => $seller_product_id,
 
-        $this->db->insert('seller_product_meta_info', $product_meta_data);
+			'seller_id' => $seller_id,
 
+			'attribute_set' => $this->input->post('attribute_set'),
 
+			//'product_type' => $this->input->post('product_type'),
 
+		);
 
+		$this->db->insert('seller_product_setting', $product_setting_data);
 
-        $product_inventory_data = array(
-            'seller_product_id' => $seller_product_id,
-            'quantity' => $this->input->post('qty'),
-                //'max_quantity' => $this->input->post('max_qty_allowed'),
-                //'qty_increment' => $this->input->post('qty_increment'),
-                //'stock_avail' => $this->input->post('stock_avail'),
-        );
+		
 
-        $this->db->insert('seller_product_inventory_info', $product_inventory_data);
+		$product_general_data = array(
 
+			'seller_product_id' => $seller_product_id,
 
+			'name' => $this->input->post('name'),
 
-        $product_categoy_data = array(
-            'seller_product_id' => $seller_product_id,
-            'category' => $this->input->post('subcategory_id'),
-        );
+			'sku' => $sku,
 
-        $this->db->insert('seller_product_category', $product_categoy_data);
+			'description' => $this->input->post('description'),
 
+			'short_desc' => serialize($this->input->post('seller_prodt_highlit[]')),
 
+			'weight' => $this->input->post('weight'),
 
-        //Attribute program start here//
-        //if($seller_id=='296')
+			'status' => $this->input->post('status'),
+
+			'product_fr_dt' => $this->input->post('product_from_date'),
+
+			'product_to_dt' => $this->input->post('product_to_date'),
+
+			//'visibility' => $this->input->post('visibility'),
+
+			'manufacture_country' => $this->input->post('country2'),
+
+			'featured' => $this->input->post('featured'),
+
+		); 
+
+		$this->db->insert('seller_product_general_info', $product_general_data);
+
+		
+
+		/* On 26/10/15
+
+		$shipping_fee_type = $this->input->post('shippingfee');
+
+		if($shipping_fee_type == ''){
+
+			$shipping_fee = $this->input->post('local_shipng_fee').','.$this->input->post('zonal_shipng_fee').','.$this->input->post('national_shipng_fee');
+
+		}else if($shipping_fee_type == 'flat'){
+
+			$shipping_fee = $this->input->post('flat_shipng_fee');
+
+		}else{
+
+			$shipping_fee = $this->input->post('shippingfee');
+
+		}
+
+		*/
+
+		$shipping_fee_type = $this->input->post('shipping_typ');
+
+		if($shipping_fee_type == 'Free'){
+
+			$shipping_fee = 0;
+
+			$shipping_fee_amount = 0;
+
+		}else{
+
+			$shipping_fee = $this->input->post('default_shipng_fee');
+
+			$shipping_fee_amount = $this->input->post('hidden_shipping_fee');
+
+		}
+
+		
+
+		$product_price_data = array(
+
+			'seller_product_id' => $seller_product_id,
+
+			'mrp' => $this->input->post('price'),
+
+			'special_price' => $this->input->post('special_price'),
+
+			'price' => $this->input->post('selling_price'),
+
+			'price_fr_dt' => $this->input->post('price_from_date'),
+
+			'price_to_dt' => $this->input->post('price_to_date'),
+
+			'tax_amount' => $this->input->post('vat_cst'),
+
+			'shipping_fee' => $shipping_fee,
+
+			'shipping_fee_amount' => $shipping_fee_amount,
+
+		);
+
+		$this->db->insert('seller_product_price_info', $product_price_data);
+
+		
+
+		/*$img_list = implode(",", $arr_image);
+
+		$product_image_data = array(
+
+			'seller_product_id' => $seller_product_id,
+
+			'image' => $img_list,
+
+		);
+
+		$this->db->insert('seller_product_image', $product_image_data);*/
+
+				
+
+		$product_meta_data = array(
+
+			'seller_product_id' => $seller_product_id,
+
+			'meta_title' => $this->input->post('meta_title'),
+
+			'meta_keyword' => $this->input->post('meta_keyword'),
+
+			'meta_description' => $this->input->post('meta_description'),
+
+		);
+
+		$this->db->insert('seller_product_meta_info', $product_meta_data);
+
+		
+
+		
+
+		$product_inventory_data = array(
+
+			'seller_product_id' => $seller_product_id,
+
+			'quantity' => $this->input->post('qty'),
+
+			//'max_quantity' => $this->input->post('max_qty_allowed'),
+
+			//'qty_increment' => $this->input->post('qty_increment'),
+
+			//'stock_avail' => $this->input->post('stock_avail'),
+
+		);
+
+		$this->db->insert('seller_product_inventory_info', $product_inventory_data);
+
+		
+
+		$product_categoy_data = array(
+
+			'seller_product_id' => $seller_product_id,
+
+			'category' => $this->input->post('subcategory_id'),
+
+		);
+
+		$this->db->insert('seller_product_category', $product_categoy_data);
+
+		
+
+		//Attribute program start here//
+
+		
+
+		//if($seller_id=='296')
+
 //		{  // $seller_id."in model";exit;
+
 //			$pattr_id = $this->input->post('hidden_attr_id');
+
 //			$pattr_fld_name = $this->input->post('attr_fld_nm');
+
 //			$pattr_value = $this->input->post('attr_value');
+
 //			
+
 //			$ctr_attrid=count($pattr_id);
+
 //			$incrattb=0;
+
 //				
+
 //			foreach($pattr_value as $keyattvl=>$valattrvalue)
+
 //			{
+
 //				if($valattrvalue!='' && $incrattb<$ctr_attrid)
+
 //				{
+
 //					$attr_id[]=$pattr_id[$incrattb];
+
 //					$attr_value[]=$valattrvalue;
+
 //					$attr_fld_name[]=$pattr_fld_name[$incrattb];	
+
 //				}
+
 //				$incrattb++;
+
 //						
+
 //			}
+
 //		}else
-        //{
 
+		
 
+		//{
 
-        $attr_id = $this->input->post('hidden_attr_id');
+				
 
-        $attr_fld_name = $this->input->post('attr_fld_nm');
+			$attr_id = $this->input->post('hidden_attr_id');
 
-        $attr_value = $this->input->post('attr_value');
+			$attr_fld_name = $this->input->post('attr_fld_nm');
 
-        //}
+			$attr_value = $this->input->post('attr_value');
 
+		//}
 
+		
 
-        $attr_id_n_value = array_combine($attr_id, $attr_value);
+		$attr_id_n_value = array_combine($attr_id,$attr_value);
 
-        $attr_id_n_value_length = count($attr_id_n_value);
+		$attr_id_n_value_length = count($attr_id_n_value);
 
+		
 
+		for($i=0; $i<$attr_id_n_value_length; $i++){
 
-        for ($i = 0; $i < $attr_id_n_value_length; $i++) {
+			/*$attr_value = $attr_value[$i];
 
-            /* $attr_value = $attr_value[$i];
+			if($attr_value == ''){
 
-              if($attr_value == ''){
+				$attr_value = NULL;
 
-              $attr_value = NULL;
+			}else{
 
-              }else{
+				$attr_value = $attr_value;
 
-              $attr_value = $attr_value;
+			}*/
 
-              } */
+			
 
+			if($attr_fld_name[$i] == 'Size'){
 
+				if($attr_value[$i] != ''){
 
-            if ($attr_fld_name[$i] == 'Size') {
+					$sz_sql = $this->db->query("SELECT size_id FROM size_master WHERE size_name='$attr_value[$i]'");
 
-                if ($attr_value[$i] != '') {
+					$sz_row = $sz_sql->row();
 
-                    $sz_sql = $this->db->query("SELECT size_id FROM size_master WHERE size_name='$attr_value[$i]'");
+					$sz_id = $sz_row->size_id;
 
-                    $sz_row = $sz_sql->row();
+					$product_sz_attr_data = array(
 
-                    $sz_id = $sz_row->size_id;
+						'sku_id' => $sku,
 
-                    $product_sz_attr_data = array(
-                        'sku_id' => $sku,
-                        'm_size_id' => $sz_id,
-                        'm_size_name' => $attr_value[$i]
-                    );
+						'm_size_id' => $sz_id,
 
-                    $this->db->insert('size_attr', $product_sz_attr_data);
-                }
-            }
+						'm_size_name' => $attr_value[$i]
 
+					);
 
+					$this->db->insert('size_attr',$product_sz_attr_data);
 
-            //progrm for sub size attribute
+				}
 
-            if ($attr_fld_name[$i] == 'Size Type') {
+			}
 
-                if ($attr_value[$i] != '') {
+			
 
-                    $sb_sz_sql = $this->db->query("SELECT size_id FROM size_master WHERE size_name='$attr_value[$i]'");
+			//progrm for sub size attribute
 
-                    $sb_sz_row = $sb_sz_sql->row();
+			if($attr_fld_name[$i] == 'Size Type'){
 
-                    $sb_sz_id = $sb_sz_row->size_id;
+				if($attr_value[$i] != ''){
 
-                    $product_sb_sz_attr_data = array(
-                        'sku_id' => $sku,
-                        's_size_id' => $sb_sz_id,
-                        's_size_name' => $attr_value[$i]
-                    );
+					$sb_sz_sql = $this->db->query("SELECT size_id FROM size_master WHERE size_name='$attr_value[$i]'");
 
+					$sb_sz_row = $sb_sz_sql->row();
 
+					$sb_sz_id = $sb_sz_row->size_id;
 
-                    //program start for checking if sku is exits or not in size_attr table and insert or update
+					$product_sb_sz_attr_data = array(
 
-                    $sq = $this->db->query("SELECT * FROM size_attr WHERE sku_id='$sku'");
+						'sku_id' => $sku,
 
-                    if ($sq->num_rows() > 0) {
+						's_size_id' => $sb_sz_id,
 
-                        $product_sb_sz_attr_data1 = array(
-                            's_size_id' => $sb_sz_id,
-                            's_size_name' => $attr_value[$i]
-                        );
+						's_size_name' => $attr_value[$i]
 
-                        $this->db->where('sku_id', $sku);
+					);
 
-                        $this->db->update('size_attr', $product_sb_sz_attr_data1);
-                    } else {
+					
 
-                        $this->db->insert('size_attr', $product_sb_sz_attr_data);
-                    }
+					//program start for checking if sku is exits or not in size_attr table and insert or update
 
-                    //program end of checking if sku is exits or not in size_attr table and insert or update
-                }
-            }
+					$sq = $this->db->query("SELECT * FROM size_attr WHERE sku_id='$sku'");
 
+					if($sq->num_rows() > 0){
 
+						$product_sb_sz_attr_data1 = array(
 
-            if ($attr_fld_name[$i] == 'Color') {
+							's_size_id' => $sb_sz_id,
 
-                if ($attr_value[$i] != '') {
+							's_size_name' => $attr_value[$i]
 
-                    $clor_sql = $this->db->query("SELECT color_id FROM color_master WHERE clr_name='$attr_value[$i]'");
+						);
 
-                    $clor_row = $clor_sql->row();
+						$this->db->where('sku_id',$sku);
 
-                    $clor_id = $clor_row->color_id;
+						$this->db->update('size_attr',$product_sb_sz_attr_data1);
 
-                    $product_color_attr_data = array(
-                        'sku_id' => $sku,
-                        'color_id' => $clor_id,
-                        'clr_name' => $attr_value[$i]
-                    );
+					}else{
 
-                    $this->db->insert('color_attr', $product_color_attr_data);
-                }
-            }
+						$this->db->insert('size_attr',$product_sb_sz_attr_data);
 
+					}
 
+					//program end of checking if sku is exits or not in size_attr table and insert or update
 
-            $product_attr_data = array(
-                'seller_product_id' => $seller_product_id,
-                'sku' => $sku,
-                'attr_id' => $attr_id[$i],
-                'attr_value' => $attr_value[$i],
-            );
+				}
 
+			}
 
+			
 
-            $this->db->insert('seller_product_attribute_value', $product_attr_data);
-        }
+			if($attr_fld_name[$i] == 'Color'){
 
-        //Attribute program end here//
-        //program start for retrieve image from temp_imge table and insert in product_imag table//
+				if($attr_value[$i] != ''){
 
-        $query = $this->db->query("SELECT imag FROM temp_product_img WHERE seller_id='$seller_id' AND session_id='$sesson_seller_id'");
+					$clor_sql = $this->db->query("SELECT color_id FROM color_master WHERE clr_name='$attr_value[$i]'");
 
-        foreach ($query->result() as $img_row) {
+					$clor_row = $clor_sql->row();
 
-            $imag[] = $img_row->imag;
-        }
+					$clor_id = $clor_row->color_id;
 
-        if ($query->num_rows() > 0) {
+					$product_color_attr_data = array(
 
-            @$image_zero = @$imag[0];
-        } else {
+						'sku_id' => $sku,
 
-            @$image_zero = '';
-        }
+						'color_id' => $clor_id,
 
+						'clr_name' => $attr_value[$i]
 
+					);
 
-        @$image = implode(',', @$imag);
+					$this->db->insert('color_attr',$product_color_attr_data);
 
-        $image_data = array(
-            'seller_product_id' => $seller_product_id,
-            'image' => $image,
-            'catelog_img_url' => 'catalog_' . $image_zero
-        );
+				}
 
-        $this->db->insert('seller_product_image', $image_data);
+			}
 
-        //program end of retrieve image from temp_imge table and insert in product_imag table//
-        //program start for delete image from temp_img table//
+			
 
-        $this->db->where('session_id', $sesson_seller_id);
+			$product_attr_data = array(
 
-        $this->db->where('seller_id', $seller_id);
+				'seller_product_id' => $seller_product_id,
 
-        $this->db->delete('temp_product_img');
+				'sku' => $sku,
 
-        //program end of delete image from temp_img table//	
+				'attr_id' => $attr_id[$i],
 
-        return true;
-    }
+				'attr_value' => $attr_value[$i],
 
-    function insert_product_tmp_img($img_name, $seller_id) {
+			);
 
-        $sesson_seller_id = $this->session->userdata('seller_session_id');
+			
 
-        $img_strng = implode(',', $img_name);
+			$this->db->insert('seller_product_attribute_value',$product_attr_data);
 
-        $data = array(
-            'session_id' => $sesson_seller_id,
-            'seller_id' => $seller_id,
-            'imag' => $img_strng
-        );
+		}
 
-        $this->db->insert('temp_product_img', $data);
-    }
+		//Attribute program end here//
 
-    /* function delete_product_tmp_img($fileName, $seller_id){
+		
 
-      //$seller_id = $this->session->userdata('seller_session_id');
+		//program start for retrieve image from temp_imge table and insert in product_imag table//
 
-      $this->db->where('imag',$fileName);
+		$query = $this->db->query("SELECT imag FROM temp_product_img WHERE seller_id='$seller_id' AND session_id='$sesson_seller_id'");
 
-      $this->db->where('seller_id',$seller_id);
+		foreach($query->result() as $img_row){
 
-      $this->db->delete('temp_product_img');
+			$imag[] = $img_row->imag;
 
-      } */
+		}
 
-    function delete_product_tmp_img($fileName, $seller_id) {
+		if($query->num_rows()>0)
 
-        $sesson_seller_id = $this->session->userdata('seller_session_id');
+		{
 
-        $this->db->where('imag', $fileName);
+			@$image_zero=@$imag[0];	
 
-        $this->db->where('seller_id', $seller_id);
+		}else
 
-        $this->db->where('session_id', $sesson_seller_id);
+		{
 
-        $this->db->delete('temp_product_img');
-    }
+			@$image_zero='';
 
-    function search_existing_product_list($search_tittle, $seller_id) {
+		}
 
-        //$seller_id = $this->session->userdata('seller-session');
-        //$query = $this->db->query("SELECT a.*, b.status, c.*, d.imag, f.category_name 
+		
+
+		@$image = implode(',',@$imag);
+
+		$image_data = array(
+
+			'seller_product_id' => $seller_product_id,
+
+			'image' => $image,
+
+			'catelog_img_url' => 'catalog_'.$image_zero
+
+		);
+
+		$this->db->insert('seller_product_image',$image_data);
+
+		//program end of retrieve image from temp_imge table and insert in product_imag table//
+
+		
+
+		//program start for delete image from temp_img table//
+
+		$this->db->where('session_id',$sesson_seller_id);
+
+		$this->db->where('seller_id',$seller_id);
+
+		$this->db->delete('temp_product_img');
+
+		//program end of delete image from temp_img table//	
+
+		return true;
+
+	}
+
+	
+
+	function insert_product_tmp_img($img_name, $seller_id){
+
+		$sesson_seller_id = $this->session->userdata('seller_session_id');
+
+		$img_strng = implode(',',$img_name);
+
+		$data = array(
+
+			'session_id' => $sesson_seller_id,
+
+			'seller_id' => $seller_id,
+
+			'imag' => $img_strng
+
+		);
+
+		$this->db->insert('temp_product_img',$data);
+
+	}
+
+	
+
+	/* function delete_product_tmp_img($fileName, $seller_id){
+
+		//$seller_id = $this->session->userdata('seller_session_id');
+
+		$this->db->where('imag',$fileName);
+
+		$this->db->where('seller_id',$seller_id);
+
+		$this->db->delete('temp_product_img');
+
+	} */
+
+	
+
+	function delete_product_tmp_img($fileName, $seller_id){
+
+		$sesson_seller_id = $this->session->userdata('seller_session_id');
+
+		$this->db->where('imag',$fileName);
+
+		$this->db->where('seller_id',$seller_id);
+
+		$this->db->where('session_id',$sesson_seller_id);
+
+		$this->db->delete('temp_product_img');
+
+	}
+
+	
+
+	
+
+	function search_existing_product_list($search_tittle, $seller_id){
+
+		//$seller_id = $this->session->userdata('seller-session');
+
+		//$query = $this->db->query("SELECT a.*, b.status, c.*, d.imag, f.category_name 
+
 //		FROM product_general_info a 
+
 //		INNER JOIN product_setting b ON a.product_id = b.product_id
+
 //		INNER JOIN product_image d ON a.product_id = d.product_id
+
 //		INNER JOIN product_category e ON a.product_id = e.product_id
+
 //		INNER JOIN category_indexing f ON e.category_id = f.category_id
+
 //		INNER JOIN product_master c ON a.product_id = c.product_id
+
 //		WHERE (a.name LIKE '$search_tittle%' OR a.name LIKE '%$search_tittle%' OR a.name LIKE '%$search_tittle')
+
 //		AND c.product_id NOT IN (SELECT master_product_id FROM seller_product_master WHERE seller_id = '$seller_id')
+
 //		AND b.status = 'Active' GROUP BY a.product_id");
-        //$search_title1=preg_replace('#"#',' ',preg_replace("/'/",' ',preg_replace('#/#',' ',$search_tittle)));
-        //$search_tittle=substr($search_title1,0,strpos($search_title1,' '));
-        //$query=$this->db->query("select a.*, a.lvl2_name as category_name  from cornjob_productsearch a 		 
+
+		//$search_title1=preg_replace('#"#',' ',preg_replace("/'/",' ',preg_replace('#/#',' ',$search_tittle)));
+
+		//$search_tittle=substr($search_title1,0,strpos($search_title1,' '));
+
+		
+
+		
+
+		//$query=$this->db->query("select a.*, a.lvl2_name as category_name  from cornjob_productsearch a 		 
+
 //		  WHERE a.prod_status='Active' AND a.status='Enabled' AND a.seller_status='Active'
+
 //		 AND (a.name LIKE '$search_tittle%' OR a.name LIKE '%$search_tittle%' OR a.name LIKE '%$search_tittle')
+
 //		AND a.product_id NOT IN (SELECT master_product_id FROM seller_product_master WHERE seller_id = '$seller_id')
+
 //		 group by a.product_id order by a.product_id DESC");
 
+			
 
+			$last_postslash=strripos($search_tittle,'/');
 
-        $last_postslash = strripos($search_tittle, '/');
+			$strpos_afterlastslash=$last_postslash+1;
 
-        $strpos_afterlastslash = $last_postslash + 1;
+			$sub_stringsku=substr($search_tittle,$strpos_afterlastslash);
 
-        $sub_stringsku = substr($search_tittle, $strpos_afterlastslash);
+		 	
 
-
-
-        $query = $this->db->query("select a.*, a.lvl2_name as category_name  from cornjob_productsearch a 		 
+		$query=$this->db->query("select a.*, a.lvl2_name as category_name  from cornjob_productsearch a 		 
 
 		  WHERE a.prod_status='Active' AND a.status='Enabled' AND a.seller_status='Active'
 
 		 AND a.sku='$sub_stringsku'	 group by a.sku ");
 
+		
 
+		$row = $query->num_rows();
 
-        $row = $query->num_rows();
+		if($row > 0){
 
-        if ($row > 0) {
+			return $query->result();
 
-            return $query->result();
-        } else {
+		}
 
-            return false;
-        }
-    }
+		else{
 
-    function getTaxClasses() {
+			return false;
 
-        $query = $this->db->query("SELECT * FROM tax_management");
+		}
 
-        return $query->result();
-    }
+	}
 
-    function getExistProductInfo($data) {
+	function getTaxClasses(){
 
-        $product_id = $data['master_product_id'];
+		$query = $this->db->query("SELECT * FROM tax_management");
 
-        //$seller_id = $data['seller_id']; 
+		return $query->result();
 
-        $query = $this->db->query("SELECT a.*, b.*, c.*, d.*, e.*, f.* 
+	}
+
+	function getExistProductInfo($data){
+
+		$product_id = $data['master_product_id']; 
+
+		//$seller_id = $data['seller_id']; 
+
+		$query = $this->db->query("SELECT a.*, b.*, c.*, d.*, e.*, f.* 
 
 		FROM product_master a
 
@@ -5624,844 +6780,1104 @@ class Seller_model extends CI_Model {
 
 		SELECT id FROM product_master WHERE product_id ='$product_id' GROUP BY product_id ORDER BY id ASC)");
 
-        return $query->result();
-    }
+		return $query->result();
 
-    function getExistProductattributeInfo($prod_id, $skuid) {
+	}
 
-        $query = $this->db->query("SELECT attribut_set FROM product_setting WHERE product_id='$prod_id'");
+	
 
-        $attr_group_id_res = $query->result();
+	function getExistProductattributeInfo($prod_id,$skuid)
 
-        $attr_group_id = $attr_group_id_res[0]->attribut_set;
+	{
 
+$query = $this->db->query("SELECT attribut_set FROM product_setting WHERE product_id='$prod_id'");
 
+		$attr_group_id_res = $query->result();
 
-        $sql = $this->db->query("SELECT * FROM attribute_real WHERE attribute_group_id='$attr_group_id' AND (attribute_field_name='Color' OR attribute_field_name='Size' OR attribute_field_name='Size Type' OR attribute_field_name='Capacity' OR  attribute_field_name='RAM' OR  attribute_field_name='ROM' ) ");
+		$attr_group_id=$attr_group_id_res[0]->attribut_set;
 
-        //$rows = $sql->num_rows();	
+		
 
+		$sql = $this->db->query("SELECT * FROM attribute_real WHERE attribute_group_id='$attr_group_id' AND (attribute_field_name='Color' OR attribute_field_name='Size' OR attribute_field_name='Size Type' OR attribute_field_name='Capacity' OR  attribute_field_name='RAM' OR  attribute_field_name='ROM' ) ");
 
+		//$rows = $sql->num_rows();	
 
-        return $sql->result();
-    }
+		
 
-    function getProductAttrValues1($sku) {
+			return $sql->result();
 
-        $query1 = $this->db->query("SELECT * FROM product_attribute_value WHERE sku='$sku' ");
+		
 
-        $row = $query1->num_rows();
+	}
 
-        if ($row > 0) {
+	
 
-            return $query1->result();
-        } else {
+	function getProductAttrValues1($sku){
 
-            return false;
-        }
-    }
+		$query1 = $this->db->query("SELECT * FROM product_attribute_value WHERE sku='$sku' ");
 
-    function getProductMastersku($sku) {
+		$row = $query1->num_rows();
 
-        $query = $this->db->query("SELECT * from product_master WHERE sku='$sku'");
+		if($row > 0){
 
-        $row = $query->num_rows();
+			return $query1->result();
 
-        if ($row > 0) {
+		}else{
 
-            return true;
-        } else {
+			return false;
 
-            return false;
-        }
-    }
+		}
 
-    function getSellerGeneralsku($sku) {
+	}
 
-        $query = $this->db->query("SELECT * from seller_product_general_info WHERE sku='$sku'");
+	
 
-        $row = $query->num_rows();
+	function getProductMastersku($sku){
 
-        if ($row > 0) {
+		$query = $this->db->query("SELECT * from product_master WHERE sku='$sku'");
 
-            return true;
-        } else {
+		$row = $query->num_rows();
 
-            return false;
-        }
-    }
+		if($row > 0){
 
-    function getSellerMastersku($sku) {
+			return true;
 
-        $query = $this->db->query("SELECT * from seller_product_master WHERE sku='$sku'");
+		}
 
-        $row = $query->num_rows();
+		else{
 
-        if ($row > 0) {
+			return false;
 
-            return true;
-        } else {
+		}
 
-            return false;
-        }
-    }
+	}
 
-    function get_seller_productid($table, $field) {
+	function getSellerGeneralsku($sku){
 
-        $query = $this->db->query("SELECT MAX($field) AS `maxid` FROM " . $table);
+		$query = $this->db->query("SELECT * from seller_product_general_info WHERE sku='$sku'");
 
-        $maxId = $query->row()->maxid;
+		$row = $query->num_rows();
 
-        $id = $maxId + 1;
+		if($row > 0){
 
-        return $id;
-    }
+			return true;
 
-    /* 	
+		}
 
-      //comented by santanu dt:26-09-2016
+		else{
 
+			return false;
 
+		}
 
-      function insert_existing_product($seller_id){
+	}
 
-      $seller_product_id = $this->get_seller_productid('seller_product_master', 'seller_exist_product_id');
+	function getSellerMastersku($sku){
 
+		$query = $this->db->query("SELECT * from seller_product_master WHERE sku='$sku'");
 
+		$row = $query->num_rows();
 
+		if($row > 0){
 
+			return true;
 
-      $shipping_fee_type = $this->input->post('shipping_typ');
+		}
 
-      if($shipping_fee_type == 'Free'){
+		else{
 
-      $shipping_fee = 0;
+			return false;
 
-      $shipping_fee_amount = 0;
+		}
 
-      }else{
+	}
 
-      $shipping_fee = $this->input->post('default_shipng_fee');
+	
 
-      $shipping_fee_amount = $this->input->post('hidden_shipping_fee');
+	function get_seller_productid($table, $field){
 
-      }
+		$query = $this->db->query("SELECT MAX($field) AS `maxid` FROM ".$table);
 
+		$maxId = $query->row()->maxid;
 
+		$id = $maxId+1;
 
+		return $id;
 
+	}
 
-      $chars = 4;
+/*	
 
-      $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	//comented by santanu dt:26-09-2016
 
-      $rand_letter = substr(str_shuffle($letters), 0, $chars);
+	
 
-      $sku1 = str_replace(' ','-',$this->input->post('sku'));
+	function insert_existing_product($seller_id){ 
 
-      $sku_modfied = $rand_letter.'-'.$seller_id.'-'.$sku1;
+		$seller_product_id = $this->get_seller_productid('seller_product_master', 'seller_exist_product_id');
 
+		
 
+		
 
-      $exist_product_data = array(
+		$shipping_fee_type = $this->input->post('shipping_typ');
 
-      'seller_id' => $seller_id,
+		if($shipping_fee_type == 'Free'){
 
-      'seller_exist_product_id' => $seller_product_id,
+			$shipping_fee = 0;
 
-      'master_product_id' => $this->input->post('hidden_master_productID'),
+			$shipping_fee_amount = 0;
 
-      'sku' => $sku_modfied,
+		}else{
 
-      'set_product_as_nw_frm_dt' => $this->input->post('product_fr_date'),
+			$shipping_fee = $this->input->post('default_shipng_fee');
 
-      'set_product_as_nw_to_dt' => $this->input->post('product_to_date'),
+			$shipping_fee_amount = $this->input->post('hidden_shipping_fee');
 
-      'status' => $this->input->post('status'),
+		}
 
-      'manufacture_country' => $this->input->post('country2'),
+		
 
-      'mrp' => $this->input->post('price'),
+		
 
-      'price' => $this->input->post('selling_price'),
+		$chars = 4;
 
-      'special_price' => $this->input->post('special_price'),
+		$letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-      'special_pric_from_dt' => $this->input->post('price_from_date'),
+		$rand_letter = substr(str_shuffle($letters), 0, $chars);
 
-      'special_pric_to_dt' => $this->input->post('price_to_date'),
+		$sku1 = str_replace(' ','-',$this->input->post('sku'));
 
-      'tax_amount' => $this->input->post('vat_cst'),
+		$sku_modfied = $rand_letter.'-'.$seller_id.'-'.$sku1;
 
-      'quantity' => $this->input->post('qty'),
+		
 
-      'shipping_fee' => $shipping_fee,
+		$exist_product_data = array(
 
-      'shipping_fee_amount' => $shipping_fee_amount,
+			'seller_id' => $seller_id,
 
-      );
+			'seller_exist_product_id' => $seller_product_id,
 
-      $query = $this->db->insert('seller_product_master', $exist_product_data);
+			'master_product_id' => $this->input->post('hidden_master_productID'),
 
+			'sku' => $sku_modfied,
 
+			'set_product_as_nw_frm_dt' => $this->input->post('product_fr_date'),
 
+			'set_product_as_nw_to_dt' => $this->input->post('product_to_date'),
 
+			'status' => $this->input->post('status'),
 
-      if($query){
+			'manufacture_country' => $this->input->post('country2'),
 
-      return true;
+			'mrp' => $this->input->post('price'),
 
-      }else{
+			'price' => $this->input->post('selling_price'),
 
-      return false;
+			'special_price' => $this->input->post('special_price'),
 
-      }
+			'special_pric_from_dt' => $this->input->post('price_from_date'),
 
-      }
+			'special_pric_to_dt' => $this->input->post('price_to_date'),
 
-     */
+			'tax_amount' => $this->input->post('vat_cst'),
 
-    function insert_existing_product($seller_id) {
+			'quantity' => $this->input->post('qty'),
 
-        $seller_product_id = $this->get_seller_productid('seller_product_master', 'seller_exist_product_id');
+			'shipping_fee' => $shipping_fee,
 
-        $shipping_fee_type = $this->input->post('shipping_typ');
+			'shipping_fee_amount' => $shipping_fee_amount,
 
-        if ($shipping_fee_type == 'Free') {
+		);
 
-            $shipping_fee = 0;
+		$query = $this->db->insert('seller_product_master', $exist_product_data);
 
-            $shipping_fee_amount = 0;
-        } else {
+		
 
-            $shipping_fee = $this->input->post('default_shipng_fee');
+		
 
-            $shipping_fee_amount = $this->input->post('hidden_shipping_fee');
-        }
+		if($query){
 
+			return true;
 
-        $chars = 4;
+		}else{
 
-        $letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+			return false;
 
-        $rand_letter = substr(str_shuffle($letters), 0, $chars);
+		}
 
-        $sku1 = str_replace(' ', '-', $this->input->post('sku'));
+	}
 
-        $sku_modfied = $rand_letter . '-' . $seller_id . '-' . $sku1;
+	*/
 
+	
 
-        $exist_product_data = array(
-            'seller_id' => $seller_id,
-            'seller_exist_product_id' => $seller_product_id,
-            'master_product_id' => $this->input->post('hidden_master_productID'),
-            'sku' => $sku_modfied,
-            'set_product_as_nw_frm_dt' => $this->input->post('product_fr_date'),
-            'set_product_as_nw_to_dt' => $this->input->post('product_to_date'),
-            'status' => $this->input->post('status'),
-            'manufacture_country' => $this->input->post('country2'),
-            'mrp' => $this->input->post('price'),
-            'price' => $this->input->post('selling_price'),
-            'special_price' => $this->input->post('special_price'),
-            'special_pric_from_dt' => $this->input->post('price_from_date'),
-            'special_pric_to_dt' => $this->input->post('price_to_date'),
-            'tax_amount' => $this->input->post('vat_cst'),
-            'quantity' => $this->input->post('qty'),
-            'shipping_fee' => $shipping_fee,
-            'shipping_fee_amount' => $shipping_fee_amount,
-            'product_type' => $this->input->post('prod_type')
-        );
+	function insert_existing_product($seller_id){
 
-        $query = $this->db->insert('seller_product_master', $exist_product_data);
+		$seller_product_id = $this->get_seller_productid('seller_product_master', 'seller_exist_product_id');		
 
-        //----------------------Attribute program start here--------------------------//
-        //$attr_id = $this->input->post('hidden_attr_id');
+		$shipping_fee_type = $this->input->post('shipping_typ');
+
+		if($shipping_fee_type == 'Free'){
+
+			$shipping_fee = 0;
+
+			$shipping_fee_amount = 0;
+
+		}else{
+
+			$shipping_fee = $this->input->post('default_shipng_fee');
+
+			$shipping_fee_amount = $this->input->post('hidden_shipping_fee');
+
+		}
+
+
+		$chars = 4;
+
+		$letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+		$rand_letter = substr(str_shuffle($letters), 0, $chars);
+
+		$sku1 = str_replace(' ','-',$this->input->post('sku'));
+
+		$sku_modfied = $rand_letter.'-'.$seller_id.'-'.$sku1;
+		
+
+		$exist_product_data = array(
+
+			'seller_id' => $seller_id,
+
+			'seller_exist_product_id' => $seller_product_id,
+
+			'master_product_id' => $this->input->post('hidden_master_productID'),
+
+			'sku' => $sku_modfied,
+
+			'set_product_as_nw_frm_dt' => $this->input->post('product_fr_date'),
+
+			'set_product_as_nw_to_dt' => $this->input->post('product_to_date'),
+
+			'status' => $this->input->post('status'),
+
+			'manufacture_country' => $this->input->post('country2'),
+
+			'mrp' => $this->input->post('price'),
+
+			'price' => $this->input->post('selling_price'),
+
+			'special_price' => $this->input->post('special_price'),
+
+			'special_pric_from_dt' => $this->input->post('price_from_date'),
+
+			'special_pric_to_dt' => $this->input->post('price_to_date'),
+
+			'tax_amount' => $this->input->post('vat_cst'),
+
+			'quantity' => $this->input->post('qty'),
+
+			'shipping_fee' => $shipping_fee,
+
+			'shipping_fee_amount' => $shipping_fee_amount,
+
+			'product_type'=>$this->input->post('prod_type')
+
+		);
+
+		$query = $this->db->insert('seller_product_master', $exist_product_data);
+
+		//----------------------Attribute program start here--------------------------//
+
+		
+
+		//$attr_id = $this->input->post('hidden_attr_id');
+
 //		$attr_fld_name = $this->input->post('attr_fld_nm');
+
 //		$attr_value = $this->input->post('attr_value');
+
 //		$attr_id_n_value = array_combine($attr_id,$attr_value);
+
 //		$attr_id_n_value_length = count($attr_id_n_value);
 
+		
 
+		
 
+			/*$attr_value = $attr_value[$i];
 
+			if($attr_value == ''){
 
-        /* $attr_value = $attr_value[$i];
+				$attr_value = NULL;
 
-          if($attr_value == ''){
+			}else{
 
-          $attr_value = NULL;
+				$attr_value = $attr_value;
 
-          }else{
+			}*/
 
-          $attr_value = $attr_value;
+			$size_nm=$this->input->post('sizeattr_value');
 
-          } */
+			if($size_nm!='')
+			{
+					$sz_sql = $this->db->query("SELECT size_id FROM size_master WHERE size_name='$size_nm'");
 
-        $size_nm = $this->input->post('sizeattr_value');
+					$sz_row = $sz_sql->row();
 
-        if ($size_nm != '') {
-            $sz_sql = $this->db->query("SELECT size_id FROM size_master WHERE size_name='$size_nm'");
+					$sz_id = $sz_row->size_id;
 
-            $sz_row = $sz_sql->row();
+					$product_sz_attr_data = array(
 
-            $sz_id = $sz_row->size_id;
+						'sku_id' => $sku_modfied,
 
-            $product_sz_attr_data = array(
-                'sku_id' => $sku_modfied,
-                'm_size_id' => $sz_id,
-                'm_size_name' => $size_nm
-            );
+						'm_size_id' => $sz_id,
 
-            $this->db->insert('size_attr', $product_sz_attr_data);
-        } // if size not blank condition end
-        //progrm for sub size attribute
+						'm_size_name' => $size_nm
 
+					);
 
-        $sub_size = $this->input->post('attr_subsize');
+					$this->db->insert('size_attr',$product_sz_attr_data);
 
-        if ($sub_size != '') {
-            $sb_sz_sql = $this->db->query("SELECT size_id FROM size_master WHERE size_name='$sub_size'");
+			} // if size not blank condition end
 
-            $sb_sz_row = $sb_sz_sql->row();
 
-            $sb_sz_id = $sb_sz_row->size_id;
+			//progrm for sub size attribute
 
-            $product_sb_sz_attr_data = array(
-                'sku_id' => $sku_modfied,
-                's_size_id' => $sb_sz_id,
-                's_size_name' => $sub_size
-            );
 
-            //program start for checking if sku is exits or not in size_attr table and insert or update
+				$sub_size=$this->input->post('attr_subsize');
 
-            $sq = $this->db->query("SELECT * FROM size_attr WHERE sku_id='$sku1'");
+				if($sub_size!='')
+				{
+					$sb_sz_sql = $this->db->query("SELECT size_id FROM size_master WHERE size_name='$sub_size'");
 
-            if ($sq->num_rows() > 0) {
+					$sb_sz_row = $sb_sz_sql->row();
 
-                $product_sb_sz_attr_data1 = array(
-                    's_size_id' => $sb_sz_id,
-                    's_size_name' => $sub_size
-                );
+					$sb_sz_id = $sb_sz_row->size_id;
 
-                $this->db->where('sku_id', $sku_modfied);
+					$product_sb_sz_attr_data = array(
 
-                $this->db->update('size_attr', $product_sb_sz_attr_data1);
-            } else {
+						'sku_id' => $sku_modfied,
 
-                $this->db->insert('size_attr', $product_sb_sz_attr_data);
-            }
+						's_size_id' => $sb_sz_id,
 
-            //program end of checking if sku is exits or not in size_attr table and insert or update
-        } // subsize not blank end
+						's_size_name' => $sub_size
 
-        $color_attrb = $this->input->post('attr_color');
+					);
 
-        if ($color_attrb != '') {
-            $clor_sql = $this->db->query("SELECT color_id FROM color_master WHERE clr_name='$color_attrb'");
+					//program start for checking if sku is exits or not in size_attr table and insert or update
 
-            $clor_row = $clor_sql->row();
+					$sq = $this->db->query("SELECT * FROM size_attr WHERE sku_id='$sku1'");
 
-            $clor_id = $clor_row->color_id;
+					if($sq->num_rows() > 0){
 
-            $product_color_attr_data = array(
-                'sku_id' => $sku_modfied,
-                'color_id' => $clor_id,
-                'clr_name' => $color_attrb
-            );
+						$product_sb_sz_attr_data1 = array(
 
-            $this->db->insert('color_attr', $product_color_attr_data);
-        }
+							's_size_id' => $sb_sz_id,
 
-        $attr_id = array();
+							's_size_name' => $sub_size
 
-        $attr_value = array();
+						);
 
+						$this->db->where('sku_id',$sku_modfied);
 
-        $capacity_attrid = $this->input->post('hidden_attrcapacity_id');
+						$this->db->update('size_attr',$product_sb_sz_attr_data1);
 
-        $capacity_attrvalue = $this->input->post('cpacity');
+					}else{
 
-        if ($capacity_attrid != '' && $attr_value != '') {
-            array_push($attr_id, $capacity_attrid);
+						$this->db->insert('size_attr',$product_sb_sz_attr_data);
 
-            array_push($attr_value, $capacity_attrvalue);
-        }
+					}
 
-        $attrram_id = $this->input->post('hidden_attrram_id');
+					//program end of checking if sku is exits or not in size_attr table and insert or update
 
-        $ram_attrvalue = $this->input->post('ram_memory');
+				
 
-        if ($attrram_id != '' && $ram_attrvalue != '') {
-            array_push($attr_id, $attrram_id);
+				} // subsize not blank end
 
-            array_push($attr_value, $ram_attrvalue);
-        }
+				$color_attrb=$this->input->post('attr_color');
 
+				if($color_attrb!='')
+				{
+					$clor_sql = $this->db->query("SELECT color_id FROM color_master WHERE clr_name='$color_attrb'");
 
-        $attrrom_id = $this->input->post('hidden_attrrom_id');
+					$clor_row = $clor_sql->row();
 
-        $rom_memoryattrvalue = $this->input->post('rom_memory');
+					$clor_id = $clor_row->color_id;
 
+					$product_color_attr_data = array(
 
-        if ($attrrom_id != '' && $rom_memoryattrvalue != '') {
-            array_push($attr_id, $attrrom_id);
+						'sku_id' => $sku_modfied,
 
-            array_push($attr_value, $rom_memoryattrvalue);
-        }
+						'color_id' => $clor_id,
 
-        $attr_idcount = count($attr_id);
+						'clr_name' => $color_attrb
 
-        $attr_valuecount = count($attr_value);
+					);
 
+					$this->db->insert('color_attr',$product_color_attr_data);
 
-        if ($attr_idcount != 0 && $attr_valuecount != 0) {
-            $i = 0;
+				}
 
-            foreach ($attr_id as $attrkey => $attrval) {
-                $product_attr_data = array(
-                    'seller_product_id' => $seller_product_id,
-                    'sku' => $sku_modfied,
-                    'attr_id' => $attr_id[$i],
-                    'attr_value' => $attr_value[$i],
-                );
+			$attr_id=array();
 
+			$attr_value=array();
 
-                $this->db->insert('seller_product_attribute_value', $product_attr_data);
 
-                $i++;
-            }
-        }
+			$capacity_attrid=$this->input->post('hidden_attrcapacity_id');
 
-        //----------------------Attribute program end here---------------------------//
-        //-----------Product image insert start-------------------------------------//
+			$capacity_attrvalue=$this->input->post('cpacity');
 
-        $sesson_seller_id = $this->session->userdata('seller_session_id');
+			if($capacity_attrid!='' && $attr_value!='')
+			{
+					array_push($attr_id,$capacity_attrid);
 
-        $query = $this->db->query("SELECT imag FROM temp_product_img WHERE seller_id='$seller_id' AND session_id='$sesson_seller_id'");
+					array_push($attr_value,$capacity_attrvalue);
 
-        if ($query->num_rows() > 0) {
-            foreach ($query->result() as $img_row) {
+			}
 
-                $imag[] = $img_row->imag;
-            }
+			$attrram_id=$this->input->post('hidden_attrram_id');
 
-            $image = implode(',', $imag);
+			$ram_attrvalue=$this->input->post('ram_memory');
 
-            $image_data = array(
-                'seller_extproduct_id' => $seller_product_id,
-                'image' => $image,
-                'catelog_img_url' => 'catalog_' . $imag[0]
-            );
+			if($attrram_id!='' && $ram_attrvalue!='')
+			{
+					array_push($attr_id,$attrram_id);
 
-            $this->db->insert('seller_existingproduct_image', $image_data);
+					array_push($attr_value,$ram_attrvalue);
+			}
 
-            //program end of retrieve image from temp_imge table and insert in product_imag table//
-            //program start for delete image from temp_img table//
 
-            $this->db->where('session_id', $sesson_seller_id);
+			$attrrom_id=$this->input->post('hidden_attrrom_id');
 
-            $this->db->where('seller_id', $seller_id);
+			$rom_memoryattrvalue=$this->input->post('rom_memory');
 
-            $this->db->delete('temp_product_img');
-        } // temp image table check condtion end
-        //------------product image insert end -------------------------------------//
 
-        if ($query) {
+			if($attrrom_id!='' && $rom_memoryattrvalue!='')
+			{
+					array_push($attr_id,$attrrom_id);
 
-            return true;
-        } else {
+					array_push($attr_value,$rom_memoryattrvalue);
 
-            return false;
-        }
-    }
+			}
 
-    function getCategories() {
+			$attr_idcount=count($attr_id);
 
-        $query = $this->db->query("SELECT a. * FROM category_indexing a INNER JOIN category_master b 
+			$attr_valuecount=count($attr_value);
+
+
+			if($attr_idcount!=0 && $attr_valuecount!=0 )
+			{	$i=0;
+
+				foreach($attr_id as $attrkey=>$attrval)
+				{
+					$product_attr_data = array(
+
+						'seller_product_id' => $seller_product_id,
+
+						'sku' => $sku_modfied,
+
+						'attr_id' => $attr_id[$i],
+
+						'attr_value' => $attr_value[$i],
+
+					);
+
+
+					$this->db->insert('seller_product_attribute_value',$product_attr_data);
+
+					$i++;
+				}
+		}
+
+		//----------------------Attribute program end here---------------------------//
+
+
+		//-----------Product image insert start-------------------------------------//
+
+			$sesson_seller_id = $this->session->userdata('seller_session_id');
+
+			$query = $this->db->query("SELECT imag FROM temp_product_img WHERE seller_id='$seller_id' AND session_id='$sesson_seller_id'");
+
+			if($query->num_rows()>0)
+			{
+				foreach($query->result() as $img_row){
+
+					$imag[] = $img_row->imag;
+				}
+
+				$image = implode(',',$imag);
+
+				$image_data = array(
+
+					'seller_extproduct_id' => $seller_product_id,
+
+					'image' => $image,
+
+					'catelog_img_url' => 'catalog_'.$imag[0]
+
+				);
+
+				$this->db->insert('seller_existingproduct_image',$image_data);
+
+				//program end of retrieve image from temp_imge table and insert in product_imag table//
+
+				
+
+				//program start for delete image from temp_img table//
+
+				$this->db->where('session_id',$sesson_seller_id);
+
+				$this->db->where('seller_id',$seller_id);
+
+				$this->db->delete('temp_product_img');				
+
+			} // temp image table check condtion end
+
+		//------------product image insert end -------------------------------------//
+
+		if($query){
+
+			return true;
+
+		}else{
+
+			return false;
+
+		}
+
+	}
+
+	
+
+	function getCategories(){
+
+		$query = $this->db->query("SELECT a. * FROM category_indexing a INNER JOIN category_master b 
 
 		ON a.category_id = b.category_id WHERE b.active_status = 'yes' AND a.parent_id = 0 ");
 
-        return $query->result();
-    }
+		return $query->result();
 
-    // Admin adding products for seller End
+	}
 
+	
 
+	// Admin adding products for seller End
 
+	
 
+	
 
-    function select_courierlist() {
+	function select_courierlist()
 
-        $query = $this->db->query("select * from courier_info order by courier_id desc");
+	{
 
-        $row_courier = $query->result();
+		$query=$this->db->query("select * from courier_info order by courier_id desc");
 
-        return $row_courier;
-    }
+		$row_courier=$query->result();
 
-    function update_courierinfo() {
+		return $row_courier;	
 
-        $courier_id = $this->input->post('courier_id');
+	}
 
-        $courier_nm = $this->input->post('edt_courier_name');
+	
 
-        $courier_url = $this->input->post('edt_courier_url');
+	function update_courierinfo()
 
+	{
 
+		$courier_id=$this->input->post('courier_id');
 
-        $this->db->query("update courier_info set courier_name='$courier_nm' , courier_url='$courier_url' where courier_id='$courier_id' ");
-    }
+		$courier_nm=$this->input->post('edt_courier_name');
 
-    function insert_newcourierinfo() {
+		$courier_url=$this->input->post('edt_courier_url');	
 
+		
 
+		$this->db->query("update courier_info set courier_name='$courier_nm' , courier_url='$courier_url' where courier_id='$courier_id' ");
 
-        $courier_nm = $this->input->post('new_courier_name');
+	}
 
-        $courier_url = $this->input->post('new_courier_url');
+	
 
+	function insert_newcourierinfo()
 
+	{
 
-        $data = array(
-            'courier_name' => $courier_nm,
-            'courier_url' => $courier_url
-        );
+			
 
-        $this->db->insert('courier_info', $data);
-    }
+			$courier_nm=$this->input->post('new_courier_name');
 
-    function select_SellerTC() {
+			$courier_url=$this->input->post('new_courier_url');	
 
-        $query_tc = $this->db->query("select * from seller_termsconditions");
+			
 
-        $row_tc = $query_tc->result();
+			$data=array(
 
+				
 
+				'courier_name'=>$courier_nm,
 
-        return $row_tc;
-    }
+				'courier_url'=>$courier_url
 
-    function getSellerTC_ForEdit() {
+			);
 
-        $tc_content = $this->input->post('page_content');
+			$this->db->insert('courier_info',$data);
 
-        $this->db->query("update seller_termsconditions set tc_content='$tc_content' ");
-    }
+			
 
-    function retrieve_sales_report($limit, $start) {
+	}
 
-        $query = $this->db->query("SELECT a.order_id,a.seller_id, count(a.seller_id) as tot_order, b.business_name
+	
+
+	function select_SellerTC()
+
+	{
+
+		$query_tc=$this->db->query("select * from seller_termsconditions");
+
+		$row_tc=$query_tc->result();
+
+		
+
+		return 	$row_tc;
+
+	
+
+	}
+
+	function getSellerTC_ForEdit()
+
+	{
+
+		$tc_content=$this->input->post('page_content');
+
+		$this->db->query("update seller_termsconditions set tc_content='$tc_content' ");	
+
+	}
+
+	
+
+	
+
+	
+
+	
+
+	function retrieve_sales_report($limit,$start){
+
+			$query = $this->db->query("SELECT a.order_id,a.seller_id, count(a.seller_id) as tot_order, b.business_name
 
 			FROM ordered_product_from_addtocart a INNER JOIN seller_account_information b ON a.seller_id = b.seller_id 
 
-			GROUP BY b.seller_id LIMIT " . $start . "," . $limit . "");
+			GROUP BY b.seller_id LIMIT ".$start.",".$limit."");
 
+	
 
+	return $query;
 
-        return $query;
-    }
+	}
 
-    function retrive_sales_details_count() {
+	
 
-        $query = $this->db->query("SELECT a.seller_id
+	
+
+	function retrive_sales_details_count(){
+
+		$query = $this->db->query("SELECT a.seller_id
 
 			FROM ordered_product_from_addtocart a INNER JOIN seller_account_information b ON a.seller_id = b.seller_id 
 
 			GROUP BY b.seller_id");
 
-        if ($query->num_rows() > 0) {
+		if($query->num_rows() > 0){
 
-            return $query->num_rows();
-        } else {
+			return $query->num_rows();
 
-            return false;
-        }
-    }
+		}else{
 
-    function search_seller_name() {
+			return false;
 
-        $seller = $this->input->post('seller');
+		}
 
-        $query = $this->db->query("SELECT b.business_name FROM ordered_product_from_addtocart AS a INNER JOIN seller_account_information AS b ON a.seller_id = b.seller_id where  b.business_name LIKE '$seller%' GROUP BY b.business_name");
+	}
 
-        return $query;
-    }
+	
 
-    function export_salereport($limit, $start) {
+	
 
-        $query = $this->db->query("SELECT a.order_id,a.seller_id, count(a.seller_id) as tot_order, b.business_name
+	
+
+	function search_seller_name(){
+
+		$seller = $this->input->post('seller');
+
+		$query = $this->db->query("SELECT b.business_name FROM ordered_product_from_addtocart AS a INNER JOIN seller_account_information AS b ON a.seller_id = b.seller_id where  b.business_name LIKE '$seller%' GROUP BY b.business_name");
+
+		return $query;
+
+	}
+
+	
+
+	
+
+	function export_salereport($limit,$start)
+
+	{
+
+		$query = $this->db->query("SELECT a.order_id,a.seller_id, count(a.seller_id) as tot_order, b.business_name
 
 			FROM ordered_product_from_addtocart a INNER JOIN seller_account_information b ON a.seller_id = b.seller_id 
 
-			GROUP BY b.seller_id LIMIT " . $start . "," . $limit . "");
+			GROUP BY b.seller_id LIMIT ".$start.",".$limit."");
 
+		
 
+		
 
+		return $query;	
 
+	}
 
-        return $query;
-    }
+	
 
-    function select_filter_sales_count() {
+	function select_filter_sales_count(){
 
-        $seller = $_REQUEST['seller'];
+				$seller = $_REQUEST['seller'];	
 
-        /* $totl_order = $_REQUEST['totl_order'];
+				/*$totl_order = $_REQUEST['totl_order'];
 
-          $sale = $_REQUEST['sale'];
+				$sale = $_REQUEST['sale'];	
 
-          $cancel = $_REQUEST['cancel'];
+				$cancel = $_REQUEST['cancel'];
 
-          $return = $_REQUEST['return'];
+				$return = $_REQUEST['return'];
 
-          $replacement = $_REQUEST['replacement']; */
+				$replacement = $_REQUEST['replacement'];*/
 
-        $condition = "";
+				$condition = "";
 
+				
 
+				
 
+				
 
+				if($seller != ""){
 
+				$condition .= "b.business_name LIKE '%$seller%' " ;
 
+				$query = $this->db->query("SELECT a.seller_id FROM ordered_product_from_addtocart AS a INNER JOIN seller_account_information AS b ON a.seller_id = b.seller_id 
 
-        if ($seller != "") {
+			where ".$condition." ");
 
-            $condition .= "b.business_name LIKE '%$seller%' ";
+						return $query->num_rows();
 
-            $query = $this->db->query("SELECT a.seller_id FROM ordered_product_from_addtocart AS a INNER JOIN seller_account_information AS b ON a.seller_id = b.seller_id 
+					}
 
-			where " . $condition . " ");
+				
 
-            return $query->num_rows();
-        }
+					
 
+				if($condition == ""){
 
+					$query = $this->db->query("SELECT a.seller_id FROM ordered_product_from_addtocart AS a INNER JOIN seller_account_information AS b ON a.seller_id = b.seller_id ");
 
+					return $query->num_rows();
 
+					}
 
-        if ($condition == "") {
+				}
 
-            $query = $this->db->query("SELECT a.seller_id FROM ordered_product_from_addtocart AS a INNER JOIN seller_account_information AS b ON a.seller_id = b.seller_id ");
+				
 
-            return $query->num_rows();
-        }
-    }
+				
 
-    function select_filtered_sales($limit, $start) {
+	
 
-        $seller = $_REQUEST['seller'];
+	
 
-        /* $totl_order = $_REQUEST['totl_order'];
+	
 
-          $sale = $_REQUEST['sale'];
+	
 
-          $cancel = $_REQUEST['cancel'];
+	function select_filtered_sales($limit,$start){
 
-          $return = $_REQUEST['return'];
+				$seller = $_REQUEST['seller'];	
 
-          $replacement = $_REQUEST['replacement']; */
+				/*$totl_order = $_REQUEST['totl_order'];
 
-        $condition = "";
+				$sale = $_REQUEST['sale'];	
 
+				$cancel = $_REQUEST['cancel'];
 
+				$return = $_REQUEST['return'];
 
+				$replacement = $_REQUEST['replacement'];*/
 
+				$condition = "";
 
+				
 
+				
 
-        if ($seller != "") {
+				
 
-            $condition .= "b.business_name LIKE '%$seller%' ";
+				if($seller != ""){
 
-            $query = $this->db->query("SELECT a.order_id,a.seller_id, count(a.seller_id) as tot_order, b.business_name
+				$condition .= "b.business_name LIKE '%$seller%' " ;
 
-			FROM ordered_product_from_addtocart a INNER JOIN seller_account_information b ON a.seller_id = b.seller_id WHERE " . $condition . "
+				$query = $this->db->query("SELECT a.order_id,a.seller_id, count(a.seller_id) as tot_order, b.business_name
+
+			FROM ordered_product_from_addtocart a INNER JOIN seller_account_information b ON a.seller_id = b.seller_id WHERE ".$condition."
 
 			GROUP BY b.seller_id
 
-			  LIMIT " . $start . " , " . $limit . "");
+			  LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
+						return $query;
 
+					}
 
+				
 
+					
 
+				if($condition == ""){
 
-        if ($condition == "") {
-
-            $query = $this->db->query("SELECT a.seller_id, count( a.seller_id ) as tot_order, b.business_name, a.product_order_status,count(a.product_order_status) as sale
+					$query = $this->db->query("SELECT a.seller_id, count( a.seller_id ) as tot_order, b.business_name, a.product_order_status,count(a.product_order_status) as sale
 
 			FROM ordered_product_from_addtocart a INNER JOIN seller_account_information b ON a.seller_id = b.seller_id 
 
-			GROUP BY a.seller_id, b.business_name LIMIT " . $start . "," . $limit . "");
+			GROUP BY a.seller_id, b.business_name LIMIT ".$start.",".$limit."");
 
-            return $query;
-        }
-    }
+					return $query;
 
-    function retrive_slr_details_count() {
+					}
 
-        $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id GROUP BY b.business_name ORDER BY a.register_date DESC ");
+				}
 
-        if ($query->num_rows() > 0) {
+				
 
-            return $query->num_rows();
-        } else {
+				
 
-            return false;
-        }
-    }
+				
 
-    function retrieve_slr_report($limit, $start) {
+				
 
-        $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT " . $start . "," . $limit . " ");
+				
 
+				
 
+				
 
-        return $query;
-    }
+				function retrive_slr_details_count(){
 
-    function search_register_name() {
+		$query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id GROUP BY b.business_name ORDER BY a.register_date DESC ");
 
-        $seller = $this->input->post('seller');
+		if($query->num_rows() > 0){
 
-        $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id where  b.business_name LIKE '$seller%' GROUP BY b.business_name");
+			return $query->num_rows();
 
-        return $query;
-    }
+		}else{
 
-    function export_slrreport($limit, $start) {
+			return false;
 
-        $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT " . $start . "," . $limit . " ");
+		}
 
+	} 	
 
+	
 
+	
 
+	function retrieve_slr_report($limit,$start){
 
-        return $query;
-    }
+			$query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT ".$start.",".$limit." ");
 
-    function select_filter_slr_count() {
+	
 
-        $seller = $_REQUEST['seller'];
+	return $query;
 
-        $slr_date_from = $_REQUEST['slr_date_from'];
+	}
 
-        $slr_date_to = $_REQUEST['slr_date_to'];
+	
 
-        $status = $_REQUEST['status'];
+	
 
-        $condition = "";
+	
 
+	function search_register_name(){
 
+		$seller = $this->input->post('seller');
 
-        if ($seller != "") {
+		$query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id where  b.business_name LIKE '$seller%' GROUP BY b.business_name");
 
-            $condition .= " b.business_name LIKE '%$seller%' ";
+		return $query;
 
-            $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id  where " . $condition . " GROUP BY b.business_name ORDER BY a.register_date DESC ");
+	} 
 
-            return $query->num_rows();
-        }
+	
 
-        if ($slr_date_from != '' && $slr_date_to != '') {
+	
 
-            $condition .= "DATE(a.register_date) between '$slr_date_from' and '$slr_date_to'";
+	function export_slrreport($limit,$start)
 
-            $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id where " . $condition . " GROUP BY b.business_name ORDER BY a.register_date DESC ");
+	{
 
-            return $query->num_rows();
-        }
+		$query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT ".$start.",".$limit." ");
 
-        if ($status != "") {
+		
 
-            $condition .= "a.status='$status'";
+		
 
-            $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id where " . $condition . " GROUP BY b.business_name ORDER BY a.register_date DESC ");
+		return $query;	
 
-            return $query->num_rows();
-        }
+	}
 
-        if ($condition == "") {
+	
 
-            $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id GROUP BY b.business_name ORDER BY a.register_date DESC ");
+	
 
-            return $query->num_rows();
-        }
-    }
+	
 
-    function select_filtered_slr($limit, $start) {
+	function select_filter_slr_count(){
 
+			$seller = $_REQUEST['seller'];	
 
+			$slr_date_from = $_REQUEST['slr_date_from'];
 
-        $seller = $_REQUEST['seller'];
+			$slr_date_to = $_REQUEST['slr_date_to'];	
 
-        $slr_date_from = $_REQUEST['slr_date_from'];
+			$status = $_REQUEST['status'];
 
-        $slr_date_to = $_REQUEST['slr_date_to'];
+			$condition = "";
 
-        $status = $_REQUEST['status'];
+				
 
-        $condition = "";
+				if($seller != ""){
 
+				$condition .= " b.business_name LIKE '%$seller%' " ;
 
+				$query=$this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id  where ".$condition." GROUP BY b.business_name ORDER BY a.register_date DESC ");
 
-        if ($seller != "") {
+						return $query->num_rows();
 
-            $condition .= " b.business_name LIKE '%$seller%' ";
+					}
 
-            $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id  where " . $condition . " GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT " . $start . ", " . $limit . "");
+				if($slr_date_from!='' && $slr_date_to!='' ){
 
-            return $query;
-        }
+						$condition .= "DATE(a.register_date) between '$slr_date_from' and '$slr_date_to'" ;
 
-        if ($slr_date_from != '' && $slr_date_to != '') {
+						$query=$this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id where ".$condition." GROUP BY b.business_name ORDER BY a.register_date DESC ");
 
-            $condition .= "DATE(a.register_date) between '$slr_date_from' and '$slr_date_to'";
+						return $query->num_rows();
 
-            $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id where " . $condition . " GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT " . $start . ", " . $limit . "");
+					}
 
-            return $query;
-        }
+				if( $status != "" ){
 
-        if ($status != "") {
+					 	$condition .= "a.status='$status'" ;
 
-            $condition .= "a.status='$status'";
+						$query=$this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id where ".$condition." GROUP BY b.business_name ORDER BY a.register_date DESC ");
 
-            $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id where " . $condition . " GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT " . $start . ", " . $limit . "");
+						return $query->num_rows();
 
-            return $query;
-        }
+					}
 
-        if ($condition == "") {
+				if($condition == ""){
 
-            $query = $this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT " . $start . ", " . $limit . "");
+					$query=$this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id GROUP BY b.business_name ORDER BY a.register_date DESC ");
 
-            return $query;
-        }
-    }
+					return $query->num_rows();
 
-    function retrieve_product_report($limit, $start) {
+					}
 
+				}
 
+		
 
-        $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+		function select_filtered_slr($limit,$start)
+
+		{
+
+			
+
+			$seller = $_REQUEST['seller'];	
+
+			$slr_date_from = $_REQUEST['slr_date_from'];
+
+			$slr_date_to = $_REQUEST['slr_date_to'];	
+
+			$status = $_REQUEST['status'];
+
+			$condition = "";
+
+				
+
+				if($seller != ""){
+
+				$condition .= " b.business_name LIKE '%$seller%' " ;
+
+				$query=$this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id  where ".$condition." GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT ".$start.", ".$limit."");
+
+						return $query;
+
+					}
+
+				if($slr_date_from!='' && $slr_date_to!='' ){
+
+						$condition .= "DATE(a.register_date) between '$slr_date_from' and '$slr_date_to'" ;
+
+						$query=$this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id where ".$condition." GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT ".$start.", ".$limit."");
+
+						return $query;
+
+					}
+
+				if( $status != "" ){
+
+					 	$condition .= "a.status='$status'" ;
+
+						$query=$this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id where ".$condition." GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT ".$start.", ".$limit."");
+
+						return $query;
+
+					}
+
+				if($condition == ""){
+
+					$query=$this->db->query("SELECT a.seller_id,a.register_date,a.status,b.business_name FROM seller_account a INNER JOIN seller_account_information b ON a.seller_id=b.seller_id GROUP BY b.business_name ORDER BY a.register_date DESC  LIMIT ".$start.", ".$limit."");
+
+					return $query;
+
+					}
+
+			
+
+			}
+
+				function retrieve_product_report($limit,$start){
+
+			
+
+			$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
 
 		FROM product_master a
 
 		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
 
-		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id GROUP BY b.sku ORDER BY b.product_id DESC  LIMIT " . $start . "," . $limit . " ");
+		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id GROUP BY b.sku ORDER BY b.product_id DESC  LIMIT ".$start.",".$limit.	" ");
 
-        return $query;
-    }
+		return $query;
 
-    function retrive_product_details_count() {
+	}
 
+	function retrive_product_details_count(){
 
+		
 
-        $query = $this->db->query("SELECT a.seller_id, a.product_id
+		$query = $this->db->query("SELECT a.seller_id, a.product_id
 
 		FROM product_master a
 
@@ -6469,20 +7885,27 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id GROUP BY b.sku  ");
 
-        if ($query->num_rows() > 0) {
+		if($query->num_rows() > 0){
 
-            return $query->num_rows();
-        } else {
+			return $query->num_rows();
 
-            return false;
-        }
-    }
+		}else{
 
-    function search_prodseller_name() {
+			return false;
 
-        $seller_name = $this->input->post('seller_name');
+		}
 
-        $query = $this->db->query("SELECT c.business_name
+		
+
+	}
+
+	
+
+function search_prodseller_name(){
+
+		$seller_name = $this->input->post('seller_name');
+
+		$query = $this->db->query("SELECT c.business_name
 
 		FROM product_master a
 
@@ -6494,14 +7917,17 @@ class Seller_model extends CI_Model {
 
 		WHERE c.business_name LIKE '$seller_name%' GROUP BY c.business_name");
 
-        return $query;
-    }
+		return $query;
 
-    function search_prod_name() {
+	}
 
-        $prod_name = $this->input->post('prod_name');
+	
 
-        $query = $this->db->query("SELECT b.name
+	function search_prod_name(){
+
+		$prod_name = $this->input->post('prod_name');
+
+		$query = $this->db->query("SELECT b.name
 
 		FROM product_master a
 
@@ -6511,42 +7937,13 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN product_general_info d ON a.product_id = d.product_id WHERE b.name LIKE '$prod_name%' GROUP BY b.name");
 
-        return $query;
-    }
+		return $query;
 
-    function select_filter_product_count() {
-
+	}
 
 
 
-
-
-
-        $cate_name = $_REQUEST['cate_name'];
-
-        $prod_name = $_REQUEST['prod_name'];
-
-        $add_date = $_REQUEST['add_date'];
-
-        $seller_name = $_REQUEST['seller_name'];
-
-        $quantity = $_REQUEST['quantity'];
-
-        $approve_status = $_REQUEST['approve_status'];
-
-        $dispy_stas = $_REQUEST['dispy_stas'];
-
-        $mrp = $_REQUEST['mrp'];
-
-        $sell_price = $_REQUEST['sell_price'];
-
-        $spec_price = $_REQUEST['spec_price'];
-
-        $vat = $_REQUEST['vat'];
-
-
-
-        $condition = "";
+function select_filter_product_count(){
 
 
 
@@ -6554,48 +7951,81 @@ class Seller_model extends CI_Model {
 
 
 
+			$cate_name = $_REQUEST['cate_name'];
 
+			$prod_name = $_REQUEST['prod_name'];	
 
+			$add_date = $_REQUEST['add_date'];
 
+			$seller_name = $_REQUEST['seller_name'];
 
-        if ($cate_name != "") {
+			$quantity = $_REQUEST['quantity'];
 
-            $condition .= "b.lvl2_name LIKE '%$cate_name%' ";
+			$approve_status = $_REQUEST['approve_status'];
 
-            /* $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+			$dispy_stas = $_REQUEST['dispy_stas'];
 
-              FROM product_master a
+			$mrp = $_REQUEST['mrp'];
 
-              INNER JOIN cornjob_productsearch b ON a.product_id = b.product_id
+			$sell_price = $_REQUEST['sell_price'];
 
-              INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
+			$spec_price = $_REQUEST['spec_price'];
 
-              INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition.""); */
+			$vat = $_REQUEST['vat'];
 
+				
 
+				$condition = "";
 
+				
 
+				
 
-            $query = $this->db->query("SELECT  a.product_id,b.product_id
+				
+
+				
+
+				
+
+				if($cate_name != ""){
+
+				$condition .= "b.lvl2_name LIKE '%$cate_name%' " ;
+
+				/*$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+
+		FROM product_master a
+
+		INNER JOIN cornjob_productsearch b ON a.product_id = b.product_id
+
+		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
+
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition."");*/
+
+		
+
+		
+
+		$query = $this->db->query("SELECT  a.product_id,b.product_id
 
 		FROM product_master a
 
 		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
 
-	    INNER JOIN product_general_info d ON a.product_id = a.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC");
+	    INNER JOIN product_general_info d ON a.product_id = a.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC");
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
+					}
 
+					
 
+					
 
+				if($prod_name != ""){
 
-        if ($prod_name != "") {
+				$condition .= " b.name LIKE '%$prod_name%' " ;
 
-            $condition .= " b.name LIKE '%$prod_name%' ";
-
-            $query = $this->db->query("SELECT a.seller_id, b.product_id
+				$query = $this->db->query("SELECT a.seller_id, b.product_id
 
 		FROM product_master a
 
@@ -6603,22 +8033,23 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC" );
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
+					}
 
+					
 
+					
 
+				if( $add_date != "" ){
 
-        if ($add_date != "") {
+					 	$condition .= "e.date_added	like '%$add_date%'" ;
 
-            $condition .= "e.date_added	like '%$add_date%'";
+						//echo $sql="select a.order_id from order_info a inner join ordered_product_from_addtocart b on a.order_id=b.order_id inner join shipping_address c on a.order_id=c.order_id where ".$condition." group by b.order_id order by a.id desc";
 
-            //echo $sql="select a.order_id from order_info a inner join ordered_product_from_addtocart b on a.order_id=b.order_id inner join shipping_address c on a.order_id=c.order_id where ".$condition." group by b.order_id order by a.id desc";
-
-            $query = $this->db->query("SELECT  a.product_id
+						$query = $this->db->query("SELECT  a.product_id
 
 		FROM product_master a
 
@@ -6626,35 +8057,19 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_product_setting e ON e.seller_product_id = q.seller_product_id
 
-										 where " . $condition . " ");
+										 where ".$condition." ");
 
-            //echo $query->num_rows();
+						//echo $query->num_rows();
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
-        if ($seller_name != "") {
+					}
 
-            $condition .= "c.business_name LIKE '%$seller_name%'";
+				if( $seller_name != "" ){
 
-            $query = $this->db->query("SELECT a.product_id,b.product_id
+					 	$condition .= "c.business_name LIKE '%$seller_name%'" ;
 
-		FROM product_master a
-
-		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
-
-		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
-
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC");
-
-            return $query->num_rows();
-        }
-
-        if ($quantity != '') {
-
-            $condition .= "a.quantity ='$quantity'";
-
-            $query = $this->db->query("SELECT a.seller_id, a.product_id,b.product_id,
+						$query = $this->db->query("SELECT a.product_id,b.product_id
 
 		FROM product_master a
 
@@ -6662,39 +8077,17 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC");
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
-        if ($approve_status != '') {
+					}
 
-            $condition .= "a.approve_status = '$approve_status'";
+				if( $quantity !='' ){
 
+				  		$condition .= "a.quantity ='$quantity'" ;
 
-
-            $query = $this->db->query("SELECT a.seller_id, b.product_id
-
-		FROM product_master a
-
-		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
-
-		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
-
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC");
-
-            return $query->num_rows();
-        }
-
-
-
-        if ($dispy_stas != '') {
-
-            $condition .= "a.status = '$dispy_stas'";
-
-
-
-            $query = $this->db->query("SELECT a.seller_id, b.product_id
+						$query = $this->db->query("SELECT a.seller_id, a.product_id,b.product_id,
 
 		FROM product_master a
 
@@ -6702,21 +8095,19 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC");
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
+					}
 
+				if($approve_status != ''){
 
+						$condition .= "a.approve_status = '$approve_status'" ;
 
+						
 
-        if ($mrp != '') {
-
-            $condition .= "a.mrp = '$mrp'";
-
-
-            $query = $this->db->query("SELECT a.seller_id, b.product_id
+						$query = $this->db->query("SELECT a.seller_id, b.product_id
 
 		FROM product_master a
 
@@ -6724,41 +8115,21 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC");
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
-        if ($sell_price != '') {
+					}
 
-            $condition .= "a.price = '$sell_price'";
+					
 
+					if($dispy_stas != ''){
 
+						$condition .= "a.status = '$dispy_stas'" ;
 
-            $query = $this->db->query("SELECT a.seller_id, b.product_id
+						
 
-		FROM product_master a
-
-		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
-
-		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
-
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC");
-
-            return $query->num_rows();
-        }
-
-
-
-
-
-        if ($spec_price != '') {
-
-            $condition .= "a.special_price = '$spec_price'";
-
-
-
-            $query = $this->db->query("SELECT a.seller_id, b.product_id
+						$query = $this->db->query("SELECT a.seller_id, b.product_id
 
 		FROM product_master a
 
@@ -6766,20 +8137,22 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC");
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
+					}
 
+					
 
-        if ($vat != '') {
+					
 
-            $condition .= "a.tax_amount = '$vat'";
+					if($mrp != ''){
 
+						$condition .= "a.mrp = '$mrp'" ;
 
-
-            $query = $this->db->query("SELECT a.seller_id, b.product_id
+						
+						$query = $this->db->query("SELECT a.seller_id, b.product_id
 
 		FROM product_master a
 
@@ -6787,18 +8160,85 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC");
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
+					}
 
+					if($sell_price != ''){
 
+						$condition .= "a.price = '$sell_price'" ;
 
+						
 
-        if ($condition == "") {
+						$query = $this->db->query("SELECT a.seller_id, b.product_id
 
-            $query = $this->db->query("SELECT a.seller_id, b.product_id
+		FROM product_master a
+
+		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
+
+		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
+
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC");
+
+						return $query->num_rows();
+
+					}
+
+					
+
+					
+
+					if($spec_price != ''){
+
+						$condition .= "a.special_price = '$spec_price'" ;
+
+						
+
+						$query = $this->db->query("SELECT a.seller_id, b.product_id
+
+		FROM product_master a
+
+		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
+
+		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
+
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC");
+
+						return $query->num_rows();
+
+					}
+
+					
+
+					if($vat != ''){
+
+						$condition .= "a.tax_amount = '$vat'" ;
+
+						
+
+						$query = $this->db->query("SELECT a.seller_id, b.product_id
+
+		FROM product_master a
+
+		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
+
+		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
+
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC");
+
+						return $query->num_rows();
+
+					}
+
+					
+
+					
+
+				if($condition == ""){
+
+					$query = $this->db->query("SELECT a.seller_id, b.product_id
 
 		FROM product_master a
 
@@ -6808,76 +8248,69 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN product_general_info d ON a.product_id = d.product_id GROUP BY b.sku ORDER BY b.product_id DESC");
 
-            return $query->num_rows();
-        }
-    }
+					return $query->num_rows();
 
-    function select_filtered_product($limit, $start) {
+					}
 
+				}
 
+				
 
-        $cate_name = $_REQUEST['cate_name'];
+				
 
-        $prod_name = $_REQUEST['prod_name'];
+				
 
-        $add_date = $_REQUEST['add_date'];
+				
 
-        $seller_name = $_REQUEST['seller_name'];
+				
 
-        $quantity = $_REQUEST['quantity'];
+				
 
-        $approve_status = $_REQUEST['approve_status'];
-
-        $dispy_stas = $_REQUEST['dispy_stas'];
-
-        $mrp = $_REQUEST['mrp'];
-
-        $sell_price = $_REQUEST['sell_price'];
-
-        $spec_price = $_REQUEST['spec_price'];
-
-        $vat = $_REQUEST['vat'];
+		function select_filtered_product($limit,$start){
 
 
 
-        $condition = "";
+			$cate_name = $_REQUEST['cate_name'];
 
+			$prod_name = $_REQUEST['prod_name'];	
 
+			$add_date = $_REQUEST['add_date'];
 
+			$seller_name = $_REQUEST['seller_name'];
 
+			$quantity = $_REQUEST['quantity'];
 
+			$approve_status = $_REQUEST['approve_status'];
 
+			$dispy_stas = $_REQUEST['dispy_stas'];
 
+			$mrp = $_REQUEST['mrp'];
 
+			$sell_price = $_REQUEST['sell_price'];
 
+			$spec_price = $_REQUEST['spec_price'];
 
+			$vat = $_REQUEST['vat'];
 
-        if ($cate_name != "") {
+				
 
-            $condition .= " b.lvl2_name LIKE '%$cate_name%' ";
+				$condition = "";
 
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+				
 
-		FROM product_master a
+				
 
-		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
+				
 
-		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
+				
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . "  GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . " , " . $limit . "");
+				
 
-            return $query;
-        }
+				if($cate_name != ""){
 
+				$condition .= " b.lvl2_name LIKE '%$cate_name%' " ;
 
-
-
-
-        if ($prod_name != "") {
-
-            $condition .= " b.name LIKE '%$prod_name%' ";
-
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+				$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
 
 		FROM product_master a
 
@@ -6885,20 +8318,43 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . "  GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . " , " . $limit . "");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition."  GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start." , ".$limit."");
 
+						return $query;
 
+					}
 
-            return $query;
-        }
+					
 
-        if ($add_date != "") {
+					
 
+				if($prod_name != ""){
 
+				$condition .= " b.name LIKE '%$prod_name%' " ;
 
-            $condition .= "e.date_added LIKE '%$add_date%'";
+				$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
 
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name,e.date_added
+		FROM product_master a
+
+		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
+
+		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
+
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition."  GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start." , ".$limit."");
+
+			
+
+						return $query;
+
+					}
+
+				if($add_date != "" ){
+
+				
+
+					 	$condition .= "e.date_added LIKE '%$add_date%'" ;
+
+						$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name,e.date_added
 
 		FROM product_master a
 
@@ -6910,16 +8366,17 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_product_setting e ON e.seller_product_id = q.seller_product_id
 
-										 where " . $condition . " GROUP BY GROUP BY b.sku LIMIT " . $start . " , " . $limit . "");
+										 where ".$condition." GROUP BY GROUP BY b.sku LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
+										 return $query;
 
-        if ($seller_name != "") {
+					}
 
-            $condition .= "c.business_name LIKE '%$seller_name%'";
+				if( $seller_name != "" ){
 
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+					 	$condition .= "c.business_name LIKE '%$seller_name%'" ;
+
+						$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
 
 		FROM product_master a
 
@@ -6927,16 +8384,17 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . " , " . $limit . "");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
+						return $query;
 
-        if ($quantity != '') {
+					}
 
-            $condition .= "a.quantity ='$quantity'";
+				if( $quantity !='' ){
 
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+				  		$condition .= "a.quantity ='$quantity'" ;
+
+						$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
 
 		FROM product_master a
 
@@ -6944,39 +8402,19 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . "  GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . " , " . $limit . "");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition."  GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
+						return $query;
 
-        if ($approve_status != '') {
+					}
 
-            $condition .= "a.approve_status = '$approve_status'";
+				if($approve_status != ''){
 
+						$condition .= "a.approve_status = '$approve_status'" ;
 
+						
 
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
-
-		FROM product_master a
-
-		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
-
-		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
-
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . " , " . $limit . "");
-
-            return $query;
-        }
-
-
-
-        if ($dispy_stas != '') {
-
-            $condition .= "a.status = '$dispy_stas'";
-
-
-
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+						$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
 
 		FROM product_master a
 
@@ -6984,41 +8422,21 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . " , " . $limit . "");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
+						return $query;
 
+					}
 
+					
 
+					if($dispy_stas != ''){
 
+						$condition .= "a.status = '$dispy_stas'" ;
 
-        if ($mrp != '') {
+						
 
-            $condition .= "a.mrp = '$mrp'";
-
-
-
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
-
-		FROM product_master a
-
-		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
-
-		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
-
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . " , " . $limit . "");
-
-            return $query;
-        }
-
-        if ($sell_price != '') {
-
-            $condition .= "a.price = '$sell_price'";
-
-
-
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+						$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
 
 		FROM product_master a
 
@@ -7026,43 +8444,23 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . " , " . $limit . "");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
+						return $query;
 
+					}
 
+					
 
+					
 
+					if($mrp != ''){
 
-        if ($spec_price != '') {
+						$condition .= "a.mrp = '$mrp'" ;
 
-            $condition .= "a.special_price = '$spec_price'";
+						
 
-
-
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
-
-		FROM product_master a
-
-		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
-
-		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
-
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . " , " . $limit . "");
-
-            return $query;
-        }
-
-
-
-        if ($vat != '') {
-
-            $condition .= "a.tax_amount = '$vat'";
-
-
-
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+						$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
 
 		FROM product_master a
 
@@ -7070,18 +8468,19 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id where " . $condition . " GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . " , " . $limit . "");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
+						return $query;
 
+					}
 
+					if($sell_price != ''){
 
+						$condition .= "a.price = '$sell_price'" ;
 
+						
 
-        if ($condition == "") {
-
-            $query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+						$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
 
 		FROM product_master a
 
@@ -7089,17 +8488,93 @@ class Seller_model extends CI_Model {
 
 		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
 
-		INNER JOIN product_general_info d ON a.product_id = d.product_id GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . " , " . $limit . "");
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
-    }
+						return $query;
 
-    function retrive_topselling_count() {
+					}
 
+					
 
+					
 
-        $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+					if($spec_price != ''){
+
+						$condition .= "a.special_price = '$spec_price'" ;
+
+						
+
+						$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+
+		FROM product_master a
+
+		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
+
+		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
+
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start." , ".$limit."");
+
+						return $query;
+
+					}
+
+					
+
+					if($vat != ''){
+
+						$condition .= "a.tax_amount = '$vat'" ;
+
+						
+
+						$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+
+		FROM product_master a
+
+		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
+
+		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
+
+		INNER JOIN product_general_info d ON a.product_id = d.product_id where ".$condition." GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start." , ".$limit."");
+
+						return $query;
+
+					}
+
+					
+
+					
+
+				if($condition == ""){
+
+					$query = $this->db->query("SELECT a.seller_id, a.product_id, a.price, a.mrp, a.special_price, a.tax_amount, a.quantity, a.status, a.approve_status, b.lvl2,b.lvl2_name, b.lvl1, b.lvl1_name ,b.lvlmain_name, c.business_name, b.name
+
+		FROM product_master a
+
+		INNER JOIN cornjob_productsearch b ON a.sku = b.sku
+
+		INNER JOIN seller_account_information c ON a.seller_id = c.seller_id
+
+		INNER JOIN product_general_info d ON a.product_id = d.product_id GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start." , ".$limit."");
+
+					return $query;
+
+					}
+
+				}
+
+				
+
+				
+
+				
+
+				
+
+				function retrive_topselling_count(){
+
+		
+
+		$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7115,20 +8590,27 @@ GROUP BY a.sku
 
 ORDER BY count( a.product_id ) DESC ");
 
-        if ($query->num_rows() > 0) {
+		if($query->num_rows() > 0){
 
-            return $query->num_rows();
-        } else {
+			return $query->num_rows();
 
-            return false;
-        }
-    }
+		}else{
 
-    function retrieve_topselling_report($limit, $start) {
+			return false;
+
+		}
+
+		
+
+	}
 
 
 
-        $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+function retrieve_topselling_report($limit,$start){
+
+			
+
+			$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7142,16 +8624,18 @@ WHERE a.product_order_status = 'Delivered'
 
 GROUP BY a.sku
 
-ORDER BY count( a.product_id ) DESC LIMIT " . $start . "," . $limit . "");
+ORDER BY count( a.product_id ) DESC LIMIT ".$start.",".$limit.	"");
 
-        return $query;
-    }
+		return $query;
 
-    function excel_topselling() {
+	}
 
+	
+function excel_topselling(){
 
+			
 
-        $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+			$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7167,14 +8651,14 @@ GROUP BY a.sku
 
 ORDER BY count( a.product_id ) DESC LIMIT 5000");
 
-        return $query;
-    }
+		return $query;
 
-    function search_topseller() {
+	}
+	function search_topseller(){
 
-        $seller_name = $this->input->post('seller_name');
+		$seller_name = $this->input->post('seller_name');
 
-        $query = $this->db->query("SELECT b.business_name
+		$query = $this->db->query("SELECT b.business_name
 
 FROM ordered_product_from_addtocart a
 
@@ -7184,14 +8668,17 @@ WHERE b.business_name LIKE '$seller_name%'
 
 GROUP BY b.business_name");
 
-        return $query;
-    }
+		return $query;
 
-    function search_topprodnm() {
+	}
 
-        $prod_name = $this->input->post('prod_name');
+	
 
-        $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+	function search_topprodnm(){
+
+		$prod_name = $this->input->post('prod_name');
+
+		$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7207,30 +8694,17 @@ GROUP BY c.name
 
 ");
 
-        return $query;
-    }
+		return $query;
 
-    function select_filter_topselling_count() {
+	}
 
+	
 
+	
 
+	
 
-
-
-
-        $prod_name = $_REQUEST['prod_name'];
-
-        $seller_name = $_REQUEST['seller_name'];
-
-        //$selling_qnty = $_REQUEST['selling_qnty'];
-
-        $approve_status = $_REQUEST['approve_status'];
-
-        $dispy_stas = $_REQUEST['dispy_stas'];
-
-
-
-        $condition = "";
+	function select_filter_topselling_count(){
 
 
 
@@ -7238,17 +8712,37 @@ GROUP BY c.name
 
 
 
+			$prod_name = $_REQUEST['prod_name'];
 
+			$seller_name = $_REQUEST['seller_name'];	
 
+			//$selling_qnty = $_REQUEST['selling_qnty'];
 
+			$approve_status = $_REQUEST['approve_status'];
 
-        if ($prod_name != "") {
+			$dispy_stas = $_REQUEST['dispy_stas'];
 
-            $condition .= "c.name LIKE '%$prod_name%' ";
+				
 
+				$condition = "";
 
+				
 
-            $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+				
+
+				
+
+				
+
+				
+
+				if($prod_name != ""){
+
+				$condition .= "c.name LIKE '%$prod_name%' " ;
+
+		
+
+		$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7258,24 +8752,25 @@ INNER JOIN product_general_info c ON a.product_id = c.product_id
 
 INNER JOIN product_master e ON a.product_id = e.product_id
 
-WHERE a.product_order_status = 'Delivered' AND " . $condition . "
+WHERE a.product_order_status = 'Delivered' AND ".$condition."
 
 GROUP BY a.sku
 
 ORDER BY count( a.product_id ) DESC ");
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
+					}
 
+					
 
+					
 
+				if($seller_name != ""){
 
-        if ($seller_name != "") {
+				$condition .= " b.business_name LIKE '%$seller_name%' " ;
 
-            $condition .= " b.business_name LIKE '%$seller_name%' ";
-
-            $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+				$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7285,48 +8780,25 @@ INNER JOIN product_general_info c ON a.product_id = c.product_id
 
 INNER JOIN product_master e ON a.product_id = e.product_id
 
-WHERE a.product_order_status = 'Delivered' AND " . $condition . "
+WHERE a.product_order_status = 'Delivered' AND ".$condition."
 
 GROUP BY a.sku
 
-ORDER BY count(a.product_id) DESC ");
+ORDER BY count(a.product_id) DESC " );
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
+					}
 
+					
 
+					
 
+				/*if($selling_qnty != "" ){
 
-        /* if($selling_qnty != "" ){
+					 	$condition .= "count( a.product_id ) = '$selling_qnty'" ;
 
-          $condition .= "count( a.product_id ) = '$selling_qnty'" ;
-
-          $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
-
-          FROM ordered_product_from_addtocart a
-
-          INNER JOIN seller_account_information b ON a.seller_id = b.seller_id
-
-          INNER JOIN product_general_info c ON a.product_id = c.product_id
-
-          INNER JOIN product_master e ON a.product_id = e.product_id
-
-          WHERE a.product_order_status = 'Delivered' AND ".$condition."
-
-          GROUP BY a.sku
-
-          ORDER BY count( a.product_id ) DESC");
-
-          return $query->num_rows();
-
-          } */
-
-        if ($approve_status != "") {
-
-            $condition .= "e.approve_status ='$approve_status'";
-
-            $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+						$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7336,20 +8808,21 @@ INNER JOIN product_general_info c ON a.product_id = c.product_id
 
 INNER JOIN product_master e ON a.product_id = e.product_id
 
-WHERE a.product_order_status = 'Delivered' AND " . $condition . "
+WHERE a.product_order_status = 'Delivered' AND ".$condition."
 
 GROUP BY a.sku
 
 ORDER BY count( a.product_id ) DESC");
 
-            return $query->num_rows();
-        }
+							return $query->num_rows();
 
-        if ($dispy_stas != '') {
+					}*/
 
-            $condition .= "e.status ='$dispy_stas'";
+				if($approve_status != "" ){
 
-            $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+					 	$condition .= "e.approve_status ='$approve_status'" ;
+
+						$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7359,18 +8832,43 @@ INNER JOIN product_general_info c ON a.product_id = c.product_id
 
 INNER JOIN product_master e ON a.product_id = e.product_id
 
-WHERE a.product_order_status = 'Delivered' AND " . $condition . "
+WHERE a.product_order_status = 'Delivered' AND ".$condition."
+
+GROUP BY a.sku
+
+ORDER BY count( a.product_id ) DESC");
+
+						return $query->num_rows();
+
+					}
+
+				if($dispy_stas !='' ){
+
+				  		$condition .= "e.status ='$dispy_stas'" ;
+
+						$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+
+FROM ordered_product_from_addtocart a
+
+INNER JOIN seller_account_information b ON a.seller_id = b.seller_id
+
+INNER JOIN product_general_info c ON a.product_id = c.product_id
+
+INNER JOIN product_master e ON a.product_id = e.product_id
+
+WHERE a.product_order_status = 'Delivered' AND ".$condition."
 
 GROUP BY a.sku
 
 ORDER BY count( a.product_id ) DESC ");
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
-        if ($condition == "") {
+					}
 
-            $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+				if($condition == ""){
+
+					$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7386,72 +8884,59 @@ GROUP BY a.sku
 
 ORDER BY count( a.product_id ) DESC");
 
-            return $query->num_rows();
-        }
-    }
+					return $query->num_rows();
 
-    function select_filtered_topselling($limit, $start) {
+					}
 
+				}
 
+				
 
-        $prod_name = $_REQUEST['prod_name'];
+				
 
-        $seller_name = $_REQUEST['seller_name'];
+				
 
-        //$selling_qnty = $_REQUEST['selling_qnty'];
+				
 
-        $approve_status = $_REQUEST['approve_status'];
+				
 
-        $dispy_stas = $_REQUEST['dispy_stas'];
+				
 
-
-
-        $condition = "";
+		function select_filtered_topselling($limit,$start){
 
 
 
+			$prod_name = $_REQUEST['prod_name'];
 
+			$seller_name = $_REQUEST['seller_name'];	
 
+			//$selling_qnty = $_REQUEST['selling_qnty'];
 
+			$approve_status = $_REQUEST['approve_status'];
 
+			$dispy_stas = $_REQUEST['dispy_stas'];
 
+				
 
+				$condition = "";
 
+				
 
-        if ($prod_name != "") {
+				
 
-            $condition .= "c.name LIKE '%$prod_name%' ";
+				
 
+				
 
+				
 
-            $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+				if($prod_name != ""){
 
-FROM ordered_product_from_addtocart a
+				$condition .= "c.name LIKE '%$prod_name%' " ;
 
-INNER JOIN seller_account_information b ON a.seller_id = b.seller_id
+		
 
-INNER JOIN product_general_info c ON a.product_id = c.product_id
-
-INNER JOIN product_master e ON a.product_id = e.product_id
-
-WHERE a.product_order_status = 'Delivered' AND " . $condition . "
-
-GROUP BY a.sku
-
-ORDER BY count( a.product_id ) DESC LIMIT " . $start . " , " . $limit . "");
-
-            return $query;
-        }
-
-
-
-
-
-        if ($seller_name != "") {
-
-            $condition .= " b.business_name LIKE '%$seller_name%' ";
-
-            $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+		$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7461,50 +8946,25 @@ INNER JOIN product_general_info c ON a.product_id = c.product_id
 
 INNER JOIN product_master e ON a.product_id = e.product_id
 
-WHERE a.product_order_status = 'Delivered' AND " . $condition . "
+WHERE a.product_order_status = 'Delivered' AND ".$condition."
 
 GROUP BY a.sku
 
-ORDER BY count( a.product_id ) DESC LIMIT " . $start . " , " . $limit . "");
+ORDER BY count( a.product_id ) DESC LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
+						return $query;
 
+					}
 
+					
 
+					
 
+				if($seller_name != ""){
 
-        /* if($selling_qnty != "" ){
+				$condition .= " b.business_name LIKE '%$seller_name%' " ;
 
-          $condition .= "count( a.product_id ) = '$selling_qnty'" ;
-
-          $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
-
-          FROM ordered_product_from_addtocart a
-
-          INNER JOIN seller_account_information b ON a.seller_id = b.seller_id
-
-          INNER JOIN product_general_info c ON a.product_id = c.product_id
-
-          INNER JOIN product_master e ON a.product_id = e.product_id
-
-          WHERE a.product_order_status = 'Delivered' AND ".$condition."
-
-          GROUP BY a.sku
-
-          ORDER BY count( a.product_id ) DESC LIMIT ".$start." , ".$limit."");
-
-
-
-          return $query;
-
-          } */
-
-        if ($approve_status != "") {
-
-            $condition .= "e.approve_status ='$approve_status'";
-
-            $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+				$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7514,20 +8974,25 @@ INNER JOIN product_general_info c ON a.product_id = c.product_id
 
 INNER JOIN product_master e ON a.product_id = e.product_id
 
-WHERE a.product_order_status = 'Delivered' AND " . $condition . "
+WHERE a.product_order_status = 'Delivered' AND ".$condition."
 
 GROUP BY a.sku
 
-ORDER BY count( a.product_id ) DESC LIMIT " . $start . " , " . $limit . "");
+ORDER BY count( a.product_id ) DESC LIMIT ".$start." , ".$limit."" );
 
-            return $query;
-        }
+						return $query;
 
-        if ($dispy_stas != '') {
+					}
 
-            $condition .= "e.status ='$dispy_stas'";
+					
 
-            $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+					
+
+				/*if($selling_qnty != "" ){
+
+					 	$condition .= "count( a.product_id ) = '$selling_qnty'" ;
+
+						$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7537,22 +9002,73 @@ INNER JOIN product_general_info c ON a.product_id = c.product_id
 
 INNER JOIN product_master e ON a.product_id = e.product_id
 
-WHERE a.product_order_status = 'Delivered' AND " . $condition . "
+WHERE a.product_order_status = 'Delivered' AND ".$condition."
 
 GROUP BY a.sku
 
-ORDER BY count( a.product_id ) DESC LIMIT " . $start . " , " . $limit . " ");
+ORDER BY count( a.product_id ) DESC LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
+					 
 
+							return $query;
 
+					}*/
 
+				if($approve_status != "" ){
 
+					 	$condition .= "e.approve_status ='$approve_status'" ;
 
-        if ($condition == "") {
+						$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
-            $query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+FROM ordered_product_from_addtocart a
+
+INNER JOIN seller_account_information b ON a.seller_id = b.seller_id
+
+INNER JOIN product_general_info c ON a.product_id = c.product_id
+
+INNER JOIN product_master e ON a.product_id = e.product_id
+
+WHERE a.product_order_status = 'Delivered' AND ".$condition."
+
+GROUP BY a.sku
+
+ORDER BY count( a.product_id ) DESC LIMIT ".$start." , ".$limit."");
+
+						return $query;
+
+					}
+
+				if($dispy_stas !='' ){
+
+				  		$condition .= "e.status ='$dispy_stas'" ;
+
+						$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
+
+FROM ordered_product_from_addtocart a
+
+INNER JOIN seller_account_information b ON a.seller_id = b.seller_id
+
+INNER JOIN product_general_info c ON a.product_id = c.product_id
+
+INNER JOIN product_master e ON a.product_id = e.product_id
+
+WHERE a.product_order_status = 'Delivered' AND ".$condition."
+
+GROUP BY a.sku
+
+ORDER BY count( a.product_id ) DESC LIMIT ".$start." , ".$limit." ");
+
+						return $query;
+
+					}
+
+					
+
+					
+
+				if($condition == ""){
+
+					$query = $this->db->query("SELECT a.product_id, count( a.product_id ) AS salesqnty, b.seller_id, c.product_id, b.business_name, c.name, e.status, e.approve_status
 
 FROM ordered_product_from_addtocart a
 
@@ -7566,17 +9082,23 @@ WHERE a.product_order_status = 'Delivered'
 
 GROUP BY a.sku
 
-ORDER BY count( a.product_id ) DESC LIMIT " . $start . " , " . $limit . "");
+ORDER BY count( a.product_id ) DESC LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
-    }
+					return $query;
 
-    function retrive_buyer_count() {
+					}
 
+				}
 
+				
 
-        $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+				
+
+				function retrive_buyer_count(){
+
+		
+
+		$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
 
 FROM user a
 
@@ -7586,37 +9108,27 @@ INNER JOIN user_address c ON a.address_id = c.address_id
 
 GROUP BY a.user_id");
 
-        if ($query->num_rows() > 0) {
+		if($query->num_rows() > 0){
 
-            return $query->num_rows();
-        } else {
+			return $query->num_rows();
 
-            return false;
-        }
-    }
+		}else{
 
-    function retrieve_buyer_report($limit, $start) {
+			return false;
 
+		}
 
+		
 
-        $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
-
-FROM user a
-
-INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
-
-INNER JOIN user_address c ON a.address_id = c.address_id
-
-GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
-
-        return $query;
-    }
-
-    function export_byurreport($limit, $start) {
+	}
 
 
 
-        $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+function retrieve_buyer_report($limit,$start){
+
+			
+
+			$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
 
 FROM user a
 
@@ -7624,142 +9136,173 @@ INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
 
 INNER JOIN user_address c ON a.address_id = c.address_id
 
-GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
+GROUP BY a.user_id LIMIT ".$start.",".$limit.	"");
 
-        return $query;
-    }
+		return $query;
 
-    function select_filter_buyer_count() {
+	}
 
+	
 
+	
 
+	function export_byurreport($limit,$start){
 
+			
 
-
-
-        $name = $_REQUEST['name'];
-
-        $email = $_REQUEST['email'];
-
-        $phno = $_REQUEST['phno'];
-
-        $address = $_REQUEST['address'];
-
-        //$totl_order = $_REQUEST['totl_order'];
-
-
-
-        $condition = "";
-
-
-
-
-
-
-
-
-
-
-
-        if ($name != "") {
-
-            $condition .= "c.full_name LIKE '%$name%' ";
-
-
-
-            $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+			$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
 
 FROM user a
 
 INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
 
-INNER JOIN user_address c ON a.address_id = c.address_id WHERE " . $condition . "
+INNER JOIN user_address c ON a.address_id = c.address_id
+
+GROUP BY a.user_id LIMIT ".$start.",".$limit."");
+
+		return $query;
+
+	}
+
+	
+
+	
+
+	function select_filter_buyer_count(){
+
+
+
+
+
+
+
+			$name = $_REQUEST['name'];
+
+			$email = $_REQUEST['email'];	
+
+			$phno = $_REQUEST['phno'];
+
+			$address = $_REQUEST['address'];
+
+			//$totl_order = $_REQUEST['totl_order'];
+
+				
+
+				$condition = "";
+
+				
+
+				
+
+				
+
+				
+
+				
+
+				if($name != ""){
+
+				$condition .= "c.full_name LIKE '%$name%' " ;
+
+		
+
+		$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+
+FROM user a
+
+INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
+
+INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
 
 GROUP BY a.user_id ");
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
+					}
 
+					
 
+					
 
+				if($email != ""){
 
-        if ($email != "") {
+				$condition .= " a.email LIKE '%$email%' " ;
 
-            $condition .= " a.email LIKE '%$email%' ";
-
-            $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
-
-FROM user a
-
-INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
-
-INNER JOIN user_address c ON a.address_id = c.address_id WHERE " . $condition . "
-
-GROUP BY a.user_id");
-
-            return $query->num_rows();
-        }
-
-
-
-
-
-        if ($phno != "") {
-
-            $condition .= "a.mob = '$phno'";
-
-            $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+				$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
 
 FROM user a
 
 INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
 
-INNER JOIN user_address c ON a.address_id = c.address_id WHERE " . $condition . "
+INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
 
-GROUP BY a.user_id");
+GROUP BY a.user_id" );
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
-        if ($address != "") {
+					}
 
-            $condition .= "c.address LIKE '%$address%'";
+					
 
-            $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+					
+
+				if($phno != "" ){
+
+					 	$condition .= "a.mob = '$phno'" ;
+
+						$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
 
 FROM user a
 
 INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
 
-INNER JOIN user_address c ON a.address_id = c.address_id WHERE " . $condition . "
+INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
 
 GROUP BY a.user_id");
 
-            return $query->num_rows();
-        }
+							return $query->num_rows();
 
-        /* if($totl_order !='' ){
+					}
 
-          $condition .= "count( b.user_id ) ='$totl_order'" ;
+				if($address != "" ){
 
-          $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+					 	$condition .= "c.address LIKE '%$address%'" ;
 
-          FROM user a
+						$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
 
-          INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
+FROM user a
 
-          INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
+INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
 
-          GROUP BY a.user_id");
+INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
 
-          return $query->num_rows();
+GROUP BY a.user_id");
 
-          } */
+						return $query->num_rows();
 
-        if ($condition == "") {
+					}
 
-            $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+				/*if($totl_order !='' ){
+
+				  		$condition .= "count( b.user_id ) ='$totl_order'" ;
+
+						$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+
+FROM user a
+
+INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
+
+INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
+
+GROUP BY a.user_id");
+
+						return $query->num_rows();
+
+					}*/
+
+				if($condition == ""){
+
+					$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
 
 FROM user a
 
@@ -7769,143 +9312,161 @@ INNER JOIN user_address c ON a.address_id = c.address_id
 
 GROUP BY a.user_id ");
 
-            return $query->num_rows();
-        }
-    }
+					return $query->num_rows();
 
-    function select_filtered_buyer($limit, $start) {
+					}
 
+				}
 
+				
 
-        $name = $_REQUEST['name'];
+				
 
-        $email = $_REQUEST['email'];
+				
 
-        $phno = $_REQUEST['phno'];
+				
 
-        $address = $_REQUEST['address'];
+				
 
-        //$totl_order = $_REQUEST['totl_order'];
+				
 
-
-
-        $condition = "";
+		function select_filtered_buyer($limit,$start){
 
 
 
+			$name = $_REQUEST['name'];
 
+			$email = $_REQUEST['email'];	
 
+			$phno = $_REQUEST['phno'];
 
+			$address = $_REQUEST['address'];
 
+			//$totl_order = $_REQUEST['totl_order'];
 
+				
 
+				$condition = "";
 
+				
 
-        if ($name != "") {
+				
 
-            $condition .= "c.full_name LIKE '%$name%' ";
+				
 
+				
 
+				
 
-            $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+				if($name != ""){
 
-FROM user a
+				$condition .= "c.full_name LIKE '%$name%' " ;
 
-INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
+		
 
-INNER JOIN user_address c ON a.address_id = c.address_id WHERE " . $condition . "
-
-GROUP BY a.user_id LIMIT " . $start . " , " . $limit . "");
-
-            return $query;
-        }
-
-
-
-
-
-        if ($email != "") {
-
-            $condition .= " a.email LIKE '%$email%' ";
-
-            $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+		$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
 
 FROM user a
 
 INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
 
-INNER JOIN user_address c ON a.address_id = c.address_id WHERE " . $condition . "
+INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
 
-GROUP BY a.user_id LIMIT " . $start . " , " . $limit . "");
+GROUP BY a.user_id LIMIT ".$start." , ".$limit."");
 
-            return $query;
-        }
+						return $query;
 
+					}
 
+					
 
+					
 
+				if($email != ""){
 
-        if ($phno != "") {
+				$condition .= " a.email LIKE '%$email%' " ;
 
-            $condition .= "a.mob = '$phno'";
-
-            $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
-
-FROM user a
-
-INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
-
-INNER JOIN user_address c ON a.address_id = c.address_id WHERE " . $condition . "
-
-GROUP BY a.user_id LIMIT " . $start . " , " . $limit . "");
-
-
-
-            return $query;
-        }
-
-        if ($address != "") {
-
-            $condition .= "c.address LIKE '%$address%'";
-
-            $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+				$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
 
 FROM user a
 
 INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
 
-INNER JOIN user_address c ON a.address_id = c.address_id WHERE " . $condition . "
+INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
 
-GROUP BY a.user_id LIMIT " . $start . " , " . $limit . "");
+GROUP BY a.user_id LIMIT ".$start." , ".$limit."" );
 
-            return $query;
-        }
+						return $query;
 
-        /* if($totl_order !='' ){
+					}
 
-          $condition .= "count( b.user_id ) ='$totl_order'" ;
+					
 
-          $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+					
 
-          FROM user a
+				if($phno != "" ){
 
-          INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
+					 	$condition .= "a.mob = '$phno'" ;
 
-          INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
+						$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
 
-          GROUP BY a.user_id LIMIT ".$start." , ".$limit." ");
+FROM user a
 
-          return $query;
+INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
 
-          } */
+INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
 
+GROUP BY a.user_id LIMIT ".$start." , ".$limit."");
 
+					 
 
+							return $query;
 
+					}
 
-        if ($condition == "") {
+				if($address != "" ){
 
-            $query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+					 	$condition .= "c.address LIKE '%$address%'" ;
+
+						$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+
+FROM user a
+
+INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
+
+INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
+
+GROUP BY a.user_id LIMIT ".$start." , ".$limit."");
+
+						return $query;
+
+					}
+
+				/*if($totl_order !='' ){
+
+				  		$condition .= "count( b.user_id ) ='$totl_order'" ;
+
+						$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
+
+FROM user a
+
+INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
+
+INNER JOIN user_address c ON a.address_id = c.address_id WHERE ".$condition."
+
+GROUP BY a.user_id LIMIT ".$start." , ".$limit." ");
+
+						return $query;
+
+					}*/
+
+					
+
+					
+
+				if($condition == ""){
+
+					$query = $this->db->query("SELECT a.email, a.mob, a.user_id, b.user_id, b.order_id, count( b.user_id ) as totl_order , c.address, c.full_name
 
 FROM user a
 
@@ -7913,17 +9474,23 @@ INNER JOIN ordered_product_from_addtocart b ON a.user_id = b.user_id
 
 INNER JOIN user_address c ON a.address_id = c.address_id
 
-GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
+GROUP BY a.user_id LIMIT ".$start.",".$limit.	"");
 
-            return $query;
-        }
-    }
+					return $query;
 
-    function retrive_byrwallet_count() {
+					}
 
+				}
 
+				
 
-        $query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
+				
+
+				function retrive_byrwallet_count(){
+
+		
+
+		$query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
 
 													INNER JOIN wallet_info b ON a.user_id=b.user_id 
 
@@ -7931,46 +9498,71 @@ GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
 
 														GROUP BY a.user_id");
 
-        if ($query->num_rows() > 0) {
+		if($query->num_rows() > 0){
 
-            return $query->num_rows();
-        } else {
+			return $query->num_rows();
 
-            return false;
-        }
-    }
+		}else{
 
-    function retrieve_byrwallet_report($limit, $start) {
+			return false;
 
+		}
 
+		
 
-        $query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
-
-										INNER JOIN wallet_info b ON a.user_id=b.user_id 
-
-										INNER JOIN wallet_crdr c ON a.user_id=c.user_id
-
-										GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
-
-        return $query;
-    }
-
-    function export_byurwallet($limit, $start) {
+	}
 
 
 
-        $query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
+function retrieve_byrwallet_report($limit,$start){
+
+			
+
+			$query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
 
 										INNER JOIN wallet_info b ON a.user_id=b.user_id 
 
 										INNER JOIN wallet_crdr c ON a.user_id=c.user_id
 
-										GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
+										GROUP BY a.user_id LIMIT ".$start.",".$limit.	"");
 
-        return $query;
-    }
+		return $query;
 
-    function select_filter_wallet_count() {
+	}	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	function export_byurwallet($limit,$start){
+
+			
+
+			$query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
+
+										INNER JOIN wallet_info b ON a.user_id=b.user_id 
+
+										INNER JOIN wallet_crdr c ON a.user_id=c.user_id
+
+										GROUP BY a.user_id LIMIT ".$start.",".$limit."");
+
+		return $query;
+
+	}
+
+	
+
+	
+
+	
+
+	function select_filter_wallet_count(){
 
 
 
@@ -7978,86 +9570,89 @@ GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
 
 
 
-        $buyer = $_REQUEST['buyer'];
+			$buyer = $_REQUEST['buyer'];
 
-        $email = $_REQUEST['email'];
+			$email = $_REQUEST['email'];
 
-        $contact = $_REQUEST['contact'];
+			$contact = $_REQUEST['contact'];
 
+				
 
+				$condition = "";
 
-        $condition = "";
+				
 
+				
 
+				
 
+				
 
+				
 
+				if($buyer != ""){
 
+				$condition .= "a.fname OR a.lname LIKE '%$buyer%' " ;
 
+		
 
-
-
-
-        if ($buyer != "") {
-
-            $condition .= "a.fname OR a.lname LIKE '%$buyer%' ";
-
-
-
-            $query = $this->db->query("SELECT a.user_id FROM user a 
+		$query = $this->db->query("SELECT a.user_id FROM user a 
 
 													INNER JOIN wallet_info b ON a.user_id=b.user_id 
 
-													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE " . $condition . "
+													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE ".$condition."
 
 														GROUP BY a.user_id ");
 
-            return $query->num_rows();
-        }
+						return $query->num_rows();
 
+					}
 
+					
 
+					
 
+				if($email != ""){
 
-        if ($email != "") {
+				$condition .= " a.email LIKE '%$email%' " ;
 
-            $condition .= " a.email LIKE '%$email%' ";
-
-            $query = $this->db->query("SELECT a.user_id FROM user a 
-
-													INNER JOIN wallet_info b ON a.user_id=b.user_id 
-
-													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE " . $condition . "
-
-														GROUP BY a.user_id");
-
-            return $query->num_rows();
-        }
-
-
-
-
-
-        if ($contact != "") {
-
-            $condition .= "a.mob = '$contact'";
-
-            $query = $this->db->query("SELECT a.user_id FROM user a 
+				$query = $this->db->query("SELECT a.user_id FROM user a 
 
 													INNER JOIN wallet_info b ON a.user_id=b.user_id 
 
-													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE " . $condition . "
+													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE ".$condition."
+
+														GROUP BY a.user_id" );
+
+						return $query->num_rows();
+
+					}
+
+					
+
+					
+
+				if($contact != "" ){
+
+					 	$condition .= "a.mob = '$contact'" ;
+
+						$query = $this->db->query("SELECT a.user_id FROM user a 
+
+													INNER JOIN wallet_info b ON a.user_id=b.user_id 
+
+													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE ".$condition."
 
 														GROUP BY a.user_id");
 
-            return $query->num_rows();
-        }
+							return $query->num_rows();
 
+					}
 
+				
 
-        if ($condition == "") {
+				if($condition == ""){
 
-            $query = $this->db->query("SELECT a.user_id FROM user a 
+					$query = $this->db->query("SELECT a.user_id FROM user a 
 
 													INNER JOIN wallet_info b ON a.user_id=b.user_id 
 
@@ -8065,570 +9660,602 @@ GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
 
 														GROUP BY a.user_id");
 
-            return $query->num_rows();
-        }
-    }
+					return $query->num_rows();
 
-    function select_filtered_wallet($limit, $start) {
+					}
 
+				}
 
+				
 
-        $buyer = $_REQUEST['buyer'];
+				
 
-        $email = $_REQUEST['email'];
+				
 
-        $contact = $_REQUEST['contact'];
+				
 
+				
 
+				
 
-        $condition = "";
-
-
-
-
+		function select_filtered_wallet($limit,$start){
 
 
 
+			$buyer = $_REQUEST['buyer'];
 
+			$email = $_REQUEST['email'];
 
+			$contact = $_REQUEST['contact'];
 
+				
 
-        if ($buyer != "") {
+				$condition = "";
 
-            $condition .= "a.fname LIKE '%$buyer%' ";
+				
 
+				
 
+				
 
-            $query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
+				
 
-													INNER JOIN wallet_info b ON a.user_id=b.user_id 
+				
 
-													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE " . $condition . "
+				if($buyer != ""){
 
-														GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
+				$condition .= "a.fname LIKE '%$buyer%' " ;
 
-            return $query;
-        }
+		
 
-
-
-
-
-        if ($email != "") {
-
-            $condition .= " a.email LIKE '%$email%' ";
-
-            $query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
+		$query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
 
 													INNER JOIN wallet_info b ON a.user_id=b.user_id 
 
-													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE " . $condition . "
+													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE ".$condition."
 
-														GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
+														GROUP BY a.user_id LIMIT ".$start.",".$limit.	"");
 
-            return $query;
-        }
+						return $query;
 
+					}
 
+					
 
+					
 
+				if($email != ""){
 
-        if ($contact != "") {
+				$condition .= " a.email LIKE '%$email%' " ;
 
-            $condition .= "a.mob = '$contact'";
-
-            $query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
+				$query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
 
 													INNER JOIN wallet_info b ON a.user_id=b.user_id 
 
-													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE " . $condition . "
+													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE ".$condition."
 
-														GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
+														GROUP BY a.user_id LIMIT ".$start.",".$limit.	"" );
 
-            return $query;
-        }
+						return $query;
 
+					}
 
+					
 
-        if ($condition == "") {
+					
 
-            $query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
+				if($contact != "" ){
+
+					 	$condition .= "a.mob = '$contact'" ;
+
+						$query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
+
+													INNER JOIN wallet_info b ON a.user_id=b.user_id 
+
+													INNER JOIN wallet_crdr c ON a.user_id=c.user_id WHERE ".$condition."
+
+														GROUP BY a.user_id LIMIT ".$start.",".$limit.	"");
+
+							return $query;
+
+					}
+
+				
+
+				if($condition == ""){
+
+					$query = $this->db->query("SELECT a.user_id,a.fname,a.lname,a.email,a.mob,b.wallet_balance,sum(c.debit_amt) as debit,sum(c.credit_amt) as credit FROM user a 
 
 										INNER JOIN wallet_info b ON a.user_id=b.user_id 
 
 										INNER JOIN wallet_crdr c ON a.user_id=c.user_id
 
-										GROUP BY a.user_id LIMIT " . $start . "," . $limit . "");
+										GROUP BY a.user_id LIMIT ".$start.",".$limit.	"");
 
-            return $query;
-        }
-    }
+					return $query;
 
-    function seller_productcount($seller_id) {
-        $query = $this->db->query("SELECT b.product_id
+					}
+
+				}
+
+
+
+
+function seller_productcount($seller_id){
+		$query = $this->db->query("SELECT b.product_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
 WHERE b.seller_id = '$seller_id' GROUP BY b.sku ");
-        return $query->num_rows();
-    }
-
-    function seller_product($limit, $start, $seller_id) {
-
-        $query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
+		return $query->num_rows();
+	}
+	
+	
+	
+				function seller_product($limit,$start,$seller_id){
+			
+			$query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . "," . $limit . "");
-        return $query;
-    }
-
-    function exportseller_allproduct($seller_id) {
-        $query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.product_approve,b.name,b.sku,c.catelog_img_url,d.category
+WHERE b.seller_id = '$seller_id' GROUP BY b.sku ORDER BY b.product_id DESC LIMIT ".$start.",".$limit."");
+		return $query;
+	}
+	
+	function exportseller_allproduct($seller_id)
+	{
+		$query = $this->db->query("SELECT a.seller_product_id,a.master_product_id,a.product_approve,b.name,b.sku,c.catelog_img_url,d.category
 FROM seller_product_setting a 
 INNER JOIN seller_product_general_info b ON a.seller_product_id = b.seller_product_id
 INNER JOIN seller_product_image c ON c.seller_product_id = a.seller_product_id 
 INNER JOIN seller_product_category d ON d.seller_product_id = a.seller_product_id
 
 WHERE a.seller_id = '$seller_id' GROUP BY b.sku ORDER BY a.id DESC ");
-        return $query;
-    }
+		return $query;	
+	}
+	
 
-    function bussiness_nm($seller_id) {
-
-        $query = $this->db->query("SELECT *
+function bussiness_nm($seller_id){
+			
+			$query = $this->db->query("SELECT *
 FROM seller_account_information WHERE seller_id = '$seller_id' ");
-        return $query;
-    }
-
-    function getCommission() {
-        $sl = $this->input->post('serial');
-        //'$second_leable_cat_id' is the third label category id//
-        $second_leable_cat_id = $this->input->post('cat_id');
-        $selling_price = $this->input->post('price');
-        $shipping_fee = $this->input->post('shipping_fee');
-        $seller_id = $this->input->post('seller_id');
-        $final_price = $selling_price + $shipping_fee;
-        $sty_id = 'fcmsn' . $sl;
-        date_default_timezone_set('Asia/Calcutta');
-        $cdate = date('Y-m-d');
-        //$seller_id = $this->session->userdata('seller-session');
-        //special commission condition program start here//
-        $query = $this->db->query("SELECT * FROM special_commission WHERE from_date<='$cdate' AND to_date>='$cdate' AND cat_id='$second_leable_cat_id'");
-        $rows = $query->num_rows();
-        if ($rows > 0) {
-            $result = $query->result();
-            $special_seller_id = unserialize($result[0]->seller_id);
-            if ($result[0]->seller_id == Null) { //if no seller id in this date range , applicable to all seller
-                $spl_cmsn = $result[0]->commision;
-                $spl_percent_decimal = $spl_cmsn / 100;
-                $spl_cmsn_amt = round($final_price * $spl_percent_decimal);
-                echo '<span class="' . $sty_id . '">' . $spl_cmsn_amt . '</span><br/><br/>';
-                echo '<span class="vspn">( ' . $spl_cmsn . '% of total sale value)</span>';
-            } else if (in_array($seller_id, $special_seller_id)) { //program for if exist
-                //if(in_array($seller_id,$special_seller_id)){
-                $spl_cmsn = $result[0]->commision;
-                $spl_percent_decimal = $spl_cmsn / 100;
-                $spl_cmsn_amt = round($final_price * $spl_percent_decimal);
-                echo '<span class="' . $sty_id . '">' . $spl_cmsn_amt . '</span><br/><br/>';
-                echo '<span class="vspn">( ' . $spl_cmsn . '% of total sale value)</span>';
-                //}
-                //special commission condition program end here//
-            } else {
-                //Membership commission condition program start here//
-                $query = $this->db->query("SELECT * FROM membership_seller WHERE seller_id='$seller_id'");
-                $row = $query->num_rows();
-                if ($row > 0) {
-                    $result = $query->result();
-                    $memb_id = $result[0]->memb_id;
-                    $qr2 = $this->db->query("SELECT * FROM membership WHERE mbrshp_id='$memb_id'");
-                    $rs2 = $qr2->result();
-                    $MEMB_COLUMN = $rs2[0]->menbshp_column;
-                    $qr3 = $this->db->query("SELECT cat_id,`$MEMB_COLUMN` FROM membership_commission WHERE cat_id='$second_leable_cat_id'");
-                    $rw3 = $qr3->num_rows();
-                    if ($rw3 > 0) {
-                        $rs3 = $qr3->result();
-                        $memb_cmsn = $rs3[0]->$MEMB_COLUMN;
-                        $memb_percent_decimal = $memb_cmsn / 100;
-                        $memb_cmsn_amt = round($final_price * $memb_percent_decimal);
-                        echo '<span class="' . $sty_id . '">' . $memb_cmsn_amt . '</span><br/><br/>';
-                        echo '<span class="vspn">( ' . $memb_cmsn . '% of total sale value)</span>';
-                        //Membership commission condition program end here//
-                    } else {
-                        //Global commission condition program end here//
-                        $query = $this->db->query("SELECT * FROM global_commission WHERE cat_id='$second_leable_cat_id'");
-                        $rows = $query->num_rows();
-                        if ($rows > 0) {
-                            $rs4 = $query->result();
-                            $gbl_cmsn = $rs4[0]->commission;
-                            $gbl_percent_decimal = $gbl_cmsn / 100;
-                            $gbl_cmsn_amt = round($final_price * $gbl_percent_decimal);
-                            echo '<span class="' . $sty_id . '">' . $gbl_cmsn_amt . '</span><br/><br/>';
-                            echo '<span class="vspn">( ' . $gbl_cmsn . '% of total sale value)</span>';
-                            //Global commission condition program end here//
-                        } else {
-                            echo 'NOT';
-                        }
-                    }
-                } else {
-                    //Global commission condition program end here//
-                    $query = $this->db->query("SELECT * FROM global_commission WHERE cat_id='$second_leable_cat_id'");
-                    $rows = $query->num_rows();
-                    if ($rows > 0) {
-                        $rs4 = $query->result();
-                        $gbl_cmsn = $rs4[0]->commission;
-                        $gbl_percent_decimal = $gbl_cmsn / 100;
-                        $gbl_cmsn_amt = round($final_price * $gbl_percent_decimal);
-                        echo '<span class="' . $sty_id . '">' . $gbl_cmsn_amt . '</span><br/><br/>';
-                        echo '<span class="vspn">( ' . $gbl_cmsn . '% of total sale value)</span>';
-                        //Global commission condition program end here//
-                    } else {
-                        echo 'NOT';
-                    }
-                }
-            }
-        } else {
-            //Membership commission condition program start here//
-            $query = $this->db->query("SELECT * FROM membership_seller WHERE seller_id='$seller_id'");
-            $row = $query->num_rows();
-            if ($row > 0) {
-                $result = $query->result();
-                $memb_id = $result[0]->memb_id;
-                $qr2 = $this->db->query("SELECT * FROM membership WHERE mbrshp_id='$memb_id'");
-                $rs2 = $qr2->result();
-                $MEMB_COLUMN = $rs2[0]->menbshp_column;
-                $qr3 = $this->db->query("SELECT cat_id,`$MEMB_COLUMN` FROM membership_commission WHERE cat_id='$second_leable_cat_id'");
-                $rw3 = $qr3->num_rows();
-                if ($rw3 > 0) {
-                    $rs3 = $qr3->result();
-                    $memb_cmsn = $rs3[0]->$MEMB_COLUMN;
-                    $memb_percent_decimal = $memb_cmsn / 100;
-                    $memb_cmsn_amt = round($final_price * $memb_percent_decimal);
-                    echo '<span class="' . $sty_id . '">' . $memb_cmsn_amt . '</span><br/><br/>';
-                    echo '<span class="vspn">( ' . $memb_cmsn . '% of total sale value)</span>';
-                    //Membership commission condition program end here//
-                } else {
-                    //Global commission condition program end here//
-                    $query = $this->db->query("SELECT * FROM global_commission WHERE cat_id='$second_leable_cat_id'");
-                    $rows = $query->num_rows();
-                    if ($rows > 0) {
-                        $rs4 = $query->result();
-                        $gbl_cmsn = $rs4[0]->commission;
-                        $gbl_percent_decimal = $gbl_cmsn / 100;
-                        $gbl_cmsn_amt = round($final_price * $gbl_percent_decimal);
-                        echo '<span class="' . $sty_id . '">' . $gbl_cmsn_amt . '</span><br/><br/>';
-                        echo '<span class="vspn">( ' . $gbl_cmsn . '% of total sale value)</span>';
-                        //Global commission condition program end here//
-                    } else {
-                        echo 'NOT';
-                    }
-                }
-            } else {
-                //Global commission condition program end here//
-                $query = $this->db->query("SELECT * FROM global_commission WHERE cat_id='$second_leable_cat_id'");
-                $rows = $query->num_rows();
-                if ($rows > 0) {
-                    $rs4 = $query->result();
-                    $gbl_cmsn = $rs4[0]->commission;
-                    $gbl_percent_decimal = $gbl_cmsn / 100;
-                    $gbl_cmsn_amt = round($final_price * $gbl_percent_decimal);
-                    echo '<span class="' . $sty_id . '">' . $gbl_cmsn_amt . '</span><br/><br/>';
-                    echo '<span class="vspn">( ' . $gbl_cmsn . '% of total sale value)</span>';
-                    //Global commission condition program end here//
-                } else {
-                    echo 'NOT';
-                }
-            }
-        }
-    }
-
-    function select_filter_sellprod_count($seller_id) {
-
-
-        $prod_id = $_REQUEST['prod_id'];
-        $prod_nms = addslashes($_REQUEST['prod_nm']);
-        $prod_nm = str_replace(array('\'', '"', ',', '/', ';', '*', ' ', '<', '>'), '', $prod_nms);
-        $sku = $_REQUEST['sku'];
-        $stock = $_REQUEST['stock'];
-        $mrp = $_REQUEST['mrp'];
-        $sellprce = $_REQUEST['sellprce'];
-        $specprce = $_REQUEST['specprce'];
-        $status = $_REQUEST['status'];
-        $stat = $_REQUEST['stat'];
-        $condition = "";
+		return $query;
+	}
+	
+	
+	
+	function getCommission(){
+		$sl = $this->input->post('serial');
+		//'$second_leable_cat_id' is the third label category id//
+		$second_leable_cat_id = $this->input->post('cat_id');
+		$selling_price = $this->input->post('price');
+		$shipping_fee = $this->input->post('shipping_fee');
+		$seller_id = $this->input->post('seller_id');
+		$final_price = $selling_price+$shipping_fee;
+		$sty_id = 'fcmsn'.$sl;
+		
+		$cdate = date('Y-m-d');
+		//$seller_id = $this->session->userdata('seller-session');
+		//special commission condition program start here//
+		$query = $this->db->query("SELECT * FROM special_commission WHERE from_date<='$cdate' AND to_date>='$cdate' AND cat_id='$second_leable_cat_id'");
+		$rows = $query->num_rows();
+		if($rows > 0){
+			$result = $query->result();
+			$special_seller_id = unserialize($result[0]->seller_id);
+			if($result[0]->seller_id == Null){ //if no seller id in this date range , applicable to all seller
+				$spl_cmsn = $result[0]->commision;
+				$spl_percent_decimal = $spl_cmsn/100;
+				$spl_cmsn_amt = round($final_price*$spl_percent_decimal);
+				echo '<span class="'.$sty_id.'">'.$spl_cmsn_amt.'</span><br/><br/>';
+				echo '<span class="vspn">( '.$spl_cmsn.'% of total sale value)</span>';
+			}else if(in_array($seller_id,$special_seller_id)){ //program for if exist
+				//if(in_array($seller_id,$special_seller_id)){
+					$spl_cmsn = $result[0]->commision;
+					$spl_percent_decimal = $spl_cmsn/100;
+					$spl_cmsn_amt = round($final_price*$spl_percent_decimal);
+					echo '<span class="'.$sty_id.'">'.$spl_cmsn_amt.'</span><br/><br/>';
+					echo '<span class="vspn">( '.$spl_cmsn.'% of total sale value)</span>';
+				//}
+			//special commission condition program end here//
+			}else{
+			//Membership commission condition program start here//
+				$query = $this->db->query("SELECT * FROM membership_seller WHERE seller_id='$seller_id'");
+				$row= $query->num_rows();
+				if($row > 0){
+					$result = $query->result();
+					$memb_id = $result[0]->memb_id;
+					$qr2 = $this->db->query("SELECT * FROM membership WHERE mbrshp_id='$memb_id'");
+					$rs2 = $qr2->result();
+					$MEMB_COLUMN = $rs2[0]->menbshp_column;
+					$qr3 = $this->db->query("SELECT cat_id,`$MEMB_COLUMN` FROM membership_commission WHERE cat_id='$second_leable_cat_id'");
+					$rw3 = $qr3->num_rows();
+					if($rw3 > 0){
+						$rs3 = $qr3->result();
+						$memb_cmsn = $rs3[0]->$MEMB_COLUMN;
+						$memb_percent_decimal = $memb_cmsn/100;
+						$memb_cmsn_amt = round($final_price*$memb_percent_decimal);
+						echo '<span class="'.$sty_id.'">'.$memb_cmsn_amt.'</span><br/><br/>';
+						echo '<span class="vspn">( '.$memb_cmsn.'% of total sale value)</span>';
+			//Membership commission condition program end here//
+					}else{
+			//Global commission condition program end here//
+						$query = $this->db->query("SELECT * FROM global_commission WHERE cat_id='$second_leable_cat_id'");
+						$rows = $query->num_rows();
+						if($rows > 0){
+							$rs4 = $query->result();
+							$gbl_cmsn = $rs4[0]->commission;
+							$gbl_percent_decimal = $gbl_cmsn/100;
+							$gbl_cmsn_amt = round($final_price*$gbl_percent_decimal);
+							echo '<span class="'.$sty_id.'">'.$gbl_cmsn_amt.'</span><br/><br/>';
+							echo '<span class="vspn">( '.$gbl_cmsn.'% of total sale value)</span>';
+			//Global commission condition program end here//
+						}else{
+							echo 'NOT';
+						}
+					}
+				}else{
+			//Global commission condition program end here//
+					$query = $this->db->query("SELECT * FROM global_commission WHERE cat_id='$second_leable_cat_id'");
+					$rows = $query->num_rows();
+					if($rows > 0){
+						$rs4 = $query->result();
+						$gbl_cmsn = $rs4[0]->commission;
+						$gbl_percent_decimal = $gbl_cmsn/100;
+						$gbl_cmsn_amt = round($final_price*$gbl_percent_decimal);
+						echo '<span class="'.$sty_id.'">'.$gbl_cmsn_amt.'</span><br/><br/>';
+						echo '<span class="vspn">( '.$gbl_cmsn.'% of total sale value)</span>';
+		//Global commission condition program end here//
+					}else{
+						echo 'NOT';
+					}
+				}
+			}
+		}else{
+		//Membership commission condition program start here//
+			$query = $this->db->query("SELECT * FROM membership_seller WHERE seller_id='$seller_id'");
+			$row= $query->num_rows();
+			if($row > 0){
+				$result = $query->result();
+				$memb_id = $result[0]->memb_id;
+				$qr2 = $this->db->query("SELECT * FROM membership WHERE mbrshp_id='$memb_id'");
+				$rs2 = $qr2->result();
+				$MEMB_COLUMN = $rs2[0]->menbshp_column;
+				$qr3 = $this->db->query("SELECT cat_id,`$MEMB_COLUMN` FROM membership_commission WHERE cat_id='$second_leable_cat_id'");
+				$rw3 = $qr3->num_rows();
+				if($rw3 > 0){
+					$rs3 = $qr3->result();
+					$memb_cmsn = $rs3[0]->$MEMB_COLUMN;
+					$memb_percent_decimal = $memb_cmsn/100;
+					$memb_cmsn_amt = round($final_price*$memb_percent_decimal);
+					echo '<span class="'.$sty_id.'">'.$memb_cmsn_amt.'</span><br/><br/>';
+					echo '<span class="vspn">( '.$memb_cmsn.'% of total sale value)</span>';
+		//Membership commission condition program end here//
+				}else{
+		//Global commission condition program end here//
+					$query = $this->db->query("SELECT * FROM global_commission WHERE cat_id='$second_leable_cat_id'");
+					$rows = $query->num_rows();
+					if($rows > 0){
+						$rs4 = $query->result();
+						$gbl_cmsn = $rs4[0]->commission;
+						$gbl_percent_decimal = $gbl_cmsn/100;
+						$gbl_cmsn_amt = round($final_price*$gbl_percent_decimal);
+						echo '<span class="'.$sty_id.'">'.$gbl_cmsn_amt.'</span><br/><br/>';
+						echo '<span class="vspn">( '.$gbl_cmsn.'% of total sale value)</span>';
+		//Global commission condition program end here//
+					}else{
+						echo 'NOT';
+					}
+				}		
+			}else{
+		//Global commission condition program end here//
+				$query = $this->db->query("SELECT * FROM global_commission WHERE cat_id='$second_leable_cat_id'");
+				$rows = $query->num_rows();
+				if($rows > 0){
+					$rs4 = $query->result();
+					$gbl_cmsn = $rs4[0]->commission;
+					$gbl_percent_decimal = $gbl_cmsn/100;
+					$gbl_cmsn_amt = round($final_price*$gbl_percent_decimal);
+					echo '<span class="'.$sty_id.'">'.$gbl_cmsn_amt.'</span><br/><br/>';
+					echo '<span class="vspn">( '.$gbl_cmsn.'% of total sale value)</span>';
+		//Global commission condition program end here//
+				}else{
+					echo 'NOT';
+				}
+			}
+		}
+	}
+	
+	
+	
+	function select_filter_sellprod_count($seller_id){
 
 
-
-
-        if ($prod_id != "") {
-            $condition .= "b.product_id = '$prod_id' ";
-
-            $query = $this->db->query("SELECT b.product_id
+			$prod_id = $_REQUEST['prod_id'];	
+			$prod_nms = addslashes($_REQUEST['prod_nm']);
+			$prod_nm = str_replace( array( '\'', '"', ',' ,'/', ';','*',' ', '<', '>' ), '', $prod_nms);
+			$sku = $_REQUEST['sku'];
+			$stock = $_REQUEST['stock'];	
+			$mrp = $_REQUEST['mrp'];
+			$sellprce = $_REQUEST['sellprce'];
+			$specprce = $_REQUEST['specprce'];
+			$status = $_REQUEST['status'];
+			$stat = $_REQUEST['stat'];	
+				$condition = "";
+				
+				
+				
+				
+				if($prod_id != ""){
+				$condition .= "b.product_id = '$prod_id' " ; 
+		
+		$query = $this->db->query("SELECT b.product_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku ");
-            return $query->num_rows();
-        }
-        if ($sku != "") {
-            $condition .= "b.sku LIKE '%$sku%' ";
-
-            $query = $this->db->query("SELECT b.product_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku ");
+						return $query->num_rows();
+					}
+					if($sku != ""){
+				$condition .= "b.sku LIKE '%$sku%' " ; 
+		
+		$query = $this->db->query("SELECT b.product_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku ");
-            return $query->num_rows();
-        }
-        if ($prod_nm != "") {
-            $condition .= "c.name LIKE '%$prod_nm%' ";
-
-            $query = $this->db->query("SELECT b.product_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku ");
+						return $query->num_rows();
+					}
+				if($prod_nm != ""){
+				$condition .= "c.name LIKE '%$prod_nm%' " ;
+		
+		$query = $this->db->query("SELECT b.product_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku ");
-            return $query->num_rows();
-        }
-
-
-        if ($stock != "") {
-            $condition .= "b.quantity ='$stock'";
-            $query = $this->db->query("SELECT b.product_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku ");
+						return $query->num_rows();
+					}
+					
+					
+				if($stock != ""){
+				$condition .= "b.quantity ='$stock'" ;
+				$query = $this->db->query("SELECT b.product_id
 FROM product_master b ON 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku ");
-            return $query->num_rows();
-        }
-
-
-        if ($mrp != "") {
-            $condition .= "b.mrp ='$mrp'";
-            $query = $this->db->query("SELECT b.product_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku " );
+						return $query->num_rows();
+					}
+					
+					
+				if($mrp != "" ){
+					 	$condition .= "b.mrp ='$mrp'" ;
+						$query = $this->db->query("SELECT b.product_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku ");
-            return $query->num_rows();
-        }
-        if ($sellprce != "") {
-            $condition .= "b.price = '$sellprce'";
-            $query = $this->db->query("SELECT b.product_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku ");
+							return $query->num_rows();
+					}
+				if($sellprce != "" ){
+					 	$condition .= "b.price = '$sellprce'" ;
+						$query = $this->db->query("SELECT b.product_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku ");
-            return $query->num_rows();
-        }
-        if ($specprce != '') {
-            $condition .= "b.special_price ='$specprce'";
-            $query = $this->db->query("SELECT b.product_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku ");
+						return $query->num_rows();
+					}
+				if($specprce !='' ){
+				  		$condition .= "b.special_price ='$specprce'" ;
+						$query = $this->db->query("SELECT b.product_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku ");
-            return $query->num_rows();
-        }
-
-
-        if ($status != "") {
-            $condition .= "b.approve_status = '$status' ";
-
-            $query = $this->db->query("SELECT b.product_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku ");
+						return $query->num_rows();
+					}
+					
+							
+					if($status != ""){
+				$condition .= "b.approve_status = '$status' " ;
+		
+		$query = $this->db->query("SELECT b.product_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku  
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku  
 ");
-            return $query->num_rows();
-        }
-
-
-
-
-        if ($stat != "") {
-            $condition .= "b.status = '$stat' ";
-
-            $query = $this->db->query("SELECT b.product_id
+						return $query->num_rows();
+					}
+					
+					
+					
+					
+					if($stat != ""){
+				$condition .= "b.status = '$stat' " ;
+		
+		$query = $this->db->query("SELECT b.product_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku  
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku  
 ");
-            return $query->num_rows();
-        }
-
-
-
-
-
-
-
-
-        if ($condition == "") {
-            $query = $this->db->query("SELECT b.product_id
+						return $query->num_rows();
+					}
+					
+					
+					
+					
+					
+					
+					
+					
+				if($condition == ""){
+					$query = $this->db->query("SELECT b.product_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
 WHERE b.seller_id = '$seller_id' GROUP BY b.sku ");
-            return $query->num_rows();
-        }
-    }
-
-    function select_filtered_sell_prod($limit, $start, $seller_id) {
-
-
-        $prod_id = $_REQUEST['prod_id'];
-        $prod_nms = addslashes($_REQUEST['prod_nm']);
-        $prod_nm = str_replace(array('\'', '"', ',', '/', ';', '*', ' ', '<', '>'), '', $prod_nms);
-        $sku = $_REQUEST['sku'];
-        $stock = $_REQUEST['stock'];
-        $mrp = $_REQUEST['mrp'];
-        $sellprce = $_REQUEST['sellprce'];
-        $specprce = $_REQUEST['specprce'];
-        $status = $_REQUEST['status'];
-        $stat = $_REQUEST['stat'];
-
-        $condition = "";
+					return $query->num_rows();
+					}
+				}	
+				
+				
+				
+				
+				function select_filtered_sell_prod($limit,$start,$seller_id){
 
 
-
-
-        if ($prod_id != "") {
-            $condition .= "b.product_id = '$prod_id' ";
-
-            $query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
+			$prod_id = $_REQUEST['prod_id'];
+			$prod_nms = addslashes($_REQUEST['prod_nm']);
+			$prod_nm = str_replace( array( '\'', '"', ',' ,'/', ';','*',' ', '<', '>' ), '', $prod_nms);
+			$sku = $_REQUEST['sku'];
+			$stock = $_REQUEST['stock'];	
+			$mrp = $_REQUEST['mrp'];
+			$sellprce = $_REQUEST['sellprce'];
+			$specprce = $_REQUEST['specprce'];
+			$status = $_REQUEST['status'];
+			$stat = $_REQUEST['stat'];
+				
+				$condition = "";
+				
+				
+				
+				
+				if($prod_id != ""){
+				$condition .= "b.product_id = '$prod_id' " ; 
+		
+		$query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku LIMIT " . $start . " , " . $limit . "");
-            return $query;
-        }
-        if ($sku != "") {
-            $condition .= "b.sku LIKE '%$sku%' ";
-
-            $query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku LIMIT ".$start." , ".$limit."");
+						return $query;
+					}
+					if($sku != ""){
+				$condition .= "b.sku LIKE '%$sku%' " ; 
+		
+		$query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku LIMIT " . $start . " , " . $limit . "");
-            return $query;
-        }
-        if ($prod_nm != "") {
-            $condition .= "c.name LIKE '%$prod_nm%' ";
-
-            $query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku LIMIT ".$start." , ".$limit."");
+						return $query;
+					}
+				if($prod_nm != ""){
+				$condition .= "c.name LIKE '%$prod_nm%' " ;
+		
+		$query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku LIMIT " . $start . "," . $limit . "");
-            return $query;
-        }
-
-
-        if ($stock != "") {
-            $condition .= " b.quantity ='$stock' ";
-            $query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku LIMIT ".$start.",".$limit."");
+						return $query;
+					}
+					
+					
+				if($stock != ""){
+				$condition .= " b.quantity ='$stock' " ;
+				$query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku ORDER BY b.product_id LIMIT " . $start . "," . $limit . "");
-            return $query;
-        }
-
-
-        if ($mrp != "") {
-            $condition .= " b.mrp ='$mrp' ";
-            $query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku ORDER BY b.product_id LIMIT ".$start.",".$limit."" );
+						return $query;
+					}
+					
+					
+				if($mrp != "" ){
+					 	$condition .= " b.mrp ='$mrp' " ;
+						$query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku LIMIT " . $start . "," . $limit . "");
-            return $query;
-        }
-        if ($sellprce != "") {
-            $condition .= "b.price ='$sellprce'";
-            $query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku LIMIT ".$start.",".$limit."");
+							return $query;
+					}
+				if($sellprce != "" ){
+					 	$condition .= "b.price ='$sellprce'" ;
+						$query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku LIMIT " . $start . "," . $limit . "");
-            return $query;
-        }
-        if ($specprce != '') {
-            $condition .= "b.special_price ='$specprce'";
-            $query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku LIMIT ".$start.",".$limit."");
+						return $query;
+					}
+				if($specprce !='' ){
+				  		$condition .= "b.special_price ='$specprce'" ;
+						$query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku LIMIT " . $start . "," . $limit . "");
-            return $query;
-        }
-
-
-        if ($status != "") {
-            $condition .= "b.approve_status = '$status' ";
-
-            $query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku LIMIT ".$start.",".$limit."");
+						return $query;
+					}
+					
+							
+					if($status != ""){
+				$condition .= "b.approve_status = '$status' " ;
+		
+		$query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku LIMIT " . $start . "," . $limit . "
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku LIMIT ".$start.",".$limit."
 ");
-            return $query;
-        }
-
-
-        if ($stat != "") {
-            $condition .= "b.status = '$stat' ";
-
-            $query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
+						return $query;
+					}
+					
+					
+					if($stat != ""){
+				$condition .= "b.status = '$stat' " ;
+		
+		$query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status, b.status, b.sku,e.category_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' AND " . $condition . " GROUP BY b.sku LIMIT " . $start . "," . $limit . "
+WHERE b.seller_id = '$seller_id' AND ".$condition." GROUP BY b.sku LIMIT ".$start.",".$limit."
 ");
-            return $query;
-        }
-
-
-
-
-
-
-        if ($condition == "") {
-            $query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status,b.status, b.sku,e.category_id
+						return $query;
+					}
+					
+					
+					
+					
+					
+					
+				if($condition == ""){
+					$query = $this->db->query("SELECT b.seller_id,b.product_id,b.quantity,b.price,b.tax_amount,b.special_pric_to_dt,b.shipping_fee,b.shipping_fee_amount,c.name, d.imag, b.mrp,b.special_price, b.approve_status,b.status, b.sku,e.category_id
 FROM product_master b 
 INNER JOIN product_category e ON e.product_id = b.product_id
 INNER JOIN product_general_info c ON c.product_id = b.product_id
 INNER JOIN product_image d ON d.product_id = c.product_id
-WHERE b.seller_id = '$seller_id' GROUP BY b.sku LIMIT " . $start . "," . $limit . "");
-            return $query;
-        }
-    }
-
+WHERE b.seller_id = '$seller_id' GROUP BY b.sku LIMIT ".$start.",".$limit."");
+					return $query;
+					}
+				}
 }
 
 ?>

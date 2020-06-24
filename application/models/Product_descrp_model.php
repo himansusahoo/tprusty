@@ -2203,7 +2203,7 @@ AND a.attr_value IS NOT NULL AND (a.attr_value <> '')");
             } else {
                 $sugword = $search_title;
             }
-            $this->load->library('session');
+            
             $this->session->set_userdata('sugstword', $sugword);
             $searchsuggst_txt = trim(str_replace(' ', '%20', $sugword));
             $curl_strng = SOLR_BASE_URL . SOLR_CORE_NAME . "/select?indent=on&q=" . $searchsuggst_txt . "&facet=true&facet.field=Category_Lvl3&facet.field=Category_Lvl2&facet.field=Category_Lvl1&facet.mincount=1&wt=json&rows=50&start=0";
@@ -2239,7 +2239,7 @@ AND a.attr_value IS NOT NULL AND (a.attr_value <> '')");
             $solar_responsedata = 1;
             $this->solr_search_log($solar_responsedata, $search_title, $data2);
 
-            $this->load->library('session');
+            
             $this->session->unset_userdata('prodcount_solr');
             $this->session->set_userdata('prodcount_solr', $data2['response']['numFound']);
         }
@@ -2272,7 +2272,7 @@ AND a.attr_value IS NOT NULL AND (a.attr_value <> '')");
 
             $sugword = $data2['spellcheck']['collations'][1];
 
-            $this->load->library('session');
+            
 
             $this->session->set_userdata('sugstword', $sugword);
 
@@ -2311,7 +2311,7 @@ AND a.attr_value IS NOT NULL AND (a.attr_value <> '')");
             $solar_responsedata = 1;
             $this->solr_search_log($solar_responsedata, $search_title, $data2);
 
-            $this->load->library('session');
+            
             $this->session->unset_userdata('prodcount_solr');
             $this->session->set_userdata('prodcount_solr', $data2['response']['numFound']);
         }
@@ -2970,7 +2970,7 @@ GROUP BY a.lvl2   ");
 
         //echo $addtocart_session_id;exit;
 
-        date_default_timezone_set('Asia/Calcutta');
+        
 
         $dtd = date('Y-m-d H:i:s');
 
@@ -3065,7 +3065,7 @@ GROUP BY a.lvl2   ");
 
         $addtocart_session_id = $this->session->userdata('addtocarttemp_session_id');
 
-        date_default_timezone_set('Asia/Calcutta');
+        
 
         $dtd = date('Y-m-d H:i:s');
 
@@ -3622,7 +3622,7 @@ GROUP BY a.lvl2   ");
 
     function getSellerBadge($sku_id) {
 
-        date_default_timezone_set('Asia/Calcutta');
+        
 
         $dt = date('Y-m-d');
 
@@ -7166,7 +7166,7 @@ WHERE first_slab <=  '$min_rs' ) )");
         //echo '<pre>';print_r($data26);exit;
         if ($data26['response']['numFound'] == 0) {
             $sugword6 = $data26['spellcheck']['collations'][1];
-            //$this->load->library('session');
+            //
             //$this->session->set_userdata('sugstword',$sugword);					
             $searchsuggst_txt6 = trim(str_replace(' ', '%20', $sugword6));
             $curl_strng = SOLR_BASE_URL . SOLR_CORE_NAME . "/select?indent=on&q=" . $search_title . "&wt=json&useParams=" . $id . "&rows=0&fq=Category_Lvl3:" . $Category_Lvl3_Id . "";

@@ -6,16 +6,16 @@ class My_order extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
         $this->load->library('email');
-        $this->load->library('session');
+        
         $this->load->library('upload');
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->library('pagination');
         $this->load->library('user_agent');
-        $this->load->database();
+        
         $this->load->model('Order_model');
         $this->load->model('Usermodel');
     }
@@ -46,7 +46,7 @@ class My_order extends CI_Controller {
       $color_arr = str_replace('&',' ',explode('-',$this->uri->segment(13)));
       $size_arr = str_replace('&',' ',explode('-',$this->uri->segment(14)));
 
-      date_default_timezone_set('Asia/Calcutta');
+      
       $dt = preg_replace("/[^0-9]+/","", date('Y-m-d H:i:s'));
       $user_id=$this->session->userdata['session_data']['user_id'];
 
@@ -107,7 +107,7 @@ class My_order extends CI_Controller {
             $color_arr = str_replace('&', ' ', explode('-', $this->uri->segment(13)));
             $size_arr = str_replace('&', ' ', explode('-', $this->uri->segment(14)));
 
-            date_default_timezone_set('Asia/Calcutta');
+            
             $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
             $user_id = $this->session->userdata['session_data']['user_id'];
 
@@ -153,7 +153,7 @@ class My_order extends CI_Controller {
 
             $deduct_wallet_bal = $this->uri->segment(15);
 
-            date_default_timezone_set('Asia/Calcutta');
+            
             $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
             $user_id = $this->session->userdata['session_data']['user_id'];
 

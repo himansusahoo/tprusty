@@ -58,7 +58,7 @@ class Mycart_model extends CI_Model {
         $addtocarttemp_id = $this->get_unique_id('addtocart_temp', 'addtocart_id');
         //print_r($addtocarttemp_id);exit;
         $addtocart_session_id = $this->session->userdata('addtocarttemp_session_id');
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dtd = date('Y-m-d H:i:s');
 
         $data = array(
@@ -100,7 +100,7 @@ class Mycart_model extends CI_Model {
             //print_r($addtocarttemp_id);exit;
             $addtocart_session_id = $this->session->userdata('addtocarttemp_session_id');
 
-            date_default_timezone_set('Asia/Calcutta');
+            
             $dtd = date('Y-m-d H:i:s');
             $data = array(
                 'addtocart_id' => $addtocarttemp_id,
@@ -253,7 +253,7 @@ class Mycart_model extends CI_Model {
 
 
     function inserted_into_checkout_temp() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d H:i:s');
         $chkout_session_id = $this->session->userdata('chkoutemp_session_id');
         $user_id = $this->session->userdata['session_data']['user_id'];
@@ -440,7 +440,7 @@ class Mycart_model extends CI_Model {
     }
 
     function insert_inn_transaction_details($order_id_arr, $qantity_arr, $sub_total_arr, $sku_arr, $seller_id_arr, $price_arr, $shipping_fees_arr) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
         //program start for getting product sale value//
         $arr_length = count($qantity_arr);
@@ -557,7 +557,7 @@ class Mycart_model extends CI_Model {
     }
 
     function commission_calculation($second_leable_cat_id_arr, $sub_total_arr, $seller_id_arr) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
         //program start for commission calculating //
         $arr_length = count($seller_id_arr);

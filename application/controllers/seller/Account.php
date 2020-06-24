@@ -6,15 +6,15 @@ class Account extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->helper('string');
         $this->load->library('form_validation');
         $this->load->library('email');
-        $this->load->library('session');
+        
         $this->load->library('upload');
         $this->load->library('encrypt');
         $this->load->library('javascript');
-        $this->load->database();
+        
         $this->load->model('seller/Seller_model');
     }
 
@@ -112,7 +112,7 @@ class Account extends CI_Controller {
 		</html>
 		");
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $msg = $this->email->message("

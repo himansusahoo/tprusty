@@ -60,7 +60,7 @@
         <?php
         if (@$result[0]->order_status == 'Failed') {
             $this->load->helper('string');
-            date_default_timezone_set('Asia/Calcutta');
+            
 
             $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
 

@@ -7,14 +7,14 @@ class Page_search extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
-        $this->load->library('session');
+        
         $this->load->library('upload');
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->helper('string');
-        $this->load->database();
+        
         $this->load->model('admin/Pagesearch_model');
 
         $this->load->library('ckeditor');

@@ -323,7 +323,7 @@ class Order_model extends CI_Model {
             $this->email->send();
 
 
-            date_default_timezone_set('Asia/Calcutta');
+            
             $dt = date('Y-m-d H:i:s');
 
             $msg = $this->load->view('email_template/order_placed', $cart, true);
@@ -717,7 +717,7 @@ class Order_model extends CI_Model {
             $this->email->send();
 
 
-            date_default_timezone_set('Asia/Calcutta');
+            
             $dt = date('Y-m-d H:i:s');
 
             $msg = $this->load->view('email_template/order_placed', $cart, true);
@@ -781,7 +781,7 @@ class Order_model extends CI_Model {
     function insert_myorderdata_wallet($addtocart_ids, $order_id_arr, $tax_arr, $shipping_fees_arr, $sub_total_arr, $qantity_arr, $sku_arr, $total_price, $seller_id_arr, $address_id, $price_arr, $color_arr, $size_arr, $deduct_wallet_bal) {
         //print_r($order_id_arr);exit;
         //generate transaction id start here
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dtm = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
         $transaction_id = 'ADJ-WL' . $dtm;
         //generate transaction id end here
@@ -995,7 +995,7 @@ class Order_model extends CI_Model {
     }
 
     function insert_inn_transaction_details($order_id_arr, $qantity_arr, $sub_total_arr, $sku_arr, $seller_id_arr, $price_arr, $shipping_fees_arr) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
         //program start for getting product sale value//
         $arr_length = count($qantity_arr);
@@ -1102,7 +1102,7 @@ class Order_model extends CI_Model {
     }
 
     function commission_calculation($second_leable_cat_id_arr, $sub_total_arr, $seller_id_arr) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
         //program start for commission calculating //
         $arr_length = count($seller_id_arr);
@@ -1449,7 +1449,7 @@ class Order_model extends CI_Model {
                 $this->email->send();
 
 
-                date_default_timezone_set('Asia/Calcutta');
+                
                 $dt = date('Y-m-d H:i:s');
 
                 $msg = $this->load->view('email_template/order_placed', $cart, true);
@@ -1746,7 +1746,7 @@ class Order_model extends CI_Model {
                 $this->email->send();
 
 
-                date_default_timezone_set('Asia/Calcutta');
+                
                 $dt = date('Y-m-d H:i:s');
 
                 $msg = $this->load->view('email_template/order_placed', $cart, true);
@@ -2145,7 +2145,7 @@ class Order_model extends CI_Model {
                 $this->email->send();
 
 
-                date_default_timezone_set('Asia/Calcutta');
+                
                 $dt = date('Y-m-d H:i:s');
 
                 $msg = $this->load->view('email_template/order_placed', $cart, true);
@@ -2427,7 +2427,7 @@ class Order_model extends CI_Model {
                 $this->email->send();
 
 
-                date_default_timezone_set('Asia/Calcutta');
+                
                 $dt = date('Y-m-d H:i:s');
 
                 $msg = $this->load->view('email_template/order_placed', $cart, true);
@@ -2489,7 +2489,7 @@ class Order_model extends CI_Model {
                 $this->email->send();
 
 
-                date_default_timezone_set('Asia/Calcutta');
+                
                 $dt = date('Y-m-d H:i:s');
 
                 $msg = $this->load->view('email_template/order_failure', $cart, true);
@@ -2557,7 +2557,7 @@ class Order_model extends CI_Model {
                 $this->email->send();
 
 
-                date_default_timezone_set('Asia/Calcutta');
+                
                 $dt = date('Y-m-d H:i:s');
 
                 $msg = $this->load->view('email_template/order_failure', $cart, true);
@@ -2650,7 +2650,7 @@ class Order_model extends CI_Model {
 
 
     function update_orderstatus_log($ordered_id, $order_log_status) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $qr = $this->db->query("select * from order_status_log WHERE order_id IN ($ordered_id) ");
@@ -2676,7 +2676,7 @@ class Order_model extends CI_Model {
 
 
     function insert_return_data() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $date = date('Y-m-d H:i:s');
         $return_id = 'RN' . preg_replace("/[^0-9]+/", "", $date);
 
@@ -2806,7 +2806,7 @@ class Order_model extends CI_Model {
             $this->email->send();
 
 
-            date_default_timezone_set('Asia/Calcutta');
+            
             $dt = date('Y-m-d H:i:s');
 
             $msg = $this->load->view('email_template/order_return_request', $cart, true);
@@ -2844,7 +2844,7 @@ class Order_model extends CI_Model {
                 $wallet_user_count = $query_wallet->num_rows();
 
 
-                date_default_timezone_set('Asia/Calcutta');
+                
                 $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
                 $user_id = $this->session->userdata['session_data']['user_id'];
                 //$unique_wallet_id='WL-'.$dt.$user_id;
@@ -2887,13 +2887,13 @@ class Order_model extends CI_Model {
     }
 
     function clear_inn_checkout_temp_table() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $beforeTime = date("Y-m-d H:i:s", strtotime("-15 minutes"));
         $this->db->query("DELETE FROM checkout_temp WHERE cdate <= '$beforeTime'");
     }
 
     function clear_inn_payment_adjust_temp_data() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $beforeTime = date("Y-m-d H:i:s", strtotime("-15 minutes"));
         $this->db->query("DELETE FROM pay_adjust_data_temp WHERE cdate <= '$beforeTime'");
     }

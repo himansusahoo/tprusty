@@ -79,49 +79,6 @@ class Seller_model extends CI_Model {
     function get_seller_id($get_seller_id) {
         $query = $this->db->query("SELECT * from seller_account WHERE seller_id='" . $get_seller_id . "'");
         $row = $query->num_rows();
-        //$rw_nm=$query->row();
-//		
-//		$selr_data['seller_nm']=$rw_nm->name	;									
-//								//-------------------------Data For message end----------------------------------
-//														   
-//		$this->email->set_mailtype("html");
-//		$this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
-//		$this->email->to($rw_nm->email);
-//		//$this->email->to('santanu@paramountitsolutions.co.in');
-//		$this->email->subject('Seller Registration Successfully');
-//		$this->email->message($this->load->view('email_template/seller_registration',$selr_data,true));
-//		//$this->email->message($message1);
-//		//$this->email->attach(pdf_create($html, 'order_Slip'));
-//		$this->email->send();
-//		
-//				date_default_timezone_set('Asia/Calcutta');
-//				$dt = date('Y-m-d H:i:s');
-//					
-//				$msg=$this->load->view('email_template/seller_registration',$selr_data,true);
-//				if($this->email->send()){
-//					
-//					$email_data=array(
-//					'to_email_id'=>$rw_nm->email,
-//					'from_email_id'=>SUPPORT_MAIL,
-//					'date'=>$dt,
-//					'email_sub'=>'Seller Registration Successfully',
-//					'email_content'=>$msg,
-//					'email_send_status'=>'Success'
-//					);
-//				}else
-//				{
-//					$email_data=array(
-//					'to_email_id'=>$rw_nm->email,
-//					'from_email_id'=>SUPPORT_MAIL,
-//					'date'=>$dt,
-//					'email_sub'=>'Seller Registration Successfully',
-//					'email_content'=>$msg,
-//					'email_send_status'=>'Failure'
-//					);	
-//				}
-//				$this->db->insert('email_log',$email_data);					
-
-
         if ($row == 1) {
             return $query->result();
         } else {
@@ -131,23 +88,17 @@ class Seller_model extends CI_Model {
 
     function emaito_newseller($seller_id) {
         $query = $this->db->query("SELECT * from seller_account WHERE seller_id='" . $seller_id . "'");
-        //$row = $query->num_rows();
         $rw_nm = $query->row();
 
         $selr_data['seller_nm'] = $rw_nm->name;
-        //-------------------------Data For message end----------------------------------
-
         $this->email->set_mailtype("html");
-        $this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
+        $this->email->from('support@moonboy.in', 'moonboy.in');
         $this->email->to($rw_nm->email);
-        //$this->email->to('santanu@paramountitsolutions.co.in');
         $this->email->subject('Seller Account Registration Received');
         $this->email->message($this->load->view('email_template/seller_registration', $selr_data, true));
-        //$this->email->message($message1);
-        //$this->email->attach(pdf_create($html, 'order_Slip'));
         $this->email->send();
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $msg = $this->load->view('email_template/seller_registration', $selr_data, true);
@@ -155,7 +106,7 @@ class Seller_model extends CI_Model {
 
             $email_data = array(
                 'to_email_id' => $rw_nm->email,
-                'from_email_id' => SUPPORT_MAIL,
+                'from_email_id' => 'support@moonboy.in',
                 'date' => $dt,
                 'email_sub' => 'Seller Account Registration Received',
                 'email_content' => $msg,
@@ -164,7 +115,7 @@ class Seller_model extends CI_Model {
         } else {
             $email_data = array(
                 'to_email_id' => $rw_nm->email,
-                'from_email_id' => SUPPORT_MAIL,
+                'from_email_id' => 'support@moonboy.in',
                 'date' => $dt,
                 'email_sub' => 'Seller Account Registration Received',
                 'email_content' => $msg,
@@ -189,10 +140,8 @@ class Seller_model extends CI_Model {
             'tin_img' => $tin_img_name,
             'tan' => $this->input->post('tan'),
             'tan_img' => $tan_img_name,
-//---------------------------------------sujit end---------------------------------------//
             'gstin' => $this->input->post('gstin'),
             'gstin_img' => $gstin_img_name,
-//---------------------------------------sujit end---------------------------------------//
             'ac_holder_name' => $this->input->post('ac_holder_name'),
             'ac_number' => $this->input->post('ac_number'),
             'ifsc_code' => $this->input->post('ifsc'),
@@ -241,16 +190,6 @@ class Seller_model extends CI_Model {
             return false;
         }
     }
-
-    /* function match_category($seller_id, $category){
-      $query = $this->db->query("SELECT * FROM seller_account WHERE seller_id='".$seller_id."' AND main_selleing_category='".addslashes($category)."'");
-      $row = $query->num_rows();
-      if($row == 1){
-      return true;
-      }else{
-      return false;
-      }
-      } */
 
     function check_seller_email_address($data) {
         $query = $this->db->query("SELECT * FROM seller_account WHERE email=" . "'" . $data['email'] . "'");
@@ -385,38 +324,12 @@ class Seller_model extends CI_Model {
         }
     }
 
-    /* function getSellerNoticeCountValue(){
-      $seller_id = $this->session->userdata('seller-session');
-      $query = $this->db->query("SELECT * FROM seller_notification2 WHERE seller_id='$seller_id'");
-      $result = $query->result();
-      $rows = $query->num_rows();
-      return $rows;
-      } */
-
     function getNoticeListEachSeller() {
         $seller_id = $this->session->userdata('seller-session');
         $query = $this->db->query("SELECT * FROM seller_notification2 WHERE seller_id='$seller_id'");
         $result = $query->result();
         return $result;
     }
-
-    /* function getOrderCountValue(){
-      $seller_id = $this->session->userdata('seller-session');
-      $query = $this->db->query("SELECT a.*
-      FROM ordered_product_from_addtocart a
-      INNER JOIN order_info b ON a.order_id = b.order_id
-      WHERE a.seller_id='$seller_id' AND (b.order_status = 'Pending payment' || b.order_status = 'Processing' || b.order_status = 'Ready to shipped' || b.order_status = 'Order confirmed')");
-      $result = $query->result();
-      $rows = $query->num_rows();
-      return $rows;
-      }
-      function getSellerRatingCountValue(){
-      $seller_id = $this->session->userdata('seller-session');
-      $query = $this->db->query("SELECT SUM(rating) AS A, COUNT(*) AS B FROM review_seller WHERE seller_id ='$seller_id'");
-      $result = $query->result();
-      $a = $result[0]->A; $b = $result[0]->B;
-      return $rating = ceil($a/$b);
-      } */
 
     function insert_pmobile($data) {
         if ($data != '') {
@@ -452,19 +365,6 @@ class Seller_model extends CI_Model {
             return false;
         }
     }
-
-    /* function update_seller_pmobile2(){
-      $seller_id = $this->session->userdata('seller-session');
-      $mobile = $this->input->post('mobile');
-      $this->db->where('seller_id', $seller_id);
-      $this->db->set('mobile', $mobile);
-      $query = $this->db->update('seller_account');
-      if($query){
-      return true;
-      }else{
-      return false;
-      }
-      } */
 
     function select_SellerTC() {
         $query_tc = $this->db->query("select * from seller_termsconditions");

@@ -1,0 +1,18 @@
+div.dataTables_filter {
+   width: 100%;
+   float: right;
+   text-align: right;
+   margin-right:2px;
+}
+div.dataTables_length{float: left;}
+div.DTTT_container{float: right;margin: 2px 4px 2px 4px;}
+.no-pad{padding: 0px !important;}
+.dataTables_length .form-control{display: none !important;width: auto;}
+table.dataTable.no-footer{border-bottom: 1px solid #00c0ef !important;}
+.pagination {margin-top: 0px;margin-bottom: 0px;}
+.pagination > li > a, .pagination > li > span{padding: 1px 10px !important;}
+.search_box_dt_cls{border-radius: 20px;}
+.dt-length-change .dataTables_length.select{display:none !important;}
+.dt-length-change .chosen-container-single .chosen-single{height: 32px !important;line-height: 32px !important;}
+.dt-length-change .chosen-container-single .chosen-single div{top:4px !important;}
+.table-responsive{overflow-x: inherit !important;}

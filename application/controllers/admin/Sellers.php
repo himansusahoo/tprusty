@@ -8,13 +8,13 @@ class Sellers extends CI_Controller {
 
         parent::__construct();
 
-        $this->load->helper(array('html', 'form', 'url'));
+       
 
         $this->load->library('form_validation');
 
         $this->load->library('email');
 
-        $this->load->library('session');
+        
 
         $this->load->helper('string');
 
@@ -24,7 +24,7 @@ class Sellers extends CI_Controller {
 
         $this->load->library('javascript');
 
-        $this->load->database();
+        
 
         $this->load->model('admin/Seller_model');
 
@@ -403,7 +403,7 @@ class Sellers extends CI_Controller {
 
 
 
-                date_default_timezone_set('Asia/Calcutta');
+                
 
                 $dt = date('Y-m-d H:i:s');
 
