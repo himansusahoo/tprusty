@@ -10,7 +10,7 @@
         <title>Online Shopping India: Shop Online at India's Lowest Price Online Store- <?= DOMAIN_NAME ?></title>
 
         <?php
-        date_default_timezone_set('Asia/Calcutta');
+        
         include "header.php";
         ?>
         <!-- Lightbox link start here  -->

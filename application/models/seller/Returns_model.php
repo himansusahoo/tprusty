@@ -63,7 +63,7 @@ class Returns_model extends CI_Model {
     }
 
     function getUpdateReturnStatus($status, $order_ids) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $date1 = date("Y-m-d H:i:s");
         $count = count($order_ids);
         //print_r($order_ids);exit;

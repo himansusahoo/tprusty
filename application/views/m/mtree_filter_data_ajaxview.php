@@ -75,7 +75,7 @@
 			if($data26['response']['numFound']==0)
 			{	
 				$sugword6=$data26['spellcheck']['collations'][1];
-				//$this->load->library('session');
+				//
 				//$this->session->set_userdata('sugstword',$sugword);					
 				$searchsuggst_txt6=trim(str_replace(' ','%20',$sugword6));	
 				$curl_strng=SOLR_BASE_URL.SOLR_CORE_NAME."/select?indent=on&q=".$search_title."&wt=json&useParams=".$id."&rows=0&fq=Category_Lvl3:".$Category_Lvl3_Id."";

@@ -8,11 +8,11 @@ class Orders extends CI_Controller {
 		$this->load->helper('string');
 		$this->load->library('form_validation');
 		$this->load->library('email');
-		$this->load->library('session');
+		
 		$this->load->library('upload');
 		$this->load->library('encrypt');
 		$this->load->library('javascript');
-		$this->load->database();
+		
 		$this->load->model('seller/Orders_model');
 		$this->load->helper('date');	
 	}

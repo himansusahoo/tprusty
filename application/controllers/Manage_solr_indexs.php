@@ -4,9 +4,9 @@ class Manage_solr_indexs extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
-        $this->load->database();
-        $this->load->library('session');
+       
+        
+        
         $this->load->model('Manage_solr_index');
     }
 

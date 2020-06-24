@@ -88,7 +88,7 @@ class Seller_model extends CI_Model {
     }
 
     function update_sellers_status($seller_id, $status) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
         $query = $this->db->query("UPDATE seller_account SET status='$status', approval_date='$dt' WHERE seller_id='$seller_id'");
         if ($query) {
@@ -607,7 +607,7 @@ class Seller_model extends CI_Model {
     }
 
     function insert_newseller_notice() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
         $notice_data = array(
             'title' => $this->input->post('title'),
@@ -624,7 +624,7 @@ class Seller_model extends CI_Model {
     }
 
     function insert_newseller_notice2() {
-        //date_default_timezone_set('Asia/Calcutta');
+        //
         //$dt =  date('Y-m-d H:i:s');
         $notice_data = array(
             'title' => $this->input->post('title'),
@@ -648,7 +648,7 @@ class Seller_model extends CI_Model {
     }
 
     function getseller_notification_update() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
         $id = $this->input->post('hidden_id');
         $notice_data = array(

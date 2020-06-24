@@ -6,16 +6,16 @@ class Update_postal_code_cnt extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
 
         $this->load->library('email');
-        $this->load->library('session');
+        
         $this->load->library('upload');
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->library('pagination');
-        $this->load->database();
+        
         $this->load->helper('string');
         $this->load->library('user_agent');
         $this->load->model('Super_admin_model');

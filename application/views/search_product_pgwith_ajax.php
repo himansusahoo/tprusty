@@ -20,7 +20,7 @@
 			if($product_data_sco['response']['numFound']==0){
 				$sugword=$product_data_sco['spellcheck']['collations'][1];
 						
-				//$this->load->library('session');
+				//
 				
 				//$this->session->set_userdata('sugstword',$sugword);					
 				

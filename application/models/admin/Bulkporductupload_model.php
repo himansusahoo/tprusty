@@ -195,7 +195,7 @@ class Bulkporductupload_model extends CI_Model {
         $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
         $rowsdata = array();
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $parent_query = $this->db->query("SELECT * FROM bulkprod_templatelog WHERE excelfile_name='$excl_filename' AND status='Active' AND downlaod_parentid > 0 ");
@@ -657,7 +657,7 @@ class Bulkporductupload_model extends CI_Model {
         $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
         $rowsdata = array();
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
         $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
         $parent_query = $this->db->query("SELECT * FROM bulkprod_templatelog WHERE excelfile_name='$excl_filename' AND status='Active' AND downlaod_parentid > 0 ");
@@ -1115,7 +1115,7 @@ class Bulkporductupload_model extends CI_Model {
         ini_set('display_errors', 1);
         //$this->db->trans_start();
         $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $qr_filetempdata = $this->db->query("SELECT * FROM bulkprod_templatelog WHERE blk_tempid='$excelfiluploadid' ");

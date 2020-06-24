@@ -4,12 +4,12 @@ class Moonboy404 extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+       
 
-        $this->load->library('session');
+        
         $this->load->helper('cookie');
         $this->load->library('user_agent');
-        $this->load->database();
+        
     }
 
     public function index() {

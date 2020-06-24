@@ -6,13 +6,13 @@ class Bulkproduct_edit Extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
-        $this->load->library('session');
+        
         $this->load->library('upload');
         $this->load->library('javascript');
         $this->load->helper('string');
-        $this->load->database();
+        
         //$this->load->model('admin/Bulkporductupload_model');
         $this->load->model('admin/Bulkporductedit_model');
     }
@@ -102,7 +102,7 @@ class Bulkproduct_edit Extends CI_Controller {
             $data['failed_product'] = $this->Bulkporductedit_model->select_failed_editedprodtemplatedidwise($upload_templateid);
 
 
-            date_default_timezone_set('Asia/Calcutta');
+            
 
             $dt_rec = preg_replace("/[^0-9]+/", "", date('d-m-Y H:i:s'));
             $rand_string = random_string('alnum', 10);

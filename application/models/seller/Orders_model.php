@@ -261,7 +261,7 @@ class Orders_model extends CI_Model {
 
         $row_as_product = $qrs->result();
 
-        date_default_timezone_set('Asia/Calcutta');
+        
 
         $date1 = date('y-m-d h:i:s');
 
@@ -358,7 +358,7 @@ class Orders_model extends CI_Model {
     }
 
     function order_accept_update($order_id) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
 
@@ -372,7 +372,7 @@ class Orders_model extends CI_Model {
     }
 
     function update_orderstatus_log($ordered_id, $order_log_status) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $qr = $this->db->query("select * from order_status_log WHERE order_id IN ($ordered_id) ");
@@ -517,7 +517,7 @@ class Orders_model extends CI_Model {
         $tot_amt = $this->input->post('total_amount');
         $seller_id = $seller_id = $this->session->userdata('seller-session');
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $date1 = date('y-m-d h:i:s');
 
         //$query_select_penaltydata=	$this->db->query("select * from penalty_seller_order where order_id='$order_ids' ");								
@@ -588,7 +588,7 @@ class Orders_model extends CI_Model {
 
 
     function cancel_inn_order() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $order_id = $this->input->post('orderid');

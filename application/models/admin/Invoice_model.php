@@ -18,7 +18,7 @@ class Invoice_model extends CI_Model {
 //	}
     //function generate_invoiceid($order_id)
 //	{
-//		date_default_timezone_set('Asia/Calcutta');
+//		
 //		$dt = date('Y-m-d H:i:s');
 //		$invoice_id=random_string('alnum',5).'-'.$order_id;
 //		$query=$this->db->query("update order_info set invoice_id='$invoice_id', invoice_date='$dt' where order_id='$order_id'  ");

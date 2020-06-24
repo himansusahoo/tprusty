@@ -31,7 +31,7 @@
 
         <?php
         include "header.php";
-        date_default_timezone_set('Asia/Calcutta');
+        
         if ($this->session->userdata('chkoutemp_session_id') == "") {
             $dtm = str_replace(" ", "-", date('Y-m-d H:i:s'));
             $chkoutemp_session_id = random_string('alnum', 10) . $dtm;
@@ -777,7 +777,7 @@
                                             if ($ct11 > 0) {
                                                 $days = $res11->dispatch_days + 5;
 
-                                                date_default_timezone_set('Asia/Calcutta');
+                                                
                                                 $dt = date('d M', strtotime(+$days . 'days'));
                                                 echo "STANDARD DELIVERY BY " . $dt;
                                             } else {
@@ -1076,7 +1076,7 @@
                             <button id="proceed_to_pay" type="button" title="Add to Cart" class="button btn-cart-big" onClick="ValidCaptcha('<?php echo implode('-', $addtocart_id_arr) ?>',<?php echo $cod_totalprice ?>, '<?php echo implode('-', $seller_id_arr) ?>', '<?php echo implode('-', $tax_arr) ?>', '<?php echo implode('-', $shipping_fees_arr) ?>', '<?php echo implode('-', $sub_total_arr) ?>', '<?php echo implode('-', $qantity_arr) ?>', '<?php echo implode('*', $sku_arr) ?>', '<?php echo $cus_data->address_id ?>', '<?php echo implode('-', $price_arr); ?>', '<?php echo implode('-', $color_arr); ?>', '<?php echo implode('-', $size_arr); ?>')" >Confirm your Order</button>
 
                                                 <?php
-                                                date_default_timezone_set('Asia/Calcutta');
+                                                
 
                                                 $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
 

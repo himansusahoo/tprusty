@@ -8,14 +8,14 @@ class Bulk_productlog extends CI_Controller {
 
         parent::__construct();
 
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
-        $this->load->library('session');
+        
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->helper('string');
         $this->load->helper('file');
-        $this->load->database();
+        
         $this->load->library('pagination');
         $this->load->model('admin/Bulkproduct_model');
     }

@@ -98,7 +98,7 @@ class Seller_model extends CI_Model {
         $this->email->message($this->load->view('email_template/seller_registration', $selr_data, true));
         $this->email->send();
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $msg = $this->load->view('email_template/seller_registration', $selr_data, true);

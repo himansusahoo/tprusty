@@ -1,7 +1,7 @@
 <?php
 require_once("header.php");
 $this->load->helper('string');
-date_default_timezone_set('Asia/Calcutta');
+
 if($this->session->userdata('seller_session_id')==""){
 	$dtm = str_replace(" ","-",date('Y-m-d H:i:s'));
 	$session_slr_id = random_string('alnum', 16).$dtm;

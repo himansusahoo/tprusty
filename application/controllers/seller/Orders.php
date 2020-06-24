@@ -6,15 +6,15 @@ class Orders extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->helper('string');
         $this->load->library('form_validation');
         $this->load->library('email');
-        $this->load->library('session');
+        
         $this->load->library('upload');
         $this->load->library('encrypt');
         $this->load->library('javascript');
-        $this->load->database();
+        
         $this->load->model('seller/Orders_model');
         $this->load->helper('date');
         $this->load->library('pagination');
@@ -169,7 +169,7 @@ class Orders extends CI_Controller {
                 //$this->email->send();
                 $this->email->send();
 
-                date_default_timezone_set('Asia/Calcutta');
+                
                 $dt = date('Y-m-d H:i:s');
 
                 $msg = $this->load->view('email_template/shipping_info_buyer', $data, true);

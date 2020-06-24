@@ -23,7 +23,7 @@
        		 ?></title>
              
 		<?php include "header.php" ;
-        date_default_timezone_set('Asia/Calcutta');
+        
         if($this->session->userdata('addtocarttemp_session_id')==""){
         $dtm = str_replace(" ","-",date('Y-m-d H:i:s'));
         $addtocarttemp_session_id=random_string('alnum', 16).$dtm;

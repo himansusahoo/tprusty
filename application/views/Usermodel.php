@@ -118,7 +118,7 @@ class Usermodel extends CI_Model {
     }
 
     function login_register() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
         $email = $this->input->post('email');
         $pass = $this->input->post('password');
@@ -667,7 +667,7 @@ FROM seller_account_information
     }
 
     function insert_customer_support_data() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
         $customer_reference_id = $this->get_customer_referenceid('customer_support', 'customer_reference_id');
         $name = $this->input->post('name');
@@ -685,7 +685,7 @@ FROM seller_account_information
     }
 
     function insert_inn_return_product() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $date = date('Y-m-d H:i:s');
         $return_id = 'RN' . preg_replace("/[^0-9]+/", "", $date);
 
@@ -745,7 +745,7 @@ FROM seller_account_information
         $qr = $query->row()->scb_unique;
         //print_r($qr);exit;
         $unique1d = $qr + 1;
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
         //$x="insert into subscriber_detail(user_unique_id,user_email_id,user_gender) values('$unique1d','$email','$gender')";echo $x;exit;
         //print_r($unique1d);exit;
@@ -765,7 +765,7 @@ FROM seller_account_information
     }
 
     function insert_user_mobile_otp($otp) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $user_otp_data = array(

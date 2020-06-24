@@ -6,10 +6,10 @@ class Solar_manage extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
-        $this->load->library('session');
-        $this->load->database();
+        
+        
         $this->load->library('pagination');
         $this->load->model('admin/Solar_manage_model');
     }

@@ -304,7 +304,7 @@ $(document).ready(function(){
 													<td><?=$row->price?></td>
 													<td>
                                                     <?php
-													date_default_timezone_set('Asia/Calcutta');
+													
 													$cdate = date('Y-m-d');
 													if($row->special_pric_to_dt >= $cdate){
 														echo $row->special_price;

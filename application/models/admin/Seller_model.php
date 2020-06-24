@@ -714,7 +714,7 @@ class Seller_model extends CI_Model {
 
 	function update_sellers_status($seller_id, $status){
 
-		date_default_timezone_set('Asia/Calcutta');
+		
 
 		$dt =  date('Y-m-d H:i:s');
 
@@ -4148,7 +4148,7 @@ function search_existseller_name(){
 
 		//echo $sql_id;exit;
 
-		date_default_timezone_set('Asia/Calcutta');
+		
 
 		$dt_id = preg_replace("/[^0-9]+/","", date('Y-m-d H:i:s'));
 
@@ -4258,7 +4258,7 @@ function search_existseller_name(){
 
 	function insert_newseller_notice(){
 
-		date_default_timezone_set('Asia/Calcutta');
+		
 
 		$dt =  date('Y-m-d H:i:s');
 
@@ -4292,7 +4292,7 @@ function search_existseller_name(){
 
 	function insert_newseller_notice2(){
 
-		//date_default_timezone_set('Asia/Calcutta');
+		//
 
 		//$dt =  date('Y-m-d H:i:s');
 
@@ -4336,7 +4336,7 @@ function search_existseller_name(){
 
 	function getseller_notification_update(){
 
-		date_default_timezone_set('Asia/Calcutta');
+		
 
 		$dt =  date('Y-m-d H:i:s');
 
@@ -9835,7 +9835,7 @@ FROM seller_account_information WHERE seller_id = '$seller_id' ");
 		$seller_id = $this->input->post('seller_id');
 		$final_price = $selling_price+$shipping_fee;
 		$sty_id = 'fcmsn'.$sl;
-		date_default_timezone_set('Asia/Calcutta');
+		
 		$cdate = date('Y-m-d');
 		//$seller_id = $this->session->userdata('seller-session');
 		//special commission condition program start here//

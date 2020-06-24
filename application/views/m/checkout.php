@@ -1,5 +1,5 @@
 <?php include "header.php"; 
-		date_default_timezone_set('Asia/Calcutta');
+		
         if($this->session->userdata('chkoutemp_session_id')==""){
         $dtm = str_replace(" ","-",date('Y-m-d H:i:s'));
         $chkoutemp_session_id=random_string('alnum', 10).$dtm;
@@ -726,7 +726,7 @@ $(document).ready(function(){
 											if($ct11 > 0){
 												$days = $res11->dispatch_days+5; 
 												   
-												date_default_timezone_set('Asia/Calcutta');
+												
 												$dt =  date('d M', strtotime(+$days.'days'));
 												echo "Standard delivery by ". $dt;
 											}else{
@@ -788,7 +788,7 @@ $(document).ready(function(){
                      <!--------------------------------------------Product & Price Deatil stored in Session start--------------------------------->
                      
                      			<?php 
-											date_default_timezone_set('Asia/Calcutta');
+											
 											
 											$dt= preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s')) ;
 											

@@ -79,7 +79,7 @@ class Bulkporduct_reuploadmodel extends CI_Model {
         $excl_filename = $qr_excelfilname->row()->excelfile_name;
         $upload_uid = $qr_excelfilname->row()->blk_tempid;
 
-        //date_default_timezone_set('Asia/Calcutta');
+        //
         $dt = date('Y-m-d H:i:s');
         $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
         $parent_query = $this->db->query("SELECT * FROM bulkprod_templatelog WHERE excelfile_name='$excl_filename' AND status='Expired' AND downlaod_parentid > 0 ");
@@ -536,7 +536,7 @@ class Bulkporduct_reuploadmodel extends CI_Model {
         set_time_limit(0);
 
         $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $qr_filetempdata = $this->db->query("SELECT * FROM bulkprod_templatelog WHERE blk_tempid='$excelfiluploadid' ");
@@ -3082,7 +3082,7 @@ class Bulkporduct_reuploadmodel extends CI_Model {
         set_time_limit(0);
 
         $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $qr_filetempdata = $this->db->query("SELECT * FROM bulkprod_templatelog WHERE blk_tempid='$excelfiluploadid' ");
@@ -5624,7 +5624,7 @@ class Bulkporduct_reuploadmodel extends CI_Model {
 
 
         $this->db->query('SET TRANSACTION ISOLATION LEVEL SERIALIZABLE');
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $qr_filetempdata = $this->db->query("SELECT * FROM bulkprod_templatelog WHERE blk_tempid='$excelfiluploadid' ");

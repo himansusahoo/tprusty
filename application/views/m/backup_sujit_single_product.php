@@ -373,7 +373,7 @@ div.panel ul li {
     <link href="<?php echo base_url()?>mobile_css_js/new/css/owl.carousel.css" rel="stylesheet">
     <script src="<?php echo base_url()?>mobile_css_js/new/js/owl.carousel.js"></script>
     <?php 
-		date_default_timezone_set('Asia/Calcutta');
+		
 			if($this->session->userdata('addtocarttemp_session_id')==""){
 			$dtm = str_replace(" ","-",date('Y-m-d H:i:s'));
 			$addtocarttemp_session_id=random_string('alnum', 16).$dtm;

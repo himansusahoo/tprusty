@@ -22,13 +22,9 @@ class Super_admin_model extends CI_Model {
 
             $pass_user = $this->input->post('password');
             $user_sessdata = array();
-            //$user_sessdata=$this->session->all_userdata();
-            //echo $this->agent->browser().'<br>';
             $user_agentinfo = $this->agent->agent_string();
             $user_ip = $this->input->ip_address();
-            //echo $this->input->user_agent().'<br>';
-//		exit;
-            date_default_timezone_set('Asia/Calcutta');
+
             $date_userlogin = date('y-m-d H:i:s');
             $this->db->query("update user_role_previleges set log_in_dtime ='$date_userlogin', ip_address='$user_ip', user_agent='$user_agentinfo' where uname='$uname' AND password='$pass_user'   ");
 
@@ -49,7 +45,7 @@ class Super_admin_model extends CI_Model {
 
     function update_user_logouttime() {
         $uname = $this->session->userdata('logged_in');
-        date_default_timezone_set('Asia/Calcutta');
+
 
         $date_userlogout = date('y-m-d H:i:s');
 
@@ -89,35 +85,7 @@ class Super_admin_model extends CI_Model {
         return $query->result();
     }
 
-    /* function retrieve_2nd_leable_product_category_wth_global_commission(){
-      $query = $this->db->query("SELECT a.category_id, a.category_name, b.cat_id, b.commission AS GLOBAL_COMMISSION
-      FROM category_indexing a
-      LEFT JOIN global_commission b ON a.category_id = b.cat_id
-      WHERE a.parent_id
-      IN (
-      SELECT category_id
-      FROM category_indexing
-      WHERE parent_id =0
-      )ORDER BY a.category_name ASC");
-      return $query->result();
-      } */
-
     function retrieve_3rd_leable_product_category_wth_global_commission() {
-        /* $query = $this->db->query("SELECT a.category_id, a.category_name, b.cat_id, b.commission AS GLOBAL_COMMISSION
-          FROM category_indexing a
-          LEFT JOIN global_commission b ON a.category_id = b.cat_id
-          WHERE a.parent_id
-          IN (
-          SELECT category_id
-          FROM view_second_leable_category
-          )
-          ORDER BY a.category_name ASC "); */
-
-        /* $query = $this->db->query("SELECT a.category_id, a.category_name,a.parent_id, b.cat_id, b.commission AS GLOBAL_COMMISSION
-          FROM category_indexing a
-          LEFT JOIN global_commission b ON a.category_id = b.cat_id
-          WHERE a.cat_level=3 ORDER BY a.category_name ASC"); */
-
 
         $query = $this->db->query("SELECT a.category_id, a.category_name,a.parent_id, b.cat_id, b.commission AS GLOBAL_COMMISSION
 		FROM category_indexing a
@@ -130,19 +98,6 @@ class Super_admin_model extends CI_Model {
 		ORDER BY a.category_name ASC");
         return $query->result();
     }
-
-    /* function retrieve_2nd_leable_product_category_wth_memb_commission($memb_column){
-      $query = $this->db->query("SELECT a.category_id, a.category_name, b.cat_id, b.`$memb_column` AS MEMB_COMMISSION
-      FROM category_indexing a
-      LEFT JOIN membership_commission b ON a.category_id = b.cat_id
-      WHERE a.parent_id
-      IN (
-      SELECT category_id
-      FROM category_indexing
-      WHERE parent_id =0
-      )ORDER BY a.category_name ASC");
-      return $query->result();
-      } */
 
     function retrieve_3rd_leable_product_category_wth_memb_commission($memb_column) {
         $query = $this->db->query("SELECT a.category_id, a.category_name,a.parent_id, b.cat_id, b.`$memb_column` AS MEMB_COMMISSION 
@@ -157,10 +112,7 @@ class Super_admin_model extends CI_Model {
         $global_commission = $this->input->post('global_comision');
         $query = $this->db->query("SELECT * FROM global_commission WHERE cat_id=$category_id");
         $cat_row = $query->num_rows();
-
-        date_default_timezone_set('Asia/Calcutta');
         $cdate = date('Y-m-d');
-
         if ($cat_row > 0) {
             $data = array(
                 'commission' => $global_commission,
@@ -255,7 +207,7 @@ class Super_admin_model extends CI_Model {
         $from_dt = $this->input->post('from_dt');
         $to_dt = $this->input->post('to_dt');
 
-        date_default_timezone_set('Asia/Calcutta');
+
         $cdate = date('Y-m-d');
         $special_data = array(
             'cat_id' => $category_id,
@@ -285,20 +237,6 @@ class Super_admin_model extends CI_Model {
         $from_date = $res[0]->from_date;
         $to_date = $res[0]->to_date;
 
-        //query for second label category
-        /* $query = $this->db->query("SELECT a.category_id, a.category_name,b.id, b.cat_id, b.seller_id, b.commision, b.from_date, b.to_date
-          FROM category_indexing a
-          LEFT JOIN special_commission b ON a.category_id = b.cat_id
-          AND b.from_date =  '$from_date'
-          AND b.to_date =  '$to_date'
-          WHERE a.parent_id
-          IN (
-          SELECT category_id
-          FROM category_indexing
-          WHERE parent_id =0
-          )
-          ORDER BY a.category_name ASC"); */
-
         $query = $this->db->query("SELECT a.category_id, a.category_name,a.parent_id,b.id, b.cat_id, b.seller_id, b.commision, b.from_date, b.to_date
 		FROM category_indexing a
 		LEFT JOIN special_commission b ON a.category_id = b.cat_id
@@ -321,7 +259,7 @@ class Super_admin_model extends CI_Model {
         $from_dt = $this->input->post('from_dt');
         $to_dt = $this->input->post('to_dt');
 
-        date_default_timezone_set('Asia/Calcutta');
+
         $cdate = date('Y-m-d');
 
         $query = $this->db->query("SELECT * FROM special_commission WHERE cat_id=$category_id AND from_date='$from_dt' AND to_date='$to_dt'");
@@ -363,7 +301,7 @@ class Super_admin_model extends CI_Model {
     }
 
     function insert_update_fixed_charges_data() {
-        date_default_timezone_set('Asia/Calcutta');
+
         $cdate = date('Y-m-d');
 
         $query = $this->db->query("SELECT * FROM charges_master WHERE charges_type='Fixed Charges'");
@@ -395,7 +333,7 @@ class Super_admin_model extends CI_Model {
     }
 
     function insert_update_pg_charges_data() {
-        date_default_timezone_set('Asia/Calcutta');
+
         $cdate = date('Y-m-d');
 
         $query = $this->db->query("SELECT * FROM charges_master WHERE charges_type='Payment gateway Charges'");
@@ -425,7 +363,7 @@ class Super_admin_model extends CI_Model {
     }
 
     function insert_update_season_charges_data() {
-        date_default_timezone_set('Asia/Calcutta');
+
         $cdate = date('Y-m-d');
 
         $query = $this->db->query("SELECT * FROM charges_master WHERE charges_type='Seasonal Charges'");
@@ -464,7 +402,7 @@ class Super_admin_model extends CI_Model {
     }
 
     function insert_update_cancel_charges_data() {
-        date_default_timezone_set('Asia/Calcutta');
+
         $cdate = date('Y-m-d');
 
         $query = $this->db->query("SELECT * FROM charges_master WHERE charges_type='Order Cancel Penalty'");
@@ -495,7 +433,7 @@ class Super_admin_model extends CI_Model {
     }
 
     function insert_update_order_not_process_charges_data() {
-        date_default_timezone_set('Asia/Calcutta');
+
         $cdate = date('Y-m-d');
 
         $query = $this->db->query("SELECT * FROM charges_master WHERE charges_type='Order Not Process'");
@@ -526,7 +464,7 @@ class Super_admin_model extends CI_Model {
     }
 
     function insert_update_ship_delay_charges_data() {
-        date_default_timezone_set('Asia/Calcutta');
+
         $cdate = date('Y-m-d');
 
         $query = $this->db->query("SELECT * FROM charges_master WHERE charges_type='Order Shipping Delay'");
@@ -647,32 +585,10 @@ class Super_admin_model extends CI_Model {
 
         $results = $query_max->result();
 
-
-        //$query = $this->db->get($this->performance);
-//        $results['chart_data'] = $query->result();
-//        $this->db->select_min('performance_year');
-//        $this->db->limit(1);
-//        $query = $this->db->get($this->performance);
-//        $results['min_year'] = $query->row()->performance_year;
-//        $this->db->select_max('performance_year');
-//        $this->db->limit(1);
-//        $query = $this->db->get($this->performance);
-//        $results['max_year'] = $query->row()->performance_year;
-
         return $results;
     }
 
     function get_seller_sale_weekly() {
-
-
-        // $monday = strtotime("last monday");
-//		$monday = date('w', $monday)==date('w') ? $monday+7*86400 : $monday;
-//												 
-//		$sunday = strtotime(date("Y-m-d H:i:s",$monday)." +6 days");
-//												 
-//		$this_week_sd = date("Y-m-d H:i:s",$monday);
-//		$this_week_ed = date("Y-m-d H:i:s",$sunday);
-        //between date_sub(now(),INTERVAL 1 WEEK) and now()
 
         $query = $this->db->query("SELECT a.order_status_modified_date, SUM( b.quantity) as sale_qnt , c.business_name
 									FROM order_info a
@@ -731,7 +647,7 @@ class Super_admin_model extends CI_Model {
 
     function checking_unique_string($table, $colunm) {
         $this->load->helper('string');
-        date_default_timezone_set('Asia/Calcutta');
+
         while (2 > 1) {
             $dtm = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
 
@@ -780,14 +696,6 @@ class Super_admin_model extends CI_Model {
         $date = $_REQUEST['date'];
         $email_status = $_REQUEST['email_status'];
         $condition = "";
-
-
-        /* if($user_id != ""){
-          $condition .= " a.user_id ='$user_id' " ;
-          $query = $this->db->query("SELECT a.user_id ,a.fname,a.lname,a.email,a.mob,b.pin_code,b.country,c.state,a.registration_date, b.address
-          FROM user a LEFT OUTER JOIN user_address b ON b.address_id = a.address_id LEFT OUTER JOIN state c ON b.state = c.state_id order by a.user_id DESC");
-          return $query->num_rows();
-          } */
         if ($toemail_id != "") {
             $condition .= "to_email_id LIKE '%$toemail_id%'";
             $query = $this->db->query("select *, date as log_date from email_log where " . $condition . " order by log_id desc");
@@ -795,9 +703,7 @@ class Super_admin_model extends CI_Model {
         }
         if ($fromemail_id != "") {
             $condition .= "from_email_id LIKE '%$fromemail_id%'";
-            //echo $sql="select a.order_id from order_info a inner join ordered_product_from_addtocart b on a.order_id=b.order_id inner join shipping_address c on a.order_id=c.order_id where ".$condition." group by b.order_id order by a.id desc";
             $query = $this->db->query("select *, date as log_date from email_log where " . $condition . " order by log_id desc");
-            //echo $query->num_rows();
             return $query->num_rows();
         }
         if ($subject != "") {
@@ -824,35 +730,16 @@ class Super_admin_model extends CI_Model {
     }
 
     function select_filtered_emaillog($limit, $start) {
-
-
-        //$user_id = $_REQUEST['user_id'];
         $toemail_id = $_REQUEST['toemail_id'];
         $fromemail_id = $_REQUEST['fromemail_id'];
         $subject = $_REQUEST['subject'];
         $date = $_REQUEST['date'];
         $email_status = $_REQUEST['email_status'];
         $condition = "";
-        //$cus_name=substr($customer_name,0,strpos($cust_name,' '));
-
         $condition = '';
-
-        /* if( $user_id!='' ){
-
-          $condition .= " a.user_id='$user_id' " ;
-          $query=$this->db->query("SELECT a.user_id ,a.fname,a.lname,a.email,a.mob,b.pin_code,b.country,c.state,a.registration_date, b.address FROM user a
-          LEFT OUTER JOIN user_address b ON b.address_id = a.address_id LEFT OUTER JOIN state c ON b.state = c.state_id where ".$condition." order by a.user_id DESC LIMIT ".$start." , ".$limit."");
-          return $query->result();
-
-          } */
         if ($toemail_id != '') {
             $condition .= "to_email_id LIKE '%$toemail_id%'";
-            //echo $sql ="select a.order_confirm_for_seller,a.order_id, a.order_status, a.Total_amount as sub_total_amount, a.date_of_order, a.order_status_modified_date,a.order_confirm_for_seller,a.invoice_id,a.cancelled_by,a.grace_period_approve_status,a.grace_period,b.seller_id,c.full_name from order_info a inner join ordered_product_from_addtocart b on a.order_id=b.order_id inner join shipping_address c on a.order_id=c.order_id where ".$condition." group by b.order_id order by a.id desc LIMIT ".$start.", ".$limit."";
-            /* echo $sql="SELECT a.user_id ,a.fname,a.lname,a.email,a.mob,b.pin_code,b.country,c.state,a.registration_date, b.address FROM user a
-              LEFT OUTER JOIN user_address b ON b.address_id = a.address_id LEFT OUTER JOIN state c ON b.state = c.state_id where ".$condition." order by a.user_id DESC LIMIT ".$start." , ".$limit."";exit; */
             $query = $this->db->query("select *, date as log_date from email_log where " . $condition . " order by log_id desc LIMIT " . $start . " , " . $limit . "");
-
-
             return $query;
         }
 
@@ -885,42 +772,24 @@ class Super_admin_model extends CI_Model {
             $query = $this->db->query("select *, date as log_date from email_log where " . $condition . " order by log_id desc LIMIT " . $start . " , " . $limit . "");
             return $query;
         }
-
-
-
-
-
-
-
         if ($condition == '') {
 
             $query = $this->db->query("select *, date as log_date from email_log order by log_id desc LIMIT " . $start . " , " . $limit . "");
             return $query;
         }
-        /*
-          $query=$this->db->query("select a.order_confirm_for_seller,a.order_id, a.order_status, a.Total_amount as sub_total_amount, a.date_of_order, a.order_status_modified_date,a.order_confirm_for_seller,a.invoice_id,a.cancelled_by,a.grace_period_approve_status,a.grace_period,b.seller_id,c.full_name from order_info a inner join ordered_product_from_addtocart b on a.order_id=b.order_id inner join shipping_address c on a.order_id=c.order_id where ".$condition." group by b.order_id order by a.id desc LIMIT ".$start.", ".$limit."");
-          return $query; */
     }
 
     function retrieve_errorlog() {
-        //echo readfile(base_url().'error_log');exit;
 
         $handle = fopen(base_url() . 'error_log', "r");
         if ($handle) {
             while (($line = fgets($handle)) !== false) {
-
-                //$qr_err=$this->db->query("SELECT * from error_log WHERE error_descp='$line' ");
-//					if($qr_err->num_rows()==0)
-//					{
                 $data = array(
                     'error_descp' => $line
                 );
 
                 $this->db->insert('error_log', $data);
-                //}
             } // while loop end
-
-
             fclose($handle);
         }
 

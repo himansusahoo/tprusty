@@ -53,7 +53,7 @@ if($exist_product_info) :   //var_dump($exist_product_info); exit;
 	$first_img = $arr_img[0]; 
 ?>
 <?php	
-date_default_timezone_set('Asia/Calcutta');
+
 	if($this->session->userdata('seller_session_id')==""){
 		$dtm = str_replace(" ","-",date('Y-m-d H:i:s'));
 		$session_slr_id = random_string('alnum', 16).$dtm;

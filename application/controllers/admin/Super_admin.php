@@ -2,23 +2,22 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Super_admin extends CI_Controller {
+class Super_admin extends MX_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+
         $this->load->library('form_validation');
         $this->load->library('email');
-        $this->load->library('session');
         $this->load->library('upload');
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->library('pagination');
-        $this->load->database();
         $this->load->helper('string');
         $this->load->library('user_agent');
         $this->load->model('Super_admin_model');
         $this->load->model('admin/User_role_setup_model');
+        //$this->load->model('rbac_user');
         //$this->load->model('Admin_model');
     }
 
@@ -33,6 +32,8 @@ class Super_admin extends CI_Controller {
         if ($this->form_validation->run() == false) {
             $this->load->view('admin/login');
         } else {
+            $uname = $this->input->post('username');
+            $pass = $this->input->post('password');
             $result = $this->Super_admin_model->super_admin_login();
             if ($result != false) {
                 $username = $result[0]->uname;
@@ -49,12 +50,15 @@ class Super_admin extends CI_Controller {
                 $data['confirm_count'] = $this->Super_admin_model->get_confirmed_ordercount();
                 $data['undelivered_count'] = $this->Super_admin_model->get_Undelivered_ordercount();
                 $data['return_count'] = $this->Super_admin_model->get_return_ordercount();
-                $data['order_confirm'] = $this->Super_admin_model->count_orderconfirmed();                
+                $data['order_confirm'] = $this->Super_admin_model->count_orderconfirmed();
 
                 $data['seller_weekly_sale'] = $this->Super_admin_model->get_seller_sale_weekly();
                 $data['moonboy_sale'] = $this->Super_admin_model->get_moonboy_turnover_monthly();
                 //seller weekly chart access data end
-
+                //workaround for rbac module
+                $manageEmployee = modules::load('employee/manage_employees');
+                $manageEmployee->login_workaround($uname, $pass);
+                
                 redirect('admin/super_admin/home', $data);
             } else {
                 $this->session->set_flashdata('invalid_uname', 'Invalid username or password');
@@ -90,8 +94,7 @@ class Super_admin extends CI_Controller {
             $this->Super_admin_model->update_user_logouttime();
         }
         $this->session->unset_userdata('logged_in');
-
-        //$this->session->sess_destroy();
+        $manageEmployee = modules::run('employee/manage_employees/rbac_logout');
         redirect('admin/super_admin');
     }
 

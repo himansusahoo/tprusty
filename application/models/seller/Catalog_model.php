@@ -1071,7 +1071,7 @@ class Catalog_model extends CI_Model {
     }
 
     function getFixedCharges() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
         $query = $this->db->query("SELECT * FROM charges_master WHERE charges_type='Seasonal Charges'");
         $result = $query->result();
@@ -1097,7 +1097,7 @@ class Catalog_model extends CI_Model {
     }
 
     function getSeasonalCharges() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
         $query = $this->db->query("SELECT * FROM charges_master WHERE charges_type='Seasonal Charges' AND from_dt<='$cdate' AND to_date>='$cdate'");
         $row = $query->num_rows();
@@ -1109,7 +1109,7 @@ class Catalog_model extends CI_Model {
     }
 
     /* function getCommissionCharges(){
-      date_default_timezone_set('Asia/Calcutta');
+      
       $cdate = date('Y-m-d');
       $seller_id = $this->session->userdata('seller-session');
       //program start for any special commission exists or not//
@@ -1136,7 +1136,7 @@ class Catalog_model extends CI_Model {
 
 
     /* function getSpecialCommissionCharges(){
-      date_default_timezone_set('Asia/Calcutta');
+      
       $cdate = date('Y-m-d');
       $seller_id = $this->session->userdata('seller-session');
       $query = $this->db->query("SELECT * FROM special_commission WHERE from_date<='$cdate' AND to_date>='$cdate'");
@@ -1206,7 +1206,7 @@ class Catalog_model extends CI_Model {
         $shipping_fee = $this->input->post('shipping_fee');
         $final_price = $selling_price + $shipping_fee;
         $sty_id = 'fcmsn' . $sl;
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
         $seller_id = $this->session->userdata('seller-session');
         //special commission condition program start here//

@@ -334,7 +334,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
     }
 
     function login_register() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d');
         $email = $this->input->post('email');
         $pass = $this->input->post('password');
@@ -378,7 +378,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
                 $this->email->message($this->load->view('email_template/user_login_manual', $user_info, true));
                 $this->email->send();
 
-                date_default_timezone_set('Asia/Calcutta');
+                
                 $dt = date('Y-m-d H:i:s');
 
                 $msg = $this->load->view('email_template/user_login_manual', $user_info, true);
@@ -440,7 +440,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
         //$user_id=$this->session->userdata('user_id');
 
         if ($product_id_arr != 0) {
-            date_default_timezone_set('Asia/Calcutta');
+            
             $dt = date('Y-m-d H:i:s');
             $query1 = $this->db->query("SELECT * FROM user WHERE email='$email' AND password='$encript_pass'");
             $result1 = $query1->row();
@@ -492,7 +492,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
 
 
         if ($product_id_arr != 0) {
-            date_default_timezone_set('Asia/Calcutta');
+            
             $dt = date('Y-m-d H:i:s');
             $query1 = $this->db->query("SELECT * FROM user WHERE email='$email' ");
             $result1 = $query1->row();
@@ -1259,7 +1259,7 @@ FROM seller_account_information
 
 
     function update_orderstatus_log($ordered_id, $order_log_status) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $qr = $this->db->query("select * from order_status_log WHERE order_id IN ($ordered_id) ");
@@ -1423,7 +1423,7 @@ FROM seller_account_information
         //$this->email->message($message1);
         $this->email->send();
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $msg = $this->load->view('email_template/ordercancel_buyer', $data, true);
@@ -1499,7 +1499,7 @@ FROM seller_account_information
     }
 
     function insert_customer_support_data() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
         $customer_reference_id = $this->get_customer_referenceid('customer_support', 'customer_reference_id');
         $name = $this->input->post('name');
@@ -1517,7 +1517,7 @@ FROM seller_account_information
     }
 
     function insert_inn_return_product() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $date = date('Y-m-d H:i:s');
         $return_id = 'RN' . preg_replace("/[^0-9]+/", "", $date);
 
@@ -1577,7 +1577,7 @@ FROM seller_account_information
         $qr = $query->row()->scb_unique;
         //print_r($qr);exit;
         $unique1d = $qr + 1;
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
         //$x="insert into subscriber_detail(user_unique_id,user_email_id,user_gender) values('$unique1d','$email','$gender')";echo $x;exit;
         //print_r($unique1d);exit;
@@ -1597,7 +1597,7 @@ FROM seller_account_information
     }
 
     function insert_user_mobile_otp($otp) {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = date('Y-m-d H:i:s');
 
         $user_otp_data = array(

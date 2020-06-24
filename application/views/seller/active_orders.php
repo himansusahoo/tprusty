@@ -1,6 +1,6 @@
 <?php
 require_once('header.php');
-date_default_timezone_set('Asia/Calcutta');
+
 ?>
 <link rel="stylesheet" href="<?php echo base_url(); ?>colorbox/colorbox.css" />
 <?php /* ?><script src="<?php echo base_url(); ?>colorbox/jquery.min.js"></script><?php */ ?>

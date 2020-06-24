@@ -6,9 +6,9 @@ class Sales extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
-        $this->load->helper(array('html', 'form', 'url'));
+       
 
-        $this->load->database();
+        
         $this->load->model('admin/Product');
         $this->load->model('admin/Order_model');
         $this->load->model('admin/Invoice_model');
@@ -17,7 +17,7 @@ class Sales extends CI_Controller {
 
         $this->load->library('form_validation');
         $this->load->library('email');
-        $this->load->library('session');
+        
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->helper('string');

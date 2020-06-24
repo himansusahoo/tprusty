@@ -71,7 +71,7 @@ class My_wallet_model extends CI_Model {
     }
 
     function adjust_wallet_bal_to_shopping() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d H:i:s');
         $chkout_session_id = $this->session->userdata('chkoutemp_session_id');
         $user_id = $this->session->userdata['session_data']['user_id'];
@@ -136,7 +136,7 @@ class My_wallet_model extends CI_Model {
     }
 
     /* function adjust_voucher_to_shopping(){
-      date_default_timezone_set('Asia/Calcutta');
+      
       $cdate = date('Y-m-d H:i:s');
       $chkout_session_id = $this->session->userdata('chkoutemp_session_id');
       $user_id = $this->session->userdata['session_data']['user_id'];
@@ -219,7 +219,7 @@ class My_wallet_model extends CI_Model {
       } */
 
     function adjust_voucher_to_shopping() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d H:i:s');
         $chkout_session_id = $this->session->userdata('chkoutemp_session_id');
         $user_id = $this->session->userdata['session_data']['user_id'];
@@ -310,7 +310,7 @@ class My_wallet_model extends CI_Model {
     }
 
     function adjust_coupon_to_shopping() {
-        date_default_timezone_set('Asia/Calcutta');
+        
         $cdate = date('Y-m-d H:i:s');
         $chkout_session_id = $this->session->userdata('chkoutemp_session_id');
         $user_id = $this->session->userdata['session_data']['user_id'];

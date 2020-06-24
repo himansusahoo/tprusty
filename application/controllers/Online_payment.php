@@ -8,13 +8,13 @@ class Online_payment extends CI_Controller {
         parent::__construct();
 
         $this->load->library('email');
-        $this->load->helper(array('html', 'form', 'url'));
+       
         $this->load->library('form_validation');
-        $this->load->library('session');
+        
         $this->load->library('encrypt');
         $this->load->library('javascript');
         $this->load->helper('string');
-        $this->load->database();
+        
         $this->load->library('user_agent');
         $this->load->helper('file');
         $this->load->model('Order_model');
@@ -49,7 +49,7 @@ class Online_payment extends CI_Controller {
 
             $order_id_payment_gateway = $this->session->userdata('sessccavenue_order_id');
 
-            date_default_timezone_set('Asia/Calcutta');
+            
             $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
             $user_id = $this->session->userdata['session_data']['user_id'];
 
@@ -118,7 +118,7 @@ class Online_payment extends CI_Controller {
         $size_arr[] = 'not';
         $order_id_payment_gateway = '13818620160817174331';
 
-        date_default_timezone_set('Asia/Calcutta');
+        
         $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
         $user_id = 138;
 
