@@ -442,7 +442,7 @@
 
                 <div class="container-fluid">
                     <div class="copy-right">
-                        <span class="site-footer-copyright">&copy; 2016, <a href="#">Moonboy</a>. <a target="_blank" rel="nofollow" href="#">Powered by SPIS</a></span>
+                        <span class="site-footer-copyright"><?=COPY_RIGHT_YEAR?></span>
                     </div>
 
 
