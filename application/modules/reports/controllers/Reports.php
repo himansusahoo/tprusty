@@ -36,7 +36,7 @@ class Reports extends MX_Controller {
      */
     public function index() {
 
-        $this->breadcrumbs->push('all-reports', 'all-reports');
+        $this->breadcrumbs->push('Reports', 'all-reports');
         $this->scripts_include->includePlugins(array('datatable', 'chosen'), 'css');
         $this->scripts_include->includePlugins(array('datatable', 'chosen'), 'js');
         $this->layout->navTitle = 'Reports';
