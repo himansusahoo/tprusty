@@ -62,12 +62,10 @@
     </div>
 
     <div class = 'form-group row'>
-        <div class = 'col-sm-1'>
-            <a class="text-right btn btn-default" href="<?= APP_BASE ?>app_routes/app_routes/index">
+        <div class = 'col-sm-2'>
+            <a class="text-right btn btn-default" href="<?= base_url('manage-app-routes') ?>">
                 <span class="glyphicon glyphicon-th-list"></span> Cancel
             </a>
-        </div>
-        <div class = 'col-sm-1'>
             <input type="submit" id="submit" value="Save" class="btn btn-primary">
         </div>
     </div>

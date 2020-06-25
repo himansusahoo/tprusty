@@ -16,7 +16,6 @@ class Rbac_role_permissions extends MX_Controller {
         parent::__construct();
 
         $this->load->model('rbac_role_permission');
-        $this->load->library('form_validation');
         $this->layout->layout = 'admin_layout';
         $this->layout->layoutsFolder = 'layouts/admin';
         $this->layout->lMmenuFlag = 1;

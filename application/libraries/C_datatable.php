@@ -737,7 +737,7 @@ class C_datatable
         $this->_dt_code .= ' window.win_' . $this->_dt_obj . '=' . $this->_dt_obj . ';';
         $this->_dt_code .=" $('.dataTables_filter input').addClass('search_box_dt_cls');";
         $this->_dt_code .=" $('.dataTables_length select').addClass('chosen-dt-length-select');";
-        $this->_dt_code .="$('.chosen-dt-length-select').chosen({allow_single_deselect: true,disable_search:true,width:50});";        
+        $this->_dt_code .="$('.chosen-dt-length-select').chosen({allow_single_deselect: true,disable_search:true,width:60});";        
         return $this;
     }
 

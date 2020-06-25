@@ -20,7 +20,7 @@
 
     <div class = 'form-group row'>
         <div class = 'col-sm-1'>
-            <a class="text-right btn btn-default" href="<?= APP_BASE ?>app_routes/app_routes/index">
+            <a class="text-right btn btn-default" href="<?= base_url('manage-app-routes') ?>">
                 <span class="glyphicon glyphicon-th-list"></span> Back
             </a>
         </div>
