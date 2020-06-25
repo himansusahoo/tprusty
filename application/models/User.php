@@ -32,7 +32,6 @@ class User extends CI_Model {
         //echo $this->db->last_query();
         //pma($result,1);
         if ($result) {
-
             //get user roles
             $result = $result[0];
             $condition = array('ur.user_id' => $result['user_id']);
@@ -46,7 +45,6 @@ class User extends CI_Model {
             }
 
             return $result;
-            
         }
         return 0;
     }
@@ -87,14 +85,14 @@ class User extends CI_Model {
      */
     public function get_app_configs() {
         $query = "select * from app_configs order by category asc";
-        $result = $this->db->query($query)->result_array();        
+        $result = $this->db->query($query)->result_array();
         $configs = $app_config = array();
         if ($result) {
             foreach ($result as $rec) {
                 $configs[$rec['category']] = $rec;
             }
-            foreach ($configs as $cat=>$rec) {
-                $app_config[strtolower($cat)]=json_decode($rec['configs'],true);                
+            foreach ($configs as $cat => $rec) {
+                $app_config[strtolower($cat)] = json_decode($rec['configs'], true);
             }
         }
         //pma($app_config, 1);

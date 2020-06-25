@@ -1,11 +1,13 @@
 <?php ?>
 <header class="main-header">
     <!-- Logo -->
-    <span class="logo">
-        <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>A</b>P</span>
-        <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Admin</b>Panel</span>
+    <span class="logo no-pad">                 
+        <a href="<?= $this->rbac->get_admin_dashboard_url()?>" class="logo no-pad" title="<?=$this->layout->title?>">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>D</b>B</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Dashboard</b></span>
+        </a>        
     </span>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -43,7 +45,7 @@
                 </div>
             </form>
         </div>-->
-        
+
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">            
                 <?php

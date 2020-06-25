@@ -45,8 +45,11 @@ class Breadcrumbs {
     }
 
     // --------------------------------------------------------------------
-    function home(){
-        $href = site_url();
+    function home($href=null){
+        if(!$href){
+            $href = site_url();
+        }       
+        //pma($href,1);
         $this->breadcrumbs[$href] = array('page' => 'Home', 'href' => $href);
     }
     /**

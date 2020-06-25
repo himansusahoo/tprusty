@@ -63,18 +63,11 @@
 
 
                     <li> 
-                        <a href="<?php echo base_url(); ?>admin/report" class="<?php
-                        if ($this->uri->segment(2) == "report") {
+                        <a href="<?php echo base_url('all-reports'); ?>" class="<?php
+                        if ($this->uri->segment(1) == "all-reports" || array_key_exists($this->uri->segment(1), $this->rbac->temp_sub_menus('admin_reports'))) {
                             echo "open";
                         }
                         ?>"> <i class="fa fa-file-text"></i> <span>Reports </span></a>
-                    </li>
-                    <li> 
-                        <a href="<?= base_url('all-reports')?>" class="<?php
-                        if ($this->uri->segment(2) == "report") {
-                            echo "open";
-                        }
-                        ?>"> <i class="fa fa-file-text"></i> <span>New Reports </span></a>
                     </li>
 
                     <li> <a href="<?php echo base_url(); ?>admin/newsletter" class="<?php

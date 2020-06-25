@@ -2,11 +2,9 @@
 
 //reference site:-http://legacy.datatables.net/usage/columns
 
-class C_datatable
-{
+class C_datatable {
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->_ci = &get_instance();
         $this->_initiate_dt_configs();
     }
@@ -120,25 +118,21 @@ class C_datatable
             >';
     private $_loading_markup = '';
 
-    private function _set_loading_markup()
-    {
-        if ($this->_dt_configs['show_loading'])
-        {
+    private function _set_loading_markup() {
+        if ($this->_dt_configs['show_loading']) {
             $this->_loading_markup = "<div class='loading-box' id='" . $this->_dt_id . "_loading' style='display: none;'>
                                         <p class='h1'><i class='fa fa-refresh fa-spin text-aqua'></i></p>
                                     </div>";
         }
     }
 
-    private function _set_commin_js_vars()
-    {
+    private function _set_commin_js_vars() {
         $this->_dt_id = $this->_dt_configs['dt_id'];
         $this->_dt_obj = $this->_dt_configs['dt_id'] . '_obj';
     }
 
     //initiate datatable default options
-    private function _initiate_dt_options()
-    {
+    private function _initiate_dt_options() {
         //all datatable options
         $this->_dt_options = array(
             'columns' => array(),
@@ -176,7 +170,7 @@ class C_datatable
                 'sLengthMenu' => $this->_ci->lang->line("DT_SHOW") . " _MENU_ " . $this->_ci->lang->line("DT_ENTRY"),
                 //"sSearch" => $this->_ci->lang->line("DT_SEARCH"),
                 "search" => "_INPUT_",
-                "searchPlaceholder" => "Search",//$this->_ci->lang->line("DT_SEARCH"),                
+                "searchPlaceholder" => "Search", //$this->_ci->lang->line("DT_SEARCH"),                
                 'oPaginate' => array(
                     'sFirst' => $this->_ci->lang->line("DT_FIRST"),
                     'sPrevious' => $this->_ci->lang->line("DT_PREV"),
@@ -188,8 +182,7 @@ class C_datatable
     }
 
     //prepare default configs
-    private function _initiate_dt_configs()
-    {
+    private function _initiate_dt_configs() {
         $this->_initiate_dt_options();
         $this->_dt_configs = array(
             'dt_id' => 'custom_table',
@@ -245,48 +238,41 @@ class C_datatable
     }
 
     //get array index value
-    private function _get_dt_config_value($key)
-    {
+    private function _get_dt_config_value($key) {
 
-        if (array_key_exists($key, $this->_dt_configs))
-        {
+        if (array_key_exists($key, $this->_dt_configs)) {
             return $this->_dt_configs[$key];
         }
         return '';
     }
 
     //get call back template
-    private function _get_callback_template($template)
-    {
-        if (array_key_exists($template, $this->_callbacks_template))
-        {
+    private function _get_callback_template($template) {
+        if (array_key_exists($template, $this->_callbacks_template)) {
             return $this->_callbacks_template[$template];
         }
         return false;
     }
 
     //prepare datatable options
-    private function _prepare_dt_options($config)
-    {
+    private function _prepare_dt_options($config) {
         //merge custom configs
         $this->_dt_configs = assoc_array_merge($this->_dt_configs, $config);
         //pma($this->_dt_configs, 1);
         $this->_set_commin_js_vars();
         $this->_set_dt_dom();
+        $this->_set_fixed_cols();
         $this->_set_dt_columns();
         $this->_set_dt_ajax();
         return $this;
     }
 
     //prepare datatable colum defination
-    private function _set_dt_columns()
-    {
+    private function _set_dt_columns() {
         $columns = '';
-        if (isset($this->_dt_configs['dt_header']) && is_array($this->_dt_configs['dt_header']))
-        {
+        if (isset($this->_dt_configs['dt_header']) && is_array($this->_dt_configs['dt_header'])) {
             $columns .= '[';
-            foreach ($this->_dt_configs['dt_header'] as $indx => $cols)
-            {
+            foreach ($this->_dt_configs['dt_header'] as $indx => $cols) {
 
                 $title = (isset($cols['title'])) ? $cols['title'] : '';
                 $name = (isset($cols['name'])) ? $cols['name'] : $cols['db_column'];
@@ -304,17 +290,14 @@ class C_datatable
                 $columns .= 'targets:"' . $targets . '",';
                 $columns .= 'searchable:' . $searchable . ',';
 
-                if (isset($cols['render']))
-                {
+                if (isset($cols['render'])) {
                     $columns .= 'render:' . $cols['render'] . ',';
                 }
 
-                if (isset($cols['data']))
-                {
+                if (isset($cols['data'])) {
                     $columns .= 'data:' . $cols['data'] . '';
                     //$columns.='data:function (item) {return \'<a href="#" data-filter-id="\' + item.FILTER_ID + \'" class="rev_orange_link load_table_filter">\' + item.FILTER_TITLE + \'</a>\';}';
-                } else
-                {
+                } else {
                     //$columns.='data:function(item) {
                     //                return item.' . $cols['db_column'] . ';
                     //               }';
@@ -328,43 +311,34 @@ class C_datatable
     }
 
     //prepare dt_dom
-    private function _prepare_dt_dom($dt_dom)
-    {
-        if (is_array($dt_dom))
-        {
-            if ((!isset($dt_dom['top_dom']) || !$dt_dom['top_dom']) && (!isset($dt_dom['buttom_dom']) || !$dt_dom['buttom_dom']))
-            {
+    private function _prepare_dt_dom($dt_dom) {
+        if (is_array($dt_dom)) {
+            if ((!isset($dt_dom['top_dom']) || !$dt_dom['top_dom']) && (!isset($dt_dom['buttom_dom']) || !$dt_dom['buttom_dom'])) {
                 return '';
             }
 
             $dom = '<';
-            if (isset($dt_dom['top_dom']) && $dt_dom['top_dom'])
-            {
+            if (isset($dt_dom['top_dom']) && $dt_dom['top_dom']) {
                 $dom .= '<"row-fluid no-pad"';
                 //set length change
-                if (isset($dt_dom['top_length_change']) && $dt_dom['top_length_change'])
-                {
+                if (isset($dt_dom['top_length_change']) && $dt_dom['top_length_change']) {
                     $dom .= ' <"dt-length-change col-md-2 no-pad" l>';
-                } else
-                {
+                } else {
                     $dom .= ' <"dt-length-change col-md-2 no-pad">';
                 }
                 $dom .= ' <"col-md-10 no-pad" <"col-md-12 no-pad"';
 
-                //set top filter
-                if (isset($dt_dom['top_pagination']) && $dt_dom['top_pagination'])
-                {
+                //set top pagination
+                if (isset($dt_dom['top_pagination']) && $dt_dom['top_pagination']) {
                     $dom .= ' <"pull-right pagination_holder" p>';
                 }
                 //set top filter
-                if (isset($dt_dom['top_filter']) && $dt_dom['top_filter'])
-                {
+                if (isset($dt_dom['top_filter']) && $dt_dom['top_filter']) {
                     $dom .= ' <"pull-left" f>';
                 }
 
                 //set top buttons
-                if (isset($dt_dom['top_buttons']) && $dt_dom['top_buttons'])
-                {
+                if (isset($dt_dom['top_buttons']) && $dt_dom['top_buttons']) {
                     $dom .= ' <"' . $this->_dt_id . '_dt_button pull-right marginR5">';
                     $this->_dom_buttons = $dt_dom['top_buttons'];
                 }
@@ -372,33 +346,27 @@ class C_datatable
                 $dom .= '>><t>';
             }
 
-            if (isset($dt_dom['buttom_dom']) && ($dt_dom['buttom_dom']===true || $dt_dom['buttom_dom']===TRUE))
-            {
+            if (isset($dt_dom['buttom_dom']) && $dt_dom['buttom_dom']) {
                 //set buttom options
                 $dom .= ' <"row-fluid no-pad marginT10"';
-                //set length change
-                if (isset($dt_dom['buttom_length_change']) && ($dt_dom['buttom_length_change']===true || $dt_dom['buttom_length_change']===TRUE))
-                {
+                //set buttom length change
+                if (isset($dt_dom['buttom_length_change']) && ($dt_dom['buttom_length_change'] === true || $dt_dom['buttom_length_change'] === TRUE)) {
                     $dom .= ' <"col-md-2 no-pad" l>';
-                } else
-                {
+                } else {
                     $dom .= ' <"col-md-2 no-pad">';
                 }
                 $dom .= ' <"col-md-10 no-pad" <"col-md-12 no-pad"';
 
-                //set top filter
-                if (isset($dt_dom['buttom_pagination']) && ($dt_dom['buttom_pagination']===true || $dt_dom['buttom_pagination']===TRUE))
-                {
+                //set buttom pagination
+                if (isset($dt_dom['buttom_pagination']) && ($dt_dom['buttom_pagination'] === true || $dt_dom['buttom_pagination'] === TRUE)) {
                     $dom .= ' <"pull-right" p>';
                 }
-                //set top filter
-                if (isset($dt_dom['buttom_filter']) && ($dt_dom['buttom_filter']===true || $dt_dom['buttom_filter']===TRUE))
-                {
+                //set buttom filter
+                if (isset($dt_dom['buttom_filter']) && ($dt_dom['buttom_filter'] === true || $dt_dom['buttom_filter'] === TRUE)) {
                     $dom .= ' <"pull-right" f>';
                 }
-                //set top buttons
-                if (isset($dt_dom['buttom_info']))
-                {
+                //set buttom buttons
+                if (isset($dt_dom['buttom_info'])) {
                     $dom .= ' <"dt_buttom_info pull-right">';
                 }
 
@@ -412,27 +380,29 @@ class C_datatable
         return $dt_dom;
     }
 
-    //set datatable dom
-    private function _set_dt_dom()
-    {
+    private function _set_fixed_cols() {
         $dt_dom = $this->_get_dt_config_value('dt_dom');
-        if ($dt_dom)
-        {
+        $fixed_cols='';
+        if(array_key_exists('fixedColumns', $dt_dom)){
+            $this->_dt_configs['options']['fixedColumns']=$dt_dom['fixedColumns'];
+        }        
+    }
+
+    //set datatable dom
+    private function _set_dt_dom() {
+        $dt_dom = $this->_get_dt_config_value('dt_dom');
+        if ($dt_dom) {
             $this->_dt_configs['options']['dom'] = $this->_prepare_dt_dom($dt_dom);
-        } else
-        {
-            if (isset($this->_dt_configs['options']['dom']))
-            {
+        } else {
+            if (isset($this->_dt_configs['options']['dom'])) {
                 $this->_dt_configs['options']['dom'] = str_replace(array("\n", "\r"), '', $this->_dt_configs['options']['dom']);
             }
         }
     }
 
-    private function _set_dt_buttons()
-    {
+    private function _set_dt_buttons() {
         $append_buttons = '';
-        if ($this->_dom_buttons)
-        {
+        if ($this->_dom_buttons) {
             $append_buttons = 'if ($.fn.DataTable.isDataTable($(\'#' . $this->_dt_id . '\'))) {
                         if (typeof ' . $this->_dt_obj . ' != \'undefined\') {
                             $(".' . $this->_dt_id . '_dt_button").append(\'' . $this->_dom_buttons . '\');
@@ -443,16 +413,13 @@ class C_datatable
     }
 
     //prepare dt ajax
-    private function _set_dt_ajax()
-    {
-        if (isset($this->_dt_configs['dt_ajax']))
-        {
+    private function _set_dt_ajax() {
+        if (isset($this->_dt_configs['dt_ajax'])) {
 
             $this->_dt_configs['dt_ajax']['dt_param'] = preg_replace('/\"__dt_ajax_post_data__\"/', $this->_dt_configs['dt_post_data'], $this->_dt_configs['dt_ajax']['dt_param']);
             //set loading option 
             $show_loading = $hide_loading = '';
-            if ($this->_dt_configs['show_loading'] == true)
-            {
+            if ($this->_dt_configs['show_loading'] == true) {
                 $show_loading = 'jQuery("#' . $this->_dt_id . '_loading").css("display", "block");';
                 $hide_loading = 'jQuery("#' . $this->_dt_id . '_loading").css("display", "none");';
             }
@@ -460,8 +427,7 @@ class C_datatable
             $ajax = '{';
             $ajax .= '"beforeSend":function(){' . $show_loading . PHP_EOL . $this->_dt_configs['dt_ajax']['before_send'] . '},';
             $ajax .= '"complete":function(){' . $hide_loading . PHP_EOL . $this->_dt_configs['dt_ajax']['complete'] . '},';
-            if (!isset($this->_dt_configs['dt_ajax']['async']))
-            {
+            if (!isset($this->_dt_configs['dt_ajax']['async'])) {
                 $this->_dt_configs['dt_ajax']['async'] = 'true';
             }
             $ajax .= '"async":"' . $this->_dt_configs['dt_ajax']['async'] . '",';
@@ -477,43 +443,32 @@ class C_datatable
     }
 
     //prepare dt code from dt options and also apply dt callbacks
-    private function _prepare_dt_code()
-    {
+    private function _prepare_dt_code() {
         $this->_dt_code = '';
-        foreach ($this->_dt_configs['options'] as $opt => $val)
-        {
-            if (is_array($val))
-            {
-                if ($opt == 'order')
-                {
-                    if (is_array($val))
-                    {
+        //pma($this->_dt_configs['options'], 1);
+        foreach ($this->_dt_configs['options'] as $opt => $val) {
+            if (is_array($val)) {
+                if ($opt == 'order') {
+                    if (is_array($val)) {
                         $order = '';
-                        foreach ($val as $col_order)
-                        {
+                        foreach ($val as $col_order) {
                             $order .= '[' . $col_order['column'] . ',"' . $col_order['order'] . '"],';
                         }
                         $order = substr($order, 0, strlen($order) - 1);
                         $order = '"order":[' . $order . ']';
                         $this->_dt_code .= $order . ",";
                     }
-                } else
-                {
+                } else {
                     $this->_dt_code .= "'$opt':" . json_encode($val) . ",";
                 }
-            } else
-            {
+            } else {
                 $char = substr($val, 0, 1);
-                if (in_array($char, array('{', '[')))
-                {
+                if (in_array($char, array('{', '['))) {
                     $this->_dt_code .= "'$opt':" . "$val,";
-                } else
-                {
-                    if ($val == 'true' || $val == 'false' || is_int($val))
-                    {
+                } else {
+                    if ($val == 'true' || $val == 'false' || is_int($val)) {
                         $this->_dt_code .= "'$opt':" . "$val,";
-                    } else
-                    {
+                    } else {
                         $this->_dt_code .= "'$opt':" . "'$val',";
                     }
                 }
@@ -525,17 +480,12 @@ class C_datatable
     }
 
     //Applay datatable callback methods
-    private function _applay_callbacks()
-    {
-        if (is_array($this->_dt_configs['callbacks']))
-        {
-            foreach ($this->_dt_configs['callbacks'] as $callback_name => $code)
-            {
+    private function _applay_callbacks() {
+        if (is_array($this->_dt_configs['callbacks'])) {
+            foreach ($this->_dt_configs['callbacks'] as $callback_name => $code) {
                 $template = $this->_get_callback_template($callback_name);
-                if ($template)
-                {
-                    switch ($callback_name)
-                    {
+                if ($template) {
+                    switch ($callback_name) {
                         case 'fnCreatedRow':
 
                         case 'fnDrawCallback':
@@ -560,12 +510,10 @@ class C_datatable
     }
 
     //prepare html table markup
-    private function _set_table_markup()
-    {
+    private function _set_table_markup() {
         $table_markup = $this->_get_dt_config_value('dt_markup');
         $table = $table_markup;
-        if ($table_markup == TRUE || $table_markup == true || $table_markup == 1)
-        {
+        if ($table_markup == TRUE || $table_markup == true || $table_markup == 1) {
             $table = '<table ';
             $table .= ' id="' . $this->_dt_id . '"';
             $table .= ' class="' . $this->_get_dt_config_value('dt_class') . '"';
@@ -578,10 +526,8 @@ class C_datatable
         return $this;
     }
 
-    private function _set_custom_datalength_change()
-    {
-        if ($this->_dt_configs['custom_lengh_change'])
-        {
+    private function _set_custom_datalength_change() {
+        if ($this->_dt_configs['custom_lengh_change']) {
             $markup = 'var ' . $this->_dt_id . '_inlie_form_length_change = \'<div class="dataTables_length custom_dataTables_length"><label>\'
                     + \'<span>' . $this->_ci->lang->line("DT_ITEM_PAGE") . '</span>\'
                     + \'<div>\'
@@ -645,41 +591,30 @@ class C_datatable
     }
 
     //prepare extra dt header
-    private function _prepare_dt_extra_header()
-    {
+    private function _prepare_dt_extra_header() {
 
         $extra_header = $this->_dt_configs['dt_extra_header'];
 
-        if (is_string($extra_header) && strlen(trim($extra_header) > 1))
-        {
+        if (is_string($extra_header) && strlen(trim($extra_header) > 1)) {
             //TODO::now showing error if we pass string
             $this->_after_dt_script = '';
             $this->_after_dt_script .= $this->_dt_configs['dt_extra_header'];
-        } else if (is_array($extra_header) && count($extra_header) > 0)
-        {
+        } else if (is_array($extra_header) && count($extra_header) > 0) {
             $markup = '';
             $dt_head = $this->_dt_configs['dt_extra_header'];
-            if (isset($dt_head['markup']))
-            {
-                if (is_string($dt_head['markup']))
-                {
+            if (isset($dt_head['markup'])) {
+                if (is_string($dt_head['markup'])) {
                     $markup = $dt_head['markup'];
-                } else if (is_array($dt_head['markup']))
-                {
-                    foreach ($dt_head['markup'] as $rows)
-                    {
+                } else if (is_array($dt_head['markup'])) {
+                    foreach ($dt_head['markup'] as $rows) {
                         $markup .= '<tr>';
-                        foreach ($rows as $ths)
-                        {
+                        foreach ($rows as $ths) {
                             $markup .= '<th ';
                             $text = '';
-                            foreach ($ths as $att => $val)
-                            {
-                                if ($att == 'title')
-                                {
+                            foreach ($ths as $att => $val) {
+                                if ($att == 'title') {
                                     $text = $val;
-                                } else
-                                {
+                                } else {
                                     $markup .= $att . "='" . $val . "' ";
                                 }
                             }
@@ -700,8 +635,7 @@ class C_datatable
     }
 
     //Applay datatable method
-    private function _applay_datatable()
-    {
+    private function _applay_datatable() {
         //selector place
         $datatable = preg_replace('/\"__dt_selector__\"/', $this->_dt_id, $this->_dt_constructor);
         //object place
@@ -713,10 +647,8 @@ class C_datatable
     }
 
 //Applay datatable method
-    private function _applay_sleep()
-    {
-        if ($this->_dt_configs['dt_sleep'] > -1)
-        {
+    private function _applay_sleep() {
+        if ($this->_dt_configs['dt_sleep'] > -1) {
             //applay interval 
             $datatable = preg_replace('/\"__dt_codes__\"/', $this->_dt_code, $this->_dt_sleep);
             $this->_dt_code = preg_replace('/\"__dt_interval__\"/', $this->_dt_configs['dt_sleep'], $datatable);
@@ -725,11 +657,9 @@ class C_datatable
     }
 
     //applay extra code after dt function
-    private function _applay_extra_code()
-    {
+    private function _applay_extra_code() {
         $this->_dt_code .= $this->_prepare_dt_extra_header();
-        if (isset($this->_dt_configs['extra_js_code']))
-        {
+        if (isset($this->_dt_configs['extra_js_code'])) {
             $this->_dt_code .= $this->_dt_configs['extra_js_code'];
         }
         $this->_dt_code .= $this->_set_custom_datalength_change();
@@ -737,13 +667,12 @@ class C_datatable
         $this->_dt_code .= ' window.win_' . $this->_dt_obj . '=' . $this->_dt_obj . ';';
         $this->_dt_code .=" $('.dataTables_filter input').addClass('search_box_dt_cls');";
         $this->_dt_code .=" $('.dataTables_length select').addClass('chosen-dt-length-select');";
-        $this->_dt_code .="$('.chosen-dt-length-select').chosen({allow_single_deselect: true,disable_search:true,width:60});";        
+        $this->_dt_code .="$('.chosen-dt-length-select').chosen({allow_single_deselect: true,disable_search:true,width:60});";
         return $this;
     }
 
     //Applay script tag
-    private function _applay_script()
-    {
+    private function _applay_script() {
         //code place
         $this->_dt_code = preg_replace('/\"__js_script_code__\"/', $this->_dt_code, $this->_script_template);
         //pma($this->_dt_code,1);
@@ -751,8 +680,7 @@ class C_datatable
     }
 
     //generate datatable
-    public function generate_grid($config)
-    {
+    public function generate_grid($config) {
         //pma($config,1);
         $this
                 ->_reset()
@@ -775,8 +703,7 @@ class C_datatable
      * @author : HimansuS
      * @created:
      */
-    private function _reset()
-    {
+    private function _reset() {
         $this->_initiate_dt_configs();
         $this->_after_dt_script = $this->_dt_code = $this->_loading_markup = $this->_dt_id = '';
         return $this;
