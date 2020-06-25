@@ -596,7 +596,7 @@ class Product_description extends CI_Controller {
                 $cookie = array(
                     'name' => 'prodid',
                     'value' => $prodskarrctr,
-                    'expire' => time() + 86500000
+                    'expire' => 86000
                 );
 
                 set_cookie($cookie);
