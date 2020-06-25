@@ -265,39 +265,7 @@
             padding: 14px 0 0 0;
         }
     }
-</style>		
-
-
-<!--</head>
-<body>
-<div class="body-back">
-            <div class="masthead pdng-stn1">-->
-<!-- Header Bar-->
-<!--<div class="menu-notify">
-        <div class="profile-left left">
-                <h5 class="pro-link"> <a href="index.html"><img src="images/logo.png" width="180" height="55" alt=""  class="img-responsive"> </a></h5>
-        </div>
-        
-        <div class="profile-right">
-<ul>
-<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
-<li>  <a href="#"><i class="fa fa-heart" aria-hidden="true"></i> </a> </li>
-   <li>  <a href="#checkout" class="cart">
-                         <div class="total"> 
-     <span id="simpleCart_quantity" class="simpleCart_quantity">1</span> </div>
-                        <i class="fa fa-shopping-cart"></i> </h3>
-                </a>
-        </li>
-
-
-                </ul>
-
-                
-        </div>
-        <div class="clearfix"></div>
-</div>
-</div>-->
-<!-- Header Bar--> 
+</style>
 
 
 
@@ -320,7 +288,7 @@
                     <!--------------------------------- product list Child-menu start here------------------------------------>
 
                     <button class="first-accordion">
-        <?php if ($rw->menu_image != '') { ?> <img src="<?php echo base_url() . 'images/admin/mobile/mobile_menu/' . $rw->menu_image; ?>" class="sbdCategoryIcon"> <?php } ?>
+                        <?php if ($rw->menu_image != '') { ?> <img src="<?php echo base_url() . 'images/admin/mobile/mobile_menu/' . $rw->menu_image; ?>" class="sbdCategoryIcon"> <?php } ?>
                         <span class="menu-head"><?= $rw->label_name ?> </span>
                     </button>
                     <div class="panel">
@@ -333,18 +301,18 @@
                                 <!-----lifestyle menu------------------------->
                                 <li>
                                     <div class="link"> 
-            <?php if ($res_arrow->menu_image != '') { ?>  <img src="<?php echo base_url() . 'images/admin/mobile/mobile_menu/' . $res_arrow->menu_image; ?>" class="sbdCategoryIcon" height="28" width="28"> <?php } ?><?= $res_arrow->label_name ?>
+                                        <?php if ($res_arrow->menu_image != '') { ?>  <img src="<?php echo base_url() . 'images/admin/mobile/mobile_menu/' . $res_arrow->menu_image; ?>" class="sbdCategoryIcon" height="28" width="28"> <?php } ?><?= $res_arrow->label_name ?>
                                         <i class="fa fa-chevron-down"></i></div>
                                     <ul class="lifestyle-submenu">
-            <?php foreach ($qr->result() as $rs) { ?>
+                                        <?php foreach ($qr->result() as $rs) { ?>
                                             <li>
                                                 <!---- This is for image box ---------->
-                <?php if ($rs->menu_image != '') { ?>
+                                                <?php if ($rs->menu_image != '') { ?>
                                                     <div class="pro-1" onclick="window.location.href = '<?php echo base_url() . 'category/' . $rs->url_displayname ?>'">                   
                                                         <img src="<?php echo base_url() . 'images/admin/mobile/mobile_menu/' . $rs->menu_image; ?>" >
                                                         <p><strong><?= $rs->label_name ?></strong></p>
                                                     </div>
-                                                <?php
+                                                    <?php
                                                 } else {
                                                     ?>
                                                     <!---- This is for end image box ---------->
@@ -369,23 +337,21 @@
                             ?>  </ul>  </div>   
                     <!--------------------------------- product list Child-menu End here------------------------------------>
 
-                <?php
+                    <?php
                 } // if condition is life style
                 else {
-
-                    
                     ?>    	
                     <button class="first-accordion">
-                        <?php if ($rw->menu_image != '') { ?>  <img src="<?php echo base_url() . 'images/admin/mobile/mobile_menu/' . $rw->menu_image; ?>" class="sbdCategoryIcon">
+                    <?php if ($rw->menu_image != '') { ?>  <img src="<?php echo base_url() . 'images/admin/mobile/mobile_menu/' . $rw->menu_image; ?>" class="sbdCategoryIcon">
                         <?php } ?>
                         <span class="menu-head"><?php echo $rw->label_name; ?> </span>
                     </button>
                     <div class="panel">
                         <ul>
-                            <?php
-                            foreach ($q_arrow->result() as $res_arrow) {
-                                if ($res_arrow->menu_image != '') {
-                                    ?>               
+        <?php
+        foreach ($q_arrow->result() as $res_arrow) {
+            if ($res_arrow->menu_image != '') {
+                ?>               
                                     <li>
                                         <div class="inn-single" onclick="window.location.href = '<?php echo base_url() . 'category/' . $res_arrow->url_displayname ?>'"> 
 
@@ -414,17 +380,18 @@
 
 
 
-                                <?php } // if image not avaliable condition end
-                            }
-                            ?>
+            <?php
+            } // if image not avaliable condition end
+        }
+        ?>
                         </ul>
                     </div>
 
-                <?php
+                    <?php
                 }
             } // if category not life style end
             ?>
-           
+
             <script>
                 var acc = document.getElementsByClassName("first-accordion");
                 var i;
@@ -448,11 +415,8 @@
                     <div class="clearfix"> </div>         
 
                     <div class="copy-right">
-                        <span class="site-footer-copyright">&copy; 2016, <a href="#">Moonboy</a>. <a target="_blank" rel="nofollow" href="#">Powered by SPIS</a></span>
+                        <span class="site-footer-copyright"><?= COPY_RIGHT_YEAR ?></span>
                     </div>
-
-
-                    <!-- Slide Menu -->  
                 </div>
             </footer>
         </div>

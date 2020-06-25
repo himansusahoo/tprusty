@@ -17,7 +17,7 @@ application/logs/*
 /vendor/
 
 .htaccess
-.vscode\
+.vscode/
 img
 images
 application/logs
