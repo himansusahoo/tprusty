@@ -15,11 +15,11 @@
             <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>  
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="true">
+            <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="true">
                 <i class="fa fa-bars"></i>
-            </button>
+            </button>-->
         </div>
-        <!--Top Menus-->
+        <!--Top Menus
         <div class="navbar-collapse pull-left collapse" id="navbar-collapse" aria-expanded="true" style="">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
@@ -42,7 +42,7 @@
                     <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
                 </div>
             </form>
-        </div>
+        </div>-->
         
         <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">            
