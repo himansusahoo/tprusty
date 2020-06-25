@@ -24,6 +24,7 @@ label.error,div.error{color:red;font-weight: normal;}
 .padL5{padding-left: 5px !important;}
 .padL10{padding-left: 10px !important;}
 .padL20{padding-left: 20px !important;}
+.padB10{padding-bottom: 10px;}
 .add-single-action{margin: 10px 15px 0px 0px !important;}
 .add-single-action-or{margin: 10px 15px 0px 0px !important;}
 .remove_single_action{
@@ -185,4 +186,7 @@ span.value{
     border: 1px solid #d2d6de;
     margin: 5px 0 0 50px;
     color: #444;
+}
+.navbar-custom-menu{
+    right:0px !important;
 }

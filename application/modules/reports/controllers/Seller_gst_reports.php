@@ -32,7 +32,7 @@ class Seller_gst_reports extends CI_Controller {
      */
     public function index() {
         if ($this->rbac->has_permission('REPORTS', 'SELLER_GST_REPO')) {
-            $this->breadcrumbs->push('all-reports', 'all-reports');
+            $this->breadcrumbs->push('Reports', 'all-reports');
             $this->breadcrumbs->push('seller-gst-reports', base_url('seller-gst-reports'));
             $this->scripts_include->includePlugins(array('datatable', 'chosen'), 'css');
             $this->scripts_include->includePlugins(array('datatable', 'chosen'), 'js');
