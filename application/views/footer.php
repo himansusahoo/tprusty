@@ -92,7 +92,7 @@
         <p><p><span style="font-size:22px">Top Selling Categories on <?= DOMAIN_NAME ?></span></p>
 
         <p><br />
-            <u>Mobile &amp; Tablets</u><strong>:-</strong> <a href="<?= APP_BASE ?>smart-phones">Smart Phones</a> | <a href="<?= APP_BASE ?>feature-phones-india">Feature Phones</a> | <a href="<?= APP_BASE ?>smart-watch-india">Smart Watch</a> | <a href="<?= APP_BASE ?>mobile-powerbanks">Powerbank</a> | <a href="<?= APP_BASE ?>memory-cards">Memory Card</a> | <a href="<?= APP_BASE ?>usb-pen-drives">Pen Drives</a> | <a href="<?= APP_BASE ?>cases-cover">Cases &amp; Cover</a> | <a href="<?= APP_BASE ?>headphone-earphone">Ear Phone &amp; Headphones</a> | <a href="<?= APP_BASE ?>bluetooth-headsets">Bluetooth Headsets</a></p>
+        <u>Mobile &amp; Tablets</u><strong>:-</strong> <a href="<?= APP_BASE ?>smart-phones">Smart Phones</a> | <a href="<?= APP_BASE ?>feature-phones-india">Feature Phones</a> | <a href="<?= APP_BASE ?>smart-watch-india">Smart Watch</a> | <a href="<?= APP_BASE ?>mobile-powerbanks">Powerbank</a> | <a href="<?= APP_BASE ?>memory-cards">Memory Card</a> | <a href="<?= APP_BASE ?>usb-pen-drives">Pen Drives</a> | <a href="<?= APP_BASE ?>cases-cover">Cases &amp; Cover</a> | <a href="<?= APP_BASE ?>headphone-earphone">Ear Phone &amp; Headphones</a> | <a href="<?= APP_BASE ?>bluetooth-headsets">Bluetooth Headsets</a></p>
 
         <p><u>Computers &amp; Accessories</u><strong>:-</strong> <a href="<?= APP_BASE ?>laptops">Laptops</a> | <a href="<?= APP_BASE ?>softwares">Software</a> | <a href="<?= APP_BASE ?>laptop-skins">Laptop Skins</a> | <a href="<?= APP_BASE ?>combo-accessories">Combo Accessories</a> | <a href="<?= APP_BASE ?>laptop-sticker">Laptop Sticker</a> | <a href="<?= APP_BASE ?>keyboards-mouses">Keyboards &amp; Mouse</a></p>
 
@@ -579,7 +579,7 @@
                                             </table>
 
                                     <center>
-                                        <span style="font-size:16px;" class="site-footer-copyright">&copy; 2011-<?php echo date("Y"); ?> <a href="<?php echo base_url() ?>">Moonboy</a>
+                                        <span style="font-size:16px;" class="site-footer-copyright"><?= COPY_RIGHT_YEAR ?>
                                             </div> 
 
                                             <a href="#" id="back-to-top" title="Back to top">&uarr;</a>
@@ -680,7 +680,7 @@
                                                             //var url = "profile_fillup.php?name="+name+"&mail="+email;
                                                             //var url = "social_login/gpluslogin/manage_start_profile_fillup.php?name="+name+"&mail="+email;
 
-                                                            /*var url = "<?php //echo site_url();    ?>chm/socialLogin/" + encodeURIComponent(mail+','+name);			
+                                                            /*var url = "<?php //echo site_url();     ?>chm/socialLogin/" + encodeURIComponent(mail+','+name);			
                                                              window.location.href = url;*/
                                                             //var url = 'myprofile.php';			
 
@@ -713,7 +713,8 @@
                                                 function onLoadCallback()
                                                 {
                                                     gapi.client.setApiKey('AIzaSyBXmP5Od2YA_lFq-qUAwt8s9tDFtvUcvcE');
-                                                    gapi.client.load('plus', 'v1', function () {});
+                                                    gapi.client.load('plus', 'v1', function () {
+                                                    });
                                                 }
 
                                             </script>
