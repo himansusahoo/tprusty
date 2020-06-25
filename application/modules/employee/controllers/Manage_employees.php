@@ -597,9 +597,9 @@ class Manage_employees extends MX_Controller {
     public function validate_my_password() {
         if ($this->input->is_ajax_request()) {
             $pass = $this->input->post('password');
-            $my_pass = c_decode($this->session->userdata['user_data']['password']);
+            $match_password = $this->manage_employee->match_user_password(trim($pass));
 
-            if ($pass == $my_pass) {
+            if ($match_password) {
                 echo json_encode(array('status' => 'success', 'match' => 1));
             } else {
                 echo json_encode(array('status' => 'success', 'match' => 0));
@@ -622,12 +622,11 @@ class Manage_employees extends MX_Controller {
      */
     public function update_my_password() {
         if ($this->input->is_ajax_request()) {
-            $pass = c_encode($this->input->post('password'));
+            $pass = md5($this->input->post('password'));
             $new_pass = $this->input->post('npassword');
             $user_id = $this->rbac->get_user_id();
             $condition = array('password' => $pass, 'user_id' => $user_id);
-            if ($this->manage_employee->update_emp_password($condition, $new_pass)) {
-                $this->session->userdata['user_data']['password'] = c_encode($new_pass);
+            if ($this->manage_employee->update_emp_password($condition, $new_pass)) {                
                 echo json_encode(array('status' => 'success', 'title' => 'My Profile', 'message' => 'Password successfully updated!'));
             } else {
                 echo json_encode(array('status' => 'error', 'title' => 'My Profile', 'message' => 'There is some error, Please refresh the page and try again!'));

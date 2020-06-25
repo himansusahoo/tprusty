@@ -112,6 +112,20 @@ class Rbac {
     }
 
     /**
+     * @param  : 
+     * @desc   : used to fetch user type
+     * @return :
+     * @author : HimansuS
+     * @created:
+     */
+    public function get_user_type() {
+        if (isset($this->_session['user_data']['user_type'])) {
+            return $this->_session['user_data']['user_type'];
+        }
+        return 0;
+    }
+
+    /**
      * @param  : String $module_code, String $action_code
      * @desc   : used to check user has permition or not
      * @return :
@@ -474,23 +488,66 @@ class Rbac {
 
     public function get_role_desc($role_code) {
         if (isset($this->_session['user_data']['roles'])) {
-            $roles=$this->_session['user_data']['roles'];
-            foreach($roles as $role){
-                if($role['code']==$role_code){
+            $roles = $this->_session['user_data']['roles'];
+            foreach ($roles as $role) {
+                if ($role['code'] == $role_code) {
                     return $role['name'];
                 }
             }
         }
         return '';
     }
-    public function get_profile_pic() {        
-        if (isset($this->_session['user_data']['profile_pic']) && $this->_session['user_data']['profile_pic']!='') {            
-            return '/uploads/employee/profile_picture/'.$this->_session['user_data']['profile_pic'];            
+
+    public function get_profile_pic() {
+        if (isset($this->_session['user_data']['profile_pic']) && $this->_session['user_data']['profile_pic'] != '') {
+            return '/uploads/employee/profile_picture/' . $this->_session['user_data']['profile_pic'];
         }
         return '/images/user-icon.png';
     }
-    public function set_profile_pic($profile_pic) {              
-        $this->_session['user_data']['profile_pic']=$profile_pic;        
+
+    public function set_profile_pic($profile_pic) {
+        $this->_session['user_data']['profile_pic'] = $profile_pic;
         $this->_ci->session->set_userdata('user_data', $this->_session['user_data']);
     }
+
+    public function get_admin_dashboard_url() {
+        $redirect = '';
+        $user_type = $this->get_user_type();
+        switch ($user_type) {
+            case 'developer':
+                $redirect = 'developer-dashboard';
+                break;
+            case 'employee':
+                $redirect = 'employee-dashboard';
+                break;
+            case 'admin':
+                $redirect = 'admin-dashboard';
+                break;
+        }
+        return base_url($redirect);
+    }
+
+    public function temp_sub_menus($menu_name) {
+        $menus = array(
+            'admin_reports' => array(
+                'order-reports' => 'Order Report',
+                'return-order-reports' => 'Return Order Report',
+                'sale-reports' => 'Sales Report',
+                'seller-reports' => 'Seller Report',
+                'product-reports' => 'Product Report',
+                'seller-wise-top-selling-products' => 'Top Selling Product By Seller',
+                'buyer-reports' => 'Buyer Report',
+                'buyer-wallet-reports' => 'Buyer Wallet Report',
+                'seller-payout-reports' => 'Seller Payout Report',
+                'tax-reports' => 'Tax Report',
+                'seller-profile-reports' => 'Seller Profile Report',
+                'buyer-profile-reports' => 'Buyer Profile Report'
+            )
+        );
+        if(array_key_exists($menu_name, $menus)){
+            return $menus[$menu_name];
+        }
+        return '';
+    }
+
 }

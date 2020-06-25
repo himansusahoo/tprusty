@@ -11,6 +11,7 @@ class Admin_users extends CI_Controller {
         $this->load->library('form_validation');
         $this->layout->layout = 'admin_layout';
         $this->layout->layoutsFolder = 'layouts/admin';
+        $this->load->model('dashboard');
     }
 
     /**
@@ -58,7 +59,6 @@ class Admin_users extends CI_Controller {
 
                 $email = $this->input->post('user_email');
                 $pass = $this->input->post('user_pass');
-                //$condition = array('email' => $email, 'password' => c_encode($pass),'user_type'=>'');
                 $condition = "email='$email' and password='" . md5($pass) . "' and user_type in('employee','developer','admin','seller')";
                 $user_detail = $this->user->get_user_detail(null, $condition);
                 //pma($user_detail, 1);
@@ -86,21 +86,22 @@ class Admin_users extends CI_Controller {
                         $user_detail['app_configs'] = $app_configs;
                         $this->session->set_userdata('user_data', $user_detail);
 
+                        //collect dashboard deta
+                        $this->session->set_userdata('logged_in', $user_detail['email']);
+                        $data['tot_prdqnt'] = $this->dashboard->graph_data_totprdqnt();
+                        $data['results'] = $this->dashboard->get_chart_data(); //chart data access end
+                        $data['deliver_count'] = $this->dashboard->get_delivered_ordercount();
+                        $data['cancel_count'] = $this->dashboard->get_Cancelled_ordercount();
+                        $data['confirm_count'] = $this->dashboard->get_confirmed_ordercount();
+                        $data['undelivered_count'] = $this->dashboard->get_Undelivered_ordercount();
+                        $data['return_count'] = $this->dashboard->get_return_ordercount();
+                        $data['order_confirm'] = $this->dashboard->count_orderconfirmed();
+                        $data['seller_weekly_sale'] = $this->dashboard->get_seller_sale_weekly();
+                        $data['moonboy_sale'] = $this->dashboard->get_moonboy_turnover_monthly();
+                
                         //change the redirect url string based on the user type.
-                        $redirect = 'employee-dashboard';
-                        $user_type=trim($user_detail['user_type']);
-                        
-                        switch ($user_type) {
-                            case 'developer':
-                                $redirect = 'developer-dashboard';
-                                break;
-                            case 'employee':
-                                $redirect = 'employee-dashboard';
-                                break;
-                            case 'admin':
-                                $redirect = 'admin-dashboard';
-                                break;
-                        }
+                        $redirect = $this->rbac->get_admin_dashboard_url();
+                        $this->breadcrumbs->home($redirect);
                         redirect($redirect);
                     } else {
                         $this->session->set_flashdata('error', 'You are not authorised to access the application.');

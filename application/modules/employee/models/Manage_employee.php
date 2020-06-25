@@ -315,5 +315,15 @@ class Manage_employee extends CI_Model {
             }
         }
     }
+    
+    public function match_user_password($password){
+        $password=md5($password);
+        $query="SELECT COUNT(*) as match_password FROM rbac_users WHERE password=?";
+        $result=$this->db->query($query,array($password))->row();
+        if($result){
+            return $result->match_password;
+        }
+        return 0;        
+    }
 
 }

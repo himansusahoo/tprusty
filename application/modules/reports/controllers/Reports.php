@@ -36,16 +36,12 @@ class Reports extends MX_Controller {
      */
     public function index() {
 
-        $this->breadcrumbs->push('index', '/app_routes/app_routes/index');
+        $this->breadcrumbs->push('all-reports', 'all-reports');
         $this->scripts_include->includePlugins(array('datatable', 'chosen'), 'css');
         $this->scripts_include->includePlugins(array('datatable', 'chosen'), 'js');
         $this->layout->navTitle = 'Reports';
         $this->layout->title = 'Reports';
         $this->layout->render();
-    }
-
-    public function dt_test() {
-        $this->load->library('mb_datatable');
     }
 
     public function gen_table() {
