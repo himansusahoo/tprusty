@@ -18,29 +18,6 @@ class Mycart_model extends CI_Model {
         }
     }
 
-    //function insert_prod($sku_ids){
-//		
-//	   
-//		array_push($this->session->userdata['addtocart_sku'],$sku_ids['sku']);
-//		$addtocart_session_id= $this->session->userdata('addtocarttemp_session_id');
-//		print_r($addtocarttemp_id);exit;
-//		
-//		$addtocarttemp_id=$this->get_unique_id('addtocart_temp','addtocart_id');
-//				//print_r($addtocarttemp_id);exit;
-//				
-//		$addtocart_session_id= $this->session->userdata('addtocarttemp_session_id');
-//	$data=array(
-//					'addtocart_id'=>$addtocarttemp_id,
-//					'addtocart_session_id'=>$addtocart_session_id,
-//					'product_id'=>$product_id,
-//					'user_id'=>$this->session->userdata['session_data']['user_id'],
-//					'sku'=>$sku_id
-//				);			
-//				
-//				$qr=$this->db->insert('addtocart_temp',$data);
-//		
-//	}
-
     function get_unique_id($table, $uid) {
 
         $query = $this->db->query('SELECT MAX(' . $uid . ') AS `maxid` FROM ' . $table);
@@ -50,17 +27,11 @@ class Mycart_model extends CI_Model {
     }
 
     function insert_mycart($product_id, $sku_id) {
-
         array_push($this->session->userdata['addtocarttemp'], $product_id);
-
         array_push($this->session->userdata['addtocart_sku'], $sku_id);
-
         $addtocarttemp_id = $this->get_unique_id('addtocart_temp', 'addtocart_id');
-        //print_r($addtocarttemp_id);exit;
         $addtocart_session_id = $this->session->userdata('addtocarttemp_session_id');
-        
         $dtd = date('Y-m-d H:i:s');
-
         $data = array(
             'addtocart_id' => $addtocarttemp_id,
             'addtocart_session_id' => $addtocart_session_id,
@@ -83,24 +54,12 @@ class Mycart_model extends CI_Model {
         $addtocart_id = $this->input->post('addtocart_id');
         $master_quantity = $this->input->post('quantity');
         $sl = $this->input->post('sl');
-        //print_r($master_quantity);exit;
-        //$query=$this->db->query("select count(addtocart_session_id) as count1,addtocart_id from addtocart_temp where user_id='$user_id'  ");
-//		$qr=$query->result();
-//		foreach($qr as $row){
-//			$count=$row->count1;
-//			$addtocart_id=$row->addtocart_id;
-//		}
-        //print_r($count);exit;
+       
         for ($i = $rec_ct; $i < $quantity; $i++) {
             array_push($this->session->userdata['addtocarttemp'], $product_id);
-
             array_push($this->session->userdata['addtocart_sku'], $sku);
-
             $addtocarttemp_id = $this->get_unique_id('addtocart_temp', 'addtocart_id');
-            //print_r($addtocarttemp_id);exit;
             $addtocart_session_id = $this->session->userdata('addtocarttemp_session_id');
-
-            
             $dtd = date('Y-m-d H:i:s');
             $data = array(
                 'addtocart_id' => $addtocarttemp_id,
@@ -110,9 +69,6 @@ class Mycart_model extends CI_Model {
                 'sku' => $sku,
                 'added_time' => $dtd
             );
-
-
-
             $qr = $this->db->insert('addtocart_temp', $data);
         }
     }
@@ -143,7 +99,6 @@ class Mycart_model extends CI_Model {
     }
 
     function delete_from_mycart($addtocart_id) {
-        //$user_id=$this->session->userdata['session_data']['user_id'];
         $qr = $this->db->query("delete from addtocart_temp where addtocart_id='$addtocart_id' ");
     }
 
@@ -156,13 +111,10 @@ class Mycart_model extends CI_Model {
 
     function delete_from_tempmycart($sku_id) {
         $sku_arr = $this->session->userdata['addtocart_sku'];
-        //print_r($sku_arr); echo count($sku_arr);exit;
         foreach ($sku_arr as $key => $value) {
             if ($value == $sku_id) {
                 unset($sku_arr[$key]);
             }
-
-            //unset($this->session->userdata['addtocart_sku'][$sku_id]);
         }
         $this->session->unset_userdata['addtocart_sku'];
         $this->session->set_userdata('addtocart_sku', $sku_arr);
@@ -206,7 +158,6 @@ class Mycart_model extends CI_Model {
         }
         $all_shipment_seller_id = array_unique($all_shipment_seller_id);
         $other_shipment_seller_id = array_diff($all_shipment_seller_id, $shipment_seller_id);
-        //print_r($shipment_seller_id);exit;
         $other_shipment_seller_id_length = count($other_shipment_seller_id);
         for ($i = 0; $i < $other_shipment_seller_id_length; $i++) {
             @$query1 = $this->db->query("SELECT * FROM shipment WHERE seller_id='$other_shipment_seller_id[$i]' AND state_id=0");
@@ -214,10 +165,8 @@ class Mycart_model extends CI_Model {
             $other_shipment_amount[] = $result1[0]->amount;
         }
         $other_shipment_seller_id_amount = array_combine($other_shipment_seller_id, $other_shipment_amount);
-        //print_r($other_shipment_seller_id_amount);exit;
         $total_shipment_seller_id_amount = ($shipment_seller_id_amount + $other_shipment_seller_id_amount);
         return $total_shipment_seller_id_amount;
-        //program end for getting shipment seller_id where user state id not in same row//		
     }
 
     function retrive_national_shipping_amount_seller_wise() {
@@ -231,29 +180,8 @@ class Mycart_model extends CI_Model {
         return $shipment_seller_id_n_amount;
     }
 
-    //function insert_into_checkout()
-//	{		
-//			$user_id = $this->session->userdata['session_data']['user_id'];
-//			
-//			$query_tempaddtocart=$this->db->query("select * from addtocart_temp where user_id='$user_id' ");
-//			$row_tempaddtocart=$query_tempaddtocart->result();
-//			
-//			foreach($row_tempaddtocart as $res_tempaddtocart)
-//			{
-//				$data_tempaddtocart=array(
-//				'tempaddtocart'=>$row_tempaddtocart->tempaddtocart,
-//				'tempaddtocart'=>$row_tempaddtocart->tempaddtocart,
-//				
-//				
-//				);
-//				
-//					
-//			}
-//	}
-
-
     function inserted_into_checkout_temp() {
-        
+
         $cdate = date('Y-m-d H:i:s');
         $chkout_session_id = $this->session->userdata('chkoutemp_session_id');
         $user_id = $this->session->userdata['session_data']['user_id'];
@@ -316,13 +244,6 @@ class Mycart_model extends CI_Model {
         return true;
     }
 
-    /* function checkinn_inventory_befor_order(){
-      $sku_arr = json_decode($_POST['sku']);
-      $qty_arr = json_decode($_POST['qty']);
-      $chkout_session_id = $this->session->userdata('chkoutemp_session_id');
-      $user_id = $this->session->userdata['session_data']['user_id'];
-      } */
-
     function getting_rest_payble_amount() {
         $chkout_session_id = $this->session->userdata('chkoutemp_session_id');
         $total_payble_amt = $this->session->userdata('sesstotal_price');
@@ -352,9 +273,6 @@ class Mycart_model extends CI_Model {
         }
         $sku_qntstr = implode(',', $sku_qntarr);
         $query1 = $this->db->query("select * from addtocart_temp where user_id='$user_id' AND sku IN ($sku_qntstr) group by sku ");
-
-        //$row1=$query1->result();
-
         $ct = $query1->num_rows();
 
 
@@ -391,12 +309,9 @@ class Mycart_model extends CI_Model {
 
                 $data_order = array(
                     'order_track_id' => $order_track_id,
-                    'order_id' => $order_id_arr[$i],
-                    //'order_id_payment_gateway'=>$order_id_payment_gateway,
+                    'order_id' => $order_id_arr[$i],                    
                     'Total_amount' => $sub_total_arr[$i],
-                    'date_of_order' => $dt,
-                    //'payment_mode'=>'2',
-                    //'order_confirm_for_seller'=>'Approved'
+                    'date_of_order' => $dt,                    
                     'order_processstatus' => 'Order has initiated(Pending Of Payment) ',
                     'order_status' => 'Pending payment'
                 );
@@ -433,23 +348,17 @@ class Mycart_model extends CI_Model {
                 $address_insert_qr = $this->db->insert('shipping_address', $address_data);
             }
 
-            //INSERT OF ADDRESS DATA END
 
             $i++;
         }
     }
 
     function insert_inn_transaction_details($order_id_arr, $qantity_arr, $sub_total_arr, $sku_arr, $seller_id_arr, $price_arr, $shipping_fees_arr) {
-        
+
         $cdate = date('Y-m-d');
         //program start for getting product sale value//
         $arr_length = count($qantity_arr);
-        /* for($i=0; $i<$arr_length; $i++){
-          $single_product_price_without_shping_fee = $price_arr[$i]/$qantity_arr[$i];
-          $single_product_price[] = $single_product_price_without_shping_fee+$shipping_fees_arr[$i];
-          }
-          $single_product_price_arr = $single_product_price; */
-        //program end of getting product sale value//
+        
         //program start for getting fixedCharges //
         $this->load->model('seller/Catalog_model');
         $fixed_charges_res = $this->Catalog_model->getFixedCharges();
@@ -512,12 +421,6 @@ class Mycart_model extends CI_Model {
 
         //getting second label category id start here//
         foreach ($sku_arr as $sku) {
-            /* Second label category id query
-              $query1 = $this->db->query("SELECT parent_id AS SECOND_LEABLE_CAT_ID FROM category_indexing WHERE category_id=(SELECT a.category_id FROM product_category a INNER JOIN product_master b ON a.product_id=b.product_id WHERE b.sku='$sku')");
-              $result1 = $query1->result();
-              $second_leable_cat_id[] = $result1[0]->SECOND_LEABLE_CAT_ID;
-             */
-
             //third label category id query
             $query1 = $this->db->query("SELECT a.category_id FROM product_category a INNER JOIN product_master b ON a.product_id=b.product_id WHERE b.sku='$sku'");
             $result1 = $query1->result();
@@ -527,12 +430,7 @@ class Mycart_model extends CI_Model {
         $second_leable_cat_id_arr = $second_leable_cat_id;
         //getting second label category id start here//
 
-        $commission_arr = $this->commission_calculation($second_leable_cat_id_arr, $sub_total_arr, $seller_id_arr);
-        //print_r($commission_arr);exit;
-        /* foreach($commission_arr as $comsn){
-
-          $servc_tx[] = round($comsn*$tax_decimal);
-          } */
+        $commission_arr = $this->commission_calculation($second_leable_cat_id_arr, $sub_total_arr, $seller_id_arr);       
 
         for ($k = 0; $k < $arr_length; $k++) {
             $total_fees = $fixed_fee_arr[$k] + $seasonal_fee_arr[$k] + $pg_fee_arr[$k] + $commission_arr[$k];
@@ -557,7 +455,7 @@ class Mycart_model extends CI_Model {
     }
 
     function commission_calculation($second_leable_cat_id_arr, $sub_total_arr, $seller_id_arr) {
-        
+
         $cdate = date('Y-m-d');
         //program start for commission calculating //
         $arr_length = count($seller_id_arr);
@@ -574,13 +472,10 @@ class Mycart_model extends CI_Model {
                     $spl_cmsn_amt = round($sub_total_arr[$x] * $spl_percent_decimal);
                     array_push($commission_arr, $spl_cmsn_amt);
                 } else if (in_array($seller_id_arr[$x], $special_seller_id)) { //program for if exist	
-                    //if(in_array($seller_id_arr[$x],$special_seller_id)){	
                     $spl_cmsn = $result[0]->commision;
                     $spl_percent_decimal = $spl_cmsn / 100;
                     $spl_cmsn_amt = round($sub_total_arr[$x] * $spl_percent_decimal);
                     array_push($commission_arr, $spl_cmsn_amt);
-                    //}					
-                    //special commission condition program start here//
                 } else {
                     //Membership commission condition program start here//
                     $query = $this->db->query("SELECT * FROM membership_seller WHERE seller_id='$seller_id_arr[$x]'");
@@ -612,7 +507,6 @@ class Mycart_model extends CI_Model {
                                 array_push($commission_arr, $gbl_cmsn_amt);
                                 //Global commission condition program end here//
                             } else {
-                                //echo 'NOT';
                                 $commission_arr = array();
                             }
                         }
@@ -628,7 +522,6 @@ class Mycart_model extends CI_Model {
                             array_push($commission_arr, $gbl_cmsn_amt);
                             //Global commission condition program end here//
                         } else {
-                            //echo 'NOT';
                             $commission_arr = array();
                         }
                     }
@@ -664,7 +557,6 @@ class Mycart_model extends CI_Model {
                             array_push($commission_arr, $gbl_cmsn_amt);
                             //Global commission condition program end here//
                         } else {
-                            //echo 'NOT';
                             $commission_arr = array();
                         }
                     }
@@ -687,8 +579,6 @@ class Mycart_model extends CI_Model {
             }
         }
         return $commission_arr;
-        //print_r($commission_arr);
-        //program end of commission calculating //
     }
 
     function update_ccavenuedata($order_id_payment_gateway, $order_id_arr) {
@@ -721,9 +611,6 @@ class Mycart_model extends CI_Model {
         $prod_arr = @$this->session->userdata['addtocart_sku'];
 
         if (count($prod_arr) != 0) {
-
-            //$prod_str=implode(',',$prod_arr);
-
             $productsku_array = array();
             foreach ($prod_arr as $key => $res_product) {
                 $sku = "'" . $res_product . "'";
@@ -732,7 +619,6 @@ class Mycart_model extends CI_Model {
             $productsku_str = implode(',', $productsku_array);
 
             $query_prodcart = $this->db->query("select sku FROM product_master where sku IN ($productsku_str) group by sku ");
-            //print_r($query_prodcart->result());exit;
             return $query_prodcart->result();
         }
     }
@@ -792,22 +678,25 @@ class Mycart_model extends CI_Model {
             if ($cod_percen_charge != '100') {
                 $total_chargetomoonboy = $total_chargetomoonboy + round(($cod_chargeaswtgheach / 100) * (100 - $cod_percen_charge));
             }
-            //$cod_chargetobuyer=$cod_chargetobuyer+round($codtaxamount);		
-        } else { // else condition of tobe charge 
+        } else {
             $cod_totalprice = $cod_totalprice + $cod_chargeaswtgheach;
         }
 
         // if condition of tobe charge end
         //--------------------------tax charge to buyer start--------------------
-        $codcharge_stateid_qr = $this->db->query("
-            SELECT a.state_id FROM state a INNER 
-            JOIN postalpincodemaster_fedexin b ON a.state_code=b.State 
-            WHERE b.postalcode='$pincode'");
-        $codcharge_stateid = $codcharge_stateid_qr->row()->state_id;
+        $query = "
+            SELECT a.state_id 
+            FROM state a 
+            INNER JOIN postalpincodemaster_fedexin b ON a.state_code=b.State 
+            WHERE b.postalcode='$pincode'";
+        $result = $this->db->query($query)->row();
+        $codcharge_stateid = '';
+        if (isset($result->state_id)) {
+            $codcharge_stateid = $result->state_id;
+        }
 
         if ($codcharge_stateid != "") {
 
-            //$codcharge_stateid=$cus_data->cod_stateid;
             $codtax_query = $this->db->query("SELECT * FROM cod_taxratecharges WHERE state_id='$codcharge_stateid' ");
             if ($codtax_query->num_rows() > 0) {
                 $row_codtax = $codtax_query->row();
