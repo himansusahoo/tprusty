@@ -15,24 +15,24 @@
             </div>
         </div>
         <div class="box-body padB10" style="display: none; ">
-            <div class="row-fluid">
+            <div class="row-fluid text-center">
                 <div class="col-sm-2">
                     <span class="fa fa-pie-chart fa-4x text-aqua"></span>
                     <a class="users-list-name" href="<?= base_url('seller-reports') ?>">Seller Report</a>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 text-center">
                     <span class="fa fa-bar-chart-o fa-4x text-blue"></span>
                     <a class="users-list-name" href="<?= base_url('seller-payout-reports') ?>">Seller Payout Report</a>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 text-center">
                     <span class="fa fa-user-circle fa-4x text-info"></span>
                     <a class="users-list-name" href="<?= base_url('seller-profile-reports') ?>">Seller Profile Report</a>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 text-center">
                     <span class="fa fa-cart-plus fa-4x text-danger"></span>
                     <a class="users-list-name" href="<?= base_url('seller-wise-top-selling-products') ?>">Top Selling Product By Seller</a>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 text-center">
                     <span class="fa fa-cubes fa-4x text-green"></span>
                     <a class="users-list-name" href="<?= base_url('seller-gst-reports') ?>">Seller GST Report</a>
                 </div>
@@ -53,15 +53,15 @@
         </div>
         <div class="box-body padB10" style="display: none;">
             <div class="row-fluid">
-                <div class="col-sm-2">
+                <div class="col-sm-2 text-center">
                     <span class="fa fa-pie-chart fa-4x text-aqua"></span>
                     <a class="users-list-name" href="<?= base_url('buyer-reports') ?>">Buyer Report</a>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 text-center">
                     <span class="fa fa-bar-chart-o fa-4x text-blue"></span>
                     <a class="users-list-name" href="<?= base_url('buyer-wallet-reports') ?>">Buyer Wallet Report</a>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-2 text-center">
                     <span class="fa fa-user-circle fa-4x text-info"></span>
                     <a class="users-list-name" href="<?= base_url('buyer-profile-reports') ?>">Buyer Profile Report</a>
                 </div>
@@ -83,23 +83,23 @@
         <div class="box-body padB10" style="display: none;">
             <div class="row-fluid">
                 <div class="col-sm-12 no_pad ">
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 text-center">
                         <span class="fa fa-cart-arrow-down fa-4x text-aqua"></span>
                         <a class="users-list-name" href="<?= base_url('order-reports') ?>">Order Report</a>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 text-center">
                         <span class="fa fa-retweet fa-4x text-danger"></span>
                         <a class="users-list-name" href="<?= base_url('return-order-reports') ?>">Return Order Report</a>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 text-center">
                         <span class="fa fa-gift fa-4x text-info"></span>
                         <a class="users-list-name" href="<?= base_url('product-reports') ?>">Product Report</a>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 text-center">
                         <span class="fa fa-cart-plus fa-4x text-green"></span>
                         <a class="users-list-name" href="<?= base_url('sale-reports') ?>">Sales Report</a>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 text-center">
                         <span class="fa fa-pie-chart fa-4x text-aqua"></span>
                         <a class="users-list-name" href="<?= base_url('tax-reports') ?>">Tax Report</a>
                     </div>

@@ -143,10 +143,12 @@ class Admin_users extends CI_Controller {
      * @return :
      * @author :
      */
-    public function log_out() {
+    public function sign_out() {
         $this->session->unset_userdata('user_data');
         $this->session->unset_userdata('selected_left_menu');
-        redirect('employee-login');
+        $this->session->unset_userdata('logged_in');
+        $admin_login=base_url('admin-login');
+        redirect($admin_login);
     }
 
 }

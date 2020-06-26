@@ -5,7 +5,7 @@
     <body style='background-color:#fabd2f; font-family:'Calibri',Arial, Helvetica, sans-serif;'>
 
           <h3>Hi <?= $shipment_address_details->fname . ' ' . $shipment_address_details->lname; ?>,</h3>
-        <p>Greeting from <?= uc_first(DOMAIN_NAME) ?>!</p>
+        <p>Greeting from <?= ucfirst(DOMAIN_NAME) ?>!</p>
         <p><?= $slr_qty_result->business_name; ?> has shipped <?= $slr_qty_result->total_qty; ?> item in your order <?= $order_id; ?></p>
         <strong>Shipment Details</strong>
         <table width='600' cellspacing='0' align='center'>

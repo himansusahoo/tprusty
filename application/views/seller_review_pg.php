@@ -9,7 +9,7 @@
         <meta name="Keywords" content="<?php //echo $data->meta_keyword ;    ?>" />
 
                 <!--<title><?php //echo $data->title ;    ?></title>-->
-        <title><?php echo uc_first(DOMAIN_NAME) . ': Seller Profile :' . $seller_data[0]->business_name; ?></title>
+        <title><?php echo ucfirst(DOMAIN_NAME) . ': Seller Profile :' . $seller_data[0]->business_name; ?></title>
         <link rel="canonical" href="<?php echo base_url() . $this->uri->segment(1) . '/' . $this->uri->segment(2) ?>"/>
 
         <?php
