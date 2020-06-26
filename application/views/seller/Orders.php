@@ -78,8 +78,8 @@ class Orders extends CI_Controller {
 				
 				
 				$this->email->set_mailtype("html");
-				$this->email->from(NO_REPLY_MAIL, uc_first(DOMAIN_NAME));
-				$this->email->subject('Shipment of items by '.uc_first(DOMAIN_NAME));
+				$this->email->from(NO_REPLY_MAIL, ucfirst(DOMAIN_NAME));
+				$this->email->subject('Shipment of items by '.ucfirst(DOMAIN_NAME));
 				$message=$this->load->view('shipment_mail_template1',$data,TRUE);				
 				$this->email->message($message);		
 				

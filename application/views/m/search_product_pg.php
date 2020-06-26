@@ -40,13 +40,13 @@
 			}
 			$category_lvl3=implode(",",$Category_Lvl3);
 	?>
-		<meta name="Description" content="<?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3 ;?>">
-		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3.','.uc_first(DOMAIN_NAME) ;?>" />
-		<title><?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2).'-'.$category_lvl3) ;?></title>
+		<meta name="Description" content="<?php echo ucfirst(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3 ;?>">
+		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).','.$category_lvl3.','.ucfirst(DOMAIN_NAME) ;?>" />
+		<title><?php echo ucfirst(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2).'-'.$category_lvl3) ;?></title>
 <?php }else{?>
-		<meta name="Description" content="<?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)) ;?>">
-		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).','.uc_first(DOMAIN_NAME) ;?>" />
-		<title><?php echo uc_first(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)) ;?></title>
+		<meta name="Description" content="<?php echo ucfirst(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)) ;?>">
+		<meta name="Keywords" content="<?php echo str_replace("%20"," ",$this->uri->segment(2)).','.ucfirst(DOMAIN_NAME) ;?>" />
+		<title><?php echo ucfirst(DOMAIN_NAME).':'.str_replace("%20"," ",$this->uri->segment(2)) ;?></title>
 <?php }?>
         
       <link rel="canonical" href="<?php echo base_url().'search-by/'.$this->uri->segment(2); ?>"/>

@@ -12,7 +12,7 @@
             <div style="clear:both; border-bottom:2px solid #e8442b;"> &nbsp; </div>
 
             <h3> Hi <?= $shipment_address_details->fname . ' ' . $shipment_address_details->lname; ?>,</h3>
-            <p> Greeting from <?= uc_first(DOMAIN_NAME) ?>!</p>
+            <p> Greeting from <?= ucfirst(DOMAIN_NAME) ?>!</p>
             <p> Asianelectronics has shipped <?= $slr_qty_result->total_qty; ?> item in your order <strong><?= $order_id; ?></strong></p>
             <p> Shipment Tracking <strong> ID: FMPC3521656977</strong> </p>
 

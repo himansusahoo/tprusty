@@ -27,7 +27,7 @@ class Rbac {
                 return FALSE;
             } else {
                 if ($this->_ci->layout->layout == 'admin_layout') {
-                    redirect('employee-login');
+                    redirect('admin-login');
                 } else if (!strpos(current_url(), 'user-login')) {
                     redirect('user-login');
                 }
@@ -216,7 +216,11 @@ class Rbac {
             return $this->_session['user_data']['permissions'];
         } else {
             $this->_ci->session->set_flashdata('error', 'No permission assigned you to access the Dashboard,Please contact site Admin.');
-            redirect('users/sign_in');
+            if ($this->_ci->layout->layout == 'admin_layout') {
+                redirect('admin-login');
+            } else if (!strpos(current_url(), 'user-login')) {
+                redirect('user-login');
+            }
         }
         return 0;
     }
@@ -544,7 +548,7 @@ class Rbac {
                 'buyer-profile-reports' => 'Buyer Profile Report'
             )
         );
-        if(array_key_exists($menu_name, $menus)){
+        if (array_key_exists($menu_name, $menus)) {
             return $menus[$menu_name];
         }
         return '';

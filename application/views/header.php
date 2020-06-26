@@ -5,7 +5,7 @@
         <?php
         $this->db->cache_off();
         if ($this->session->userdata('sesscoke') == false) {
-            
+
             $data = array();
             $this->session->set_userdata('sesscoke', $data);
         }
@@ -49,8 +49,6 @@
                 $(".inline").colorbox({inline: true, width: "25%", height: "447px"});
                 $(".inline2").colorbox({inline: true, width: "35%"});
             });
-        </script>
-        <script>
             $(document).ready(function () {
                 $('#exixtingusertomoonboy').css('display', 'none');
 
@@ -76,8 +74,6 @@
         <script>
             var logintobuysku = '';
             function logSignupFunction(pname) {
-                //alert(pname);return false;
-                //alert(logintobuysku);
                 var mail_id = $('#mail_id').val();
                 var pattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
@@ -97,7 +93,6 @@
                     $('#mail_id').select();
                     return false;
                 } else {
-                    ///////script start for NEW USER/////////
                     if (user == 'new_user') {
                         var pass = $('#npass').val();
                         var cpass = $('#ncpass').val();
@@ -122,7 +117,6 @@
                                 data: {email: mail_id, password: pass, flag: 1},
                                 success: function (result)
                                 {
-                                    //$(".error_msg").html(result);
                                     if (result == 'exists') {
                                         $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>This email address is already exists');
                                         $(".error_msg").slideDown();
@@ -132,9 +126,6 @@
                                         window.location.href = "<?php echo base_url() . 'mycart/checkout_process'; ?>";
                                     }
                                     if (result == 'success' && logintobuysku == '') {
-                                        //else{
-                                        /*$(".error_msg").html(result);
-                                         $(".error_msg").fadeIn(500);*/
                                         window.location.reload(true);
                                     }
                                 }
@@ -142,9 +133,6 @@
 
                         }
                     }
-                    ///////script end of NEW USER/////////
-
-                    ///////script start for Exiting USER/////////
                     if (user == 'ext_user') {
                         var pass = $('#epass').val();
                         if (pass == '') {
@@ -160,8 +148,6 @@
                                 data: {email: mail_id, password: pass, flag: 2},
                                 success: function (result)
                                 {
-                                    /*$(".error_msg").html(result);
-                                     $(".error_msg").fadeIn(500);*/
                                     if (result == 'blocked') {
                                         $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>This user is already blocked');
                                         $(".error_msg").slideDown(200);
@@ -173,7 +159,6 @@
                                         $('#in_up').val('Login');
                                     }
                                     if (result == 'success' && logintobuysku == '') {
-                                        //$(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>ssccdd');
                                         window.location.reload(true);
                                     }
                                     if (result == 'success' && logintobuysku != '') {
@@ -185,13 +170,8 @@
 
                         }
                     }
-                    ///////script end of Exiting USER/////////
                 }
-                //});
-                //});
             }
-        </script>
-        <script>
             $(document).ready(function () {
                 $('.forgot_p').click(function () {
                     $('#reg_login_dv').slideUp();
@@ -243,7 +223,6 @@
 
             });
 
-            ///////OTP Verification start here////////
             function checkOtp() {
                 var otp = $('#otp').val();
                 if (otp == '') {
@@ -274,9 +253,6 @@
 
                 }
             }
-            ///////OTP Verification end here////////
-
-            ///////Change password script start here////////
             function changedPassword() {
                 var email = $('#chng_email').val();
                 var psss = $('#new_pass').val();
@@ -314,9 +290,6 @@
 
                 }
             }
-            ///////Change password script end here////////	
-        </script>
-        <script>
             function OverFunction() {
                 $("#profile_menu").show();
             }
@@ -332,70 +305,10 @@
             function OutFunction1() {
                 $("#profile_menu_mob").hide();
             }
-        </script>
-        <script>
-            /*$(document).ready(function(){
-             $('#searchdiv2').css('display','none');
-             $("#search-text").keyup(function(e){
-             if(e.keyCode != 13){
-             $('#searchdiv2').css('display','block');
-             var n=$('#search-text').val();
-             
-             $.ajax({
-             url:'<?php //echo base_url().'user/search_product'   ?>',
-             method:'post',
-             data:{name:n},
-             success:function(data,status)
-             {
-             if($('#search-text').val()!="")
-             {
-             $("#searchdiv2 ul").html(data);
-             }
-             else
-             {
-             $("#searchdiv2 ul").html("");
-             $('#searchdiv2').css('display','none');
-             }		
-             }
-             });
-             }
-             else
-             {
-             var xhr = $.get('/server');
-             setTimeout(function(){xhr.abort();}, 2000);
-             
-             }
-             
-             });
-             
-             $(document).keyup(function(event){
-             if(event.which === 27){
-             $('#searchdiv2').hide();
-             }
-             });
-             
-             });
-             */
-
-
             $(document).ready(function () {
 
                 $('#searchdiv2').css('display', 'none');
                 var timer = null;
-                /*$('#search-text').keyup(function(e){
-                 if(e.keyCode != 13){
-                 clearTimeout(timer); 
-                 timer = setTimeout(mysearch, 500);
-                 }
-                 });*/
-                /*var timer = 0;
-                 $('#search-text').live('keyup', function(e){
-                 if(timer) {
-                 clearTimeout(timer);
-                 }
-                 timer = setTimeout(mysearch, 500); 
-                 });*/
-
                 $.fn.delayKeyup = function (callback, ms) {
                     var timer = 0;
                     var el = $(this);
@@ -409,14 +322,12 @@
                 };
 
                 $('#search-text').delayKeyup(function (el) {
-                    /*alert(el.val());*/
                     mysearch();
                 }, 600);
 
 
                 $(document).keyup(function (event) {
                     if (event.which === 27 || event.which === 8 || event.which === 46) {
-                        //$('#searchdiv2').hide();
                         $('#searchdiv2').css('display', 'none');
                     }
                 });
@@ -471,13 +382,9 @@
                 var val = $('#search-text').val();
                 if (val != "")
                 {
-                    //window.location.href='<?php //echo base_url().'search-by/'  ?>'+val ; 
                     window.location.href = '<?php echo base_url(); ?>Product_description/suggestword?search_title=' + val;
                 }
-
             }
-
-
 
         </script>
         <style>
@@ -542,12 +449,10 @@
 
             .thumbnail{ margin-bottom:0;}
             .col-md-1{ height:90px;}
-            /* End carousel */
             @import url("http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css");
             .col-item
             {
-                /*    border: 1px solid #E1E1E1;
-                */    border-radius: 5px;
+                border-radius: 5px;
                 background: #FFF;
             }
             .col-item .photo img
@@ -586,7 +491,6 @@
 
             .col-item .rating
             {
-                /*width: 50%;*/
                 float: left;
                 font-size: 17px;
                 text-align: right;
@@ -661,16 +565,9 @@
 
             }
 
-            .right-banner{
-                /*border:1px solid #ccc !important;
-                border-radius:6px !important;*/
+            .right-banner{              
                 background-color: #fff !important;
-                /*background-image: -moz-linear-gradient(top, #ffffff, #ececec) !important;
-                background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#ececec)) !important;
-                background-image: -webkit-linear-gradient(top, #ffffff, #ececec) !important;
-                background-image: -o-linear-gradient(top, #ffffff, #ececec) !important;
-                background-image: linear-gradient(to bottom, #ffffff, #ececec) !important;
-                background-repeat: repeat-x !important;*/
+
             }
 
             .col:first-child {
@@ -707,9 +604,6 @@
                 max-width: 100%;
                 display: inline-block;
             }
-
-
-            /*****************************news tixker repeat end************************************/
             .tickering-right-banner{
                 margin-top: 5px; background: #333; padding:2px 8px 0;
             }
@@ -784,12 +678,7 @@
 
             .menu-link-product-held {
                 float: left;
-                width: 47%;
-                /* border: 1px solid #B9B9B9; */
-                /* height: 80px; */
-                /* max-height: 120px; */
-                /* padding: 1px 4px 2px 10px; */
-                /* border-bottom: 1px solid #B9B9B9; */
+                width: 47%;               
                 margin: 0 1%;
             }	
             .today-deal-left {
@@ -830,32 +719,7 @@
                 text-decoration: none;
                 background-color: #ed313b;
             }
-            /*.overlay {
-              position: absolute;
-              top: 0;
-              bottom: 0;
-              left: 0;
-              right: 0;
-              height: 100%;
-              width: 100%;
-              opacity: 0;
-              transition: .5s ease;
-              background-color: #008CBA;
-            }
-            
-            li:hover .overlay {
-              opacity: 1;
-            }
-            
-            .text {
-              color: white;
-              font-size: 20px;
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              -ms-transform: translate(-50%, -50%);
-            }*/
+
         </style>
 
         <script>
@@ -910,23 +774,19 @@
             fbq('init', '137266173574817');
             fbq('track', 'PageView');
         </script>
-    <noscript><img height="1" width="1" style="display:none"
-                   src="https://www.facebook.com/tr?id=137266173574817&ev=PageView&noscript=1"
-                   /></noscript>
-    <!-- End Facebook Pixel Code -->
+        <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=137266173574817&ev=PageView&noscript=1"/>
+    </noscript>
 </head>
 <body>
     <!----------------------------------------Header Section start------------------------------------------------------>
     <div class="site-branding">
         <!------------------------- Logo Section  Start-------------------------------------->
         <div class="logo">
-            <a href="<?php echo base_url(); ?>" title="Moonboy">
+            <a href="<?php echo base_url(); ?>" title="<?= DOMAIN_NAME ?>">
                 <img src="<?php echo base_url(); ?>images/logo.png" alt="moonboy" width="100%">
             </a>
         </div>
-        <!------------------------- Logo Section  End-------------------------------------------------------------->
-
-        <!------------------------- Categories Section  Start------------------------------------------------------>
         <?php
         $qrs = $this->db->query("select * from category_menu_desktop where parent_id=0 AND order_by!=0 
                                     AND is_active='Yes' order by order_by");
@@ -1008,28 +868,15 @@
                 </li> 
             </ul> 
         </div>
-        <!------------------------- Categories Section  End--------------------------------------------------------->
-
-        <!-------------------------------------------Search bar----------------------------------------------------->
 
         <div class="nav-middle"> 
             <div class="search">
-                <?php /* ?> <?php
-                  $attributes = array('method'=>'get');
-                  echo form_open_multipart('Product_description_search/product_search',$attributes);
-                  ?><?php */ ?> 
-
-                <!--<form onsubmit="search_url()"> -->  
                 <input type="text" title="Search For Products, Brands and More" id="search-text" onKeyDown="if (event.keyCode == 13)
                             search_url();" name="search" placeholder="Search For Products, Brands and More" autocomplete="off" required >
                 <div id="searchdiv2"><ul></ul></div>
                 <button class="search-btn" value="" type="button" onClick="search_url()" id="btn-search"> <i class="fa fa-search"></i> </button>
-                <!-- </form>-->
             </div>
         </div>
-
-        <!-------------------------------------add to cart ----------------------------------------------------------->
-
         <div class="nav-right">
             <ul>
                 <?php if ($this->session->userdata('session_data')) { ?>
@@ -1039,10 +886,8 @@
                             <ul>
                                 <li><a href="<?php echo base_url(); ?>profile">Account</a></li>
                                 <li><a href="<?php echo base_url(); ?>orders">Orders</a></li>
-                                <!--<li><a href="#">Wallet</a></li>-->
                                 <li><a href="<?php echo base_url(); ?>wish-list">Wishlist</a></li>
                                 <li><a href="<?php echo base_url(); ?>review-rating">Reviews & Ratings</a></li>
-                                <!--<li><a href="#">Email Preferences</a></li>-->
                                 <li><a href="<?php echo base_url(); ?>change_password">Change Password</a></li>
                                 <li><a href="<?php echo base_url(); ?>user/logout">Logout</a></li>
                             </ul>
@@ -1050,13 +895,13 @@
                     </li>
 
                 <?php } else { ?>
-                    <!--<li class="log-in" ><a class="inline" href="#inline_content">Hello Mamata </a></li>-->
                     <li class="log-in" ><a style="margin-right:12px; " title="Login" class="inline" href="#inline_content"> Log in </a></li>
                 <?php } ?>
                 <li class="wlist-top" >
-                    <a style="margin-right:-10px;" href="<?php if (@$this->session->userdata['session_data']['user_id'] != "") {
-                    echo base_url() . 'user/wishlist';
-                    ?> " title="Your Wishlist!" >
+                    <a style="margin-right:-10px;" href="<?php
+                    if (@$this->session->userdata['session_data']['user_id'] != "") {
+                        echo base_url() . 'user/wishlist';
+                        ?> " title="Your Wishlist!" >
                             <i class="fa fa-heart-o"></i>
                             <?php
                             $user_id = $this->session->userdata['session_data']['user_id'];
@@ -1078,16 +923,12 @@
                         <a  class='inline' href="#inline_content" title="your Wishlist!"><i class="fa fa-heart-o"></i></a>
 
                         <?php
-                        //if(count($this->session->userdata('addtowishlist_tempsku'))!=0)
-                        //{
-                        //echo "<div id='top-cart_data'>" .@count($this->session->userdata['addtowishlist_tempsku']). " </div>";
-                        //}
                         $addtowish_arr = $this->session->userdata('addtowishlist_tempsku');
-                        $wishlist=0;
-                        if(is_array($addtowish_arr)){
+                        $wishlist = 0;
+                        if (is_array($addtowish_arr)) {
                             $wishlist = count($addtowish_arr);
                         }
-                        
+
                         if ($wishlist != 0) {
                             echo "<div id='top-cart_data'>" . @$wishlist . " </div>";
                         } else if ($wishlist == "") {
@@ -1142,31 +983,30 @@
                             }
                             ?>
 
-<?php } ?>                          
+                        <?php } ?>                          
                     </a>
                     <div class="clearfix"> </div>  
                 </li>
-<?php if ($this->session->userdata('session_data')) { ?>
+                <?php if ($this->session->userdata('session_data')) { ?>
                     <li class="track" style="margin-right:2px;"> 
                             <a title="Track Orders" style="background-color:white;margin-right:5px;"  href="<?php echo base_url(); ?>orders"><!--<i class="fa fa-map-marker"></i>--><img src="<?php echo base_url() . 'images/trackorder.png'; ?>"style="width:32px; height:32px; margin-top:-8px;"  alt="support"></a>
                     </li>
-<?php } ?>       
+                <?php } ?>       
                 <li class="track" style="background-color:white;margin-right:0px;"> 
                     <a title="Support" style="background-color:white;" href="<?php echo base_url(); ?>contact-us"> <img src="<?php echo base_url(); ?>images/supports.png" style="width:29px; height:29px; margin-top:-8px;"  alt="support"> </a> 
                 </li>
-<?php if (!$this->session->userdata('session_data')) { ?>
+                <?php if (!$this->session->userdata('session_data')) { ?>
                     <li class="track"  style="background-color:white;margin-right:1px;"> 
                         <a title="Sell With Us" style="background-color:white;margin-right:1px;" target="_blank" href="<?php echo base_url(); ?>seller/seller"><img src="<?php echo base_url(); ?>images/sell_with_us.png" style="width:29px; height:29px; margin-top:-5px; margin-left: 9px;"  ></a> 
                     </li>
-<?php } ?>       
+                <?php } ?>       
 
                 <li  style="margin-top:20px;margin-left:0px;">  
-                    <a  class="blog" title="Our Blog" style="background-color:white;color: black" href="<?=APP_BASE?>blog/" target="_blank"><img src="<?php echo base_url(); ?>images/blog.png" style="width:29px; height:29px; margin-top:-18px; margin-left: -9px;"  ></a>
+                    <a  class="blog" title="Our Blog" style="background-color:white;color: black" href="<?= APP_BASE ?>blog/" target="_blank"><img src="<?php echo base_url(); ?>images/blog.png" style="width:29px; height:29px; margin-top:-18px; margin-left: -9px;"  ></a>
                 </li>
             </ul>
         </div>
 
-        <!--------------------------------------------------------Log In Section Start---------------------------------------->
         <div style="display:none">
             <div id="inline_content">
                 <div class="sign_in_dv">
@@ -1285,8 +1125,4 @@
                 </div>
             </div>
         </div>
-
-        <!--------------------------------------------------------Log In Section End---------------------------------------->
     </div>  
-
-    <!----------------------------------------Header Section end------------------------------------------------------>
