@@ -50,13 +50,14 @@ class App_config extends CI_Model {
                 $category = $data['app_configs_category'];
                 $query = "SELECT config_id FROM app_configs WHERE lower(category)=lower('$category')";
                 $result = $this->db->query($query)->row();
-                if ($result) {
+                if ($result) {                    
                     //update config
                     $record = array(
                         'configs' => json_encode($data['app_configs']),
                         'modified' => date('Y-m-d H:i:s'),
                         'modified_by' => $this->rbac->get_user_id()
                     );
+                    //pma($record,1);
                     $this->db->where('config_id', $result->config_id);
                     $this->db->update("app_configs", $record);
                 } else {

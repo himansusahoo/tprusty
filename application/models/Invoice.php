@@ -41,8 +41,8 @@ class Invoice extends CI_Model {
             SELECT 
                 IF(u.fname='',ua.full_name,CONCAT(u.fname,' ',u.lname)) buyer_name
                 ,IF(trim(u.mob)='',ua.phone,u.mob) mob,u.email
-                ,ua.address,ua.city,ua.state,ua.country,ua.pin_code buyer_pincode
-                ,s.state
+                ,ua.address,ua.city,ua.country,ua.pin_code buyer_pincode
+                ,s.state user_state
                 ,oi.date_of_order,oi.invoice_id ,oi.order_id,oi.total_amount
                 ,sai.business_name,sai.gstin,sai.display_name
                 ,sa.seller_address,sa.seller_city,sa.seller_state,sa.pincode                
@@ -54,6 +54,7 @@ class Invoice extends CI_Model {
                 ,pm.tax_amount tax_rate
                 ,pi.payment_mode_id,pi.payment_type
                 ,(ctl.charge_tobuyer+ctl.tax) as cod_charge
+                ,lower(ship_st.state) state
             FROM order_info oi
             LEFT JOIN ordered_product_from_addtocart opfac ON opfac.order_id=oi.order_id
             LEFT JOIN user u ON u.user_id=opfac.user_id
@@ -64,6 +65,7 @@ class Invoice extends CI_Model {
             LEFT JOIN product_general_info pgi ON pgi.product_id=opfac.product_id
             LEFT JOIN cornjob_productsearch cps ON cps.sku=opfac.sku
             LEFT JOIN shipping_address saddr ON saddr.order_id=oi.order_id
+            LEFT JOIN state ship_st ON ship_st.state_id=saddr.state
             LEFT JOIN product_master pm ON pm.product_id=pgi.product_id
             LEFT JOIN payment_info pi ON pi.payment_mode_id=oi.payment_mode
             LEFT JOIN cod_transaction_log ctl ON ctl.order_id=oi.order_id

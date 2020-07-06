@@ -76,27 +76,4 @@ class User extends CI_Model {
         return 0;
     }
 
-    /**
-     * @param  : 
-     * @desc   :fetch app configs
-     * @return :
-     * @author : HimansuS
-     * @created:
-     */
-    public function get_app_configs() {
-        $query = "select * from app_configs order by category asc";
-        $result = $this->db->query($query)->result_array();
-        $configs = $app_config = array();
-        if ($result) {
-            foreach ($result as $rec) {
-                $configs[$rec['category']] = $rec;
-            }
-            foreach ($configs as $cat => $rec) {
-                $app_config[strtolower($cat)] = json_decode($rec['configs'], true);
-            }
-        }
-        //pma($app_config, 1);
-        return $app_config;
-    }
-
 }

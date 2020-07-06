@@ -20,6 +20,10 @@
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper" style="overflow-y:hidden !important;">
+            
+            <div class="loading-box" id="loading" style="display: none;">
+                <p class="h1"><i class="fa fa-refresh fa-spin text-aqua"></i></p>
+            </div>
             <?php
             if ($this->layout->headerFlag) :
                 $this->load->view($this->layout->layoutsFolder . '/header');

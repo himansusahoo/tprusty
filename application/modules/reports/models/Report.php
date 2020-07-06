@@ -15,24 +15,53 @@ class Report extends CI_Model {
      * @author             :
      * @created:10/08/2018
      */
-    public function get_seller_gst_report_datatable($data = null, $export = null, $tableHeading = null, $columns = null) {
+    public function get_seller_gst_report_datatable($columns = '*', $condition = null, $export = null, $tableHeading = null) {
         $this->load->library('datatables');
         $login_user_id = $this->rbac->get_user_id();
-        if (!$columns) {
-            $columns = 'user_id,first_name,last_name,login_id,email,login_status,mobile'
-                    . ',mobile_verified,email_verified,status';
-        }
-        $this->datatables->select('SQL_CALC_FOUND_ROWS ' . $columns, false, false)
-                ->from('rbac_users t1')
-                //->where('user_type', 'employee')
-                ->where('user_id !=', $login_user_id);
 
-        $this->datatables->unset_column("user_id");        
+        $this->datatables->select('SQL_CALC_FOUND_ROWS ' . $columns, false, false)
+                ->from('order_info_view iv');
+        //pma($condition);
+        if (is_array($condition) && array_key_exists('custom_search', $condition)) {
+
+            $condition = $condition['custom_search'];
+            if (is_array($condition)) {
+                foreach ($condition as $col => $val) {
+                    if ($val) {
+                        $this->datatables->where($col, $val);
+                    }
+                }
+            }elseif(is_string($condition) && $condition!=''){
+                 $this->datatables->where($condition);
+            }
+        }
+
+        $this->datatables->unset_column("user_id");
         if ($export) :
             $data = $this->datatables->generate_export($export);
             return $data;
         endif;
         return $this->datatables->generate();
+    }
+
+    public function get_min_max_date() {
+        $query = "
+                SELECT min_date,max_date
+                ,YEAR(min_date) minY
+                ,MONTH(min_date) minM
+                ,MONTH(min_date) minD
+                ,YEAR(max_date) maxY
+                ,MONTH(max_date) maxM
+                ,MONTH(max_date) maxD
+                FROM(
+                    SELECT min(date_of_order) min_date,max(date_of_order) max_date 
+                    from order_info_view
+                    limit 1
+                )a
+                ";
+        $result = $this->db->query($query)->row();
+        //pma($result,1);
+        return $result;
     }
 
 }

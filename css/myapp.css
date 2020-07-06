@@ -1,3 +1,6 @@
+body{
+    overflow-y: hidden;
+}
 label.error,div.error{color:red;font-weight: normal;}
 .padl25{padding-left: 25px;}
 .ele_required:before{content: '*';color: red;}
@@ -19,6 +22,7 @@ label.error,div.error{color:red;font-weight: normal;}
 .marginT5{margin-top: 5px !important;}
 .marginT10{margin-top: 10px !important;}
 .marginR5{margin-right: 5px !important;}
+.marginR10{margin-right: 10px !important;}
 .marginB5{margin-bottom: 5px;}
 .marginB10{margin-bottom: 10px;}
 .padL5{padding-left: 5px !important;}
@@ -36,7 +40,7 @@ label.error,div.error{color:red;font-weight: normal;}
 .wraper_alert_bmargin{margin-bottom:2px !important;}
 .hand{cursor: pointer !important;}
 .loading-box{        
-    padding-top: 5% !important;
+    padding-top: 3% !important;
     text-align: center !important;
     position: absolute;
     display: none;

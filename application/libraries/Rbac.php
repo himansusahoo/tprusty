@@ -422,8 +422,19 @@ class Rbac {
      * @author : HimansuS
      * @created:
      */
-    public function get_app_config_item($xpath) {
-        $app_configs = $this->_session['user_data']['app_configs'];
+    public function get_app_config_item($xpath, $condition = "", $session = true) {
+        if ($session) {
+            $app_configs = $this->_session['user_data']['app_configs'];
+        } else {
+            $query = "SELECT * FROM app_configs where 1=1 $condition";
+            $result = $this->_ci->db->query($query)->result_array();
+            $app_configs = array();
+            foreach ($result as $key => $rec) {
+                $app_configs[strtolower($rec['category'])] = json_decode($rec['configs'], true);
+            }
+            //pma($app_configs,1);
+        }
+
         // creating object of SimpleXMLElement
         $xml_data = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
         //call by reference
@@ -438,8 +449,8 @@ class Rbac {
      * @author : HimansuS
      * @created:
      */
-    public function get_highest_role($role_code_array) {
-        $role_priority = $this->get_app_config_item('chm_app/role_priority');
+    public function get_highest_role($role_code_array=array()) {
+        $role_priority = $this->get_app_config_item('rbac/role_priority');
         if (isset($role_priority[0])) {
             $priority = array();
             foreach ($role_priority[0] as $key => $ele) {
@@ -448,6 +459,9 @@ class Rbac {
             $highest_role = '';
             $index = 0;
             $swap = '';
+            if(!$role_code_array){
+                $role_code_array=  $this->get_role_codes();
+            }
             foreach ($role_code_array as $role) {
                 $index = array_search($role, $priority);
                 if ($swap == '') {
@@ -552,6 +566,48 @@ class Rbac {
             return $menus[$menu_name];
         }
         return '';
+    }
+
+    public function grid_xpath_headers($xpath, $case = false) {
+
+        $grid_headers = $this->get_app_config_item($xpath, '', false);
+        $grid_headers = current(xml2array($grid_headers));
+
+        switch ($case) {
+            case 'string':
+                $header = "";
+                foreach ($grid_headers as $head) {
+                    $header.=$head['column'] . ',';
+                }
+                $header = rtrim($header, ',');
+                break;
+            case 'head':
+                $header = array();
+                //pma($grid_headers,1);
+                foreach ($grid_headers as $head) {
+                    $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
+                    $header[$head['column']] = $label;
+                }
+                break;
+            default:
+                $header = array();
+                //pma($grid_headers,1);
+                foreach ($grid_headers as $head) {
+
+                    $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
+                    $header[] = array(
+                        'db_column' => $head['column'],
+                        'name' => $label,
+                        'title' => $label,
+                        'class_name' => $head['column'],
+                        'orderable' => 'true',
+                        'visible' => 'true',
+                        'searchable' => 'true'
+                    );
+                }
+                break;
+        }        
+        return $header;
     }
 
 }

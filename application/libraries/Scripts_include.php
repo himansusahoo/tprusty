@@ -103,7 +103,11 @@ class Scripts_include {
         ),
         'print_element' => array(COMPONENT_PATH . 'print-elements/print_elements.js'),
         'd3' => array('/asset/d3/d3.min.js'),
-        'pass_meter' => array('/js/pass_meter/js/mocha.js')
+        'pass_meter' => array('/js/pass_meter/js/mocha.js'),
+        'bs_daterange_picker' => array(
+            COMPONENT_PATH .'moment/moment.js',
+            COMPONENT_PATH .'bootstrap-daterangepicker/daterangepicker.js'
+            )
     );
     private $__cssFiles = array(
         'admin_layout' => array(
@@ -166,7 +170,8 @@ class Scripts_include {
         'jq_multitag_select' => array(
             COMPONENT_PATH . 'jquery.treeSelector/jquery.treeSelector.css'
         ),
-        'print_element' => array(COMPONENT_PATH . 'print-elements/print.css')
+        'print_element' => array(COMPONENT_PATH . 'print-elements/print.css'),
+        'bs_daterange_picker' => array(COMPONENT_PATH .'bootstrap-daterangepicker/daterangepicker.css')
     );
 
     function __construct() {
