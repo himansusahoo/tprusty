@@ -37,7 +37,7 @@ class Admin_users extends CI_Controller {
      */
     public function sign_in() {
         $this->scripts_include->includePlugins(array('jq_validation'), 'js');
-
+        $this->load->library('rbac/rbac_user');
         $this->layout->layout = 'blank_layout';
         if ($this->input->post()) {
             //server side validation
@@ -78,7 +78,8 @@ class Admin_users extends CI_Controller {
                             }
                         }
                         //get app configs
-                        $app_configs = $this->user->get_app_configs();
+                        $condition=" AND category IN('RBAC','EMPLOYEE')";
+                        $app_configs = $this->rbac_user->get_app_configs($condition);
                         //remove action list, does not required her..
                         unset($permissions['action_list']);
                         $user_detail['permissions'] = $permissions;

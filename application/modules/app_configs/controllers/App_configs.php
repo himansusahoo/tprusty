@@ -19,7 +19,7 @@ class App_configs extends CI_Controller {
         $this->layout->navTitle = 'Manage App configs';
         $this->layout->title = 'Manage App configs';
         $db_configs = $this->app_config->get_app_config();
-
+        //pma($db_configs,1);
         $role_codes = $this->app_config->get_role_code_list();
         $role_codes = flattenArray($role_codes);
 
@@ -29,41 +29,41 @@ class App_configs extends CI_Controller {
         foreach ($db_configs as $key => $rec) {
             $configs[strtolower($rec['category'])] = json_decode($rec['configs'], true);
         }
-        //pma($configs);
+        //pma($configs,1);
         //manage role priorities
-        if (isset($configs['chm_app']['role_priority']) && $configs['chm_app']['role_priority']!='') {
-            
+        if (isset($configs['rbac']['role_priority']) && $configs['rbac']['role_priority'] != '') {
+
             //add new roles with existing
-            $new_roles = array_diff($role_codes, $configs['chm_app']['role_priority']);
+            $new_roles = array_diff($role_codes, $configs['rbac']['role_priority']);
             $new_roles = flattenArray($new_roles);
             foreach ($new_roles as $role_code) {
-                array_push($configs['chm_app']['role_priority'], $role_code);
+                array_push($configs['rbac']['role_priority'], $role_code);
             }
         } else {
             //php 7.3.2 compatibility
-            if (!isset($configs['chm_app'])) {
-                $configs['chm_app'] = array();
-                if (!isset($configs['chm_app']['role_priority'])) {
-                    $configs['chm_app']['role_priority'] = array();
+            if (!isset($configs['rbac'])) {
+                $configs['rbac'] = array();
+                if (!isset($configs['rbac']['role_priority'])) {
+                    $configs['rbac']['role_priority'] = array();
                 }
             }
-            $configs['chm_app']['role_priority'] = $role_codes;
+            $configs['rbac']['role_priority'] = $role_codes;
             $new_roles = $role_codes;
         }
-
+        
+        //manage reports configs
+       
+        $info_view_columns=$this->db->list_fields('order_info_view');
+        asort($info_view_columns);
+        $data['order_info_view_fields'] = $info_view_columns;
         //pma($configs, 1);
         $data['data'] = $configs;
         $data['data']['new_roles'] = $new_roles;
-        $data['data']['qrcode_columns'] = $this->config->item('LIB_BOOK_QR_COLUMNS_JSON');
-        $data['data']['all_role_codes']=$role_codes;
+        $data['data']['all_role_codes'] = $role_codes;
+        //pma($data,1);
         //manage selected book qrcode columns
-        if (isset($configs['library']['book_qrcode_columns']) && $configs['library']['book_qrcode_columns'] != '') {
-            $qr_cols=explode(',',$configs['library']['book_qrcode_columns']);
-            $data['data']['qrcode_default_columns'] = json_encode($qr_cols);
-        } else {
-            $data['data']['qrcode_default_columns'] = json_encode($this->config->item('LIB_BOOK_QR_DEFAULT_COLUMNS'));
-        }
         
+
         $this->layout->data = $data;
         $this->layout->render();
     }
@@ -75,8 +75,9 @@ class App_configs extends CI_Controller {
 
         if ($this->input->post()):
             $post_data = $this->input->post();
+            //pma($post_data,1);
             //add block specific conditions
-            if ($post_data['app_configs_category'] == 'CHM_APP') {
+            if ($post_data['app_configs_category'] == 'RBAC') {
                 if ($post_data['app_configs']['role_priority']) {
                     $role_priority = $post_data['app_configs']['role_priority'];
                     $role_priority = trim($role_priority, ',');

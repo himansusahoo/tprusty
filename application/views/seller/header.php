@@ -26,19 +26,12 @@
         <div id="w">
             <ul id="sidemenu">
                 <li> <a href="<?php echo base_url(); ?>seller/seller/home" class="open"><i class="icon-home icon-large"></i><span> Dashboard </span></a></li>
-
-                <!--<li> <a href="<?php //echo base_url();   ?>seller/catalog"><i class="icon-lightbulb icon-large"></i><span> Catalog </span></a></li>-->
-
                 <li> <a href="<?php echo base_url(); ?>seller/catalog/new_product_list"><i class="icon-lightbulb icon-large"></i><span> Catalog </span></a></li>
-
                 <li> <a href="<?php echo base_url(); ?>seller/orders"><i class="icon-envelope icon-large"></i><span> Orders </span></a></li>
                 <li> <a href="<?php echo base_url(); ?>seller/returns"><i class="icon-home icon-large"></i><span> Returns </span></a></li>
                 <li> <a href="<?php echo base_url(); ?>seller/payments"><i class="icon-info-sign icon-large"></i><span> Payments </span></a></li>
-                <!--<li> <a href="#"><i class="icon-lightbulb icon-large"></i><span> Metrics </span></a></li>
-                <li> <a href="my_promotions.php"><i class="icon-home icon-large"></i><span> Promotions </span></a></li>-->
                 <li> <a href="<?php echo base_url(); ?>seller/account"><i class="icon-info-sign icon-large"></i><span> Account </span></a></li>
-                <li> <a href="<?php echo base_url(); ?>seller/reports"><i class="fa fa-file-text"></i><span> Reports </span></a></li>
-                <li> <a href="<?php echo base_url(); ?>all-reports"><i class="fa fa-file-text"></i><span> All Reports </span></a></li>
+                <li> <a href="<?php echo base_url('all-reports'); ?>"><i class="fa fa-file-text"></i><span> Reports </span></a></li>
                 <li> <a href="<?php echo base_url(); ?>seller/seller/terms_conditions_page"><i class="icon-home icon-large"></i><span> Terms & Conditions </span></a></li>
             </ul>
 

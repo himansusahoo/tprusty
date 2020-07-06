@@ -10,8 +10,7 @@ class Seller_gst_reports extends CI_Controller {
      * @param   
      * @desc    
      * @return 
-     * @author  HimansuS                  
-     * @since   08/25/2019
+     * @author  HimansuS     
      */
     public function __construct() {
         parent::__construct();
@@ -21,117 +20,74 @@ class Seller_gst_reports extends CI_Controller {
         $this->layout->rightControlFlag = 1;
         $this->layout->navTitleFlag = 1;
         $this->load->model('report');
+        $this->_highestRoleCode = $this->rbac->get_highest_role();
     }
+
+    private $_highestRoleCode = '';
 
     /**
      * @param  : 
-     * @desc   : fetch employee list
-     * @return :
+     * @desc   : fetch GST report data list
+     * @return : void
      * @author : HimansuS
-     * @created:
      */
     public function index() {
         if ($this->rbac->has_permission('REPORTS', 'SELLER_GST_REPO')) {
             $this->breadcrumbs->push('Reports', 'all-reports');
             $this->breadcrumbs->push('seller-gst-reports', base_url('seller-gst-reports'));
-            $this->scripts_include->includePlugins(array('datatable', 'chosen'), 'css');
-            $this->scripts_include->includePlugins(array('datatable', 'chosen'), 'js');
+            $this->scripts_include->includePlugins(array('datatable', 'chosen', 'bs_daterange_picker', 'bs_datepicker'), 'css');
+            $this->scripts_include->includePlugins(array('datatable', 'chosen', 'promise', 'bs_daterange_picker', 'bs_datepicker'), 'js');
             $this->layout->navTitle = 'Seller GST Reports';
             $this->layout->title = 'Seller GST Reports';
-            $header = array(
-                array(
-                    'db_column' => 'first_name',
-                    'name' => 'First_name',
-                    'title' => 'First name',
-                    'class_name' => 'first_name',
-                    'orderable' => 'true',
-                    'visible' => 'true',
-                    'searchable' => 'true'
-                ), array(
-                    'db_column' => 'last_name',
-                    'name' => 'Last_name',
-                    'title' => 'Last name',
-                    'class_name' => 'last_name',
-                    'orderable' => 'true',
-                    'visible' => 'true',
-                    'searchable' => 'true'
-                ), array(
-                    'db_column' => 'login_id',
-                    'name' => 'Login_id',
-                    'title' => 'Login id',
-                    'class_name' => 'login_id',
-                    'orderable' => 'true',
-                    'visible' => 'true',
-                    'searchable' => 'true'
-                ), array(
-                    'db_column' => 'email',
-                    'name' => 'Email',
-                    'title' => 'Email',
-                    'class_name' => 'email',
-                    'orderable' => 'true',
-                    'visible' => 'true',
-                    'searchable' => 'true'
-                ), array(
-                    'db_column' => 'login_status',
-                    'name' => 'Login_status',
-                    'title' => 'Login status',
-                    'class_name' => 'login_status',
-                    'orderable' => 'true',
-                    'visible' => 'true',
-                    'searchable' => 'true'
-                ), array(
-                    'db_column' => 'mobile',
-                    'name' => 'Mobile',
-                    'title' => 'Mobile',
-                    'class_name' => 'mobile',
-                    'orderable' => 'true',
-                    'visible' => 'true',
-                    'searchable' => 'true'
-                ), array(
-                    'db_column' => 'mobile_verified',
-                    'name' => 'Mobile_verified',
-                    'title' => 'Mobile verified',
-                    'class_name' => 'mobile_verified',
-                    'orderable' => 'true',
-                    'visible' => 'true',
-                    'searchable' => 'true'
-                ), array(
-                    'db_column' => 'email_verified',
-                    'name' => 'email_verified',
-                    'title' => 'Email verified',
-                    'class_name' => 'email_verified',
-                    'orderable' => 'true',
-                    'visible' => 'true',
-                    'searchable' => 'true'
-                ), array(
-                    'db_column' => 'status',
-                    'name' => 'Status',
-                    'title' => 'Status',
-                    'class_name' => 'status',
-                    'orderable' => 'true',
-                    'visible' => 'true',
-                    'searchable' => 'true'
-                )
-            );
-            $data = array();
 
-            if ($this->input->is_ajax_request()) {
-                $returned_list = $this->report->get_seller_gst_report_datatable($data);
-                echo $returned_list;
-                exit();
+            $data = array(
+                'data' => array()
+            );
+
+            $data['data']['dates'] = $this->report->get_min_max_date();
+            if ($this->rbac->is_admin() || $this->rbac->is_developer() || $this->rbac->has_role('ADMIN_STAFF')) {
+                //No action required
+            } else {
+                $data['view']='seller_gst_reports/seller_gst_report';
             }
+            $this->layout->render($data);
+        } else {
+            $this->layout->render(array('error' => '401'));
+        }
+    }
+
+    /**
+     * @name seller_gst_grid
+     * @param void
+     * @desc used to prepare grid configs
+     * @return void
+     */
+    public function seller_gst_grid_data() {
+        if ($this->input->is_ajax_request()) {
+            //return tables columns as string
+            $columns = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'string');
+            $condition = $this->input->post();
+            $returned_list = $this->report->get_seller_gst_report_datatable($columns, $condition);
+            echo $returned_list;
+            exit();
+        } else {
+            $this->layout->render(array('error' => '401'));
+        }
+    }
+
+    /**
+     * @name seller_gst_grid
+     * @param void
+     * @desc used to prepare grid configs
+     * @return void
+     */
+    public function seller_gst_grid_config() {
+        if ($this->input->is_ajax_request()) {
+            $header = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode));
+
             $dt_tool_btn = array();
-            if ($this->rbac->has_permission('STAFF_USERS', 'CREATE')) {
-                $dt_tool_btn[] = array(
-                    'btn_class' => 'btn-primary',
-                    'btn_href' => base_url('create-employee-profile'),
-                    'btn_icon' => '',
-                    'btn_title' => 'Create',
-                    'btn_text' => 'Create',
-                    'btn_separator' => ' '
-                );
-            }
-            if ($this->rbac->has_permission('STAFF_USERS', 'XLS_EXPORT')) {
+
+            if ($this->rbac->has_permission('REPORTS', 'XLS_EXPORT')) {
                 $dt_tool_btn[] = array(
                     'btn_class' => 'btn-warning',
                     'btn_href' => '#',
@@ -142,7 +98,7 @@ class Seller_gst_reports extends CI_Controller {
                     'attr' => 'id="export_table_xls"'
                 );
             }
-            if ($this->rbac->has_permission('STAFF_USERS', 'CSV_EXPORT')) {
+            if ($this->rbac->has_permission('REPORTS', 'CSV_EXPORT')) {
                 $dt_tool_btn[] = array(
                     'btn_class' => 'btn-info',
                     'btn_href' => '#',
@@ -158,10 +114,11 @@ class Seller_gst_reports extends CI_Controller {
 
             $config = array(
                 'dt_markup' => true,
-                'dt_id' => 'raw_cert_data_dt_table',
+                'dt_id' => 'seller_gst_data_grid',
                 'dt_header' => $header,
                 'dt_ajax' => array(
-                    'dt_url' => base_url('seller-gst-reports'),
+                    'dt_url' => base_url('seller-gst-reports-data'),
+                //'dt_param' => '{custom_search:{first_name:"himansu"}}'
                 ),
                 'custom_lengh_change' => false,
                 'dt_dom' => array(
@@ -172,30 +129,47 @@ class Seller_gst_reports extends CI_Controller {
                     'top_pagination' => true,
                     'buttom_dom' => true,
                     'buttom_length_change' => true,
-                    'buttom_pagination' => true                    
+                    'buttom_pagination' => true
                 ),
             );
-            $data['data'] = array('config' => $config);
-            $this->layout->render($data);
+
+            $condition = $this->input->post();
+            if (is_array($condition) && array_key_exists('custom_search', $condition)) {
+                $filterCondition = array(
+                    'custom_search' => $this->_prepare_condition($condition)
+                );
+                $config['dt_ajax']['dt_param'] = json_encode($filterCondition);
+            }
+            $this->load->library('c_datatable');
+            $dt_data = $this->c_datatable->generate_grid($config);
+            echo $dt_data;
+            exit;
         } else {
             $this->layout->render(array('error' => '401'));
         }
     }
 
     /**
-     * @param              : 
+     * @param              : void
      * @desc               :used to export grid data
-     * @return             :
-     * @author             :
-     * @created:10/08/2018
+     * @return             :download grid data
+     * @author             :HimansuS
      */
     public function export_grid_data() {
-        if ($this->input->is_ajax_request()) {
-            if ($this->rbac->has_permission('STAFF_USERS', 'XLS_EXPORT') || $this->rbac->has_permission('STAFF_USERS', 'CSV_EXPORT')) {
-                $export_type = $this->input->post('export_type');
-                $tableHeading = array('first_name' => 'first_name', 'last_name' => 'last_name', 'login_id' => 'login_id', 'email' => 'email', 'login_status' => 'login_status', 'mobile' => 'mobile', 'mobile_verified' => 'mobile_verified', 'email_verified' => 'email_verified', 'status' => 'status',);
 
-                $data = $this->report->get_staff_datatable(null, true, $tableHeading);
+        if ($this->input->is_ajax_request()) {
+            if ($this->rbac->has_permission('REPORTS', 'XLS_EXPORT') || $this->rbac->has_permission('REPORTS', 'CSV_EXPORT')) {
+                $postData = $this->input->post();
+                $export_type = $postData['export_type'];
+                unset($postData['export_type']);
+                $condition = array(
+                    'custom_search' => $this->_prepare_condition($postData)
+                );
+                $tableHeading = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'head');
+                $columns = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'string');
+
+                $data = $this->report->get_seller_gst_report_datatable($columns, $condition, true, $tableHeading);
+
                 $head_cols = $body_col_map = array();
                 $date = array(
                     array(
@@ -211,8 +185,8 @@ class Seller_gst_reports extends CI_Controller {
                     $body_col_map[] = array('db_column' => $db_col);
                 }
                 $header = array($date, $head_cols);
-                $worksheet_name = 'employee profiles';
-                $file_name = 'employee_profiles' . date('d_m_Y_H_i_s') . '.' . $export_type;
+                $worksheet_name = 'Seller GST Report';
+                $file_name = 'seller_gst_repo_' . date('d_m_Y_H_i_s') . '.' . $export_type;
                 $config = array(
                     'db_data' => $data['aaData'],
                     'header_rows' => $header,
@@ -230,9 +204,54 @@ class Seller_gst_reports extends CI_Controller {
                 $this->layout->render(array('error' => '401'));
             }
         } else {
-            $this->layout->data = array('status_code' => '403', 'message' => 'Request Forbidden.');
-            $this->layout->render(array('error' => 'general'));
+            $this->layout->render(array('error' => '401'));
         }
+    }
+
+    /**
+     * @name _prepare_condition
+     * @param Array $condition
+     * @desc used to prepare filter condition string
+     * @return String $condition
+     * @author HimansuS
+     */
+    private function _prepare_condition($condition) {
+        //date condition for from and to date
+        $custom_search = "";
+        if (is_array($condition) && array_key_exists('custom_search', $condition)) {
+            if (array_key_exists('from_year', $condition['custom_search']) && array_key_exists('from_month', $condition['custom_search']) && array_key_exists('to_year', $condition['custom_search']) && array_key_exists('to_month', $condition['custom_search'])
+            ) {
+                $toDate = $condition['custom_search']['to_year'] . '-' . $condition['custom_search']['to_month'] . '-01';
+                $lastToDate = date("t", strtotime("$toDate"));
+
+                $fromDate = $condition['custom_search']['from_year'] . '-' . $condition['custom_search']['from_month'] . '-' . '01';
+                $toDate = $condition['custom_search']['to_year'] . '-' . $condition['custom_search']['to_month'] . '-' . $lastToDate;
+                unset($condition['custom_search']['to_year'], $condition['custom_search']['to_month'], $condition['custom_search']['from_year'], $condition['custom_search']['from_month']);
+                $custom_search = "DATE_FORMAT(date_of_order,'%Y-%m') between DATE_FORMAT('$fromDate','%Y-%m') and DATE_FORMAT('$toDate','%Y-%m')";
+            } else if (array_key_exists('from_year', $condition['custom_search']) && array_key_exists('from_month', $condition['custom_search'])) {
+                $fromDate = $condition['custom_search']['from_year'] . '-' . $condition['custom_search']['from_month'] . '-' . '01';
+                $custom_search = "DATE_FORMAT(date_of_order,'%Y-%m')=DATE_FORMAT('$fromDate','%Y-%m')";
+            } else if (array_key_exists('from_year', $condition['custom_search'])) {
+                $fromDate = $condition['custom_search']['from_year'] . '-' . $condition['custom_search']['from_month'] . '-' . '01';
+                $custom_search = "DATE_FORMAT(date_of_order,'%Y')=DATE_FORMAT('$fromDate','%Y')";
+            }
+            if (array_key_exists('order_id', $condition['custom_search'])) {
+                if ($custom_search != '') {
+                    $custom_search.=' AND order_id=' . $condition['custom_search']['order_id'];
+                } else {
+                    $custom_search = ' order_id=' . $condition['custom_search']['order_id'];
+                }
+            }
+
+            if (array_key_exists('gstin', $condition['custom_search'])) {
+                if ($custom_search != '') {
+                    $custom_search.=' AND gstin="' . $condition['custom_search']['gstin'] . '"';
+                } else {
+                    $custom_search = ' gstin="' . $condition['custom_search']['gstin'] . '"';
+                }
+            }
+        }
+        return $custom_search;
     }
 
 }

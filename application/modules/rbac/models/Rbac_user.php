@@ -247,8 +247,8 @@ class Rbac_user extends CI_Model {
      * @author : HimansuS
      * @created:
      */
-    public function get_app_configs() {
-        $query = "select * from app_configs order by category asc";
+    public function get_app_configs($condition="") {
+        $query = "select * from app_configs where 1=1 $condition order by category asc";
         $result = $this->db->query($query)->result_array();
         $configs = $app_config = array();
         if ($result) {
