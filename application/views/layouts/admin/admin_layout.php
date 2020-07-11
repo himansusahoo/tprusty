@@ -34,7 +34,7 @@
             <!-- Left side column. contains the logo and sidebar -->
             <?php $this->load->view($this->layout->layoutsFolder . '/l_side_bar'); ?>
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper" id="layout_content_wrapper" style="height:500px; overflow-y: scroll;overflow-x:hidden;">
+            <div class="content-wrapper" id="layout_content_wrapper" style="min-height: 320px;height:500px; overflow-y: scroll;overflow-x:hidden;">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <?php

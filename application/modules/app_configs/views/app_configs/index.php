@@ -23,471 +23,461 @@
     }
 
 </style>
-<?php
-$form_attribute = array(
-    "name" => "app_rbac_config",
-    "id" => "app_rbac_config",
-    "method" => "POST"
-);
-$form_action = base_url('save-app-configs');
-echo form_open($form_action, $form_attribute);
-?>
-<div class="row">
-    <div class="col-sm-12">
-        <div class="box box-default  collapsed-box col-sm-10">
-            <div class="box-header with-border" data-widget="collapse">
-                <h3 class="box-title">RBAC Configurations</h3>                    
-                <div class="box-tools pull-right">                        
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>                        
-                </div>
-                <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no_pad" style="display: none;">
-                <div class="row">
-                    <?php
-                    $attribute = array(
-                        "name" => "app_configs_category",
-                        "id" => "app_configs_category",
-                        "class" => "form-control",
-                        "type" => "hidden",
-                        "value" => 'RBAC'
-                    );
-                    echo form_input($attribute);
-                    ?>
-                    <div class="col-sm-6">
-                        <div class="box box-warning collapsed-box">
-                            <div class="box-header with-border" data-widget="collapse">
-                                <h3 class="box-title">Set Role Priority</h3>
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                                <!-- /.box-tools -->
-                            </div>
-                            <!-- /.box-header -->
-                            <div class="box-body" style="display: none;">                        
-                                <div class="col-sm-12">
-                                    <div class="list-type1">
-                                        <span class='fa fa-star fa-pulse text-red'></span> Newly added role, which should be prioritized.
-                                        <ol id="sortable">
-                                            <?php
-                                            if (isset($data['rbac']['role_priority'])) {
-                                                foreach ($data['rbac']['role_priority'] as $key => $role_code) {
-                                                    if (!in_array($role_code, $data['new_roles'])) {
-                                                        echo "<li class='ui-state-default' data-position='" . $role_code . "'><a href='#'>" . ucfirst($role_code) . "</a></li>";
-                                                    } else {
-                                                        echo "<li class='ui-state-default' data-position='" . $role_code . "'><a href='#'><span class='fa fa-star fa-pulse text-red'></span> " . ucfirst($role_code) . "</a></li>";
+<div class="row-fluid">
+    <div class="col-sm-12 no_pad">    
+        <?php
+        $form_attribute = array(
+            "name" => "app_rbac_config",
+            "id" => "app_rbac_config",
+            "method" => "POST"
+        );
+        $form_action = base_url('save-app-configs');
+        echo form_open($form_action, $form_attribute);
+        ?>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-default  collapsed-box col-sm-10">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title">RBAC Configurations</h3>                    
+                        <div class="box-tools pull-right">                        
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>                        
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no_pad" style="display: none;">
+                        <div class="row">
+                            <?php
+                            $attribute = array(
+                                "name" => "app_configs_category",
+                                "id" => "app_configs_category",
+                                "class" => "form-control",
+                                "type" => "hidden",
+                                "value" => 'RBAC'
+                            );
+                            echo form_input($attribute);
+                            ?>
+                            <div class="col-sm-6">
+                                <div class="box box-warning collapsed-box">
+                                    <div class="box-header with-border" data-widget="collapse">
+                                        <h3 class="box-title">Set Role Priority</h3>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <!-- /.box-tools -->
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body" style="display: none;">                        
+                                        <div class="col-sm-12">
+                                            <div class="list-type1">
+                                                <span class='fa fa-star fa-pulse text-red'></span> Newly added role, which should be prioritized.
+                                                <ol id="sortable">
+                                                    <?php
+                                                    if (isset($data['rbac']['role_priority'])) {
+                                                        foreach ($data['rbac']['role_priority'] as $key => $role_code) {
+                                                            if (!in_array($role_code, $data['new_roles'])) {
+                                                                echo "<li class='ui-state-default' data-position='" . $role_code . "'><a href='#'>" . ucfirst($role_code) . "</a></li>";
+                                                            } else {
+                                                                echo "<li class='ui-state-default' data-position='" . $role_code . "'><a href='#'><span class='fa fa-star fa-pulse text-red'></span> " . ucfirst($role_code) . "</a></li>";
+                                                            }
+                                                        }
                                                     }
-                                                }
-                                            }
-                                            ?>                                            
-                                        </ol>
-                                    </div> 
+                                                    ?>                                            
+                                                </ol>
+                                            </div> 
+                                            <?php
+                                            $attribute = array(
+                                                "name" => "app_configs[role_priority]",
+                                                "id" => "role_priority",
+                                                "class" => "form-control",
+                                                "type" => "hidden",
+                                                "value" => ''
+                                            );
+                                            echo form_input($attribute);
+                                            ?>
+                                        </div>                       
+                                    </div>
+                                    <!-- /.box-body -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <span class="pull-right marginB10">
+                                <button type="submit" id="app_submit" class="btn btn-primary btn-small"><i class="fa fa-save"></i> Save</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?= form_close() ?>
+        <?php
+        $form_attribute = array(
+            "name" => "app_employee_config",
+            "id" => "app_employee_config",
+            "method" => "POST"
+        );
+        $form_action = base_url('save-app-configs');
+        echo form_open($form_action, $form_attribute);
+        ?>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-default  collapsed-box col-sm-10">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title">Employee Configurations</h3>                    
+                        <div class="box-tools pull-right">                        
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>                        
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no_pad" style="display: none;">
+                        <?php
+                        $attribute = array(
+                            "name" => "app_configs_category",
+                            "id" => "app_configs_category",
+                            "class" => "form-control",
+                            "type" => "hidden",
+                            "value" => 'EMPLOYEE'
+                        );
+                        echo form_input($attribute);
+                        ?>
+                        <div class = 'form-group row'>
+                            <div class="col-sm-3 no_rpad">
+                                <label class = 'col-sm-7 col-form-label no_pad'>Employee id prefix</label>
+                                <div class = 'col-sm-5 no_pad'>
                                     <?php
                                     $attribute = array(
-                                        "name" => "app_configs[role_priority]",
-                                        "id" => "role_priority",
+                                        "name" => "app_configs[employee_id_prefix]",
+                                        "id" => "employee_id_prefix",
                                         "class" => "form-control",
-                                        "type" => "hidden",
-                                        "value" => ''
+                                        "title" => "Employee id pre-fix",
+                                        "type" => "text",
+                                        "placeholder" => "Employee id pre-fix",
+                                        "value" => (isset($data['employee']['employee_id_prefix'])) ? $data['employee']['employee_id_prefix'] : 'EMP'
                                     );
                                     echo form_input($attribute);
                                     ?>
-                                </div>                       
+                                </div>
                             </div>
-                            <!-- /.box-body -->
+                            <div class="col-sm-3 no_rpad">
+                                <label class = 'col-sm-7 col-form-label no_pad'>Employee id zero prefix</label>
+                                <div class = 'col-sm-5 no_pad'>
+                                    <?php
+                                    $attribute = array(
+                                        "name" => "app_configs[employee_id_zero_prefix]",
+                                        "id" => "employee_id_zero_prefix",
+                                        "class" => "form-control",
+                                        "title" => "Employee id zero prefix",
+                                        "type" => "text",
+                                        "placeholder" => "Employee id zero prefix",
+                                        "value" => (isset($data['employee']['employee_id_zero_prefix'])) ? $data['employee']['employee_id_zero_prefix'] : 5
+                                    );
+                                    echo form_input($attribute);
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row-fluid">
+                            <span class="pull-right marginB10">
+                                <button type="submit" id="app_submit" class="btn btn-primary btn-small"><i class="fa fa-save"></i> Save</button>
+                            </span>
                         </div>
                     </div>
-                </div>
-                <div class="row-fluid">
-                    <span class="pull-right marginB10">
-                        <button type="submit" id="app_submit" class="btn btn-primary btn-small"><i class="fa fa-save"></i> Save</button>
-                    </span>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<?= form_close() ?>
-<?php
-$form_attribute = array(
-    "name" => "app_employee_config",
-    "id" => "app_employee_config",
-    "method" => "POST"
-);
-$form_action = base_url('save-app-configs');
-echo form_open($form_action, $form_attribute);
-?>
-<div class="row">
-    <div class="col-sm-12">
-        <div class="box box-default  collapsed-box col-sm-10">
-            <div class="box-header with-border" data-widget="collapse">
-                <h3 class="box-title">Employee Configurations</h3>                    
-                <div class="box-tools pull-right">                        
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>                        
-                </div>
-                <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no_pad" style="display: none;">
-                <?php
-                $attribute = array(
-                    "name" => "app_configs_category",
-                    "id" => "app_configs_category",
-                    "class" => "form-control",
-                    "type" => "hidden",
-                    "value" => 'EMPLOYEE'
-                );
-                echo form_input($attribute);
-                ?>
-                <div class = 'form-group row'>
-                    <div class="col-sm-3 no_rpad">
-                        <label class = 'col-sm-7 col-form-label no_pad'>Employee id prefix</label>
-                        <div class = 'col-sm-5 no_pad'>
-                            <?php
-                            $attribute = array(
-                                "name" => "app_configs[employee_id_prefix]",
-                                "id" => "employee_id_prefix",
-                                "class" => "form-control",
-                                "title" => "Employee id pre-fix",
-                                "type" => "text",
-                                "placeholder" => "Employee id pre-fix",
-                                "value" => (isset($data['employee']['employee_id_prefix'])) ? $data['employee']['employee_id_prefix'] : 'EMP'
-                            );
-                            echo form_input($attribute);
-                            ?>
+        <?= form_close() ?>
+
+        <?php
+        $form_attribute = array(
+            "name" => "app_reports_config",
+            "id" => "app_reports_config",
+            "method" => "POST"
+        );
+        $form_action = base_url('save-app-configs');
+        echo form_open($form_action, $form_attribute);
+        ?>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box box-default  collapsed-box col-sm-10">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title"><?= COMPANY ?> Configurations</h3>                    
+                        <div class="box-tools pull-right">                        
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>                        
                         </div>
-                    </div>
-                    <div class="col-sm-3 no_rpad">
-                        <label class = 'col-sm-7 col-form-label no_pad'>Employee id zero prefix</label>
-                        <div class = 'col-sm-5 no_pad'>
-                            <?php
-                            $attribute = array(
-                                "name" => "app_configs[employee_id_zero_prefix]",
-                                "id" => "employee_id_zero_prefix",
-                                "class" => "form-control",
-                                "title" => "Employee id zero prefix",
-                                "type" => "text",
-                                "placeholder" => "Employee id zero prefix",
-                                "value" => (isset($data['employee']['employee_id_zero_prefix'])) ? $data['employee']['employee_id_zero_prefix'] : 5
-                            );
-                            echo form_input($attribute);
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="row-fluid">
-                    <span class="pull-right marginB10">
-                        <button type="submit" id="app_submit" class="btn btn-primary btn-small"><i class="fa fa-save"></i> Save</button>
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<?= form_close() ?>
-
-<?php
-$form_attribute = array(
-    "name" => "app_reports_config",
-    "id" => "app_reports_config",
-    "method" => "POST"
-);
-$form_action = base_url('save-app-configs');
-echo form_open($form_action, $form_attribute);
-?>
-<div class="row">
-    <div class="col-sm-12">
-        <div class="box box-default  collapsed-box col-sm-10">
-            <div class="box-header with-border" data-widget="collapse">
-                <h3 class="box-title"><?= COMPANY ?> Configurations</h3>                    
-                <div class="box-tools pull-right">                        
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>                        
-                </div>
-                <?php
-                $attribute = array(
-                    "name" => "app_configs_category",
-                    "id" => "app_configs_category",
-                    "class" => "form-control",
-                    "type" => "hidden",
-                    "value" => 'REPORTS'
-                );
-                echo form_input($attribute);
-                $total_info_view_column = count($order_info_view_fields);
-                ?>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body" style="display: none;">
-                <div class = 'form-group row'>
-                    <div class="col-sm-6 no_pad">                        
-                        <label class = 'col-sm-4 col-form-label no_pad'>Role Based Configurations</label>
-                        <div class = 'col-sm-8 no_pad'>
-                            <div class="treeSelector"></div> 
-                        </div>
-                    </div>                    
-                </div>
-                <div class="row">
-                    <!-- role loop -->
-                    <!-- default role -->
-                    <div class="box box-info collapsed-box">
-                        <div class="box-header with-border" data-widget="collapse">
-                            <h3 class="box-title">Default</h3>
-
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                                </button>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body" style="display: none;">
-                            <div class="box box-warning collapsed-box">
-                                <div class="box-header with-border" data-widget="collapse">
-                                    <h3 class="box-title">Reports</h3>
-
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                    <!-- /.box-tools -->
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body" style="display: none;">
-                                    <div class ='form-group row checkbox_container'>
-                                        <div class="col-sm-12 no_rpad">                                            
-                                            <div class = 'col-sm-11 no_pad check_box_row pull-right'>
-                                                <?php
-                                                $optionCount = count($order_info_view_fields);
-                                                $chunk_size = $optionCount / 6;
-                                                $field_chunk = array_chunk($order_info_view_fields, $chunk_size);
-                                                $count_checked = 0;
-                                                foreach ($field_chunk as $field_row) {
-                                                    echo '<div class="row-fluid">';
-                                                    foreach ($field_row as $field) {
-                                                        echo '<div class="col-sm-2 check_parent">';
-
-                                                        $attribute = array(
-                                                            "class" => "column_check_box",
-                                                            "name" => "app_configs[seller_gst_report][default][$field][column]",
-                                                            "type" => "checkbox",
-                                                            "value" => $field
-                                                        );
-                                                        $label = $field;
-                                                        $order = "";
-                                                        $checkedFlag = false;
-
-                                                        if (isset($data['reports']['seller_gst_report']['default']) && array_key_exists($field, $data['reports']['seller_gst_report']['default'])) {
-                                                            $count_checked++;
-                                                            $attribute['checked'] = "checked";
-                                                            if (array_key_exists('label', $data['reports']['seller_gst_report']['default'][$field])) {
-                                                                $label = $data['reports']['seller_gst_report']['default'][$field]['label'];
-                                                            }
-                                                            if (array_key_exists('order', $data['reports']['seller_gst_report']['default'][$field])) {
-                                                                $order = $data['reports']['seller_gst_report']['default'][$field]['order'];
-                                                            }
-                                                            $checkedFlag = true;
-                                                        }
-
-                                                        echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
-                                                            <div class='pull-left'>" . form_checkbox($attribute) . "
-                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
-                                                            </div>
-                                                            <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o edit_lebel' ></span></a></div>";
-                                                        if ($checkedFlag) {
-                                                            $attribute = array(
-                                                                "name" => "app_configs[seller_gst_report][default][$field][label]",
-                                                                "class" => "form-control field_label",
-                                                                "type" => "hidden",
-                                                                "value" => "$label"
-                                                            );
-                                                            echo form_input($attribute);
-                                                            $attribute = array(
-                                                                "name" => "app_configs[seller_gst_report][default][$field][order]",
-                                                                "class" => "form-control field_order",
-                                                                "type" => "hidden",
-                                                                "value" => "$order"
-                                                            );
-                                                            echo form_input($attribute);
-                                                        }
-
-                                                        echo "</div>";
-
-                                                        echo '</div>';
-                                                    }
-                                                    echo '</div>';
-                                                }
-                                                ?>
-                                            </div>
-                                            <label class = 'col-sm-1 col-form-label no_pad text-left'>
-                                                <div>Seler GST Reports</div>
-                                                <div>
-                                                    <span class="pull-left">
-                                                        <div class="col-sm-12">
-                                                            <?php
-                                                            $checked = "";
-                                                            if ($count_checked == $total_info_view_column) {
-                                                                $checked = " checked='checked'";
-                                                            }
-                                                            ?>
-                                                            <label class="pull-left"><input type="checkbox" class="check_all" <?= $checked ?>>&nbsp;&nbsp;Check all</label>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <!-- /.box-body -->
-                            </div>
-
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                    <!-- end default role -->
-
-                    <!-- Admin Role-->
-
-                    <div class="box box-info collapsed-box">
-                        <div class="box-header with-border" data-widget="collapse">
-                            <h3 class="box-title">Admin</h3>
-
-                            <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                                </button>
-                            </div>
-                            <!-- /.box-tools -->
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body" style="display: none;">
-                            <div class="box box-warning collapsed-box">
-                                <div class="box-header with-border" data-widget="collapse">
-                                    <h3 class="box-title">Reports</h3>
-
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
-                                    <!-- /.box-tools -->
-                                </div>
-                                <!-- /.box-header -->
-                                <div class="box-body" style="display: none;">
-                                    <div class ='form-group row checkbox_container'>
-                                        <div class="col-sm-12 no_rpad">                                            
-                                            <div class = 'col-sm-11 no_pad check_box_row pull-right'>
-                                                <?php
-                                                $optionCount = count($order_info_view_fields);
-                                                $chunk_size = $optionCount / 6;
-                                                $field_chunk = array_chunk($order_info_view_fields, $chunk_size);
-                                                $count_checked = 0;
-
-                                                foreach ($field_chunk as $field_row) {
-                                                    echo '<div class="row-fluid">';
-                                                    foreach ($field_row as $field) {
-                                                        echo '<div class="col-sm-2 check_parent">';
-
-                                                        $attribute = array(
-                                                            "class" => "column_check_box",
-                                                            "name" => "app_configs[seller_gst_report][admin][$field][column]",
-                                                            "type" => "checkbox",
-                                                            "value" => $field
-                                                        );
-                                                        $label = $field;
-                                                        $checkedFlag = false;
-                                                        $order = "";
-                                                        if (isset($data['reports']['seller_gst_report']['admin']) && array_key_exists($field, $data['reports']['seller_gst_report']['admin'])) {
-                                                            $count_checked++;
-                                                            $attribute['checked'] = "checked";
-                                                            if (array_key_exists('label', $data['reports']['seller_gst_report']['admin'][$field])) {
-                                                                $label = $data['reports']['seller_gst_report']['admin'][$field]['label'];
-                                                            }
-                                                            if (array_key_exists('order', $data['reports']['seller_gst_report']['admin'][$field])) {
-                                                                $order = $data['reports']['seller_gst_report']['admin'][$field]['order'];
-                                                            }
-                                                            $checkedFlag = true;
-                                                        }
-
-                                                        echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
-                                                            <div class='pull-left'>" . form_checkbox($attribute) . "
-                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
-                                                            </div>
-                                                            <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o edit_lebel' ></span></a></div>";
-                                                        if ($checkedFlag) {
-                                                            $attribute = array(
-                                                                "name" => "app_configs[seller_gst_report][admin][$field][label]",
-                                                                "class" => "form-control field_label",
-                                                                "type" => "hidden",
-                                                                "value" => "$label"
-                                                            );
-                                                            echo form_input($attribute);
-
-                                                            $attribute = array(
-                                                                "name" => "app_configs[seller_gst_report][admin][$field][order]",
-                                                                "class" => "form-control field_order",
-                                                                "type" => "hidden",
-                                                                "value" => "$order"
-                                                            );
-                                                            echo form_input($attribute);
-                                                        }
-
-                                                        echo "</div>";
-
-                                                        echo '</div>';
-                                                    }
-                                                    echo '</div>';
-                                                }
-                                                ?>
-                                            </div>
-                                            <label class = 'col-sm-1 col-form-label no_pad text-left'>
-                                                <div>Seler GST Reports</div>
-                                                <div>
-                                                    <span class="pull-left">
-                                                        <div class="col-sm-12">
-                                                            <?php
-                                                            $checked = "";
-                                                            if ($count_checked == $total_info_view_column) {
-                                                                $checked = " checked='checked'";
-                                                            }
-                                                            ?>
-                                                            <label class="pull-left"><input type="checkbox" class="check_all" <?= $checked ?>>&nbsp;&nbsp;Check all</label>
-                                                        </div>
-                                                    </span>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <!-- /.box-body -->
-                            </div>
-
-                        </div>
-                        <!-- /.box-body -->
-                    </div>                   
-                    <!-- End Admin role-->
-
-                    <!-- db roles list-->
-                    <?php
-                    foreach ($data['all_role_codes'] as $rc):
-                        $lrc = strtolower($rc);
-                        $rc_format = strtolower(str_replace('_', ' ', $rc));
+                        <?php
+                        $attribute = array(
+                            "name" => "app_configs_category",
+                            "id" => "app_configs_category",
+                            "class" => "form-control",
+                            "type" => "hidden",
+                            "value" => 'REPORTS'
+                        );
+                        echo form_input($attribute);
+                        $total_info_view_column = count($order_info_view_fields);
                         ?>
-                        <div class="box box-info collapsed-box">
-                            <div class="box-header with-border" data-widget="collapse">
-                                <h3 class="box-title"><?= ucfirst($rc_format) ?></h3>
-
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
-                                    </button>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body" style="display: none;">
+                        <div class = 'form-group row'>
+                            <div class="col-sm-6 no_pad">                        
+                                <label class = 'col-sm-4 col-form-label no_pad'>Role Based Configurations</label>
+                                <div class = 'col-sm-8 no_pad'>
+                                    <div class="treeSelector"></div> 
                                 </div>
-                                <!-- /.box-tools -->
+                            </div>                    
+                        </div>
+                        <div class="row">
+                            <!-- role loop -->
+                            <!-- default role -->
+                            <div class="box box-info collapsed-box">
+                                <div class="box-header with-border" data-widget="collapse">
+                                    <h3 class="box-title">Default</h3>
+
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.box-tools -->
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body" style="display: none;">
+                                    <div class="box box-warning collapsed-box">
+                                        <div class="box-header with-border" data-widget="collapse">
+                                            <h3 class="box-title">Reports</h3>
+
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <!-- /.box-tools -->
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body" style="display: none;">
+                                            <div class ='form-group row checkbox_container'>
+                                                <div class="col-sm-12 no_rpad">                                            
+                                                    <div class = 'col-sm-11 no_pad check_box_row pull-right'>
+                                                        <?php
+                                                        $optionCount = count($order_info_view_fields);
+                                                        $chunk_size = $optionCount / 6;
+                                                        $field_chunk = array_chunk($order_info_view_fields, $chunk_size);
+                                                        $count_checked = 0;
+                                                        foreach ($field_chunk as $field_row) {
+                                                            echo '<div class="row-fluid">';
+                                                            foreach ($field_row as $field) {
+                                                                echo '<div class="col-sm-2 check_parent">';
+
+                                                                $attribute = array(
+                                                                    "class" => "column_check_box",
+                                                                    "name" => "app_configs[seller_gst_report][default][$field][column]",
+                                                                    "type" => "checkbox",
+                                                                    "value" => $field
+                                                                );
+                                                                $label = $field;
+                                                                $order = "";
+                                                                $checkedFlag = false;
+
+                                                                if (isset($data['reports']['seller_gst_report']['default']) && array_key_exists($field, $data['reports']['seller_gst_report']['default'])) {
+                                                                    $count_checked++;
+                                                                    $attribute['checked'] = "checked";
+                                                                    if (array_key_exists('label', $data['reports']['seller_gst_report']['default'][$field])) {
+                                                                        $label = $data['reports']['seller_gst_report']['default'][$field]['label'];
+                                                                    }
+                                                                    if (array_key_exists('order', $data['reports']['seller_gst_report']['default'][$field])) {
+                                                                        $order = $data['reports']['seller_gst_report']['default'][$field]['order'];
+                                                                    }
+                                                                    $checkedFlag = true;
+                                                                }
+
+                                                                echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
+                                                            <div class='pull-left'>" . form_checkbox($attribute) . "
+                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
+                                                            </div>
+                                                            <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o edit_lebel' ></span></a></div>";
+                                                                if ($checkedFlag) {
+                                                                    $attribute = array(
+                                                                        "name" => "app_configs[seller_gst_report][default][$field][label]",
+                                                                        "class" => "form-control field_label",
+                                                                        "type" => "hidden",
+                                                                        "value" => "$label"
+                                                                    );
+                                                                    echo form_input($attribute);
+                                                                    $attribute = array(
+                                                                        "name" => "app_configs[seller_gst_report][default][$field][order]",
+                                                                        "class" => "form-control field_order",
+                                                                        "type" => "hidden",
+                                                                        "value" => "$order"
+                                                                    );
+                                                                    echo form_input($attribute);
+                                                                }
+
+                                                                echo "</div>";
+
+                                                                echo '</div>';
+                                                            }
+                                                            echo '</div>';
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                    <label class = 'col-sm-1 col-form-label no_pad text-left'>
+                                                        <div>Seler GST Reports</div>
+                                                        <div>
+                                                            <span class="pull-left">
+                                                                <div class="col-sm-12">
+                                                                    <?php
+                                                                    $checked = "";
+                                                                    if ($count_checked == $total_info_view_column) {
+                                                                        $checked = " checked='checked'";
+                                                                    }
+                                                                    ?>
+                                                                    <label class="pull-left"><input type="checkbox" class="check_all" <?= $checked ?>>&nbsp;&nbsp;Check all</label>
+                                                                </div>
+                                                            </span>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
                             </div>
-                            <!-- /.box-header -->
-                            <div class="box-body" style="display: none;">
-                                <div class="box box-warning collapsed-box">
+                            <!-- end default role -->
+
+                            <!-- Admin Role-->
+
+                            <div class="box box-info collapsed-box">
+                                <div class="box-header with-border" data-widget="collapse">
+                                    <h3 class="box-title">Admin</h3>
+
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    <!-- /.box-tools -->
+                                </div>
+                                <!-- /.box-header -->
+                                <div class="box-body" style="display: none;">
+                                    <div class="box box-warning collapsed-box">
+                                        <div class="box-header with-border" data-widget="collapse">
+                                            <h3 class="box-title">Reports</h3>
+
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                                </button>
+                                            </div>
+                                            <!-- /.box-tools -->
+                                        </div>
+                                        <!-- /.box-header -->
+                                        <div class="box-body" style="display: none;">
+                                            <div class ='form-group row checkbox_container'>
+                                                <div class="col-sm-12 no_rpad">                                            
+                                                    <div class = 'col-sm-11 no_pad check_box_row pull-right'>
+                                                        <?php
+                                                        $optionCount = count($order_info_view_fields);
+                                                        $chunk_size = $optionCount / 6;
+                                                        $field_chunk = array_chunk($order_info_view_fields, $chunk_size);
+                                                        $count_checked = 0;
+
+                                                        foreach ($field_chunk as $field_row) {
+                                                            echo '<div class="row-fluid">';
+                                                            foreach ($field_row as $field) {
+                                                                echo '<div class="col-sm-2 check_parent">';
+
+                                                                $attribute = array(
+                                                                    "class" => "column_check_box",
+                                                                    "name" => "app_configs[seller_gst_report][admin][$field][column]",
+                                                                    "type" => "checkbox",
+                                                                    "value" => $field
+                                                                );
+                                                                $label = $field;
+                                                                $checkedFlag = false;
+                                                                $order = "";
+                                                                if (isset($data['reports']['seller_gst_report']['admin']) && array_key_exists($field, $data['reports']['seller_gst_report']['admin'])) {
+                                                                    $count_checked++;
+                                                                    $attribute['checked'] = "checked";
+                                                                    if (array_key_exists('label', $data['reports']['seller_gst_report']['admin'][$field])) {
+                                                                        $label = $data['reports']['seller_gst_report']['admin'][$field]['label'];
+                                                                    }
+                                                                    if (array_key_exists('order', $data['reports']['seller_gst_report']['admin'][$field])) {
+                                                                        $order = $data['reports']['seller_gst_report']['admin'][$field]['order'];
+                                                                    }
+                                                                    $checkedFlag = true;
+                                                                }
+
+                                                                echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
+                                                            <div class='pull-left'>" . form_checkbox($attribute) . "
+                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
+                                                            </div>
+                                                            <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o edit_lebel' ></span></a></div>";
+                                                                if ($checkedFlag) {
+                                                                    $attribute = array(
+                                                                        "name" => "app_configs[seller_gst_report][admin][$field][label]",
+                                                                        "class" => "form-control field_label",
+                                                                        "type" => "hidden",
+                                                                        "value" => "$label"
+                                                                    );
+                                                                    echo form_input($attribute);
+
+                                                                    $attribute = array(
+                                                                        "name" => "app_configs[seller_gst_report][admin][$field][order]",
+                                                                        "class" => "form-control field_order",
+                                                                        "type" => "hidden",
+                                                                        "value" => "$order"
+                                                                    );
+                                                                    echo form_input($attribute);
+                                                                }
+
+                                                                echo "</div>";
+
+                                                                echo '</div>';
+                                                            }
+                                                            echo '</div>';
+                                                        }
+                                                        ?>
+                                                    </div>
+                                                    <label class = 'col-sm-1 col-form-label no_pad text-left'>
+                                                        <div>Seler GST Reports</div>
+                                                        <div>
+                                                            <span class="pull-left">
+                                                                <div class="col-sm-12">
+                                                                    <?php
+                                                                    $checked = "";
+                                                                    if ($count_checked == $total_info_view_column) {
+                                                                        $checked = " checked='checked'";
+                                                                    }
+                                                                    ?>
+                                                                    <label class="pull-left"><input type="checkbox" class="check_all" <?= $checked ?>>&nbsp;&nbsp;Check all</label>
+                                                                </div>
+                                                            </span>
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.box-body -->
+                                    </div>
+
+                                </div>
+                                <!-- /.box-body -->
+                            </div>                   
+                            <!-- End Admin role-->
+
+                            <!-- db roles list-->
+                            <?php
+                            foreach ($data['all_role_codes'] as $rc):
+                                $lrc = strtolower($rc);
+                                $rc_format = strtolower(str_replace('_', ' ', $rc));
+                                ?>
+                                <div class="box box-info collapsed-box">
                                     <div class="box-header with-border" data-widget="collapse">
-                                        <h3 class="box-title">Reports</h3>
+                                        <h3 class="box-title"><?= ucfirst($rc_format) ?></h3>
 
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -497,116 +487,129 @@ echo form_open($form_action, $form_attribute);
                                     </div>
                                     <!-- /.box-header -->
                                     <div class="box-body" style="display: none;">
-                                        <div class = 'form-group row'>
-                                            <div class="col-sm-12 no_rpad checkbox_container">
+                                        <div class="box box-warning collapsed-box">
+                                            <div class="box-header with-border" data-widget="collapse">
+                                                <h3 class="box-title">Reports</h3>
 
-                                                <div class = 'col-sm-11 no_pad check_box_row pull-right'>
-                                                    <?php
-                                                    $count_checked = 0;
-                                                    $optionCount = count($order_info_view_fields);
-                                                    $chunk_size = $optionCount / 6;
-                                                    $field_chunk = array_chunk($order_info_view_fields, $chunk_size);
-                                                    foreach ($field_chunk as $field_row) {
-                                                        echo '<div class="row-fluid">';
-                                                        foreach ($field_row as $field) {
-                                                            echo '<div class="col-sm-2 check_parent">';
+                                                <div class="box-tools pull-right">
+                                                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                                <!-- /.box-tools -->
+                                            </div>
+                                            <!-- /.box-header -->
+                                            <div class="box-body" style="display: none;">
+                                                <div class = 'form-group row'>
+                                                    <div class="col-sm-12 no_rpad checkbox_container">
 
-                                                            $attribute = array(
-                                                                "class" => "column_check_box",
-                                                                "name" => "app_configs[seller_gst_report][$lrc][$field][column]",
-                                                                "type" => "checkbox",
-                                                                "value" => $field
-                                                            );
-                                                            $label = $field;
-                                                            $checkedFlag = false;
-                                                            $order = "";
-                                                            if (isset($data['reports']['seller_gst_report'][$lrc]) && array_key_exists($field, $data['reports']['seller_gst_report'][$lrc])) {
-                                                                $count_checked++;
-                                                                $attribute['checked'] = "checked";
-                                                                if (array_key_exists('label', $data['reports']['seller_gst_report'][$lrc][$field])) {
-                                                                    $label = $data['reports']['seller_gst_report'][$lrc][$field]['label'];
-                                                                }
-                                                                if (array_key_exists('order', $data['reports']['seller_gst_report'][$lrc][$field])) {
-                                                                    $order = $data['reports']['seller_gst_report'][$lrc][$field]['order'];
-                                                                }
-                                                                $checkedFlag = true;
-                                                            }
+                                                        <div class = 'col-sm-11 no_pad check_box_row pull-right'>
+                                                            <?php
+                                                            $count_checked = 0;
+                                                            $optionCount = count($order_info_view_fields);
+                                                            $chunk_size = $optionCount / 6;
+                                                            $field_chunk = array_chunk($order_info_view_fields, $chunk_size);
+                                                            foreach ($field_chunk as $field_row) {
+                                                                echo '<div class="row-fluid">';
+                                                                foreach ($field_row as $field) {
+                                                                    echo '<div class="col-sm-2 check_parent">';
 
-                                                            echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
+                                                                    $attribute = array(
+                                                                        "class" => "column_check_box",
+                                                                        "name" => "app_configs[seller_gst_report][$lrc][$field][column]",
+                                                                        "type" => "checkbox",
+                                                                        "value" => $field
+                                                                    );
+                                                                    $label = $field;
+                                                                    $checkedFlag = false;
+                                                                    $order = "";
+                                                                    if (isset($data['reports']['seller_gst_report'][$lrc]) && array_key_exists($field, $data['reports']['seller_gst_report'][$lrc])) {
+                                                                        $count_checked++;
+                                                                        $attribute['checked'] = "checked";
+                                                                        if (array_key_exists('label', $data['reports']['seller_gst_report'][$lrc][$field])) {
+                                                                            $label = $data['reports']['seller_gst_report'][$lrc][$field]['label'];
+                                                                        }
+                                                                        if (array_key_exists('order', $data['reports']['seller_gst_report'][$lrc][$field])) {
+                                                                            $order = $data['reports']['seller_gst_report'][$lrc][$field]['order'];
+                                                                        }
+                                                                        $checkedFlag = true;
+                                                                    }
+
+                                                                    echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                                 <div class='pull-left'>" . form_checkbox($attribute) . "
                                                                     <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
                                                                 </div>
                                                                 <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o edit_lebel' ></span></a></div>";
-                                                            if ($checkedFlag) {
-                                                                $attribute = array(
-                                                                    "name" => "app_configs[seller_gst_report][$lrc][$field][label]",
-                                                                    "class" => "form-control field_label",
-                                                                    "type" => "hidden",
-                                                                    "value" => "$label"
-                                                                );
-                                                                echo form_input($attribute);
-                                                                $attribute = array(
-                                                                    "name" => "app_configs[seller_gst_report][$lrc][$field][order]",
-                                                                    "class" => "form-control field_order",
-                                                                    "type" => "hidden",
-                                                                    "value" => "$order"
-                                                                );
-                                                                echo form_input($attribute);
-                                                            }
+                                                                    if ($checkedFlag) {
+                                                                        $attribute = array(
+                                                                            "name" => "app_configs[seller_gst_report][$lrc][$field][label]",
+                                                                            "class" => "form-control field_label",
+                                                                            "type" => "hidden",
+                                                                            "value" => "$label"
+                                                                        );
+                                                                        echo form_input($attribute);
+                                                                        $attribute = array(
+                                                                            "name" => "app_configs[seller_gst_report][$lrc][$field][order]",
+                                                                            "class" => "form-control field_order",
+                                                                            "type" => "hidden",
+                                                                            "value" => "$order"
+                                                                        );
+                                                                        echo form_input($attribute);
+                                                                    }
 
-                                                            echo "</div>";
+                                                                    echo "</div>";
 
-                                                            echo '</div>';
-                                                        }
-                                                        echo '</div>';
-                                                    }
-                                                    ?>
-                                                </div>
-                                                <label class = 'col-sm-1 col-form-label no_pad'>
-                                                    <div>Seler GST Reports</div>
-                                                    <div>
-                                                        <span class="pull-left">
-                                                            <div class="col-sm-12">
-                                                                <?php
-                                                                $checked = "";
-                                                                if ($count_checked == $total_info_view_column) {
-                                                                    $checked = " checked='checked'";
+                                                                    echo '</div>';
                                                                 }
-                                                                ?>
-                                                                <label class="pull-left"><input type="checkbox" class="check_all" <?= $checked ?>>&nbsp;&nbsp;Check all</label>
+                                                                echo '</div>';
+                                                            }
+                                                            ?>
+                                                        </div>
+                                                        <label class = 'col-sm-1 col-form-label no_pad'>
+                                                            <div>Seler GST Reports</div>
+                                                            <div>
+                                                                <span class="pull-left">
+                                                                    <div class="col-sm-12">
+                                                                        <?php
+                                                                        $checked = "";
+                                                                        if ($count_checked == $total_info_view_column) {
+                                                                            $checked = " checked='checked'";
+                                                                        }
+                                                                        ?>
+                                                                        <label class="pull-left"><input type="checkbox" class="check_all" <?= $checked ?>>&nbsp;&nbsp;Check all</label>
+                                                                    </div>
+                                                                </span>
                                                             </div>
-                                                        </span>
+                                                        </label>
                                                     </div>
-                                                </label>
+                                                </div>
+
                                             </div>
+                                            <!-- /.box-body -->
                                         </div>
 
                                     </div>
                                     <!-- /.box-body -->
-                                </div>
+                                </div>                        
+                            <?php endforeach; ?>
+                            <!-- db roles list-->
+                            <!-- end role loop -->
 
-                            </div>
-                            <!-- /.box-body -->
-                        </div>                        
-                    <?php endforeach; ?>
-                    <!-- db roles list-->
-                    <!-- end role loop -->
+                        </div>
 
+                        <span class="pull-right">
+                            <button type="submit" id="library_submit" class="btn btn-primary btn-small"><i class="fa fa-save"></i> Save</button>
+                        </span>
+                    </div>
                 </div>
-
-                <span class="pull-right">
-                    <button type="submit" id="library_submit" class="btn btn-primary btn-small"><i class="fa fa-save"></i> Save</button>
-                </span>
             </div>
         </div>
+
+        <?= form_close() ?>
     </div>
 </div>
-
-<?= form_close() ?>
 <script type="text/javascript">
-
     $(function () {
-         class InlineEdit{
+        class InlineEdit{
     editElementFlag = false;
             label = "";
             labelValue = "";
@@ -699,13 +702,13 @@ echo form_open($form_action, $form_attribute);
     }
     return optionList;
     }
-    };
+    };//end class
         var inlineEdit;
         $(document).on('click', '.edit_lebel', function () {
             $('.close_edit_lebel').trigger('click');
             var label = $(this).closest('div.wraper_checkbox').find('.check_box_lebel');
             var chkbox = $(this).closest('div.wraper_checkbox').find('input:checkbox');
-            
+
             inlineEdit = new InlineEdit();
             inlineEdit.edit(label, $(this), chkbox);
         });
@@ -743,7 +746,4 @@ echo form_open($form_action, $form_attribute);
             }
         });
     }); //end ready
-
-
-
 </script>
