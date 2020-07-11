@@ -585,8 +585,7 @@ class Rbac {
         return '';
     }
 
-    public function grid_xpath_headers($xpath, $case = false) {
-        echo $xpath;
+    public function grid_xpath_headers($xpath, $case = false) {        
         $grid_headers = $this->get_app_config_item($xpath, '', false);
 
         $grid_headers = current(xml2array($grid_headers));
@@ -606,14 +605,17 @@ class Rbac {
                     ksort($headerArr);
                 }
                 if($headerArr2){
-                    array_push($headerArr, $headerArr2);
+                    if($headerArr){
+                        array_push($headerArr, $headerArr2);
+                    }else{
+                        $headerArr=$headerArr2;
+                    }                    
                 } 
                 $header = implode(',', $headerArr);
                 $header = rtrim($header, ',');
                 break;
             case 'head':
-                $header = array();
-                pma($grid_headers,1);
+                $header = array();                
                 foreach ($grid_headers as $head) {
                     if (array_key_exists('order', $head)) {
                         $headerArr[$head['order']] = $head;
@@ -624,10 +626,16 @@ class Rbac {
                 if ($headerArr) {
                     ksort($headerArr);
                 }
+                
                 if($headerArr2){
-                    array_push($headerArr, $headerArr2);
-                } 
-                foreach ($headerArr as $head) {
+                    if($headerArr){
+                        array_push($headerArr, $headerArr2);
+                    }else{
+                        $headerArr=$headerArr2;
+                    }                    
+                }                
+                
+                foreach ($headerArr as $head) {                    
                     $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
                     $header[$head['column']] = $label;
                 }
@@ -645,7 +653,11 @@ class Rbac {
                     ksort($headerArr);
                 }
                 if($headerArr2){
-                    array_push($headerArr, $headerArr2);
+                    if($headerArr){
+                        array_push($headerArr, $headerArr2);
+                    }else{
+                        $headerArr=$headerArr2;
+                    }                    
                 }               
                 foreach ($headerArr as $head) {
                     $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));

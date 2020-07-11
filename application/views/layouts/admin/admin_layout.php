@@ -15,12 +15,12 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script>
-            var base_url = '<?= APP_BASE ?>';
+            var base_url = '<?= APP_BASE ?>';            
         </script>        
     </head>
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini fixed">
         <div class="wrapper" style="overflow-y:hidden !important;">
-            
+
             <div class="loading-box" id="loading" style="display: none;">
                 <p class="h1"><i class="fa fa-refresh fa-spin text-aqua"></i></p>
             </div>
@@ -74,7 +74,7 @@
                     </div>
                 </section>
                 <!--Main content -->
-                <section class = "content">
+                <section class = "content no_rpad">
                     <?php
                     if (GLOBAL_NOTICE) {
                         echo '<div class="alert alert-warning alert-dismissible">
@@ -107,7 +107,7 @@
         <!-- ./wrapper -->
         <?= $this->scripts_include->includeJs($this->layout->layout) ?>
         <script>
-            $.widget.bridge('uibutton', $.ui.button);
+            $.widget.bridge('uibutton', $.ui.button);             
         </script>
     </body>
 </html>

@@ -9,7 +9,7 @@
             <h3 class="box-title">Select Year and Month to download the report</h3>
         </div>
         <div class="box-body">
-            <div class="form-group col-sm-3">        
+            <div class="form-group col-sm-7">        
                 <div class="col-sm-4">
                     <?php
                     $minYear = $dates->minY;
@@ -57,7 +57,7 @@
                     echo form_dropdown('order_from_month', $month, '', $attribute);
                     ?>
                 </div>
-                <div class="form-group col-sm-1">
+                <div class="form-group col-sm-4">
                     <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left" id="download_report">Download</a>
                 </div>
             </div>
