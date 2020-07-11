@@ -586,7 +586,7 @@ class Rbac {
     }
 
     public function grid_xpath_headers($xpath, $case = false) {
-
+        echo $xpath;
         $grid_headers = $this->get_app_config_item($xpath, '', false);
 
         $grid_headers = current(xml2array($grid_headers));
@@ -613,7 +613,7 @@ class Rbac {
                 break;
             case 'head':
                 $header = array();
-                //pma($grid_headers,1);
+                pma($grid_headers,1);
                 foreach ($grid_headers as $head) {
                     if (array_key_exists('order', $head)) {
                         $headerArr[$head['order']] = $head;
