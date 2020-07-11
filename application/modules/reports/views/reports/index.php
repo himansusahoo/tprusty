@@ -136,7 +136,11 @@
                         <div class="col-sm-2 text-center">
                             <span class="fa fa-gift fa-4x text-info"></span>
                             <a class="users-list-name" href="<?= base_url('/seller/Reports/payment_report') ?>">Payment Report</a>
-                        </div>                        
+                        </div>
+                        <div class="col-sm-2 text-center">
+                            <span class="fa fa-bar-chart fa-4x text-info"></span>
+                            <a class="users-list-name" href="<?= base_url('seller-gst-reports') ?>">GST Report</a>
+                        </div>
                     </div>
                 </div>
             </div>
