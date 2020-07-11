@@ -21,7 +21,7 @@
         margin-left: 2px !important;
         height: 25px !important;
     }
-    
+
 </style>
 <?php
 $form_attribute = array(
@@ -258,7 +258,8 @@ echo form_open($form_action, $form_attribute);
                                         <div class="col-sm-12 no_rpad">                                            
                                             <div class = 'col-sm-11 no_pad check_box_row pull-right'>
                                                 <?php
-                                                $chunk_size = count($order_info_view_fields) / 6;
+                                                $optionCount = count($order_info_view_fields);
+                                                $chunk_size = $optionCount / 6;
                                                 $field_chunk = array_chunk($order_info_view_fields, $chunk_size);
                                                 $count_checked = 0;
                                                 foreach ($field_chunk as $field_row) {
@@ -267,12 +268,13 @@ echo form_open($form_action, $form_attribute);
                                                         echo '<div class="col-sm-2 check_parent">';
 
                                                         $attribute = array(
-                                                            "class"=>"column_check_box",
+                                                            "class" => "column_check_box",
                                                             "name" => "app_configs[seller_gst_report][default][$field][column]",
                                                             "type" => "checkbox",
                                                             "value" => $field
                                                         );
                                                         $label = $field;
+                                                        $order = "";
                                                         $checkedFlag = false;
 
                                                         if (isset($data['reports']['seller_gst_report']['default']) && array_key_exists($field, $data['reports']['seller_gst_report']['default'])) {
@@ -281,10 +283,13 @@ echo form_open($form_action, $form_attribute);
                                                             if (array_key_exists('label', $data['reports']['seller_gst_report']['default'][$field])) {
                                                                 $label = $data['reports']['seller_gst_report']['default'][$field]['label'];
                                                             }
+                                                            if (array_key_exists('order', $data['reports']['seller_gst_report']['default'][$field])) {
+                                                                $order = $data['reports']['seller_gst_report']['default'][$field]['order'];
+                                                            }
                                                             $checkedFlag = true;
                                                         }
 
-                                                        echo "<div class='checkbox wraper_checkbox'>
+                                                        echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                             <div class='pull-left'>" . form_checkbox($attribute) . "
                                                                 <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
                                                             </div>
@@ -295,6 +300,13 @@ echo form_open($form_action, $form_attribute);
                                                                 "class" => "form-control field_label",
                                                                 "type" => "hidden",
                                                                 "value" => "$label"
+                                                            );
+                                                            echo form_input($attribute);
+                                                            $attribute = array(
+                                                                "name" => "app_configs[seller_gst_report][default][$field][order]",
+                                                                "class" => "form-control field_order",
+                                                                "type" => "hidden",
+                                                                "value" => "$order"
                                                             );
                                                             echo form_input($attribute);
                                                         }
@@ -365,7 +377,8 @@ echo form_open($form_action, $form_attribute);
                                         <div class="col-sm-12 no_rpad">                                            
                                             <div class = 'col-sm-11 no_pad check_box_row pull-right'>
                                                 <?php
-                                                $chunk_size = count($order_info_view_fields) / 6;
+                                                $optionCount = count($order_info_view_fields);
+                                                $chunk_size = $optionCount / 6;
                                                 $field_chunk = array_chunk($order_info_view_fields, $chunk_size);
                                                 $count_checked = 0;
 
@@ -375,24 +388,27 @@ echo form_open($form_action, $form_attribute);
                                                         echo '<div class="col-sm-2 check_parent">';
 
                                                         $attribute = array(
-                                                            "class"=>"column_check_box",
+                                                            "class" => "column_check_box",
                                                             "name" => "app_configs[seller_gst_report][admin][$field][column]",
                                                             "type" => "checkbox",
                                                             "value" => $field
                                                         );
                                                         $label = $field;
                                                         $checkedFlag = false;
-
+                                                        $order = "";
                                                         if (isset($data['reports']['seller_gst_report']['admin']) && array_key_exists($field, $data['reports']['seller_gst_report']['admin'])) {
                                                             $count_checked++;
                                                             $attribute['checked'] = "checked";
                                                             if (array_key_exists('label', $data['reports']['seller_gst_report']['admin'][$field])) {
                                                                 $label = $data['reports']['seller_gst_report']['admin'][$field]['label'];
                                                             }
+                                                            if (array_key_exists('order', $data['reports']['seller_gst_report']['admin'][$field])) {
+                                                                $order = $data['reports']['seller_gst_report']['admin'][$field]['order'];
+                                                            }
                                                             $checkedFlag = true;
                                                         }
 
-                                                        echo "<div class='checkbox wraper_checkbox'>
+                                                        echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                             <div class='pull-left'>" . form_checkbox($attribute) . "
                                                                 <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
                                                             </div>
@@ -403,6 +419,14 @@ echo form_open($form_action, $form_attribute);
                                                                 "class" => "form-control field_label",
                                                                 "type" => "hidden",
                                                                 "value" => "$label"
+                                                            );
+                                                            echo form_input($attribute);
+
+                                                            $attribute = array(
+                                                                "name" => "app_configs[seller_gst_report][admin][$field][order]",
+                                                                "class" => "form-control field_order",
+                                                                "type" => "hidden",
+                                                                "value" => "$order"
                                                             );
                                                             echo form_input($attribute);
                                                         }
@@ -479,7 +503,8 @@ echo form_open($form_action, $form_attribute);
                                                 <div class = 'col-sm-11 no_pad check_box_row pull-right'>
                                                     <?php
                                                     $count_checked = 0;
-                                                    $chunk_size = count($order_info_view_fields) / 6;
+                                                    $optionCount = count($order_info_view_fields);
+                                                    $chunk_size = $optionCount / 6;
                                                     $field_chunk = array_chunk($order_info_view_fields, $chunk_size);
                                                     foreach ($field_chunk as $field_row) {
                                                         echo '<div class="row-fluid">';
@@ -487,24 +512,27 @@ echo form_open($form_action, $form_attribute);
                                                             echo '<div class="col-sm-2 check_parent">';
 
                                                             $attribute = array(
-                                                                "class"=>"column_check_box",
+                                                                "class" => "column_check_box",
                                                                 "name" => "app_configs[seller_gst_report][$lrc][$field][column]",
                                                                 "type" => "checkbox",
                                                                 "value" => $field
                                                             );
                                                             $label = $field;
                                                             $checkedFlag = false;
-
+                                                            $order = "";
                                                             if (isset($data['reports']['seller_gst_report'][$lrc]) && array_key_exists($field, $data['reports']['seller_gst_report'][$lrc])) {
                                                                 $count_checked++;
                                                                 $attribute['checked'] = "checked";
                                                                 if (array_key_exists('label', $data['reports']['seller_gst_report'][$lrc][$field])) {
                                                                     $label = $data['reports']['seller_gst_report'][$lrc][$field]['label'];
                                                                 }
+                                                                if (array_key_exists('order', $data['reports']['seller_gst_report'][$lrc][$field])) {
+                                                                    $order = $data['reports']['seller_gst_report'][$lrc][$field]['order'];
+                                                                }
                                                                 $checkedFlag = true;
                                                             }
 
-                                                            echo "<div class='checkbox wraper_checkbox'>
+                                                            echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                                 <div class='pull-left'>" . form_checkbox($attribute) . "
                                                                     <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
                                                                 </div>
@@ -515,6 +543,13 @@ echo form_open($form_action, $form_attribute);
                                                                     "class" => "form-control field_label",
                                                                     "type" => "hidden",
                                                                     "value" => "$label"
+                                                                );
+                                                                echo form_input($attribute);
+                                                                $attribute = array(
+                                                                    "name" => "app_configs[seller_gst_report][$lrc][$field][order]",
+                                                                    "class" => "form-control field_order",
+                                                                    "type" => "hidden",
+                                                                    "value" => "$order"
                                                                 );
                                                                 echo form_input($attribute);
                                                             }
@@ -571,64 +606,106 @@ echo form_open($form_action, $form_attribute);
 <script type="text/javascript">
 
     $(function () {
-        class InlineEdit{
-            editElementFlag = false;
-                    label = "";
-                    labelValue = "";
-                    linkObj = "";
-                    checkBox = "";
-                    checkBoxStatus = false;
-                    inputTemplate = '<div class="input-group input-group-sm">'
-                    + '<input type="text" class="form-control new_lebel_text">'
-                    + '    <span class="input-group-btn">'
-                    + '      <button type="button" class="btn btn-info bradious close_edit_lebel"><span class="fa fa-close"></span></button>'
-                    + '    </span>'
-                    + '    <span class="input-group-btn">'
-                    + '      <button type="button" class="btn btn-info bradious save_edit_lebel"><span class="fa fa-check"></span></button>'
-                    + '    </span>'
-                    + '</div>';
-                    inputHidden = '<input type="hidden" name="field_name" value="" class="form-control field_label">';
-                    cancel(){
-            this.label.html(this.labelValue);
-                    this.label.closest('div.wraper_checkbox').find('.field_label').val(this.labelValue);
-                    this.linkObj.show();
-                    if (this.checkBoxStatus){
+         class InlineEdit{
+    editElementFlag = false;
+            label = "";
+            labelValue = "";
+            linkObj = "";
+            checkBox = "";
+            checkBoxStatus = false;
+            optionsList = '';
+            inputTemplate = '<div class="input-group input-group-sm">'
+            + '<input type="text" class="form-control new_lebel_text" style="width:70%">'
+            + '<select id="" name"" placeholder="Order" class="form-control pull-left" style="width:30%; padding:0px; text-align-left;" title="Set Column Order">'
+            + '<option>Order</option>'
+            + '[OPTIONS_LIST]'
+            + '</select>'
+            + '    <span class="input-group-btn">'
+            + '      <button type="button" class="btn btn-info bradious close_edit_lebel"><span class="fa fa-close"></span></button>'
+            + '    </span>'
+            + '    <span class="input-group-btn">'
+            + '      <button type="button" class="btn btn-info bradious save_edit_lebel"><span class="fa fa-check"></span></button>'
+            + '    </span>'
+            + '</div>';
+            inputHidden = '<input type="hidden" name="field_name" value="" class="form-control field_label">';
+            inputHiddenSelect = '<input type="hidden" name="field_name" value="" class="form-control field_order">';
+            cancel(){
+    this.label.html(this.labelValue);
+            this.label.closest('div.wraper_checkbox').find('.field_label').val(this.labelValue);
+            this.linkObj.show();
+            if (this.checkBoxStatus){
+    this.checkBox.attr("checked", true);
+    } else{
+    this.checkBox.attr("checked", false);
+    }
+    }
+    save(){
+    var newVal = this.label.find('input').val();
+            var newOrderVal = this.label.find('select').val();
+            var wrapperChkBox = this.label.closest('div.wraper_checkbox');
+            this.linkObj.show();
+            this.editElementFlag = false;
+            this.label.html(newVal);
             this.checkBox.attr("checked", true);
-            } else{
-            this.checkBox.attr("checked", false);
+            wrapperChkBox.find('input.field_label').remove();
+            var checkBoxName = this.checkBox.attr('name');
+            var lebelName = checkBoxName;
+            const regex = /\[column\]/gi;
+            lebelName = lebelName.replace(regex, '[label]');
+            this.inputHidden = this.inputHidden.replace(/field_name/gi, lebelName);
+            wrapperChkBox.append(this.inputHidden);
+            wrapperChkBox.find('input.field_label').val(newVal);
+            //set selected order value hidden field
+            var orderName = checkBoxName;
+            wrapperChkBox.find('input.field_order').remove();
+            if(newOrderVal.toString().toLowerCase()!='order'){
+                orderName = orderName.replace(regex, '[order]');
+                this.inputHiddenSelect = this.inputHiddenSelect.replace(/field_name/gi, orderName);
+                wrapperChkBox.append(this.inputHiddenSelect);
+                wrapperChkBox.find('input.field_order').val(newOrderVal);
             }
-            }
-            save(){
-            var newVal = this.label.find('input').val();
-                    var wrapperChkBox = this.label.closest('div.wraper_checkbox');
-                    this.linkObj.show();
-                    this.editElementFlag = false;
-                    this.label.html(newVal);
-                    this.checkBox.attr("checked", true);
-                    wrapperChkBox.find('input.field_label').remove();
-                    var checkBoxName = this.checkBox.attr('name');
-                    const regex = /\[column\]/gi;
-                    checkBoxName = checkBoxName.replace(regex, '[label]');
-                    this.inputHidden = this.inputHidden.replace(/field_name/gi, checkBoxName);
-                    wrapperChkBox.append(this.inputHidden);
-                    wrapperChkBox.find('input.field_label').val(newVal);
-            }
-            edit(labelEleObj, linkEleObj, checkBoxObj){
-            this.editElementFlag = true;
-                    this.label = labelEleObj;
-                    this.linkObj = linkEleObj;
-                    this.checkBox = checkBoxObj;
-                    this.checkBoxStatus = this.checkBox.is(':checked');
-                    this.labelValue = this.label.html();
-                    this.label.html(this.inputTemplate);
-                    this.label.find('input').val(this.labelValue);
-                    this.linkObj.hide();
-            }
-        };
+            
+    }
+    edit(labelEleObj, linkEleObj, checkBoxObj){
+        this.editElementFlag = true;
+        this.label = labelEleObj;
+        this.linkObj = linkEleObj;
+        this.checkBox = checkBoxObj;
+        this.checkBoxStatus = this.checkBox.is(':checked');
+        this.labelValue = this.label.html();
+        //get count options
+        var optionLength = labelEleObj.closest('div.wraper_checkbox').attr('option_count');
+        if (parseInt(optionLength) > 0){
+            this.optionsList = this.get_options(optionLength);
+            const optLengthRegex = /\[OPTIONS_LIST\]/gi;
+            this.inputTemplate = this.inputTemplate.replace(optLengthRegex, this.optionsList);
+        }
+        this.label.html(this.inputTemplate);
+        this.label.find('input').val(this.labelValue);
+        this.label.find('input').attr('title', this.labelValue);
+        //set order selected
+        var selectedHiddenVal=this.label.closest('div.wraper_checkbox').find('input:hidden.field_order').val();
+        console.log('selectedHiddenVal',selectedHiddenVal);
+        if(selectedHiddenVal){
+            this.label.find('select').val(selectedHiddenVal);            
+        }
+        
+        this.linkObj.hide();
+    }
+    get_options(count){
+    var optionList = '';
+            for (var len = 1; len <= count; len++){
+    optionList += '<option>' + len + '</option>';
+    }
+    return optionList;
+    }
+    };
         var inlineEdit;
         $(document).on('click', '.edit_lebel', function () {
+            $('.close_edit_lebel').trigger('click');
             var label = $(this).closest('div.wraper_checkbox').find('.check_box_lebel');
             var chkbox = $(this).closest('div.wraper_checkbox').find('input:checkbox');
+            
             inlineEdit = new InlineEdit();
             inlineEdit.edit(label, $(this), chkbox);
         });
@@ -638,16 +715,13 @@ echo form_open($form_action, $form_attribute);
         $(document.body).on('click', '.save_edit_lebel', function () {
             inlineEdit.save();
         });
-        
         $('.check_all').on('click', function () {
             $(this).closest('div.checkbox_container').find('div.check_box_row').find(':checkbox').prop('checked', this.checked);
             $(this).closest('div.checkbox_container').find('div.check_box_row').find('input:hidden').remove();
         });
-        
         $('.column_check_box').on('click', function () {
             $(this).closest('div.checkbox_container').find('div.check_box_row').find('input:hidden').remove();
         });
-        
         //lib_card_num_prefix validateion allows only a-z A-Z 0-9
         $('#lib_card_num_prefix').on('keypress', function (event) {
             var regex = new RegExp("^[a-zA-Z0-9\b]+$");
@@ -669,6 +743,7 @@ echo form_open($form_action, $form_attribute);
             }
         });
     }); //end ready
+
 
 
 </script>

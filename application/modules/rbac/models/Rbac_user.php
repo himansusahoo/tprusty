@@ -181,7 +181,7 @@ class Rbac_user extends CI_Model {
     public function get_user_detail($column = null, $condition = null) {
         if (!$column) {
             $column = 'ru.user_id,ru.mobile,ru.password,ru.email,ru.login_status,ru.status,ru.created,'
-                    . 'ru.modified ,ru.created_by ,ru.modified_by,ru.email,ru.first_name,ru.last_name,profile_pic ';
+                    . 'ru.modified ,ru.created_by ,ru.modified_by,ru.email,ru.first_name,ru.last_name,profile_pic,ru.user_type ';
         }
         $this->db->select($column)->from('rbac_users ru');
 

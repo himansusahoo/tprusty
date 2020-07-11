@@ -61,7 +61,7 @@
                                     <a href="<?= base_url('my-profile') ?>" class="btn btn-default btn-flat">Profile</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="<?= base_url('admin-loout') ?>" class="btn btn-default btn-flat">Sign out</a>
+                                    <a href="<?= $this->rbac->get_admin_logout_url()?>" class="btn btn-default btn-flat">Sign out</a>
                                 </div>
                             </li>
                         </ul>

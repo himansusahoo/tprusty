@@ -19,7 +19,7 @@ class Report extends CI_Model {
         $this->load->library('datatables');
         $login_user_id = $this->rbac->get_user_id();
 
-        $this->datatables->select('SQL_CALC_FOUND_ROWS ' . $columns, false, false)
+        $this->datatables->select('distinct SQL_CALC_FOUND_ROWS ' . $columns, false, false)
                 ->from('order_info_view iv');
         //pma($condition);
         if (is_array($condition) && array_key_exists('custom_search', $condition)) {
@@ -36,7 +36,7 @@ class Report extends CI_Model {
             }
         }
 
-        $this->datatables->unset_column("user_id");
+        //$this->datatables->unset_column("user_id");
         if ($export) :
             $data = $this->datatables->generate_export($export);
             return $data;
@@ -62,6 +62,18 @@ class Report extends CI_Model {
         $result = $this->db->query($query)->row();
         //pma($result,1);
         return $result;
+    }
+    
+    public function get_seller_option_list($condition=""){
+        $query="SELECT distinct seller_id,seller_name from order_info_view where 1=1 $condition";
+        $result=$this->db->query($query)->result_array();
+        $options=array(
+            '0'=>''
+        );
+        foreach ($result as $rec){
+            $options[$rec['seller_id']]=$rec['seller_name'];
+        }
+        return $options;
     }
 
 }
