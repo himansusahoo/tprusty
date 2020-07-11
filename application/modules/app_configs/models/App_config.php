@@ -52,6 +52,9 @@ class App_config extends CI_Model {
                 $result = $this->db->query($query)->row();
                 if ($result) {                    
                     //update config
+                    if(!array_key_exists('app_configs', $data)){
+                        $data['app_configs']=array();
+                    }
                     $record = array(
                         'configs' => json_encode($data['app_configs']),
                         'modified' => date('Y-m-d H:i:s'),

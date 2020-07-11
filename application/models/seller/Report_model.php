@@ -147,7 +147,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' GROUP BY c.order_id ORDER BY a.id DESC");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' GROUP BY c.order_id ORDER BY a.id DESC");
         if ($query->num_rows() > 0) {
             return $query->num_rows();
         } else {
@@ -162,7 +162,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
         return $query->result();
     }
 
@@ -174,7 +174,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND e.name LIKE '$prod_name%' GROUP BY e.name");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND e.name LIKE '$prod_name%' GROUP BY e.name");
         return $query;
     }
 
@@ -185,7 +185,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
         return $query->result();
     }
 
@@ -208,7 +208,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
 
             return $query->num_rows();
         }
@@ -218,7 +218,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
             return $query->num_rows();
         }
         if ($retn_id != "") {
@@ -227,7 +227,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
             return $query->num_rows();
         }
         if ($prod_name != "") {
@@ -236,7 +236,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
 
 
 
@@ -250,7 +250,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
 
             return $query->num_rows();
         }
@@ -260,7 +260,7 @@ class Report_model extends CI_Model {
           INNER JOIN seller_account_information b ON a.seller_id=b.seller_id
           INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id
           INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-          INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND ".$condition." GROUP BY c.order_id ORDER BY a.id DESC");
+          INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND ".$condition." GROUP BY c.order_id ORDER BY a.id DESC");
 
           return $query->num_rows();
           } */
@@ -270,7 +270,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
 
             return $query->num_rows();
         }
@@ -280,7 +280,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
 
             return $query->num_rows();
         }
@@ -290,7 +290,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC");
             return $query->num_rows();
         }
         if ($condition == "") {
@@ -298,7 +298,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' GROUP BY c.order_id ORDER BY a.id DESC");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' GROUP BY c.order_id ORDER BY a.id DESC");
             return $query->num_rows();
         }
     }
@@ -322,7 +322,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
 
             return $query->result();
         }
@@ -332,7 +332,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
             return $query->result();
         }
         if ($retn_id != "") {
@@ -341,7 +341,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
             return $query->result();
         }
         if ($prod_name != "") {
@@ -350,7 +350,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
             return $query->result();
         }
         if ($quantity != "") {
@@ -359,7 +359,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
 
             return $query->result();
         }
@@ -370,7 +370,7 @@ class Report_model extends CI_Model {
           INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id
           INNER JOIN cornjob_productsearch e ON a.sku=e.sku
 
-          INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND ".$condition." GROUP BY c.order_id ORDER BY a.id DESC LIMIT ".$start.", ".$limit."");
+          INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND ".$condition." GROUP BY c.order_id ORDER BY a.id DESC LIMIT ".$start.", ".$limit."");
 
           return $query->result();
           } */
@@ -380,7 +380,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
 
             return $query->result();
         }
@@ -390,7 +390,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
 
             return $query->result();
         }
@@ -400,7 +400,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' AND " . $condition . " GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
             return $query->result();
         }
         if ($condition == "") {
@@ -408,7 +408,7 @@ class Report_model extends CI_Model {
 		INNER JOIN seller_account_information b ON a.seller_id=b.seller_id 
 		INNER JOIN ordered_product_from_addtocart c ON a.order_id=c.order_id 
 		INNER JOIN cornjob_productsearch e ON a.sku=e.sku
-		INNER JOIN USER d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
+		INNER JOIN user d ON c.user_id=d.user_id WHERE b.seller_id='$seller_id' GROUP BY c.order_id ORDER BY a.id DESC LIMIT " . $start . ", " . $limit . "");
             return $query->result();
         }
     }

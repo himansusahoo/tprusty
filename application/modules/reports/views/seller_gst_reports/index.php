@@ -1,4 +1,13 @@
 <?php ?>
+<?php
+$form_attribute = array(
+    "name" => "search_filters",
+    "id" => "search_filters",
+    "method" => "POST"
+);
+$form_action = '#';
+echo form_open($form_action, $form_attribute);
+?>
 <div class="row-fluid">
     <div class="box box-info collapsed-box">
         <div class="box-header with-border" data-widget="collapse">
@@ -14,32 +23,25 @@
         <div class="box-body" style="display: none;">            
 
             <div class="form-group col-sm-3">
-                <label for="order_to_year" class="col-sm-4 col-form-label">Order ID</label>
+                <label for="order_to_year" class="col-sm-4 col-form-label">Seller</label>
                 <div class="col-sm-8">
                     <?php
                     $attribute = array(
-                        "name" => "order_id",
-                        "id" => "order_id",
-                        "class" => "form-control",
-                        "title" => "",
-                        "required" => "",
-                        "type" => "text",
-                        "value" => ""
+                        "name" => "seller_id",
+                        "id" => "seller_id"                        
                     );
-                    echo form_input($attribute);
+                    echo form_dropdown('seller_id', $seller_list, '', $attribute);
                     ?>
                 </div>                
             </div>
             <div class="form-group col-sm-3">
-                <label for="order_to_year" class="col-sm-4 col-form-label">GSTN</label>
+                <label for="gstin" class="col-sm-4 col-form-label">GSTIN</label>
                 <div class="col-sm-8">
                     <?php
                     $attribute = array(
                         "name" => "gstin",
                         "id" => "gstin",
-                        "class" => "form-control",
-                        "title" => "",
-                        "required" => "",
+                        "class" => "form-control",                        
                         "type" => "text",
                         "value" => ""
                     );
@@ -132,12 +134,20 @@
         <!-- /.box-footer -->
     </div>
 </div>
+<?php echo form_close()?>
 <div class="row-fluid">
     <div class="col-sm-12 no_pad table-responsive" id="dyna_datatable"></div>
 </div>
 <script type="text/javascript">
 
     $(function ($) {
+
+        $("#seller_id").chosen({
+            no_results_text: "Oops, nothing found!",
+            placeholder_text_single:"Select Seller",
+            inherit_select_classes:true,
+            width: '100%'
+        });
 
         function get_dynamic_dt(param) {
 
@@ -177,7 +187,7 @@
                 url: "<?php echo base_url('export-seller-gst-reports') ?>",
                 data: param,
                 dataType: 'json',
-                error:function(error){
+                error: function (error) {
                     $('#loading').css('display', 'none');
                     //throw an error to set the job role of the current row.
                     var errorMsg = {
@@ -206,7 +216,7 @@
                 url: "<?php echo base_url('export-seller-gst-reports') ?>",
                 data: param,
                 dataType: 'json',
-                error:function(error){
+                error: function (error) {
                     $('#loading').css('display', 'none');
                     //throw an error to set the job role of the current row.
                     var errorMsg = {
@@ -346,17 +356,17 @@
 
         function custom_search_filter() {
             var filter = {};
-            var order_id = $('#order_id').val();
+            var seller_id = $('#seller_id').val();
             var gstin = $('#gstin').val();
             var from_year = $('#order_from_year').val();
             var from_month = $('#order_from_month').val();
             var to_year = $('#order_to_year').val();
             var to_month = $('#order_to_month').val();
 
-            if (order_id != '') {
-                filter['order_id'] = $('#order_id').val();
+            if (seller_id != '' && seller_id != '0') {
+                filter['seller_id'] = $('#seller_id').val();
             }
-            if (gstin != '') {
+            if (gstin != '' && gstin != '0') {
                 filter['gstin'] = $('#gstin').val();
             }
             if (from_year != "0") {

@@ -449,7 +449,7 @@ class Rbac {
      * @author : HimansuS
      * @created:
      */
-    public function get_highest_role($role_code_array=array()) {
+    public function get_highest_role($role_code_array = array()) {
         $role_priority = $this->get_app_config_item('rbac/role_priority');
         if (isset($role_priority[0])) {
             $priority = array();
@@ -459,8 +459,8 @@ class Rbac {
             $highest_role = '';
             $index = 0;
             $swap = '';
-            if(!$role_code_array){
-                $role_code_array=  $this->get_role_codes();
+            if (!$role_code_array) {
+                $role_code_array = $this->get_role_codes();
             }
             foreach ($role_code_array as $role) {
                 $index = array_search($role, $priority);
@@ -541,6 +541,23 @@ class Rbac {
             case 'admin':
                 $redirect = 'admin-dashboard';
                 break;
+            case 'seller':
+                $redirect = 'seller-dashboard';
+                break;
+        }
+        return base_url($redirect);
+    }
+
+    public function get_admin_logout_url() {
+        $redirect = '';
+        $user_type = $this->get_user_type();
+        switch ($user_type) {
+            case 'seller':
+                $redirect = 'seller-logout';
+                break;
+            default:
+                $redirect = 'admin-logout';
+                break;
         }
         return base_url($redirect);
     }
@@ -571,29 +588,66 @@ class Rbac {
     public function grid_xpath_headers($xpath, $case = false) {
 
         $grid_headers = $this->get_app_config_item($xpath, '', false);
+
         $grid_headers = current(xml2array($grid_headers));
+        $headerArr = $headerArr2 = array();
 
         switch ($case) {
             case 'string':
                 $header = "";
                 foreach ($grid_headers as $head) {
-                    $header.=$head['column'] . ',';
+                    if (array_key_exists('order', $head)) {
+                        $headerArr[$head['order']] = $head['column'];
+                    } else {
+                        $headerArr2[] = $head['column'];
+                    }
                 }
+                if ($headerArr) {
+                    ksort($headerArr);
+                }
+                if($headerArr2){
+                    array_push($headerArr, $headerArr2);
+                } 
+                $header = implode(',', $headerArr);
                 $header = rtrim($header, ',');
                 break;
             case 'head':
                 $header = array();
                 //pma($grid_headers,1);
                 foreach ($grid_headers as $head) {
+                    if (array_key_exists('order', $head)) {
+                        $headerArr[$head['order']] = $head;
+                    } else {
+                        $headerArr2[] = $head;
+                    }
+                }
+                if ($headerArr) {
+                    ksort($headerArr);
+                }
+                if($headerArr2){
+                    array_push($headerArr, $headerArr2);
+                } 
+                foreach ($headerArr as $head) {
                     $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
                     $header[$head['column']] = $label;
                 }
                 break;
             default:
-                $header = array();
-                //pma($grid_headers,1);
+                $header = array();                
                 foreach ($grid_headers as $head) {
-
+                    if (array_key_exists('order', $head)) {
+                        $headerArr[$head['order']] = $head;
+                    } else {
+                        $headerArr2[] = $head;
+                    }
+                }
+                if ($headerArr) {
+                    ksort($headerArr);
+                }
+                if($headerArr2){
+                    array_push($headerArr, $headerArr2);
+                }               
+                foreach ($headerArr as $head) {
                     $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
                     $header[] = array(
                         'db_column' => $head['column'],
@@ -605,8 +659,10 @@ class Rbac {
                         'searchable' => 'true'
                     );
                 }
+
                 break;
-        }        
+        }
+       
         return $header;
     }
 

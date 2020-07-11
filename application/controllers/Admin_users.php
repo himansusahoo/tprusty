@@ -148,7 +148,14 @@ class Admin_users extends CI_Controller {
         $this->session->unset_userdata('user_data');
         $this->session->unset_userdata('selected_left_menu');
         $this->session->unset_userdata('logged_in');
+        $this->session->unset_userdata('seller-session');
+        $this->session->unset_userdata('seller-signup-session');
+        $this->session->unset_userdata(' seller-notice-session');   
         $admin_login=base_url('admin-login');
+        if($this->rbac->has_role('SELLER')){
+            $admin_login=base_url('/seller/seller');
+        }
+        
         redirect($admin_login);
     }
 

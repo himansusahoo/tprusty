@@ -35,8 +35,8 @@ class Seller_gst_reports extends CI_Controller {
         if ($this->rbac->has_permission('REPORTS', 'SELLER_GST_REPO')) {
             $this->breadcrumbs->push('Reports', 'all-reports');
             $this->breadcrumbs->push('seller-gst-reports', base_url('seller-gst-reports'));
-            $this->scripts_include->includePlugins(array('datatable', 'chosen', 'bs_daterange_picker', 'bs_datepicker'), 'css');
-            $this->scripts_include->includePlugins(array('datatable', 'chosen', 'promise', 'bs_daterange_picker', 'bs_datepicker'), 'js');
+            $this->scripts_include->includePlugins(array('datatable', 'chosen'), 'css');
+            $this->scripts_include->includePlugins(array('datatable', 'chosen', 'promise'), 'js');
             $this->layout->navTitle = 'Seller GST Reports';
             $this->layout->title = 'Seller GST Reports';
 
@@ -45,6 +45,7 @@ class Seller_gst_reports extends CI_Controller {
             );
 
             $data['data']['dates'] = $this->report->get_min_max_date();
+            $data['data']['seller_list']=  $this->report->get_seller_option_list();
             if ($this->rbac->is_admin() || $this->rbac->is_developer() || $this->rbac->has_role('ADMIN_STAFF')) {
                 //No action required
             } else {
@@ -65,9 +66,9 @@ class Seller_gst_reports extends CI_Controller {
     public function seller_gst_grid_data() {
         if ($this->input->is_ajax_request()) {
             //return tables columns as string
-            $columns = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'string');
+            $columns = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'string');            
             $condition = $this->input->post();
-            $returned_list = $this->report->get_seller_gst_report_datatable($columns, $condition);
+            $returned_list = $this->report->get_seller_gst_report_datatable(strtolower($columns), $condition);
             echo $returned_list;
             exit();
         } else {
@@ -168,7 +169,7 @@ class Seller_gst_reports extends CI_Controller {
                 $tableHeading = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'head');
                 $columns = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'string');
 
-                $data = $this->report->get_seller_gst_report_datatable($columns, $condition, true, $tableHeading);
+                $data = $this->report->get_seller_gst_report_datatable(strtolower($columns), $condition, true, $tableHeading);
 
                 $head_cols = $body_col_map = array();
                 $date = array(
@@ -235,11 +236,11 @@ class Seller_gst_reports extends CI_Controller {
                 $fromDate = $condition['custom_search']['from_year'] . '-' . $condition['custom_search']['from_month'] . '-' . '01';
                 $custom_search = "DATE_FORMAT(date_of_order,'%Y')=DATE_FORMAT('$fromDate','%Y')";
             }
-            if (array_key_exists('order_id', $condition['custom_search'])) {
+            if (array_key_exists('seller_id', $condition['custom_search'])) {
                 if ($custom_search != '') {
-                    $custom_search.=' AND order_id=' . $condition['custom_search']['order_id'];
+                    $custom_search.=' AND seller_id=' . $condition['custom_search']['seller_id'];
                 } else {
-                    $custom_search = ' order_id=' . $condition['custom_search']['order_id'];
+                    $custom_search = ' seller_id=' . $condition['custom_search']['seller_id'];
                 }
             }
 
