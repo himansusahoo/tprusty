@@ -595,7 +595,7 @@ class Rbac {
             case 'string':
                 $header = "";
                 foreach ($grid_headers as $head) {
-                    if (array_key_exists('order', $head)) {
+                    if (array_key_exists('order', $head) && $head['order']!='') {
                         $headerArr[$head['order']] = $head['column'];
                     } else {
                         $headerArr2[] = $head['column'];
@@ -617,7 +617,7 @@ class Rbac {
             case 'head':
                 $header = array();                
                 foreach ($grid_headers as $head) {
-                    if (array_key_exists('order', $head)) {
+                    if (array_key_exists('order', $head) && $head['order']!='') {
                         $headerArr[$head['order']] = $head;
                     } else {
                         $headerArr2[] = $head;
@@ -643,7 +643,7 @@ class Rbac {
             default:
                 $header = array();                
                 foreach ($grid_headers as $head) {
-                    if (array_key_exists('order', $head)) {
+                    if (array_key_exists('order', $head) && $head['order']!='') {
                         $headerArr[$head['order']] = $head;
                     } else {
                         $headerArr2[] = $head;

@@ -20,7 +20,7 @@ class Report extends CI_Model {
         $login_user_id = $this->rbac->get_user_id();
 
         $this->datatables->select('distinct SQL_CALC_FOUND_ROWS ' . $columns, false, false)
-                ->from('order_info_view iv');
+                ->from('order_info_vw_materialized iv');
         //pma($condition);
         if (is_array($condition) && array_key_exists('custom_search', $condition)) {
 
@@ -55,7 +55,7 @@ class Report extends CI_Model {
                 ,MONTH(max_date) maxD
                 FROM(
                     SELECT min(date_of_order) min_date,max(date_of_order) max_date 
-                    from order_info_view
+                    from order_info_vw_materialized
                     limit 1
                 )a
                 ";
@@ -65,13 +65,13 @@ class Report extends CI_Model {
     }
     
     public function get_seller_option_list($condition=""){
-        $query="SELECT distinct seller_id,seller_name from order_info_view where 1=1 $condition";
+        $query="SELECT distinct seller_id,business_name from order_info_vw_materialized where 1=1 $condition";
         $result=$this->db->query($query)->result_array();
         $options=array(
             '0'=>''
         );
         foreach ($result as $rec){
-            $options[$rec['seller_id']]=$rec['seller_name'];
+            $options[$rec['seller_id']]=$rec['business_name'];
         }
         return $options;
     }
