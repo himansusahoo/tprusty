@@ -15,4 +15,4 @@ table.dataTable.no-footer{border-bottom: 1px solid #00c0ef !important;}
 .dt-length-change .dataTables_length.select{display:none !important;}
 .dt-length-change .chosen-container-single .chosen-single{height: 32px !important;line-height: 32px !important;}
 .dt-length-change .chosen-container-single .chosen-single div{top:4px !important;}
-.table-responsive{overflow-x: inherit !important;}
+.table-responsive{overflow-x: inherit !important; overflow-y: hidden !important;}

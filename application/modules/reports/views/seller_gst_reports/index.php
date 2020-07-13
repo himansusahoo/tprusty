@@ -1,4 +1,3 @@
-<?php ?>
 <?php
 $form_attribute = array(
     "name" => "search_filters",
@@ -251,6 +250,12 @@ echo form_open($form_action, $form_attribute);
         var maxY = '<?= $maxYear ?>';
         var minM = '<?= $minMonth ?>';
         var maxM = '<?= $maxMonth ?>';
+        
+        var maxLastM=maxM-1;
+        if(maxM==1 || maxM==01){
+            maxLastM=12;
+        }
+        
         var years =<?= json_encode($years) ?>;
 
         var months = {
@@ -322,16 +327,19 @@ echo form_open($form_action, $form_attribute);
                 var fromYear = $('#order_from_year').val();
                 var fromMonth = $('#order_from_month').val();
                 if (parseInt(fromYear) == parseInt(selectedYear)) {
-
-                    var minM = parseInt(fromMonth);
-                    var maxM = parseInt($('#order_from_month option:last-child').val());
+                    console.log(parseInt(fromYear),' == ',parseInt(selectedYear));
+                    var fromMinM = parseInt(fromMonth);
+                    var fromMaxM = parseInt($('#order_from_month option:last-child').val());
+                    console.log('month >= minM',fromMinM ,'>=', fromMaxM);
                     for (var month in months) {
-                        if (month >= minM && month <= maxM) {
+                        console.log('month',month);
+                        if (month >= fromMinM && month <= fromMaxM) {
                             $('#order_to_month').append($("<option></option>").attr("value", month).text(months[month]));
                         }
                     }
                 }
                 else if (selectedYear == minY) {
+                    console.log('selectedYear == minY',selectedYear ,'==', minY);
                     minM = parseInt(minM);
                     for (var month in months) {
                         if (month >= minM) {
@@ -339,13 +347,15 @@ echo form_open($form_action, $form_attribute);
                         }
                     }
                 } else if (selectedYear == maxY) {
+                    console.log('selectedYear == maxY',selectedYear ,'==', maxY);
                     maxM = parseInt(maxM);
                     for (var month in months) {
-                        if (month <= maxM) {
+                        if (month < maxM) {
                             $('#order_to_month').append($("<option></option>").attr("value", month).text(months[month]));
                         }
                     }
                 } else {
+                    console.log('else');
                     for (var month in months) {
                         $('#order_to_month').append($("<option></option>").attr("value", month).text(months[month]));
                     }
