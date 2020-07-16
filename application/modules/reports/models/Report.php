@@ -36,8 +36,8 @@ class Report extends CI_Model {
             }
             if ($this->rbac->is_admin() || $this->rbac->is_developer() || $this->rbac->has_role('ADMIN_STAFF')) {
                 //No action required
-            }elseif($this->rbac->has_role('SELLER')){
-                $this->datatables->where('seller_id', $this->rbac->get_user_id());
+            }elseif($this->rbac->has_role('SELLER')){                
+                $this->datatables->where('seller_id', $this->rbac->get_seller_id());
             }
         }
 

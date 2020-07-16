@@ -125,14 +125,14 @@
             <div class="table-responsive">
                 <div class="row-fluid">
                     <div class="col-sm-12 no_pad ">
-                        <div class="col-sm-2 text-center">
+<!--                        <div class="col-sm-2 text-center">
                             <span class="fa fa-cart-arrow-down fa-4x text-aqua"></span>
                             <a class="users-list-name" href="<?= base_url('/seller/Reports') ?>">Order Report</a>
                         </div>
                         <div class="col-sm-2 text-center">
                             <span class="fa fa-retweet fa-4x text-danger"></span>
                             <a class="users-list-name" href="<?= base_url('/seller/Reports/return_report') ?>">Return Order Report</a>
-                        </div>
+                        </div>-->
                         <div class="col-sm-2 text-center">
                             <span class="fa fa-gift fa-4x text-info"></span>
                             <a class="users-list-name" href="<?= base_url('/seller/Reports/payment_report') ?>">Payment Report</a>
