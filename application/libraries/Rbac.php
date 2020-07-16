@@ -678,5 +678,11 @@ class Rbac {
        
         return $header;
     }
+    public function get_seller_id(){
+        if(array_key_exists('seller-session', $this->_session)){
+            return $this->_session['seller-session'];
+        }
+        return 0;
+    }
 
 }

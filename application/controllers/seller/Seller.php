@@ -331,10 +331,7 @@ class Seller extends MX_Controller {
     }
 
     function seller_logout() {
-        $this->session->unset_userdata('seller-session');
-        $this->session->unset_userdata('logged_in');
-        $manageEmployee = modules::run('employee/manage_employees/rbac_logout');     
-        
+        $this->session->sess_destroy(); 
         redirect(site_url('seller/seller'));
     }
 
