@@ -151,6 +151,7 @@ echo form_open($form_action, $form_attribute);
             no_results_text: "Oops, nothing found!",
             placeholder_text_single: "Select Seller",
             inherit_select_classes: true,
+            allow_single_deselect:true,
             width: '100%'
         });
 
