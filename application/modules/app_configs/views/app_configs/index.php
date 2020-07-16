@@ -23,7 +23,7 @@
     }
 
 </style>
-<div class="row-fluid">
+<div class="row-fluid scroll-container" style="height:500px; overflow-y: auto; overflow-x: hidden;">
     <div class="col-sm-12 no_pad">    
         <?php
         $form_attribute = array(
@@ -608,7 +608,8 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function () {
+    $(function () {       
+        
         class InlineEdit{
     editElementFlag = false;
             label = "";
