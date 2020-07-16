@@ -182,4 +182,5 @@
     
     var configs={breadCumb:true,filterBoxH:false};
     $(".scroll-container").css('height',myApp.CommonMethod.getContainerHeight(configs));
+    $(".table-responsive").css('height',myApp.CommonMethod.getContainerHeight(configs));
 })(jQuery);

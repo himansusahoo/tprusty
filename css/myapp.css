@@ -194,4 +194,4 @@ span.value{
 .navbar-custom-menu{
     right:0px !important;
 }
-.scroll-container{overflow-x: inherit !important; overflow-y: auto !important;width:100%}
+.scroll-container{overflow-x: hidden !important; overflow-y: auto !important;width:100%}
