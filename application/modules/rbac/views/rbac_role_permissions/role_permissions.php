@@ -1,6 +1,6 @@
 <?php ?>
-<div class="row text-center">
-    <div class="col-sm-12">
+<div class="row text-center scroll-container">
+    <div class="col-sm-12 ">
         <?php
         $form_attribute = array(
             "name" => "rbac_permissions",
@@ -32,6 +32,7 @@
                         <div class="panel-body">
                             <?php
                             $indx = 1;
+                            $total_perms=count($permission_master_all);
                             foreach ($role_options as $role_id => $role_name) {
                                 ?>
                                 <div class="panel-body no_pad criteria_panel" panel_no="<?php echo $role_id ?>" id="panel_<?php echo $role_name ?>">
@@ -46,16 +47,12 @@
                                             <div class="box-body">
                                                 <div class="alert panel-default wraper_alert_bmargin main-module-action-box">                                                            
                                                     <div class="row perm_row">
-                                                        <span class="pull-left">
-                                                            <div class="col-sm-12">
-                                                                <label class="pull-left"><input type="checkbox" class="check_all">&nbsp;&nbsp;Check all</label>
-                                                            </div>
-                                                        </span>
-                                                        <div class="col-sm-12 no_pad text-left">                                                            
+                                                        
+                                                        <div class="col-sm-11 no_pad text-left pull-right">                                                            
                                                             <?php
                                                             echo '<input name="permission[' . $indx . '][role_id]" type="hidden" value="' . $role_id . '">';
                                                             $permission_master_all_chunks = array_chunk($permission_master_all, 2, 1);
-
+                                                            $checkedCounter=0;
                                                             foreach ($permission_master_all_chunks as $chunk_perm) {
                                                                 foreach ($chunk_perm as $perm) {
                                                                     ?>
@@ -86,6 +83,7 @@
                                                                                 if ($common_perms) {
                                                                                     $attribute['permission_id'] = $perm['permission_id'];
                                                                                     $attribute['checked'] = 'checked';
+                                                                                    $checkedCounter++;
                                                                                 }
                                                                                 echo '<div class="checkbox wraper_checkbox"><label style="width: 100%;">' . form_checkbox($attribute) . ucfirst(strtolower($perm['module_name'])) . ' <span class="fa fa-long-arrow-right"> ' . ucfirst(strtolower($perm['action_name'])) . '</label></div>';
                                                                                 ?>
@@ -97,6 +95,17 @@
                                                             }
                                                             ?>
 
+                                                        </div>
+                                                        <div class="pull-right col-sm-1 no_pad">
+                                                            <div class="col-sm-12 no_rpad">
+                                                                <?php
+                                                                    $checkedAll='';
+                                                                    if($total_perms==$checkedCounter){
+                                                                        $checkedAll='checked="checked"';
+                                                                    }
+                                                                ?>
+                                                                <label class="pull-left"><input type="checkbox" class="check_all" <?=$checkedAll?>>&nbsp;&nbsp;Check all</label>
+                                                            </div>
                                                         </div>
                                                     </div>  
                                                 </div>                                            
@@ -115,8 +124,9 @@
                 </div>
             </div>
         </div>
-        </form><?php echo form_close() ?>
+       <?php echo form_close() ?>
     </div>
+</div>
     <script type="text/javascript">
         $(document).ready(function () {
             //exapand/collapse all panel
