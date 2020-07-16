@@ -35,6 +35,32 @@ myApp.CommonMethod = {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
         return '';
+    },
+    getContainerHeight:function(configs){
+        var heightCalc={
+            winH: window.innerHeight,
+            headerH:$('.main-header').outerHeight(),
+            footerH:$('.main-footer').outerHeight(),
+            filterBoxH:$('#filterBox').outerHeight(),
+            breadCumb:$('.content-header').outerHeight(),
+            adjustment:40,
+            gridHeight:300
+        };  
+        var substractVal=(heightCalc.headerH+heightCalc.footerH);
+        if(configs.filterBoxH==true){
+            substractVal+=heightCalc.filterBoxH;
+        }
+        if(configs.breadCumb==true){
+            substractVal+=heightCalc.breadCumb;
+        }
+        if(configs.adjustment>0){
+            substractVal+=configs.adjustment;
+        }else{
+            substractVal+=heightCalc.adjustment;
+        }
+        
+        heightCalc.gridHeight= heightCalc.winH-substractVal;        
+        return heightCalc.gridHeight;
     }
 }//end sub namespace 
 myApp.CommonVar = {

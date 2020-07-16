@@ -156,6 +156,7 @@ class C_datatable {
             'searching' => 'true',
             'lengthMenu' => array(15, 30, 60, 100),
             //'destroy'=> 'true',
+            //'fixedHeader'=> array('header'=>true),
             'order' => array(
                 array(
                     'column' => 0,
@@ -633,6 +634,11 @@ class C_datatable {
             $this->_after_dt_script .= 'var ' . $this->_dt_id . '_extra_head="' . $markup . '"; ';
             $this->_after_dt_script .= "$('." . $this->_dt_id . "_table_cont').find('div.dataTables_scrollHeadInner').find('table').find('thead').prepend(" . $this->_dt_id . "_extra_head);";
             //$this->_after_dt_script.="$('." . $this->_dt_id . "').DataTable().clear()";
+            $this->_after_dt_script.="$(document).on('change','.chosen-dt-length-select',function(){
+                var selVal=$(this).val();
+                var dropDown=$('.chosen-dt-length-select');
+                dropDown.val(selVal).trigger(\"chosen:updated\");
+            });";
         }
         return $this->_after_dt_script;
     }

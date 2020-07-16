@@ -82,7 +82,7 @@ class Scripts_include {
             COMPONENT_PATH . 'datatables-keytable/js/dataTables.keyTable.js',
             COMPONENT_PATH . 'datatables-scroller/js/dataTables.scroller.js',
             COMPONENT_PATH . 'dataTables.treeGrid.js/dataTables.treeGrid.js',
-            
+            //'/js/dataTables.fixedHeader.min.js',
             
             /*'/assets/layout/default/plugins/datatables/datatables.min.js',
             '/assets/layout/default/plugins/datatables/extensions/TableTools/js/dataTables.tableTools.min.js',
