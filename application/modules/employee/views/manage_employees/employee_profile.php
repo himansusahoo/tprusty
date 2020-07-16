@@ -211,8 +211,6 @@
             $('#password').val('');
             $('#npassword').val('');
             $('#cpassword').val('');
-
-            $('#loading').css('display', 'block');
             $('#change_my_pass_modal').modal({backdrop: 'static', keyboard: false});
         });
 

@@ -43,7 +43,7 @@ myApp.CommonMethod = {
             footerH:$('.main-footer').outerHeight(),
             filterBoxH:$('#filterBox').outerHeight(),
             breadCumb:$('.content-header').outerHeight(),
-            adjustment:40,
+            adjustment:30,
             gridHeight:300
         };  
         var substractVal=(heightCalc.headerH+heightCalc.footerH);

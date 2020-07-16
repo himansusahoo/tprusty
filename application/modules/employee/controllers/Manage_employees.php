@@ -553,7 +553,7 @@ class Manage_employees extends MX_Controller {
      * @since   05/06/2019
      */
     public function employee_profile() {
-        if ($this->rbac->has_permission('STAFF_USERS', 'MY_PROFILE')) {
+        if ($this->rbac->has_permission('USERS', 'MY_PROFILE')) {
             $this->breadcrumbs->push('view', base_url('view-employee-profile'));
             $this->scripts_include->includePlugins(array('pass_meter', 'jq_validation'), 'js');
 

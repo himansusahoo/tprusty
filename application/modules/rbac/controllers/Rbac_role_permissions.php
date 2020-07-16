@@ -70,7 +70,7 @@ class Rbac_role_permissions extends MX_Controller {
                 'permission_master_all' => $permission_masters_all,
                 'existing_role_permissions' => $existing_role_permissions
             );
-            //pma($data,1);
+            //pma($data);
             if ($this->input->post()) {
                 $permissions = $this->input->post();
                 $perms = array();
@@ -93,6 +93,7 @@ class Rbac_role_permissions extends MX_Controller {
                         }
                     }
                 }
+               // pma($data,1);
                 
                 if ($this->rbac_role_permission->save_role_permissions($perms)) {
                     $this->session->set_flashdata('success', 'Record successfully saved!');
