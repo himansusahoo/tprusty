@@ -243,14 +243,6 @@ class Seller_gst_reports extends CI_Controller {
                     $custom_search = ' seller_id=' . $condition['custom_search']['seller_id'];
                 }
             }
-
-            if (array_key_exists('gstin', $condition['custom_search'])) {
-                if ($custom_search != '') {
-                    $custom_search.=' AND gstin="' . $condition['custom_search']['gstin'] . '"';
-                } else {
-                    $custom_search = ' gstin="' . $condition['custom_search']['gstin'] . '"';
-                }
-            }
         }
         return $custom_search;
     }

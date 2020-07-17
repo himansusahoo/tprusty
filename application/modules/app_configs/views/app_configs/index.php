@@ -608,20 +608,20 @@
     </div>
 </div>
 <script type="text/javascript">
-    $(function () {       
-        
-        class InlineEdit{
-    editElementFlag = false;
-            label = "";
-            labelValue = "";
-            linkObj = "";
-            checkBox = "";
-            checkBoxStatus = false;
-            optionsList = '';
-            inputTemplate = '<div class="input-group input-group-sm">'
+    $(function () {
+
+        var InlineEdit = {
+    editElementFlag: false,
+            label : "",
+            labelValue : "",
+            linkObj: "",
+            checkBox: "",
+            checkBoxStatus: false,
+            optionsList: '',
+            inputTemplate: '<div class="input-group input-group-sm">'
             + '<input type="text" class="form-control new_lebel_text" style="width:70%">'
-            + '<select id="" name"" placeholder="Order" class="form-control pull-left" style="width:30%; padding:0px; text-align-left;" title="Set Column Order">'
-            + '<option>Order</option>'
+            + '<select placeholder="Order" class="form-control pull-left" style="width:30%; padding:0px; text-align-left;" title="Set Column Order">'
+            + '<option value="">Order</option>'
             + '[OPTIONS_LIST]'
             + '</select>'
             + '    <span class="input-group-btn">'
@@ -630,94 +630,93 @@
             + '    <span class="input-group-btn">'
             + '      <button type="button" class="btn btn-info bradious save_edit_lebel"><span class="fa fa-check"></span></button>'
             + '    </span>'
-            + '</div>';
-            inputHidden = '<input type="hidden" name="field_name" value="" class="form-control field_label">';
-            inputHiddenSelect = '<input type="hidden" name="field_name" value="" class="form-control field_order">';
-            cancel(){
-    this.label.html(this.labelValue);
-            this.label.closest('div.wraper_checkbox').find('.field_label').val(this.labelValue);
-            this.linkObj.show();
-            if (this.checkBoxStatus){
-    this.checkBox.attr("checked", true);
-    } else{
-    this.checkBox.attr("checked", false);
-    }
-    }
-    save(){
-    var newVal = this.label.find('input').val();
-            var newOrderVal = this.label.find('select').val();
-            var wrapperChkBox = this.label.closest('div.wraper_checkbox');
-            this.linkObj.show();
-            this.editElementFlag = false;
-            this.label.html(newVal);
-            this.checkBox.attr("checked", true);
-            wrapperChkBox.find('input.field_label').remove();
-            var checkBoxName = this.checkBox.attr('name');
-            var lebelName = checkBoxName;
-            const regex = /\[column\]/gi;
-            lebelName = lebelName.replace(regex, '[label]');
-            this.inputHidden = this.inputHidden.replace(/field_name/gi, lebelName);
-            wrapperChkBox.append(this.inputHidden);
-            wrapperChkBox.find('input.field_label').val(newVal);
-            //set selected order value hidden field
-            var orderName = checkBoxName;
-            wrapperChkBox.find('input.field_order').remove();
-            if(newOrderVal.toString().toLowerCase()!='order'){
-                orderName = orderName.replace(regex, '[order]');
-                this.inputHiddenSelect = this.inputHiddenSelect.replace(/field_name/gi, orderName);
-                wrapperChkBox.append(this.inputHiddenSelect);
-                wrapperChkBox.find('input.field_order').val(newOrderVal);
+            + '</div>',
+            inputHidden: '<input type="hidden" name="field_name" value="" class="form-control field_label">',
+            inputHiddenSelect: '<input type="hidden" name="field_name" value="" class="form-control field_order">',
+            cancel:function()
+            {
+                this.label.html(this.labelValue);
+                this.label.closest('div.wraper_checkbox').find('.field_label').val(this.labelValue);
+                this.linkObj.show();
+                if (this.checkBoxStatus){
+                    this.checkBox.attr("checked", true);
+                } else{
+                    this.checkBox.attr("checked", false);
+                }
+            },
+            save:function(){
+            var newVal = this.label.find('input').val();
+                    var newOrderVal = this.label.find('select').val();
+                    var wrapperChkBox = this.label.closest('div.wraper_checkbox');
+                    this.linkObj.show();
+                    this.editElementFlag = false;
+                    this.label.html(newVal);
+                    this.checkBox.attr("checked", true);
+                    wrapperChkBox.find('input.field_label').remove();
+                    var checkBoxName = this.checkBox.attr('name');
+                    var lebelName = checkBoxName;
+                    const regex = /\[column\]/gi;
+                    lebelName = lebelName.replace(regex, '[label]');
+                    this.inputHidden = this.inputHidden.replace(/field_name/gi, lebelName);
+                    wrapperChkBox.append(this.inputHidden);
+                    wrapperChkBox.find('input.field_label').val(newVal);
+                    //set selected order value hidden field
+                    var orderName = checkBoxName;
+                    wrapperChkBox.find('input.field_order').remove();
+                    if (newOrderVal.toString().toLowerCase() != 'order'){
+                    orderName = orderName.replace(regex, '[order]');
+                    this.inputHiddenSelect = this.inputHiddenSelect.replace(/field_name/gi, orderName);
+                    wrapperChkBox.append(this.inputHiddenSelect);
+                    wrapperChkBox.find('input.field_order').val(newOrderVal);
             }
-            
-    }
-    edit(labelEleObj, linkEleObj, checkBoxObj){
-        this.editElementFlag = true;
-        this.label = labelEleObj;
-        this.linkObj = linkEleObj;
-        this.checkBox = checkBoxObj;
-        this.checkBoxStatus = this.checkBox.is(':checked');
-        this.labelValue = this.label.html();
-        //get count options
-        var optionLength = labelEleObj.closest('div.wraper_checkbox').attr('option_count');
-        if (parseInt(optionLength) > 0){
+
+            },
+            edit:function(labelEleObj, linkEleObj, checkBoxObj){
+            this.editElementFlag = true;
+                    this.label = labelEleObj;
+                    this.linkObj = linkEleObj;
+                    this.checkBox = checkBoxObj;
+                    this.checkBoxStatus = this.checkBox.is(':checked');
+                    this.labelValue = this.label.html();
+                    //get count options
+                    var optionLength = labelEleObj.closest('div.wraper_checkbox').attr('option_count');
+                    if (parseInt(optionLength) > 0){
             this.optionsList = this.get_options(optionLength);
-            const optLengthRegex = /\[OPTIONS_LIST\]/gi;
-            this.inputTemplate = this.inputTemplate.replace(optLengthRegex, this.optionsList);
-        }
-        this.label.html(this.inputTemplate);
-        this.label.find('input').val(this.labelValue);
-        this.label.find('input').attr('title', this.labelValue);
-        //set order selected
-        var selectedHiddenVal=this.label.closest('div.wraper_checkbox').find('input:hidden.field_order').val();
-        console.log('selectedHiddenVal',selectedHiddenVal);
-        if(selectedHiddenVal){
-            this.label.find('select').val(selectedHiddenVal);            
-        }
-        
-        this.linkObj.hide();
-    }
-    get_options(count){
-    var optionList = '';
-            for (var len = 1; len <= count; len++){
-    optionList += '<option>' + len + '</option>';
-    }
-    return optionList;
-    }
-    };//end class
-        var inlineEdit;
-        $(document).on('click', '.edit_lebel', function () {
+                    const optLengthRegex = /\[OPTIONS_LIST\]/gi;
+                    this.inputTemplate = this.inputTemplate.replace(optLengthRegex, this.optionsList);
+            }
+            this.label.html(this.inputTemplate);
+                    this.label.find('input').val(this.labelValue);
+                    this.label.find('input').attr('title', this.labelValue);
+                    //set order selected
+                    var selectedHiddenVal = this.label.closest('div.wraper_checkbox').find('input:hidden.field_order').val();
+                    console.log('selectedHiddenVal', selectedHiddenVal);
+                    if (selectedHiddenVal){
+            this.label.find('select').val(selectedHiddenVal);
+            }
+
+            this.linkObj.hide();
+            },
+            get_options:function(count){
+            var optionList = '';
+                    for (var len = 1; len <= count; len++){
+            optionList += '<option value="'+len+'">' + len + '</option>';
+            }
+            return optionList;
+            }
+
+    }; //end class
+         $(document).on('click', '.edit_lebel', function () {
             $('.close_edit_lebel').trigger('click');
             var label = $(this).closest('div.wraper_checkbox').find('.check_box_lebel');
-            var chkbox = $(this).closest('div.wraper_checkbox').find('input:checkbox');
-
-            inlineEdit = new InlineEdit();
-            inlineEdit.edit(label, $(this), chkbox);
+            var chkbox = $(this).closest('div.wraper_checkbox').find('input:checkbox');            
+            InlineEdit.edit(label, $(this), chkbox);
         });
         $(document).on('click', '.close_edit_lebel', function () {
-            inlineEdit.cancel();
+            InlineEdit.cancel();
         });
         $(document.body).on('click', '.save_edit_lebel', function () {
-            inlineEdit.save();
+            InlineEdit.save();
         });
         $('.check_all').on('click', function () {
             $(this).closest('div.checkbox_container').find('div.check_box_row').find(':checkbox').prop('checked', this.checked);

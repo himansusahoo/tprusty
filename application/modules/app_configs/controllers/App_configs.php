@@ -53,7 +53,7 @@ class App_configs extends CI_Controller {
         
         //manage reports configs
        
-        $info_view_columns=$this->db->list_fields('order_info_view');
+        $info_view_columns=$this->db->list_fields('order_info_vw_materialized');
         asort($info_view_columns);
         $data['order_info_view_fields'] = $info_view_columns;
         //pma($configs, 1);
