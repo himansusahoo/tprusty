@@ -585,7 +585,7 @@ class Rbac {
         return '';
     }
 
-    public function grid_xpath_headers($xpath, $case = false) {        
+    public function grid_xpath_headers($xpath, $case = false) {
         $grid_headers = $this->get_app_config_item($xpath, '', false);
 
         $grid_headers = current(xml2array($grid_headers));
@@ -594,73 +594,81 @@ class Rbac {
         switch ($case) {
             case 'string':
                 $header = "";
-                foreach ($grid_headers as $head) {
-                    if (array_key_exists('order', $head) && count($head['order'])>0) {
-                        $headerArr[$head['order']] = $head['column'];
-                    } else {
-                        $headerArr[] = $head['column'];
+                if (is_array($grid_headers)) {
+                    foreach ($grid_headers as $head) {
+                        if (array_key_exists('order', $head) && count($head['order']) > 0) {
+                            $headerArr[$head['order']] = $head['column'];
+                        } else {
+                            $headerArr[] = $head['column'];
+                        }
                     }
+                    if ($headerArr) {
+                        ksort($headerArr);
+                    }
+
+                    $header = implode(',', $headerArr);
+                    $header = rtrim($header, ',');
                 }
-                if ($headerArr) {
-                    ksort($headerArr);
-                }
-                
-                $header = implode(',', $headerArr);
-                $header = rtrim($header, ',');
+
                 break;
             case 'head':
-                $header = array();                
-                foreach ($grid_headers as $head) {
-                    if (array_key_exists('order', $head) && count($head['order'])>0) {
-                        $headerArr[$head['order']] = $head;
-                    } else {
-                        $headerArr[] = $head;
+                $header = array();
+                if (is_array($grid_headers)) {
+                    foreach ($grid_headers as $head) {
+                        if (array_key_exists('order', $head) && count($head['order']) > 0) {
+                            $headerArr[$head['order']] = $head;
+                        } else {
+                            $headerArr[] = $head;
+                        }
+                    }
+                    if ($headerArr) {
+                        ksort($headerArr);
+                    }
+
+                    foreach ($headerArr as $head) {
+                        $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
+                        $header[$head['column']] = $label;
                     }
                 }
-                if ($headerArr) {
-                    ksort($headerArr);
-                }       
-                
-                foreach ($headerArr as $head) {                    
-                    $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
-                    $header[$head['column']] = $label;
-                }
-                
+
+
                 break;
             default:
-                $header = array();                
-                foreach ($grid_headers as $head) {
-                    if (array_key_exists('order', $head) && count($head['order'])>0) {                        
-                        $headerArr[$head['order']] = $head;
-                        
-                    } else {
-                        $headerArr[] = $head;
+                $header = array();
+                if (is_array($grid_headers)) {
+                    foreach ($grid_headers as $head) {
+                        if (array_key_exists('order', $head) && count($head['order']) > 0) {
+                            $headerArr[$head['order']] = $head;
+                        } else {
+                            $headerArr[] = $head;
+                        }
                     }
-                }
-                if ($headerArr) {
-                    ksort($headerArr);
-                }
-                           
-                foreach ($headerArr as $head) {
-                    $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
-                    $header[] = array(
-                        'db_column' => $head['column'],
-                        'name' => $label,
-                        'title' => $label,
-                        'class_name' => $head['column'],
-                        'orderable' => 'true',
-                        'visible' => 'true',
-                        'searchable' => 'true'
-                    );
+                    if ($headerArr) {
+                        ksort($headerArr);
+                    }
+
+                    foreach ($headerArr as $head) {
+                        $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
+                        $header[] = array(
+                            'db_column' => $head['column'],
+                            'name' => $label,
+                            'title' => $label,
+                            'class_name' => $head['column'],
+                            'orderable' => 'true',
+                            'visible' => 'true',
+                            'searchable' => 'true'
+                        );
+                    }
                 }
 
                 break;
         }
-       
+
         return $header;
     }
-    public function get_seller_id(){
-        if(array_key_exists('seller-session', $this->_session)){
+
+    public function get_seller_id() {
+        if (array_key_exists('seller-session', $this->_session)) {
             return $this->_session['seller-session'];
         }
         return 0;
