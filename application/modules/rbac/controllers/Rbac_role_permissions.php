@@ -62,45 +62,41 @@ class Rbac_role_permissions extends MX_Controller {
             }
 
             $conditions = array('t1.status' => 'active');
-            $existing_role_permissions = $this->rbac_role_permission->get_rbac_role_permission(null, $conditions);
-
+            $existing_role_permissions = $this->rbac_role_permission->get_rbac_role_permission(null, $conditions);            
             $action_options = $action_codes = $existing_perms = array();
             $data = array(
                 'role_options' => $role_options,
                 'permission_master_all' => $permission_masters_all,
                 'existing_role_permissions' => $existing_role_permissions
             );
-            //pma($data);
+            
             if ($this->input->post()) {
                 $permissions = $this->input->post();
-                $perms = array();
-
-                foreach ($permissions['permission'] as $perm) {
-                    if (isset($perm['role_id'])) {
-                        if (isset($perm['permission_id'])) {
-                            foreach ($perm['permission_id'] as $perm_id) {
-                                $perms[] = array(
-                                    'role_id' => $perm['role_id'],
-                                    'permission_id' => $perm_id
-                                );
-                            }
-                        } else {
-                            //set blank array to delete all the permissions
+                if(array_key_exists('permission',$permissions)){                    
+                    $perms = array();    
+                    foreach ($permissions['permission'] as $role_id => $perm) {    
+                        foreach ($perm as $perm_id) {
                             $perms[] = array(
-                                'role_id' => $perm['role_id'],
-                                'permission_id' => 0
+                                'role_id' => $role_id,
+                                'permission_id' => $perm_id
                             );
                         }
                     }
-                }
-               // pma($data,1);
-                
-                if ($this->rbac_role_permission->save_role_permissions($perms)) {
-                    $this->session->set_flashdata('success', 'Record successfully saved!');
-                    redirect(base_url('rbac-role-permissions'));
-                } else {
-                    $this->session->set_flashdata('error', 'Unable to store the data, please conatact site admin!');
-                }
+                  
+                    if ($this->rbac_role_permission->save_role_permissions($perms)) {
+                        $this->session->set_flashdata('success', 'Record successfully saved!');
+                        redirect(base_url('rbac-role-permissions'));
+                    } else {
+                        $this->session->set_flashdata('error', 'Unable to store the data, please conatact site admin!');
+                    }
+                }else{
+                    if(isset($permissions['permission_role_id'])){
+                        //delete all the role permissions
+                        $this->rbac_role_permission->delete_all_role_perms($permissions['permission_role_id']);
+                    }else {
+                        $this->session->set_flashdata('error', 'Unable to store the data, please conatact site admin!');
+                    }                    
+                }               
             }
             $this->layout->data = $data;
             $this->layout->render();
