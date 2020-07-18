@@ -45,11 +45,11 @@ class Seller_gst_reports extends CI_Controller {
             );
 
             $data['data']['dates'] = $this->report->get_min_max_date();
-            $data['data']['seller_list']=  $this->report->get_seller_option_list();
+            $data['data']['seller_list'] = $this->report->get_seller_option_list();
             if ($this->rbac->is_admin() || $this->rbac->is_developer() || $this->rbac->has_role('ADMIN_STAFF')) {
                 //No action required
             } else {
-                $data['view']='seller_gst_reports/seller_gst_report';
+                $data['view'] = 'seller_gst_reports/seller_gst_report';
             }
             $this->layout->render($data);
         } else {
@@ -66,7 +66,7 @@ class Seller_gst_reports extends CI_Controller {
     public function seller_gst_grid_data() {
         if ($this->input->is_ajax_request()) {
             //return tables columns as string
-            $columns = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'string');            
+            $columns = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'string');
             $condition = $this->input->post();
             $returned_list = $this->report->get_seller_gst_report_datatable(strtolower($columns), $condition);
             echo $returned_list;
@@ -132,6 +132,12 @@ class Seller_gst_reports extends CI_Controller {
                     'buttom_length_change' => true,
                     'buttom_pagination' => true
                 ),
+                'order' => array(
+                    array(
+                        'column' => 'DATE(date_of_order)',
+                        'order' => 'asc'
+                    )
+                )
             );
 
             $condition = $this->input->post();
@@ -167,9 +173,12 @@ class Seller_gst_reports extends CI_Controller {
                     'custom_search' => $this->_prepare_condition($postData)
                 );
                 $tableHeading = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'head');
-                $columns = $this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'string');
+                $columns = strtolower($this->rbac->grid_xpath_headers('reports/seller_gst_report/' . strtolower($this->_highestRoleCode), 'string'));
 
-                $data = $this->report->get_seller_gst_report_datatable(strtolower($columns), $condition, true, $tableHeading);
+                //add single code on the value so that it will display properly in excel
+                $columns = str_replace(array('order_id', 'tracking_no'), array('concat("\'",order_id) as order_id', 'concat("\'",tracking_no) as tracking_no'), $columns);
+
+                $data = $this->report->get_seller_gst_report_datatable($columns, $condition, true, $tableHeading);
 
                 $head_cols = $body_col_map = array();
                 $date = array(

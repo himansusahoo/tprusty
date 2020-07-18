@@ -17,11 +17,19 @@ class Report extends CI_Model {
      */
     public function get_seller_gst_report_datatable($columns = '*', $condition = null, $export = null, $tableHeading = null) {
         $this->load->library('datatables');
+        //pma($condition);
         $login_user_id = $this->rbac->get_user_id();
 
-        $this->datatables->select('distinct SQL_CALC_FOUND_ROWS ' . $columns, false, false)
-                ->from('order_info_vw_materialized iv');
-        //pma($condition);
+        $this->datatables->select('SQL_CALC_FOUND_ROWS ' . $columns, false, false)
+                ->from('order_info_vw_materialized iv');       
+        
+        if ($this->rbac->is_admin() || $this->rbac->is_developer() || $this->rbac->has_role('ADMIN_STAFF')) {
+            //No action required
+        }elseif($this->rbac->has_role('SELLER')){                
+            $this->datatables->where('seller_id', $this->rbac->get_seller_id());
+        }
+            
+        
         if (is_array($condition) && array_key_exists('custom_search', $condition)) {
 
             $condition = $condition['custom_search'];
@@ -33,12 +41,7 @@ class Report extends CI_Model {
                 }
             }elseif(is_string($condition) && $condition!=''){
                  $this->datatables->where($condition);
-            }
-            if ($this->rbac->is_admin() || $this->rbac->is_developer() || $this->rbac->has_role('ADMIN_STAFF')) {
-                //No action required
-            }elseif($this->rbac->has_role('SELLER')){                
-                $this->datatables->where('seller_id', $this->rbac->get_seller_id());
-            }
+            }            
         }
 
         //$this->datatables->unset_column("user_id");
