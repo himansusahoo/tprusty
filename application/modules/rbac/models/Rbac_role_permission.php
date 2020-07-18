@@ -57,9 +57,9 @@ class Rbac_role_permission extends CI_Model {
         $this->db->order_by('rr.name', 'asc');
         $this->db->order_by('rm.name', 'asc');
         $this->db->order_by('ra.name', 'asc');
+        $this->db->group_by('rr.role_id,rp.permission_id');
         if ($limit > 0) :
             $this->db->limit($limit, $offset);
-
         endif;
         $result = $this->db->get()->result_array();
 
@@ -121,7 +121,9 @@ class Rbac_role_permission extends CI_Model {
      * @author
      */
     public function save_role_permissions($form_data) {
-         //eleminate permission id 0
+
+
+        //eleminate permission id 0
         $valid_form_data = array_filter($form_data, function($form_data_ele) {
             if ($form_data_ele['permission_id']) {
                 return true;
@@ -149,8 +151,8 @@ class Rbac_role_permission extends CI_Model {
                 }
             }
             );
-//            echo 'new perms';
-//            pma($new_perms);
+            //echo 'new perms';
+            //pma($new_perms);
             //find common permissions to update
             $common_perms = array_filter($valid_form_data, function ($array2Element) use ($existing_perms) {
                 foreach ($existing_perms as $array1Element) {
@@ -178,14 +180,6 @@ class Rbac_role_permission extends CI_Model {
 //            pma($del_perms);
             //save new permissions
             $this->_save_role_permissions($new_perms);
-            //update permissions
-            //        foreach ($common_perms as $perm) {
-            //            $data = array(
-            //                'status' => 'active',
-            //                'modified' => date('Y-m-d H:i:s')
-            //            );
-            //            $this->db->update('rbac_role_permissions', $data, array('role_id' => $perm['role_id'], 'permission_id' => $perm['permission_id']));
-            //        }
             //inactive permissions
             foreach ($del_perms as $perm) {
                 $data = array(
@@ -275,6 +269,21 @@ class Rbac_role_permission extends CI_Model {
             $result = tree_on_key_column($result, 'module_code');
         }
         return $result;
+    }
+    /**
+     * @param  : $role_id
+     * @desc   : inactive all the permissions for a role
+     * @return : void
+     * @author : himansuS
+     * @created:18/07/2020
+     */
+
+    public function delete_all_role_perms($role_id) {
+        $data = array(
+            'status' => 'inactive',
+            'modified' => date('Y-m-d H:i:s')
+        );
+        $this->db->update('rbac_role_permissions', $data, array('role_id' => $role_id));
     }
 
 }
