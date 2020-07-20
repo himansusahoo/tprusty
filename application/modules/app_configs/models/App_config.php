@@ -43,6 +43,7 @@ class App_config extends CI_Model {
      * @created:
      */
     public function save_config($data) {
+        
         if ($data):
             $this->db->trans_begin();
             $result = 0;
@@ -60,6 +61,7 @@ class App_config extends CI_Model {
                         'modified' => date('Y-m-d H:i:s'),
                         'modified_by' => $this->rbac->get_user_id()
                     );
+                    //pma($result);
                     //pma($record,1);
                     $this->db->where('config_id', $result->config_id);
                     $this->db->update("app_configs", $record);
