@@ -423,14 +423,15 @@
                                                                         "value" => "$label"
                                                                     );
                                                                     echo form_input($attribute);
-
-                                                                    $attribute = array(
-                                                                        "name" => "app_configs[seller_gst_report][admin][$field][order]",
-                                                                        "class" => "form-control field_order",
-                                                                        "type" => "hidden",
-                                                                        "value" => "$order"
-                                                                    );
-                                                                    echo form_input($attribute);
+                                                                    if((int)$order>0){
+                                                                        $attribute = array(
+                                                                            "name" => "app_configs[seller_gst_report][admin][$field][order]",
+                                                                            "class" => "form-control field_order",
+                                                                            "type" => "hidden",
+                                                                            "value" => "$order"
+                                                                        );
+                                                                        echo form_input($attribute);
+                                                                    }
                                                                 }
 
                                                                 echo "</div>";
@@ -547,13 +548,15 @@
                                                                             "value" => "$label"
                                                                         );
                                                                         echo form_input($attribute);
-                                                                        $attribute = array(
-                                                                            "name" => "app_configs[seller_gst_report][$lrc][$field][order]",
-                                                                            "class" => "form-control field_order",
-                                                                            "type" => "hidden",
-                                                                            "value" => "$order"
-                                                                        );
-                                                                        echo form_input($attribute);
+                                                                        if((int)$order>0){
+                                                                            $attribute = array(
+                                                                                "name" => "app_configs[seller_gst_report][$lrc][$field][order]",
+                                                                                "class" => "form-control field_order",
+                                                                                "type" => "hidden",
+                                                                                "value" => "$order"
+                                                                            );
+                                                                            echo form_input($attribute);
+                                                                        }
                                                                     }
 
                                                                     echo "</div>";
@@ -632,7 +635,9 @@
             + '    </span>'
             + '</div>',
             inputHidden: '<input type="hidden" name="field_name" value="" class="form-control field_label">',
+            inputHiddenClone:'',
             inputHiddenSelect: '<input type="hidden" name="field_name" value="" class="form-control field_order">',
+            inputHiddenSelectClone:'',
             cancel:function()
             {
                 this.label.html(this.labelValue);
@@ -645,7 +650,7 @@
                 }
             },
             save:function(){
-            var newVal = this.label.find('input').val();
+                    var newVal = this.label.find('input').val();
                     var newOrderVal = this.label.find('select').val();
                     var wrapperChkBox = this.label.closest('div.wraper_checkbox');
                     this.linkObj.show();
@@ -655,24 +660,30 @@
                     wrapperChkBox.find('input.field_label').remove();
                     var checkBoxName = this.checkBox.attr('name');
                     var lebelName = checkBoxName;
+                    
                     const regex = /\[column\]/gi;
-                    lebelName = lebelName.replace(regex, '[label]');
-                    this.inputHidden = this.inputHidden.replace(/field_name/gi, lebelName);
-                    wrapperChkBox.append(this.inputHidden);
-                    wrapperChkBox.find('input.field_label').val(newVal);
-                    //set selected order value hidden field
-                    var orderName = checkBoxName;
-                    wrapperChkBox.find('input.field_order').remove();
-                    if (newOrderVal.toString().toLowerCase() != 'order'){
-                    orderName = orderName.replace(regex, '[order]');
-                    this.inputHiddenSelect = this.inputHiddenSelect.replace(/field_name/gi, orderName);
-                    wrapperChkBox.append(this.inputHiddenSelect);
-                    wrapperChkBox.find('input.field_order').val(newOrderVal);
-            }
+                    if(newVal){                        
+                        lebelName = lebelName.replace(regex, '[label]');
+                        this.inputHiddenClone=this.inputHidden;
+                        this.inputHiddenClone = this.inputHiddenClone.replace(/field_name/gi, lebelName);
+                        wrapperChkBox.append(this.inputHiddenClone);
+                        wrapperChkBox.find('input.field_label').val(newVal);                        
+                    }
+                    
+                    if (newOrderVal.toString().toLowerCase() != ''){
+                        //set selected order value hidden field
+                        var orderName = checkBoxName;
+                        wrapperChkBox.find('input.field_order').remove();
+                        orderName = orderName.replace(regex, '[order]');
+                        this.inputHiddenSelectClone=this.inputHiddenSelect;
+                        this.inputHiddenSelectClone = this.inputHiddenSelectClone.replace(/field_name/gi, orderName);
+                        wrapperChkBox.append(this.inputHiddenSelectClone);
+                        wrapperChkBox.find('input.field_order').val(newOrderVal);
+                    }
 
             },
             edit:function(labelEleObj, linkEleObj, checkBoxObj){
-            this.editElementFlag = true;
+                    this.editElementFlag = true;
                     this.label = labelEleObj;
                     this.linkObj = linkEleObj;
                     this.checkBox = checkBoxObj;
@@ -681,21 +692,21 @@
                     //get count options
                     var optionLength = labelEleObj.closest('div.wraper_checkbox').attr('option_count');
                     if (parseInt(optionLength) > 0){
-            this.optionsList = this.get_options(optionLength);
-                    const optLengthRegex = /\[OPTIONS_LIST\]/gi;
-                    this.inputTemplate = this.inputTemplate.replace(optLengthRegex, this.optionsList);
-            }
-            this.label.html(this.inputTemplate);
+                        this.optionsList = this.get_options(optionLength);
+                        const optLengthRegex = /\[OPTIONS_LIST\]/gi;
+                        this.inputTemplate = this.inputTemplate.replace(optLengthRegex, this.optionsList);
+                    }
+                    this.label.html(this.inputTemplate);
                     this.label.find('input').val(this.labelValue);
                     this.label.find('input').attr('title', this.labelValue);
                     //set order selected
                     var selectedHiddenVal = this.label.closest('div.wraper_checkbox').find('input:hidden.field_order').val();
-                    console.log('selectedHiddenVal', selectedHiddenVal);
+                    
                     if (selectedHiddenVal){
-            this.label.find('select').val(selectedHiddenVal);
-            }
+                        this.label.find('select').val(selectedHiddenVal);
+                    }
 
-            this.linkObj.hide();
+                this.linkObj.hide();
             },
             get_options:function(count){
             var optionList = '';
@@ -710,6 +721,7 @@
             $('.close_edit_lebel').trigger('click');
             var label = $(this).closest('div.wraper_checkbox').find('.check_box_lebel');
             var chkbox = $(this).closest('div.wraper_checkbox').find('input:checkbox');            
+            
             InlineEdit.edit(label, $(this), chkbox);
         });
         $(document).on('click', '.close_edit_lebel', function () {
