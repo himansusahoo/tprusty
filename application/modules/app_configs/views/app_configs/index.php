@@ -294,7 +294,7 @@
                                                                 echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                             <div class='pull-left'>" . form_checkbox($attribute) . "
                                                                 <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
-                                                                <span class='order-label label label-danger' style='border-radius: 10px;'>".$order."</span>
+                                                                <span class='order-label label label-danger' prev='".$order."' style='border-radius: 10px;'>".$order."</span>
                                                             </div>
                                                             <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel' ></span></a></div>";
                                                                 if ($checkedFlag) {
@@ -414,7 +414,7 @@
                                                                 echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                             <div class='pull-left'>" . form_checkbox($attribute) . "
                                                                 <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
-                                                                <span class='order-label label label-danger' style='border-radius: 10px;'>".$order."</span>
+                                                                <span class='order-label label label-danger' prev='".$order."' style='border-radius: 10px;'>".$order."</span>
                                                             </div>
                                                             <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel'></span></a></div>";
                                                                 if ($checkedFlag) {
@@ -540,7 +540,7 @@
                                                                     echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                                 <div class='pull-left'>" . form_checkbox($attribute) . "
                                                                     <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
-                                                                    <span class='order-label label label-danger' style='border-radius: 10px;'>".$order."</span>
+                                                                    <span class='order-label label label-danger' prev='".$order."' style='border-radius: 10px;'>".$order."</span>
                                                                 </div>
                                                                 <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel'></span></a></div>";
                                                                     if ($checkedFlag) {
@@ -651,6 +651,10 @@
                 } else{
                     this.checkBox.attr("checked", false);
                 }
+                
+                var orderSapn=this.label.closest('div.wraper_checkbox').find('span.order-label');
+                var orderSpanPrev=orderSapn.attr('prev');                
+                orderSapn.html(orderSpanPrev)
             },
             save:function(){
                     var newVal = this.label.find('input').val();
@@ -683,6 +687,9 @@
                         wrapperChkBox.append(this.inputHiddenSelectClone);
                         wrapperChkBox.find('input.field_order').val(newOrderVal);
                     }
+                    //set selected order as prev attribute
+                    var orderSapn=wrapperChkBox.find('span.order-label');                    
+                    orderSapn.attr('prev',newOrderVal);
 
             },
             edit:function(labelEleObj, linkEleObj, checkBoxObj){
@@ -770,7 +777,7 @@
             var selectedVal=$(this).val();
             var orderSapn=$(this).closest('div.wraper_checkbox').find('span.order-label');
             if(selectedVal!=''){
-                orderSapn.show();
+                orderSapn.show();                
                 orderSapn.html(selectedVal);
             }else{
                 orderSapn.hide();
