@@ -68,7 +68,8 @@ class Datatables {
         $count = 0;
         foreach ($this->explode(',', $columns) as $val) {
             if ($count == 0) {
-                $val = trim($val, 'SQL_CALC_FOUND_ROWS ');
+                //$val = trim($val, 'SQL_CALC_FOUND_ROWS ');
+                $val=str_replace(array('distinct','DISTINCT','SQL_CALC_FOUND_ROWS'), '', $val);
                 $count = 1;
             }
             $column = trim(preg_replace('/(.*)\s+as\s+(\w*)/i', '$2', $val));
@@ -84,7 +85,8 @@ class Datatables {
     public function cquery($query, $external_search = FALSE) {
         $count = 0;
         if ($count == 0) {
-            $val = trim($query, 'SQL_CALC_FOUND_ROWS ');
+            //$val = trim($query, 'SQL_CALC_FOUND_ROWS ');
+            $val=str_replace(array('distinct','DISTINCT','SQL_CALC_FOUND_ROWS'), '', $query);
             $count = 1;
         }
 

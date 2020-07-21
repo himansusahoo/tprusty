@@ -20,7 +20,7 @@ class Report extends CI_Model {
         //pma($condition);
         $login_user_id = $this->rbac->get_user_id();
 
-        $this->datatables->select('SQL_CALC_FOUND_ROWS ' . $columns, false, false)
+        $this->datatables->select('distinct SQL_CALC_FOUND_ROWS ' . $columns, false, false)
                 ->from('order_info_vw_materialized iv');       
         
         if ($this->rbac->is_admin() || $this->rbac->is_developer() || $this->rbac->has_role('ADMIN_STAFF')) {
