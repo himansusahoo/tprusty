@@ -294,8 +294,9 @@
                                                                 echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                             <div class='pull-left'>" . form_checkbox($attribute) . "
                                                                 <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
+                                                                <span class='order-label label label-danger' style='border-radius: 10px;'>".$order."</span>
                                                             </div>
-                                                            <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o edit_lebel' ></span></a></div>";
+                                                            <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel' ></span></a></div>";
                                                                 if ($checkedFlag) {
                                                                     $attribute = array(
                                                                         "name" => "app_configs[seller_gst_report][default][$field][label]",
@@ -380,14 +381,14 @@
                                                     <div class = 'col-sm-11 no_pad check_box_row pull-right'>
                                                         <?php
                                                         $optionCount = count($order_info_view_fields);
-                                                        $chunk_size = $optionCount / 6;
+                                                        $chunk_size = $optionCount / 4;
                                                         $field_chunk = array_chunk($order_info_view_fields, $chunk_size);
                                                         $count_checked = 0;
 
                                                         foreach ($field_chunk as $field_row) {
                                                             echo '<div class="row-fluid">';
                                                             foreach ($field_row as $field) {
-                                                                echo '<div class="col-sm-2 check_parent">';
+                                                                echo '<div class="col-sm-3 check_parent">';
 
                                                                 $attribute = array(
                                                                     "class" => "column_check_box",
@@ -413,8 +414,9 @@
                                                                 echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                             <div class='pull-left'>" . form_checkbox($attribute) . "
                                                                 <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
+                                                                <span class='order-label label label-danger' style='border-radius: 10px;'>".$order."</span>
                                                             </div>
-                                                            <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o edit_lebel' ></span></a></div>";
+                                                            <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel'></span></a></div>";
                                                                 if ($checkedFlag) {
                                                                     $attribute = array(
                                                                         "name" => "app_configs[seller_gst_report][admin][$field][label]",
@@ -507,12 +509,12 @@
                                                             <?php
                                                             $count_checked = 0;
                                                             $optionCount = count($order_info_view_fields);
-                                                            $chunk_size = $optionCount / 6;
+                                                            $chunk_size = $optionCount / 4;
                                                             $field_chunk = array_chunk($order_info_view_fields, $chunk_size);
                                                             foreach ($field_chunk as $field_row) {
                                                                 echo '<div class="row-fluid">';
                                                                 foreach ($field_row as $field) {
-                                                                    echo '<div class="col-sm-2 check_parent">';
+                                                                    echo '<div class="col-sm-3 check_parent">';
 
                                                                     $attribute = array(
                                                                         "class" => "column_check_box",
@@ -538,8 +540,9 @@
                                                                     echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                                 <div class='pull-left'>" . form_checkbox($attribute) . "
                                                                     <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
+                                                                    <span class='order-label label label-danger' style='border-radius: 10px;'>".$order."</span>
                                                                 </div>
-                                                                <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o edit_lebel' ></span></a></div>";
+                                                                <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel'></span></a></div>";
                                                                     if ($checkedFlag) {
                                                                         $attribute = array(
                                                                             "name" => "app_configs[seller_gst_report][$lrc][$field][label]",
@@ -623,7 +626,7 @@
             optionsList: '',
             inputTemplate: '<div class="input-group input-group-sm">'
             + '<input type="text" class="form-control new_lebel_text" style="width:70%">'
-            + '<select placeholder="Order" class="form-control pull-left" style="width:30%; padding:0px; text-align-left;" title="Set Column Order">'
+            + '<select placeholder="Order" class="form-control pull-left order_dropdown" style="width:30%; padding:0px; text-align-left;" title="Set Column Order">'
             + '<option value="">Order</option>'
             + '[OPTIONS_LIST]'
             + '</select>'
@@ -731,8 +734,14 @@
             InlineEdit.save();
         });
         $('.check_all').on('click', function () {
+            var beforeCheckedCount=$(this).closest('div.checkbox_container').find('div.check_box_row').find(':checkbox:checked').length;
             $(this).closest('div.checkbox_container').find('div.check_box_row').find(':checkbox').prop('checked', this.checked);
-            $(this).closest('div.checkbox_container').find('div.check_box_row').find('input:hidden').remove();
+            var checkedCount=$(this).closest('div.checkbox_container').find('div.check_box_row').find(':checkbox:checked').length;            
+            console.log('before',beforeCheckedCount,' after',checkedCount);
+            if(beforeCheckedCount && checkedCount==0){
+                $(this).closest('div.checkbox_container').find('div.check_box_row').find('input:hidden').remove();
+            }
+            
         });
         $('.column_check_box').on('click', function () {
             $(this).closest('div.checkbox_container').find('div.check_box_row').find('input:hidden').remove();
@@ -755,6 +764,16 @@
                     code_priority[index + 1] = $(this).attr('data-position');
                 });
                 $('#role_priority').val(code_priority);
+            }
+        });
+        $(document).on('change','.order_dropdown',function(){
+            var selectedVal=$(this).val();
+            var orderSapn=$(this).closest('div.wraper_checkbox').find('span.order-label');
+            if(selectedVal!=''){
+                orderSapn.show();
+                orderSapn.html(selectedVal);
+            }else{
+                orderSapn.hide();
             }
         });
     }); //end ready
