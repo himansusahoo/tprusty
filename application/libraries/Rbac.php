@@ -648,7 +648,7 @@ class Rbac {
                     }
 
                     foreach ($headerArr as $head) {
-                        if(array_key_exists('column', $header)){
+                        if (array_key_exists('column', $head)) {
                             $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
                             $header[] = array(
                                 'db_column' => $head['column'],
@@ -659,7 +659,7 @@ class Rbac {
                                 'visible' => 'true',
                                 'searchable' => 'true'
                             );
-                        }                        
+                        }
                     }
                 }
 
