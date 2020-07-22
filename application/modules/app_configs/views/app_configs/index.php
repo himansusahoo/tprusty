@@ -293,7 +293,7 @@
 
                                                                 echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                             <div class='pull-left'>" . form_checkbox($attribute) . "
-                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
+                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucwords(str_replace('_', ' ', $label)) . "</span></label>
                                                                 <span class='order-label label label-danger' prev='".$order."' style='border-radius: 10px;'>".$order."</span>
                                                             </div>
                                                             <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel' ></span></a></div>";
@@ -413,7 +413,7 @@
 
                                                                 echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                             <div class='pull-left'>" . form_checkbox($attribute) . "
-                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
+                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucwords(str_replace('_', ' ', $label)) . "</span></label>
                                                                 <span class='order-label label label-danger' prev='".$order."' style='border-radius: 10px;'>".$order."</span>
                                                             </div>
                                                             <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel'></span></a></div>";
@@ -536,10 +536,10 @@
                                                                         }
                                                                         $checkedFlag = true;
                                                                     }
-
+                                                                    
                                                                     echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                                 <div class='pull-left'>" . form_checkbox($attribute) . "
-                                                                    <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucfirst(str_replace('_', ' ', $label)) . "</span></label>
+                                                                    <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucwords(str_replace('_', ' ', $label)) . "</span></label>
                                                                     <span class='order-label label label-danger' prev='".$order."' style='border-radius: 10px;'>".$order."</span>
                                                                 </div>
                                                                 <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel'></span></a></div>";
