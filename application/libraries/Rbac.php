@@ -648,16 +648,18 @@ class Rbac {
                     }
 
                     foreach ($headerArr as $head) {
-                        $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
-                        $header[] = array(
-                            'db_column' => $head['column'],
-                            'name' => $label,
-                            'title' => $label,
-                            'class_name' => $head['column'],
-                            'orderable' => 'true',
-                            'visible' => 'true',
-                            'searchable' => 'true'
-                        );
+                        if(array_key_exists('column', $header)){
+                            $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
+                            $header[] = array(
+                                'db_column' => $head['column'],
+                                'name' => $label,
+                                'title' => $label,
+                                'class_name' => $head['column'],
+                                'orderable' => 'true',
+                                'visible' => 'true',
+                                'searchable' => 'true'
+                            );
+                        }                        
                     }
                 }
 
