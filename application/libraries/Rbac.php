@@ -589,42 +589,37 @@ class Rbac {
         $grid_headers = $this->get_app_config_item($xpath, '', false);
 
         $grid_headers = current(xml2array($grid_headers));
-        $headerArr = array();
+        $headerArr = $headerArr2 = array();
 
         switch ($case) {
             case 'string':
                 $header = "";
+                $indx = 0;
                 if (is_array($grid_headers)) {
                     foreach ($grid_headers as $head) {
                         if (array_key_exists('order', $head) && count($head['order']) > 0) {
                             $headerArr[$head['order']] = $head['column'];
                         } else {
-                            $headerArr[] = $head['column'];
+                            $headerArr2[] = $head['column'];
                         }
                     }
-                    if ($headerArr) {
-                        ksort($headerArr);
-                    }
-
+                    $headerArr = $this->manage_header_arr($headerArr, $headerArr2);
                     $header = implode(',', $headerArr);
                     $header = rtrim($header, ',');
                 }
 
                 break;
             case 'head':
-                $header = array();
+                $header = $headerArr2 = array();
                 if (is_array($grid_headers)) {
                     foreach ($grid_headers as $head) {
                         if (array_key_exists('order', $head) && count($head['order']) > 0) {
                             $headerArr[$head['order']] = $head;
                         } else {
-                            $headerArr[] = $head;
+                            $headerArr2[] = $head;
                         }
                     }
-                    if ($headerArr) {
-                        ksort($headerArr);
-                    }
-
+                    $headerArr = $this->manage_header_arr($headerArr, $headerArr2);
                     foreach ($headerArr as $head) {
                         $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
                         $header[$head['column']] = $label;
@@ -634,19 +629,18 @@ class Rbac {
 
                 break;
             default:
-                $header = array();
+                $header = $headerArr2 = array();
                 if (is_array($grid_headers)) {
                     foreach ($grid_headers as $head) {
                         if (array_key_exists('order', $head) && count($head['order']) > 0) {
                             $headerArr[$head['order']] = $head;
                         } else {
-                            $headerArr[] = $head;
+                            $headerArr2[] = $head;
                         }
                     }
-                    if ($headerArr) {
-                        ksort($headerArr);
-                    }
 
+                    $headerArr = $this->manage_header_arr($headerArr, $headerArr2);
+                    
                     foreach ($headerArr as $head) {
                         if (array_key_exists('column', $head)) {
                             $label = (isset($head['label']) ? ucfirst(str_replace('_', ' ', $head['label'])) : ucfirst(str_replace('_', ' ', $head['column'])));
@@ -667,6 +661,18 @@ class Rbac {
         }
 
         return $header;
+    }
+
+    private function manage_header_arr($header1, $header2) {
+        if (count($header1)) {
+            ksort($header1);
+            foreach ($header2 as $rec) {
+                array_push($header1, $rec);
+            }
+            return $header1;
+        } else {
+            return $header2;
+        }
     }
 
     public function get_seller_id() {
