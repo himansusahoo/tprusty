@@ -663,7 +663,7 @@
                     this.linkObj.show();
                     this.editElementFlag = false;
                     this.label.html(newVal);
-                    this.checkBox.attr("checked", true);
+                    this.checkBox.prop("checked", true);
                     wrapperChkBox.find('input.field_label').remove();
                     var checkBoxName = this.checkBox.attr('name');
                     var lebelName = checkBoxName;
@@ -741,17 +741,20 @@
             InlineEdit.save();
         });
         $('.check_all').on('click', function () {
-            var beforeCheckedCount=$(this).closest('div.checkbox_container').find('div.check_box_row').find(':checkbox:checked').length;
-            $(this).closest('div.checkbox_container').find('div.check_box_row').find(':checkbox').prop('checked', this.checked);
-            var checkedCount=$(this).closest('div.checkbox_container').find('div.check_box_row').find(':checkbox:checked').length;            
+            var checkBoxContainer=$(this).closest('div.checkbox_container');
+            var beforeCheckedCount=checkBoxContainer.find('div.check_box_row').find(':checkbox:checked').length;
+            checkBoxContainer.find('div.check_box_row').find(':checkbox').prop('checked', this.checked);
+            var checkedCount=checkBoxContainer.find('div.check_box_row').find(':checkbox:checked').length;            
             console.log('before',beforeCheckedCount,' after',checkedCount);
+            
             if(beforeCheckedCount && checkedCount==0){
-                $(this).closest('div.checkbox_container').find('div.check_box_row').find('input:hidden').remove();
+                checkBoxContainer.find('div.check_box_row').find('input:hidden').remove();
+                checkBoxContainer.find('span.order-label').hide();
             }
             
         });
         $('.column_check_box').on('click', function () {
-            $(this).closest('div.checkbox_container').find('div.check_box_row').find('input:hidden').remove();
+            $(this).closest('div.wraper_checkbox').find('div.check_box_row').find('input:hidden').remove();
         });
         //lib_card_num_prefix validateion allows only a-z A-Z 0-9
         $('#lib_card_num_prefix').on('keypress', function (event) {

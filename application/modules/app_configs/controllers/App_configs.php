@@ -74,8 +74,7 @@ class App_configs extends CI_Controller {
         $data = array();
 
         if ($this->input->post()):
-            $post_data = $this->input->post();
-            //pma($post_data,1);
+            $post_data = $this->input->post();            
             //add block specific conditions
             if ($post_data['app_configs_category'] == 'RBAC') {
                 if ($post_data['app_configs']['role_priority']) {
@@ -84,7 +83,7 @@ class App_configs extends CI_Controller {
                     $post_data['app_configs']['role_priority'] = explode(',', $role_priority);
                 }
             }
-            //pma($post_data,1);
+            
             $result = $this->app_config->save_config($post_data);
             if ($result):
                 $this->session->set_flashdata('success', 'Record successfully updated!');
