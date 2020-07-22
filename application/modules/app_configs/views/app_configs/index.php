@@ -77,9 +77,9 @@
                                                     if (isset($data['rbac']['role_priority'])) {
                                                         foreach ($data['rbac']['role_priority'] as $key => $role_code) {
                                                             if (!in_array($role_code, $data['new_roles'])) {
-                                                                echo "<li class='ui-state-default' data-position='" . $role_code . "'><a href='#'>" . ucword($role_code) . "</a></li>";
+                                                                echo "<li class='ui-state-default' data-position='" . $role_code . "'><a href='#'>" . ucwords($role_code) . "</a></li>";
                                                             } else {
-                                                                echo "<li class='ui-state-default' data-position='" . $role_code . "'><a href='#'><span class='fa fa-star fa-pulse text-red'></span> " . ucword($role_code) . "</a></li>";
+                                                                echo "<li class='ui-state-default' data-position='" . $role_code . "'><a href='#'><span class='fa fa-star fa-pulse text-red'></span> " . ucwords($role_code) . "</a></li>";
                                                             }
                                                         }
                                                     }
@@ -293,7 +293,7 @@
 
                                                                 echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                             <div class='pull-left'>" . form_checkbox($attribute) . "
-                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucword(str_replace('_', ' ', $label)) . "</span></label>
+                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucwords(str_replace('_', ' ', $label)) . "</span></label>
                                                                 <span class='order-label label label-danger' prev='".$order."' style='border-radius: 10px;'>".$order."</span>
                                                             </div>
                                                             <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel' ></span></a></div>";
@@ -413,7 +413,7 @@
 
                                                                 echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                             <div class='pull-left'>" . form_checkbox($attribute) . "
-                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucword(str_replace('_', ' ', $label)) . "</span></label>
+                                                                <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucwords(str_replace('_', ' ', $label)) . "</span></label>
                                                                 <span class='order-label label label-danger' prev='".$order."' style='border-radius: 10px;'>".$order."</span>
                                                             </div>
                                                             <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel'></span></a></div>";
@@ -480,7 +480,7 @@
                                 ?>
                                 <div class="box box-info collapsed-box">
                                     <div class="box-header with-border" data-widget="collapse">
-                                        <h3 class="box-title"><?= ucword($rc_format) ?></h3>
+                                        <h3 class="box-title"><?= ucwords($rc_format) ?></h3>
 
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -539,7 +539,7 @@
 
                                                                     echo "<div class='checkbox wraper_checkbox' option_count='$optionCount'>
                                                                 <div class='pull-left'>" . form_checkbox($attribute) . "
-                                                                    <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucword(str_replace('_', ' ', $label)) . "</span></label>
+                                                                    <label class='no_lpad'>" . "<span class=check_box_lebel>" . ucwords(str_replace('_', ' ', $label)) . "</span></label>
                                                                     <span class='order-label label label-danger' prev='".$order."' style='border-radius: 10px;'>".$order."</span>
                                                                 </div>
                                                                 <div class='pull-left padL5'><a href='#' title='click to add lebel'><span class='fa fa-pencil-square-o marginT2 edit_lebel'></span></a></div>";
