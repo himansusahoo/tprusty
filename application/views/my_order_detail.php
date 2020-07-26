@@ -152,7 +152,7 @@ You can track this order through  <a href="<?php echo base_url(); ?>orders"> My 
     
 //    print_r($rw_sellername->business_name);}
    echo "<br>"."Seller Name: ". $rw_sellername->business_name; }
-   else { echo "<br>"."Seller Name: moonboy";}
+   else { echo "<br>"."Seller Name: ".COMPANY;}
    ?>
     </div>
     <div class="clearfix"></div>

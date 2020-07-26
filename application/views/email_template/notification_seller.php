@@ -141,7 +141,7 @@
                                     <tr>
                                         <td>
                                             <p> <strong>Thanks & Regards,</strong> <br />
-                                                Moonboy Seller Support </p>
+                                                <?=COMPANY?> Seller Support </p>
                                         </td>
                                     </tr>
 

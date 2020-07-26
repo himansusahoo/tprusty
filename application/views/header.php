@@ -784,7 +784,7 @@
         <!------------------------- Logo Section  Start-------------------------------------->
         <div class="logo">
             <a href="<?php echo base_url(); ?>" title="<?= DOMAIN_NAME ?>">
-                <img src="<?php echo base_url(); ?>images/logo.png" alt="moonboy" width="100%">
+                <img src="<?php echo base_url(); ?>images/logo.png" alt="<?= COMPANY ?>" width="100%">
             </a>
         </div>
         <?php
@@ -1048,7 +1048,7 @@
                                 </tr>
                                 <tr>
                                     <td class="new_exist">
-                                        <span id="newtomoonboy">  <label ><input type="radio" name="radio" id="n_user"> New To Moonboy ??  Sign Up </label></span>
+                                        <span id="newtomoonboy">  <label ><input type="radio" name="radio" id="n_user"> New To <?= COMPANY ?> ??  Sign Up </label></span>
                                         <span id="exixtingusertomoonboy"><label ><input type="radio" name="radio" id="e_user" checked> Existing User ?? Login</label>
                                         </span>
                                     </td>
@@ -1056,7 +1056,7 @@
                             </table>
                         </div>
                         <div id="forgot_dv">
-                            <h4 class="title6 forgt">Moonboy Password Assistance</h4>
+                            <h4 class="title6 forgt"><?= COMPANY ?> Password Assistance</h4>
                             <table class="big-table" >
                                 <tr>
                                     <td>

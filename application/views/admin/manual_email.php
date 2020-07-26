@@ -226,11 +226,11 @@ require_once('header.php');
 
 
 <!--- Zebra_Datepicker link start here ---->
-<!--<script src="<?php // echo base_url();             ?>Zebra_Datepicker-master/examples/public/javascript/jquery-1.11.1.js"></script>-->
-<!--<script src="<?php // echo base_url();             ?>Zebra_Datepicker-master/examples/public/javascript/core1.js"></script>
-<script src="<?php // echo base_url();             ?>Zebra_Datepicker-master/public/javascript/zebra_datepicker.js"></script>
-<link href="<?php // echo base_url();             ?>Zebra_Datepicker-master/public/css/default.css" rel="stylesheet">-->
-<!--<link href="<?php // echo base_url();             ?>Zebra_Datepicker-master/examples/public/css/style.css" rel="stylesheet">-->
+<!--<script src="<?php // echo base_url();               ?>Zebra_Datepicker-master/examples/public/javascript/jquery-1.11.1.js"></script>-->
+<!--<script src="<?php // echo base_url();               ?>Zebra_Datepicker-master/examples/public/javascript/core1.js"></script>
+<script src="<?php // echo base_url();               ?>Zebra_Datepicker-master/public/javascript/zebra_datepicker.js"></script>
+<link href="<?php // echo base_url();               ?>Zebra_Datepicker-master/public/css/default.css" rel="stylesheet">-->
+<!--<link href="<?php // echo base_url();               ?>Zebra_Datepicker-master/examples/public/css/style.css" rel="stylesheet">-->
 <!--- Zebra_Datepicker link end here ---->
 
 

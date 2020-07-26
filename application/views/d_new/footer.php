@@ -12,7 +12,7 @@
                 <div class="clearfix"></div>
             </a> </div>
         <div class="col-sm-3 gray3">
-            <a href="<?php echo base_url(); ?>seller/seller" target="_blank"> <i class="markt_plce"> </i> <div class="help-txt"> <span style="color:#e76b3e;"> SALE WITH US  </span>   Start Selling on Moonboy Market Place.</div> 
+            <a href="<?php echo base_url(); ?>seller/seller" target="_blank"> <i class="markt_plce"> </i> <div class="help-txt"> <span style="color:#e76b3e;"> SALE WITH US  </span>   Start Selling on <?=COMPANY?> Market Place.</div> 
                 <div class="clearfix"></div>
             </a> </div>
 
@@ -47,7 +47,7 @@
         <div class="rght-desc">
             <table class="big-table">
                 <tr>
-                    <td><h5 style="font-weight:bold; color:#333; margin-left:15px;">IT'S SAFE TO BUY ON MOONBOY </h5>
+                    <td><h5 style="font-weight:bold; color:#333; margin-left:15px;">IT'S SAFE TO BUY ON <?=  strtoupper(COMPANY)?> </h5>
                         <div class="secure-pay">  <img src="<?php echo base_url() ?>images/secure-pay.png" alt="secure pay" style="float:left; width:20%; margin-left:10px;" >     
                             <h4 style="padding-top:7px;"> OUR GUARANTEE* </h4>  </div>
                     </td>
@@ -173,7 +173,7 @@
             </div>
             <div class="clearfix">&nbsp;</div>
 
-            <div class="copy-right"> © 2015-2020 Moonboy. All Rights Reserved. | Powered by- <a target="_blank" href="<?=POWERED_BY?>"> SPIS </a> </div>
+            <div class="copy-right"> © 2015-2020 <?=COMPANY?>. All Rights Reserved. | Powered by- <a target="_blank" href="<?=POWERED_BY?>"> SPIS </a> </div>
         </div>
     </div>
 

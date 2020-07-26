@@ -83,7 +83,7 @@ function cancel_order_valid(addtocart_id,order_id)
     
 //    print_r($rw_sellername->business_name);}
    echo "<span class='sphng' style='float:left; padding-right:10px;'> Seller Name: </span> ". $rw_sellername->business_name; }
-   else { echo "<br>"."Seller Name : moonboy";}
+   else { echo "<br>"."Seller Name : ".COMPANY;}
    ?>
    <br>
     <div class="clearfix"></div>

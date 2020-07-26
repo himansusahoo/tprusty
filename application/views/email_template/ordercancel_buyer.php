@@ -118,7 +118,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <p class="status"> Moonboy <strong></strong></p> 
+                                    <p class="status"> <?=COMPANY?> <strong></strong></p> 
                                 </td>
 
 
@@ -142,8 +142,8 @@
                                     </td> 
                                 </tr>
                                 <tr>
-                                    <td height="28">&copy; 2015 Moonboy. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
-                                        You received this email because you're a registered Moonboy user. </td>
+                                    <td height="28">&copy; 2015 <?=COMPANY?>. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
+                                        You received this email because you're a registered <?=COMPANY?> user. </td>
                                 </tr>
                                 <tr>
                                     <td>

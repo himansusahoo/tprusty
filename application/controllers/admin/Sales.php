@@ -58,7 +58,7 @@ class Sales extends CI_Controller {
             $page = ($this->input->get('per_page')) ? $this->input->get('per_page') : 0;
             $order_data['order_list'] = $this->Order_model->select_orders($config["per_page"], $page);
             $order_data['links'] = $this->pagination->create_links();
-            if ($this->session->userdata('logged_in') != 'admin@moonboy.in') {
+            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
                 $this->load->model('admin/User_activity_model');
                 $log_data = "Access Of Orders Page";
                 $this->User_activity_model->insert_user_log($log_data);
@@ -116,7 +116,7 @@ class Sales extends CI_Controller {
             $msg1['res2'] = $this->Product->select_triname();
             $msg1['res3'] = $this->Product->select_country();
 
-            if ($this->session->userdata('logged_in') != 'admin@moonboy.in') {
+            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
                 $this->load->model('admin/User_activity_model');
                 $log_data = "Access Of Tax Page";
                 $this->User_activity_model->insert_user_log($log_data);
@@ -285,7 +285,7 @@ class Sales extends CI_Controller {
 
     function change_order_status() {
         if ($this->session->userdata('logged_in')) {
-            if ($this->session->userdata('logged_in') != 'admin@moonboy.in') {
+            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
                 $this->Order_model->change_oderstatus_log();
             }
             $this->Order_model->change_ordertatus();
@@ -322,7 +322,7 @@ class Sales extends CI_Controller {
     function delete_order() {
         $result = $this->Order_model->delete_order();
         $this->Order_model->mail_delete_order();
-        if ($this->session->userdata('logged_in') != 'admin@moonboy.in') {
+        if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
             $this->Order_model->delete_order_log();
         }
         if ($result == true) {
@@ -416,7 +416,7 @@ class Sales extends CI_Controller {
     function set_order_confirm() {
         if ($this->session->userdata('logged_in')) {
             $this->Order_model->confirm_order_by_admin();
-            if ($this->session->userdata('logged_in') != 'admin@moonboy.in') {
+            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
                 $this->Order_model->confirm_order_by_admin_log();
             }
             redirect('admin/sales');
@@ -428,7 +428,7 @@ class Sales extends CI_Controller {
     function set_hold_order() {
         if ($this->session->userdata('logged_in')) {
             $this->Order_model->hold_order_by_admin();
-            if ($this->session->userdata('logged_in') != 'admin@moonboy.in') {
+            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
                 $this->Order_model->hold_order_by_admin_log();
             }
             redirect('admin/sales');
@@ -492,7 +492,7 @@ class Sales extends CI_Controller {
             $dtm = str_replace(" ", "-", date('Y-m-d H:i:s'));
             $addtocarttemp_session_id = random_string('alnum', 16) . $dtm;
             $this->Order_model->reassign_order_Toseller1($sku_arr_trans, $productid_arr_trans, $addtocarttemp_session_id, $userid_arr_trans, $fixedcharge_arr_trans, $buyerqnt_arr_trans, $old_orderid);
-            if ($this->session->userdata('logged_in') != 'admin@moonboy.in') {
+            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
                 $this->Order_model->reassign_order_Toseller1_log($old_orderid);
             }
 
@@ -525,7 +525,7 @@ class Sales extends CI_Controller {
         if ($this->session->userdata('logged_in')) {
             $old_orderid = $this->uri->segment(4);
             $this->Order_model->transfreed_ordercancel($old_orderid);
-            if ($this->session->userdata('logged_in') != 'admin@moonboy.in') {
+            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
                 $this->Order_model->transfreed_ordercancel_log($old_orderid);
             }
 
@@ -548,7 +548,7 @@ class Sales extends CI_Controller {
         if ($this->session->userdata('logged_in')) {
             $order_id = $this->uri->segment(4);
             $this->Order_model->returned_order_approve($order_id);
-            if ($this->session->userdata('logged_in') != 'admin@moonboy.in') {
+            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
                 $this->Order_model->returned_order_approve_log($order_id);
             }
             $returnorder_data['return_orderlist'] = $this->Order_model->returned_ordercount();

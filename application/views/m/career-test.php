@@ -248,7 +248,7 @@
                                 <div class="clearfix"></div>
                             </a> </div>
                         <div class="col-sm-3 gray3">
-                            <a href="<?= APP_BASE ?>seller/seller" target="_blank"> <i class="markt_plce"> </i> <div class="help-txt"> <span style="color:#e76b3e;"> SALE WITH US  </span>   Start Selling on Moonboy Market Place.</div> 
+                            <a href="<?= APP_BASE ?>seller/seller" target="_blank"> <i class="markt_plce"> </i> <div class="help-txt"> <span style="color:#e76b3e;"> SALE WITH US  </span>   Start Selling on <?=COMPANY?> Market Place.</div> 
                                 <div class="clearfix"></div>
                             </a> </div>
 

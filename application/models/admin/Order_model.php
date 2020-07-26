@@ -41,7 +41,7 @@ class Order_model extends CI_Model {
     }
 
     function generate_invoiceid($order_id) {
-        
+
         $dt = date('Y-m-d H:i:s');
         $invoice_id = random_string('alnum', 5) . '-' . $order_id;
         $query = $this->db->query("update order_info set invoice_id='$invoice_id', invoice_date='$dt' where order_id='$order_id'  ");
@@ -52,7 +52,7 @@ class Order_model extends CI_Model {
     }
 
     function generate_shipmentid($shipment_no, $order_id) {
-        
+
         $shpping_date = date('Y-m-d H:i:s');
         $shipment_id = $this->get_unique_id('shipment_info', 'shipment_id');
 
@@ -77,7 +77,7 @@ class Order_model extends CI_Model {
 
     function change_ordertatus() {
         $ordered_id = implode(',', $this->input->post('orderid'));
-        
+
         $dt = date('Y-m-d H:i:s');
 
         $order_status = $this->input->post('ordered_status');
@@ -106,7 +106,7 @@ class Order_model extends CI_Model {
 
     function approve_order_by_admin() {
         $ordered_id = implode(',', $this->input->post('orderid'));
-        
+
         $dt = date('Y-m-d H:i:s');
         $query1 = $this->db->query("update order_info set order_status='Order confirmed',order_confirm_for_seller='Approved',order_confirm_for_seller_date='$dt' where order_id IN ($ordered_id)  ");
         $query2 = $this->db->query("update ordered_product_from_addtocart set product_order_status='Order confirmed' where order_id IN ($ordered_id)   ");
@@ -129,7 +129,7 @@ class Order_model extends CI_Model {
             //-------------------------Data For message end----------------------------------
 
             $this->email->set_mailtype("html");
-            $this->email->from('seller@moonboy.in', 'moonboy.in');
+            $this->email->from(SELLER_MAIL, DOMAIN_NAME);
             $this->email->to($rw_order->pemail);
             //$this->email->to('santanu@paramountitsolutions.co.in');
             $this->email->subject('New Order Received –' . $ord_val);
@@ -137,7 +137,7 @@ class Order_model extends CI_Model {
             $this->email->send();
 
 
-            
+
             $dt = date('Y-m-d H:i:s');
 
             $msg = $this->load->view('email_template/order_recived_seller', $cart, true);
@@ -145,7 +145,7 @@ class Order_model extends CI_Model {
 
                 $email_data = array(
                     'to_email_id' => $rw_order->pemail,
-                    'from_email_id' => 'seller@moonboy.in',
+                    'from_email_id' => SELLER_MAIL,
                     'date' => $dt,
                     'email_sub' => 'New Order Received –' . $ord_val,
                     'email_content' => $msg,
@@ -154,7 +154,7 @@ class Order_model extends CI_Model {
             } else {
                 $email_data = array(
                     'to_email_id' => $rw_order->pemail,
-                    'from_email_id' => 'seller@moonboy.in',
+                    'from_email_id' => SELLER_MAIL,
                     'date' => $dt,
                     'email_sub' => 'New Order Received –' . $ord_val,
                     'email_content' => $msg,
@@ -166,7 +166,7 @@ class Order_model extends CI_Model {
     }
 
     function update_orderstatus_log($ordered_id, $order_log_status) {
-        
+
         $dt = date('Y-m-d H:i:s');
 
         $qr = $this->db->query("select * from order_status_log WHERE order_id IN ($ordered_id) ");
@@ -190,7 +190,7 @@ class Order_model extends CI_Model {
 
     function disapprove_order_by_admin() {
         $ordered_id = implode(',', $this->input->post('orderid'));
-        
+
         $dt = date('Y-m-d H:i:s');
         $query1 = $this->db->query("update order_info set order_status='Processing',order_confirm_for_seller='Not Approved',order_confirm_for_seller_date='0000-00-00 00:00:00',order_accept_by_seller='Not Accepted' where order_id IN ($ordered_id)   ");
 
@@ -204,7 +204,7 @@ class Order_model extends CI_Model {
         $ordered_id = implode(',', $this->input->post('orderid'));
         $order_status = $this->input->post('ordered_status');
 
-        
+
         $cdate = date('y-m-d H:i:s');
         $uid = $this->session->userdata('logged_userrole_id');
         $uname = $this->session->userdata('logged_in');
@@ -251,7 +251,7 @@ class Order_model extends CI_Model {
 											<table width='600' cellspacing='0' align='center'>
 											<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
 											Call us :  <span style='color:#fff;'> 917874460000  </span><br>
-											Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
+											Email :   <span style='color:#fff;'> ".SELLER_MAIL." </span> 
 											</td>
 											</tr>
 											
@@ -263,7 +263,7 @@ class Order_model extends CI_Model {
 											
 											<td align='center' colspan='3'>
 											
-											 Moonboy
+											 ".COMPANY."
 											 <div style='clear:both;'>  </div>
 											
 											<div style='clear:both;'> </div>
@@ -292,8 +292,8 @@ class Order_model extends CI_Model {
 											
 											<tr>
 											<td style='background-color:#e8442b;  border:2px solid #e8442b; color:#fff; padding:15px; text-align:center;'>
-											 &copy; 2015 Moonboy. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
-											You received this email because you're a registered Moonboy user. 
+											 &copy; 2015 ".COMPANY.". 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
+											You received this email because you're a registered ".COMPANY." user. 
 											</td> </tr> </table>
 											
 											</td> </tr> </table>
@@ -303,7 +303,7 @@ class Order_model extends CI_Model {
 
 
                 $this->email->set_mailtype("html");
-                $this->email->from('noreply@moonboy.in', 'Moonboy.in');
+                $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($email1);
                 $this->email->subject('Ordered Product Cancellled');
                 $this->email->message($message1);
@@ -332,14 +332,14 @@ class Order_model extends CI_Model {
                 $cart['user_id'] = $user_id;
 
                 $this->email->set_mailtype("html");
-                $this->email->from('noreply@moonboy.in', 'Moonboy.in');
+                $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($email1);
-                $this->email->subject('Your moonboy.in Order-' . $rtorder_id . ' Delivered !!!');
+                $this->email->subject('Your '.DOMAIN_NAME.' Order-' . $rtorder_id . ' Delivered !!!');
                 $this->email->message($this->load->view('email_template/order_delivered', $cart, true));
                 $this->email->send();
 
 
-                
+
                 $dt = date('Y-m-d H:i:s');
 
                 $msg = $this->load->view('email_template/order_delivered', $cart, true);
@@ -347,9 +347,9 @@ class Order_model extends CI_Model {
 
                     $email_data = array(
                         'to_email_id' => $email1,
-                        'from_email_id' => 'noreply@moonboy.in',
+                        'from_email_id' => NO_REPLY_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Your moonboy.in Order-' . $rtorder_id . ' Delivered !!!',
+                        'email_sub' => 'Your '.DOMAIN_NAME.' Order-' . $rtorder_id . ' Delivered !!!',
                         'email_content' => $msg,
                         'email_send_status' => 'Success'
                     );
@@ -357,9 +357,9 @@ class Order_model extends CI_Model {
 
                     $email_data = array(
                         'to_email_id' => $email1,
-                        'from_email_id' => 'noreply@moonboy.in',
+                        'from_email_id' => NO_REPLY_MAIL,
                         'date' => $dt,
-                        'email_sub' => 'Your moonboy.in Order-' . $rtorder_id . ' Delivered !!!',
+                        'email_sub' => 'Your '.DOMAIN_NAME.' Order-' . $rtorder_id . ' Delivered !!!',
                         'email_content' => $msg,
                         'email_send_status' => 'Failure'
                     );
@@ -436,7 +436,7 @@ class Order_model extends CI_Model {
     function delete_order_log() {
         $order_id = $this->input->post('orderid');
 
-        
+
         $cdate = date('y-m-d H:i:s');
         $uid = $this->session->userdata('logged_userrole_id');
         $uname = $this->session->userdata('logged_in');
@@ -473,7 +473,7 @@ class Order_model extends CI_Model {
         $data['fname1'] = $fname1;
 
         $this->email->set_mailtype("html");
-        $this->email->from('noreply@moonboy.in', 'Moonboy.in');
+        $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
         $this->email->to($email1);
         $this->email->subject('Ordered Product Cancellled');
         $this->email->message($this->load->view('email_template/ordercancel_admin', $data, true));
@@ -615,7 +615,7 @@ class Order_model extends CI_Model {
     function insert_shipment_info() {
         $shipment_id = $this->get_unique_id('shipment_info', 'shipment_id');
 
-        
+
         $shpping_date = date('Y-m-d H:i:s');
 
         $order_id = $this->input->post('txtbox_order_no');
@@ -681,7 +681,7 @@ GROUP BY b.order_id");
 
     function confirm_order_by_admin() {
         $order_id = $this->input->post('orderid');
-        
+
         $dt = date('Y-m-d H:i:s');
         $query1 = $this->db->query("update order_info set order_status='Order confirmed',order_confirm_for_seller='Approved',order_confirm_for_seller_date='$dt' where order_id='$order_id'   ");
         $query2 = $this->db->query("update ordered_product_from_addtocart set product_order_status='Order confirmed' where order_id='$order_id'   ");
@@ -694,12 +694,12 @@ GROUP BY b.order_id");
         $cart['slr_name'] = $rw_order->business_name;
 
         $this->email->set_mailtype("html");
-        $this->email->from('seller@moonboy.in', 'moonboy.in');
+        $this->email->from(SELLER_MAIL, DOMAIN_NAME);
         $this->email->to($rw_order->pemail);
         $this->email->subject('New Order Received –' . $order_id);
         $this->email->message($this->load->view('email_template/order_recived_seller', $cart, true));
         $this->email->send();
-        
+
         $dt = date('Y-m-d H:i:s');
 
         $msg = $this->load->view('email_template/order_recived_seller', $cart, true);
@@ -707,7 +707,7 @@ GROUP BY b.order_id");
 
             $email_data = array(
                 'to_email_id' => $rw_order->pemail,
-                'from_email_id' => 'seller@moonboy.in',
+                'from_email_id' => SELLER_MAIL,
                 'date' => $dt,
                 'email_sub' => 'New Order Received –' . $order_id,
                 'email_content' => $msg,
@@ -717,7 +717,7 @@ GROUP BY b.order_id");
 
             $email_data = array(
                 'to_email_id' => $rw_order->pemail,
-                'from_email_id' => 'seller@moonboy.in',
+                'from_email_id' => SELLER_MAIL,
                 'date' => $dt,
                 'email_sub' => 'New Order Received –' . $order_id,
                 'email_content' => $msg,
@@ -731,7 +731,7 @@ GROUP BY b.order_id");
 
     function confirm_order_by_admin_log() {
         $order_id = $this->input->post('orderid');
-        
+
         $cdate = date('y-m-d H:i:s');
         $uid = $this->session->userdata('logged_userrole_id');
         $uname = $this->session->userdata('logged_in');
@@ -747,7 +747,7 @@ GROUP BY b.order_id");
 
     function hold_order_by_admin() {
         $order_id = $this->input->post('orderid');
-        
+
         $dt = date('Y-m-d H:i:s');
         $query1 = $this->db->query("update order_info set order_status='Processing',order_confirm_for_seller='Not Approved',order_confirm_for_seller_date='0000-00-00 00:00:00',order_accept_by_seller='Not Accepted' where order_id='$order_id'   ");
 
@@ -759,7 +759,7 @@ GROUP BY b.order_id");
 
     function hold_order_by_admin_log() {
         $order_id = $this->input->post('orderid');
-        
+
         $cdate = date('y-m-d H:i:s');
         $uid = $this->session->userdata('logged_userrole_id');
         $uname = $this->session->userdata('logged_in');
@@ -820,7 +820,7 @@ GROUP BY b.order_id");
 
                 $row_as_product = $qrs->result();
 
-                
+
 
                 $date1 = date('y-m-d h:i:s');
 
@@ -1008,7 +1008,7 @@ GROUP BY b.order_id");
 
                 $row_as_product = $qrs->result();
 
-                
+
 
                 $date1 = date('y-m-d h:i:s');
 
@@ -1111,7 +1111,7 @@ GROUP BY b.order_id");
 
         $row_order_info1 = $query_order_info1->result();
 
-        
+
         $new_orders_date = date('Y-m-d H:i:s');
 
         foreach ($row_order_info1 as $res_orderinfo1) {
@@ -1235,7 +1235,7 @@ GROUP BY b.order_id");
 
 
     function insert_inn_transaction_details($order_id_arr, $qantity_arr, $sub_total_arr, $sku_arr, $seller_id_arr, $price_arr, $shipping_fees_arr) {
-        
+
         $cdate = date('Y-m-d');
         //program start for getting product sale value//
         $arr_length = count($qantity_arr);
@@ -1336,7 +1336,7 @@ GROUP BY b.order_id");
     }
 
     function commission_calculation($second_leable_cat_id_arr, $sub_total_arr, $seller_id_arr) {
-        
+
         $cdate = date('Y-m-d');
         //program start for commission calculating //
         $arr_length = count($seller_id_arr);
@@ -1532,7 +1532,7 @@ GROUP BY b.order_id");
     }
 
     function reassign_order_Toseller1_log($old_orderid) {
-        
+
         $cdate = date('y-m-d H:i:s');
         $uid = $this->session->userdata('logged_userrole_id');
         $uname = $this->session->userdata('logged_in');
@@ -1725,7 +1725,7 @@ GROUP BY b.order_id");
 
         $price_arr = $price_arr;
 
-        
+
         $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
         $order_id_arr = array();
 
@@ -1896,7 +1896,7 @@ GROUP BY b.order_id");
         $this->db->query("update ordered_product_from_addtocart set product_order_status='Cancelled' where order_id='$old_orderid' ");
 
 
-        
+
         $date = date('Y-m-d H:i:s');
         $return_id = 'RN' . preg_replace("/[^0-9]+/", "", $date);
 
@@ -1908,7 +1908,7 @@ GROUP BY b.order_id");
         $row_return = $qury_return->result();
 
         foreach ($row_return as $res_return) {
-            
+
             $date = date('Y-m-d H:i:s');
             $return_id = 'RN' . preg_replace("/[^0-9]+/", "", $date);
 
@@ -1967,7 +1967,7 @@ GROUP BY b.order_id");
     }
 
     function transfreed_ordercancel_log($old_orderid) {
-        
+
         $cdate = date('y-m-d H:i:s');
         $uid = $this->session->userdata('logged_userrole_id');
         $uname = $this->session->userdata('logged_in');
@@ -2034,7 +2034,7 @@ GROUP BY b.order_id");
 					<table width='600' cellspacing='0' align='center'>
 					<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
 					Call us :  <span style='color:#fff;'> 91-7874460000  </span><br>
-					Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
+					Email :   <span style='color:#fff;'> ".SELLER_MAIL." </span> 
 					</td>
 					</tr>
 					
@@ -2046,7 +2046,7 @@ GROUP BY b.order_id");
 					
 					<td align='center' colspan='3'>
 					
-					 Moonboy
+					 ".COMPANY."
 					 <div style='clear:both;'>  </div>
 					
 					<div style='clear:both;'> </div>
@@ -2060,7 +2060,7 @@ GROUP BY b.order_id");
 					<span style='color:#e25a0c; font-weight:bold;'> Order No.: " . $rtorder_id . "</span> <br /> <br />
 					<span style='color:#e25a0c; font-weight:bold;'> Return Id.: " . $retn_id . "</span> <br /> <br />
 					This Order has approved for return request by buyer with following details.<br />
-					Please email courier detail of returned order with following details to info@moonboy.in .
+					Please email courier detail of returned order with following details to ".INFO_MAIL." .
 					<table border='1' ><tr bgcolor='#CCC'> <th>Product Name </th><th>Quantity </th><th> Refund Amount </th></tr> 
 					<tr> 
 					<td> " . $prd_name . " </td> <td> " . $prd_qnt . " </td> <td>Rs." . $prd_totamnt . "  </td>  </tr>
@@ -2079,8 +2079,8 @@ GROUP BY b.order_id");
 					
 					<tr>
 					<td style='background-color:#e8442b;  border:2px solid #e8442b; color:#fff; padding:15px; text-align:center;'>
-					 &copy; 2015 Moonboy. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
-					You received this email because you're a registered Moonboy user. 
+					 &copy; 2015 ".COMPANY.". 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
+					You received this email because you're a registered ".COMPANY." user. 
 					</td> </tr> </table>
 					
 					</td> </tr> </table>
@@ -2095,14 +2095,14 @@ GROUP BY b.order_id");
 
             $cart['order_id'] = $rtorder_id;
             $this->email->set_mailtype("html");
-            $this->email->from('support@moonboy.in', 'moonboy.in');
+            $this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
             $this->email->to($cus_data->email);
             $this->email->subject('Your Return Request for the Order –' . $rtorder_id . ' has been Accepted !');
             $this->email->message($this->load->view('email_template/return_accepted', $cart, true));
             $this->email->send();
 
 
-            
+
             $dt = date('Y-m-d H:i:s');
 
             $msg = $this->load->view('email_template/return_accepted', $cart, true);
@@ -2110,7 +2110,7 @@ GROUP BY b.order_id");
 
                 $email_data = array(
                     'to_email_id' => $cus_data->email,
-                    'from_email_id' => 'support@moonboy.in',
+                    'from_email_id' => SUPPORT_MAIL,
                     'date' => $dt,
                     'email_sub' => 'Your Return Request for the Order –' . $rtorder_id . ' has been Accepted !',
                     'email_content' => $msg,
@@ -2119,7 +2119,7 @@ GROUP BY b.order_id");
             } else {
                 $email_data = array(
                     'to_email_id' => $cus_data->email,
-                    'from_email_id' => 'support@moonboy.in',
+                    'from_email_id' => SUPPORT_MAIL,
                     'date' => $dt,
                     'email_sub' => 'Your Return Request for the Order –' . $rtorder_id . ' has been Accepted !',
                     'email_content' => $msg,
@@ -2131,12 +2131,12 @@ GROUP BY b.order_id");
 
 
             $this->email->set_mailtype("html");
-            $this->email->from('seller@moonboy.in', 'moonboy.in');
+            $this->email->from(SELLER_MAIL, DOMAIN_NAME);
             $this->email->to($email);
             $this->email->subject('Return Request Of Order');
             $this->email->message($message);
             $this->email->send();
-            
+
             $dt = date('Y-m-d H:i:s');
 
             $msg = $this->email->message($message);
@@ -2144,7 +2144,7 @@ GROUP BY b.order_id");
 
                 $email_data = array(
                     'to_email_id' => $email,
-                    'from_email_id' => 'support@moonboy.in',
+                    'from_email_id' => SUPPORT_MAIL,
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2153,7 +2153,7 @@ GROUP BY b.order_id");
             } else {
                 $email_data = array(
                     'to_email_id' => $email,
-                    'from_email_id' => 'support@moonboy.in',
+                    'from_email_id' => SUPPORT_MAIL,
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2194,13 +2194,13 @@ GROUP BY b.order_id");
             $data['prd_totamnt'] = $prd_totamnt;
 
             $this->email->set_mailtype("html");
-            $this->email->from('info@moonboy.in', 'moonboy.in');
+            $this->email->from(INFO_MAIL, DOMAIN_NAME);
             $this->email->to($email_buyer);
             $this->email->subject('Return Request Of Order');
             $this->email->message($this->load->view('email_template/return_approve', $data, true));
             $this->email->send();
 
-            
+
             $dt = date('Y-m-d H:i:s');
 
             $msg = $this->load->view('email_template/return_approve', $data, true);
@@ -2208,7 +2208,7 @@ GROUP BY b.order_id");
 
                 $email_data = array(
                     'to_email_id' => $email_buyer,
-                    'from_email_id' => 'info@moonboy.in',
+                    'from_email_id' => INFO_MAIL,
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2217,7 +2217,7 @@ GROUP BY b.order_id");
             } else {
                 $email_data = array(
                     'to_email_id' => $email_buyer,
-                    'from_email_id' => 'info@moonboy.in',
+                    'from_email_id' => INFO_MAIL,
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2311,7 +2311,7 @@ GROUP BY b.order_id");
 					<table width='600' cellspacing='0' align='center'>
 					<tr> <td style='text-align:right; color:#e8442b;font-weight:bold; font-size:14px;'> 
 					Call us :  <span style='color:#fff;'> 91-7874460000  </span><br>
-					Email :   <span style='color:#fff;'> seller@moonboy.in </span> 
+					Email :   <span style='color:#fff;'> ".SELLER_MAIL." </span> 
 					</td>
 					</tr>
 					
@@ -2323,7 +2323,7 @@ GROUP BY b.order_id");
 					
 					<td align='center' colspan='3'>
 					
-					 Moonboy
+					 ".COMPANY."
 					 <div style='clear:both;'>  </div>
 					
 					<div style='clear:both;'> </div>
@@ -2355,8 +2355,8 @@ GROUP BY b.order_id");
 					
 					<tr>
 					<td style='background-color:#e8442b;  border:2px solid #e8442b; color:#fff; padding:15px; text-align:center;'>
-					 &copy; 2015 Moonboy. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
-					You received this email because you're a registered Moonboy user. 
+					 &copy; 2015 ".COMPANY.". 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
+					You received this email because you're a registered ".COMPANY." user. 
 					</td> </tr> </table>
 					
 					</td> </tr> </table>
@@ -2366,13 +2366,13 @@ GROUP BY b.order_id");
 
 
             $this->email->set_mailtype("html");
-            $this->email->from('seller@moonboy.in', 'moonboy.in');
+            $this->email->from(SELLER_MAIL, DOMAIN_NAME);
             $this->email->to($email);
             $this->email->subject('Return Request Of Order');
             $this->email->message($message);
             $this->email->send();
 
-            
+
             $dt = date('Y-m-d H:i:s');
 
             $msg = $this->email->message($message);
@@ -2380,7 +2380,7 @@ GROUP BY b.order_id");
 
                 $email_data = array(
                     'to_email_id' => $email,
-                    'from_email_id' => 'seller@moonboy.in',
+                    'from_email_id' => SELLER_MAIL,
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2389,7 +2389,7 @@ GROUP BY b.order_id");
             } else {
                 $email_data = array(
                     'to_email_id' => $email,
-                    'from_email_id' => 'seller@moonboy.in',
+                    'from_email_id' => SELLER_MAIL,
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2430,13 +2430,13 @@ GROUP BY b.order_id");
             $data['prd_totamnt'] = $prd_totamnt;
 
             $this->email->set_mailtype("html");
-            $this->email->from('info@moonboy.in', 'moonboy.in');
+            $this->email->from(INFO_MAIL, DOMAIN_NAME);
             $this->email->to($email_buyer);
             $this->email->subject('Return Request Of Order');
             $this->email->message($this->load->view('email_template/return_denied', $data, true));
             $this->email->send();
 
-            
+
             $dt = date('Y-m-d H:i:s');
 
             $msg = $this->load->view('email_template/return_denied', $data, true);
@@ -2444,7 +2444,7 @@ GROUP BY b.order_id");
 
                 $email_data = array(
                     'to_email_id' => $email_buyer,
-                    'from_email_id' => 'info@moonboy.in',
+                    'from_email_id' => INFO_MAIL,
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2453,7 +2453,7 @@ GROUP BY b.order_id");
             } else {
                 $email_data = array(
                     'to_email_id' => $email_buyer,
-                    'from_email_id' => 'info@moonboy.in',
+                    'from_email_id' => INFO_MAIL,
                     'date' => $dt,
                     'email_sub' => 'Return Request Of Order',
                     'email_content' => $msg,
@@ -2466,7 +2466,7 @@ GROUP BY b.order_id");
     }
 
     function returned_order_approve_log($order_id) {
-        
+
         $cdate = date('y-m-d H:i:s');
         $uid = $this->session->userdata('logged_userrole_id');
         $uname = $this->session->userdata('logged_in');
@@ -2555,7 +2555,7 @@ GROUP BY b.order_id");
     }
 
     function approve_grace_period($order_id) {
-        
+
         $new_orders_date = date('Y-m-d H:i:s');
         $this->db->query("update order_info set order_confirm_for_seller_date='$new_orders_date', grace_period_approve_status='Approved' where order_id='$order_id' ");
     }

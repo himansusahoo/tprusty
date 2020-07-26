@@ -207,7 +207,7 @@
                             <tr>
                                 <td>
                                     <p> <strong>Thanks & Regards,</strong> <br />
-                                        Moonboy Team </p>
+                                        <?=COMPANY?> Team </p>
                                 </td>
                             </tr>
 

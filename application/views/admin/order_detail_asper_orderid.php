@@ -254,7 +254,7 @@ require_once("header.php");
                                         $rw_sellername = $query_sellername->row();
                                         echo "Seller Name: " . $rw_sellername->business_name;
                                     } else {
-                                        echo "Seller Name: moonboy";
+                                        echo "Seller Name: ".COMPANY;
                                     }
                                     ?> </div>
                                 <div class="clearfix"></div>

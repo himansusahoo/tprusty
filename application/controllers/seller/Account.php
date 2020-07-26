@@ -97,7 +97,7 @@ class Account extends CI_Controller {
         $this->email->message("
 			<html>
 			<head>
-				<title> Moonboy Seller Primary Contact Changing. </title>
+				<title> ".COMPANY." Seller Primary Contact Changing. </title>
 			</head>
 			<body>
 				<div style='width:50%; margin:0px auto; padding:40px;  background-color:#f4f4f4; border:10px solid #ef3038;'>
@@ -118,12 +118,12 @@ class Account extends CI_Controller {
         $msg = $this->email->message("
 			<html>
 			<head>
-				<title> Moonboy Seller Primary Contact Changing. </title>
+				<title> ".COMPANY." Seller Primary Contact Changing. </title>
 			</head>
 			<body>
 				<div style='width:50%; margin:0px auto; padding:40px;  background-color:#f4f4f4; border:10px solid #ef3038;'>
 					<p> Dear " . $name . ", </p>
-					<p> Greetings from Moonboy Seller Marketplace! </p>
+					<p> Greetings from ".COMPANY." Seller Marketplace! </p>
 					<p>As requested your OTP for " . ucfirst(DOMAIN_NAME) . " is:</p>
 					<p>OTP: " . $otp . "</p>
 					<p>To change primary contact details, Please use the above OTP </p><br/>  <br/>

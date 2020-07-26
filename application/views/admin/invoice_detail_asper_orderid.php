@@ -255,7 +255,7 @@ require_once("header.php");
 						
 					//    print_r($rw_sellername->business_name);}
 					   echo "Seller Name: ". $rw_sellername->business_name; }
-					   else { echo "Seller Name: moonboy";}
+					   else { echo "Seller Name: ".COMPANY;}
                                                ?> </div>
                                                <div class="clearfix"></div>
                                       </td>	

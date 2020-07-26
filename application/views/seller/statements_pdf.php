@@ -13,7 +13,7 @@
 
         <table class="address" width="98%">
             <tr> 
-                <td><h3> Moonboy International Pvt Ltd. </h3> </td>
+                <td><h3> <?=COMPANY?> International Pvt Ltd. </h3> </td>
                 <td align="right"> <p>
                         H No - 12/2710, 1st Floor <br />
                         Khajotiya House, Aga No Wad, <br />

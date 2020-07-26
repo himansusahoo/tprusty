@@ -122,9 +122,9 @@
                                         <a href="<?= APP_BASE ?>" style="color:#6cb702; font-weight:bold; text-decoration:underline;" target="_blank">Login To <?= DOMAIN_NAME ?></a>. <br /><br />
                                     </p>
 
-                                    <p class="status"> You can now log in to Moonboy using this ID and the password. <br/> <br/>
+                                    <p class="status"> You can now log in to <?= COMPANY ?> using this ID and the password. <br/> <br/>
                                         <strong>  Thanks & Regards,</strong><br />
-                                        Moonboy Team  </p>
+                                        <?= COMPANY ?> Team  </p>
                                 </td>
                             </tr> <tr> <td height="24"></td>  </tr>
 

@@ -120,7 +120,7 @@
                                     <p> Call us : 917874460000 </p>
                                     <p> Email : <?= SELLER_MAIL ?> </p>
                                     </br></br>
-                                    <p class="status"> Moonboy <strong></strong></p>
+                                    <p class="status"> <?=COMPANY?> <strong></strong></p>
 
                                     <tr>
                                         <td>
@@ -135,8 +135,8 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td height="28">&copy; 2015-2020 Moonboy. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
-                                            You received this email because you're a registered Moonboy user. </td>
+                                        <td height="28">&copy; 2015-2020 <?=COMPANY?>. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
+                                            You received this email because you're a registered <?=COMPANY?> user. </td>
                                     </tr>
                                     <tr>
                                         <td>

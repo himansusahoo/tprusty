@@ -132,7 +132,7 @@ function removeCartProduct(rec_cart){
    <a onclick="gosellerReview(<?= $sellerid1; ?>)" id="goslr" style="cursor:pointer !important;">
    <?php  
 	echo "Seller : "."<span class='blue'>".$rw_sellername->business_name."</span>"; }
-	else { echo "Seller:  moonboy ";}?>
+	else { echo "Seller: ".COMPANY;}?>
                                          
                                          </a>
 										 <div class="clearfix"></div>

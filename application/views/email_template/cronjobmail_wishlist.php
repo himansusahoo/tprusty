@@ -117,7 +117,7 @@
                                     <p class="gretings"> <strong> Call us : 91-7874460000</strong> <br/>
                                         Email : <?= SELLER_MAIL ?><br/></p>
 
-                                    <p class="gretings"> Moonboy </p></br>
+                                    <p class="gretings"> <?=COMPANY?> </p></br>
                                     <p> Dear <?php echo $fname . " " . $lname ?>"  ,
                                         <br/>
                                         Please Complete your check out process from your wishlist(<?= APP_BASE ?>).
@@ -140,8 +140,8 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p> <strong>&copy; 2015 Moonboy. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
-                                                    You received this email because you're a registered Moonboy user. </strong> <br />
+                                            <p> <strong>&copy; 2015 <?=COMPANY?>. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
+                                                    You received this email because you're a registered <?=COMPANY?> user. </strong> <br />
                                             </p>
                                         </td>
                                     </tr>

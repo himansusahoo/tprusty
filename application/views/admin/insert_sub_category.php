@@ -615,7 +615,7 @@ function valid()
 											<option value="iPhone"  >iPhone</option>
 											<option value="modern"  >modern</option>
 										</optgroup>
-										<optgroup label="moonboy">
+										<optgroup label="<?=COMPANY?>">
 											<option value="default" >default</option>
 										</optgroup>
 									</select>

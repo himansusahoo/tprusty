@@ -107,7 +107,7 @@
 //    print_r($rw_sellername->business_name);}
                                         echo "<br>" . "Seller Name: " . $rw_sellername->business_name;
                                     } else {
-                                        echo "<br>" . "Seller Name: moonboy";
+                                        echo "<br>" . "Seller Name: ".COMPANY;
                                     }
                                     ?>
                                 </div>
