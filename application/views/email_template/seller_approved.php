@@ -116,7 +116,7 @@
                                 <td>
                                     <p class="gretings"> <strong> Dear <?php echo @$rw_sellername->business_name; ?> ,</strong> <br/><br/> </p>
 
-                                    <p class="gretings">Greetings from Moonboy Marketplace!<br />  <br/></p>
+                                    <p class="gretings">Greetings from <?=COMPANY?> Marketplace!<br />  <br/></p>
                                     <p> Thank you for showing interest in selling on <?= DOMAIN_NAME ?>  <br />
                                         We have verified your details provided by you and we inform you that ;  <br/><br/></p>
                                     <p class="status"> Your seller status is <strong>'<?php echo $seller_sts ?>'</strong>. </p>
@@ -126,7 +126,7 @@
                             <tr>
                                 <td>
                                     <p> <strong>Thanks & Regards,</strong> <br />
-                                        Moonboy Team </p>
+                                        <?=COMPANY?> Team </p>
 
                                 </td>
                             </tr>

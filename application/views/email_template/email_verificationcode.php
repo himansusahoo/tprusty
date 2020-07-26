@@ -118,9 +118,9 @@
                                     </p>
 
                                     <p class="gretings"> </p></br>
-                                    <p>Greetings from Moonboy Marketplace!
+                                    <p>Greetings from <?=COMPANY?> Marketplace!
                                         <br/>
-                                        Thank you for signing up with us. Being one of India's largest managed marketplace with more than 4.5 crore registered users, Moonboy gives you access to a large buyer base. Thanks to Moonboy's brand recognition and trust you can enjoy instant credibility just by being associated with us.
+                                        Thank you for signing up with us. Being one of India's largest managed marketplace with more than 4.5 crore registered users, <?=COMPANY?> gives you access to a large buyer base. Thanks to <?=COMPANY?>'s brand recognition and trust you can enjoy instant credibility just by being associated with us.
                                     </p>
                                     </br></br>
                                     <p class="status">  <strong></strong></p>
@@ -141,7 +141,7 @@
                                     <tr>
                                         <td>
                                             <p> <strong>Thanks & Regards,</strong> <br />
-                                                Moonboy Team </p>
+                                                <?=COMPANY?> Team </p>
                                         </td>
                                     </tr>
 

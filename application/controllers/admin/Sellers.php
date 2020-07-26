@@ -1177,36 +1177,6 @@ class Sellers extends CI_Controller {
 
                     $this->email->message($this->load->view('email_template/notification_seller', $data, true));
 
-
-
-                    /* $this->email->message("<html>
-
-                      <head>
-
-                      <title> Moonboy </title>
-
-                      </head>
-
-                      <body>
-
-                      <div style='width:50%; margin:0px auto; padding:40px;  background-color:#f4f4f4; border:10px solid #ef3038;'>
-
-                      <p> Notification for you, </p>
-
-                      <p> ".$content." </p>
-
-                      <br/> <br/>
-
-                      Thanks & regards,<br/>Moonboy Seller Support <br/>
-
-                      </div>
-
-                      </body>
-
-                      </html>"); */
-
-
-
                     if ($this->email->send()) {
 
                         $this->seller_notification();

@@ -32,13 +32,13 @@
                             <td>
                                 <p> <strong style="font-size:16px;">Dear Merchant,</strong> <br />
 
-                                    <span style="color:#e25a0c; font-weight:bold;"> Greetings from Moonboy&reg; ! </span> <br /> <br />
+                                    <span style="color:#e25a0c; font-weight:bold;"> Greetings from <?=COMPANY?>&reg; ! </span> <br /> <br />
 
-                                    I would like to take this opportunity to brief you about Moonboy&reg; - India's Lowest Price Online Store. It was conceptualized in the year 2011. We believe in partnering with a regime fast moving technology and ever-changing customer requirements by meeting all your professional requirements and being the first choice when it comes to your business needs.<br /> <br />
+                                    I would like to take this opportunity to brief you about <?=COMPANY?>&reg; - India's Lowest Price Online Store. It was conceptualized in the year 2011. We believe in partnering with a regime fast moving technology and ever-changing customer requirements by meeting all your professional requirements and being the first choice when it comes to your business needs.<br /> <br />
 
                                     At MBI, our ultimate aim is creating true value for your business, through the essential core asset of our product offerings, partners for growth and customer satisfaction. <br /> </p>
 
-                                <h3  style="color:#e25a0c; font-size:18px;"> Why Moonboy&reg;! Marketplace:  </h3> 
+                                <h3  style="color:#e25a0c; font-size:18px;"> Why <?=COMPANY?>&reg;! Marketplace:  </h3> 
 
                                 • As there will be very selective sellers, you will have advantage of high visibility under the special designer segment. <br />  <br />
 
@@ -77,8 +77,8 @@
 
             <tr>
                 <td style="background-color:#e8442b;  border:2px solid #e8442b; color:#fff; padding:15px; text-align:center;">
-                    &copy; 2015 Moonboy. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
-                    You received this email because you're a registered Moonboy user. 
+                    &copy; 2015 <?=COMPANY?>. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
+                    You received this email because you're a registered <?=COMPANY?> user. 
                 </td> </tr> </table>
 
 

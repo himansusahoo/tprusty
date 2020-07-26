@@ -966,7 +966,7 @@ div.panel ul li {
                  <div class="other-seller gray-box">
                 <h5>  Sold by  </h5>
                 <div class="slr-details"> <i class="fa fa-university" aria-hidden="true"></i>
-                 <a href="<?php echo base_url() ;?>sellers/<?= base64_encode($this->encrypt->encode($rew->seller_id));?>"> <?php if($ct!=0){echo " ". $rew->business_name;}else {echo " moonboy";} ?></a> </div>
+                 <a href="<?php echo base_url() ;?>sellers/<?= base64_encode($this->encrypt->encode($rew->seller_id));?>"> <?php if($ct!=0){echo " ". $rew->business_name;}else {echo " ".COMPANY;} ?></a> </div>
                  <!------------------------------------------------------------Product Details Section End------------------------------>
                 <div class="slr-badge">
                 <!----------------------------------Sold By Image Section Start----------------------------------------------->
@@ -975,7 +975,7 @@ div.panel ul li {
 					{
 						$badge_string = $seller_badge[0]->seller_badge_type;
 						$badge_array = explode(',', $badge_string);						
-						if(in_array('Moonboy Fulfilled', $badge_array)){?>
+						if(in_array(COMPANY.' Fulfilled', $badge_array)){?>
                     		<img src="<?php echo base_url()?>images/moon-fulfilled.png"  width="80">
 						<?php } if(in_array('Fast Shipping', $badge_array)){ ?>
 							<img src="<?php echo base_url()?>images/fast-delivery.png"  width="110">								

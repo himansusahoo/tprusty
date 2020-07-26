@@ -508,7 +508,7 @@ Delete address</span>
    <?php
  
    echo "Seller :". "<span class='blue'>". $rw_sellername->business_name."</span>"; }
-   else { echo "Seller : moonboy";}
+   else { echo "Seller : ".COMPANY;}
    ?>
    </a>
     

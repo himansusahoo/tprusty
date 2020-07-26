@@ -119,7 +119,7 @@ require_once("header.php");
 ?>
 									<td>
 										<input type="checkbox" name="seller_type[]" value="Fast Shipping" <?php if(in_array("Fast Shipping", $type)) {echo "checked";}?> >&nbsp;Fast Shipping&nbsp;&nbsp;&nbsp;
-										<input type="checkbox" name="seller_type[]" value="Moonboy Fulfilled" <?php if(in_array("Moonboy Fulfilled", $type)) {echo "checked";}?> >&nbsp;Moonboy Fulfilled&nbsp;&nbsp;&nbsp;
+										<input type="checkbox" name="seller_type[]" value="<?=COMPANY?> Fulfilled" <?php if(in_array(COMPANY." Fulfilled", $type)) {echo "checked";}?> >&nbsp;<?=COMPANY?> Fulfilled&nbsp;&nbsp;&nbsp;
 										<input type="checkbox" name="seller_type[]" value="Star Seller" <?php if(in_array("Star Seller", $type)) {echo "checked";}?> >&nbsp;Star Seller&nbsp;&nbsp;&nbsp;
 									</td>
 								</tr>

@@ -217,8 +217,8 @@ class Seller extends MX_Controller {
 
             $to = $data['email'];
 
-            $from = "support@moonboy.in";
-            $subject = "OTP for Seller in Moonboy.in";
+            $from = SUPPORT_MAIL;
+            $subject = "OTP for Seller in ".DOMAIN_NAME;
 
             $this->email->set_newline("\r\n");
             $this->email->set_mailtype("html");
@@ -340,8 +340,8 @@ class Seller extends MX_Controller {
             $code = random_string('alnum', 7);
             $data['code'] = $code;
             $to = $this->input->post('email');
-            $from = "demosellersupport@moonboy.com";
-            $subject = "[Moonboy Marketplace] - Account Verification";
+            $from = DEMO_SELLER_SUPPORT;
+            $subject = "[".COMPANY." Marketplace] - Account Verification";
 
             $this->email->set_newline("\r\n");
             $this->email->set_mailtype("html");

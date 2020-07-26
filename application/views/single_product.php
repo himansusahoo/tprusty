@@ -917,7 +917,7 @@
                                                     if ($ct != 0) {
                                                         echo " " . $rew->business_name;
                                                     } else {
-                                                        echo " moonboy";
+                                                        echo " ".COMPANY;
                                                     }
                                                     ?></a>
                                             </div>

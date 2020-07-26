@@ -827,7 +827,7 @@ include "header.php";
 <div class="container-fluid">
       <div class="row" style="width:100%; padding:0; margin:auto;">
             <div style="width:100%; margin:auto; text-align:center; color:#000; padding:10px 0;">
-        	<h2 style="float:left; margin-left:15px;">Know Moonboy a little more</h2>
+        	<h2 style="float:left; margin-left:15px;">Know <?=COMPANY?> a little more</h2>
         </div>
       </div>
        <div class="col-lg-12" style="background:#f5f5f5; padding:10px;">

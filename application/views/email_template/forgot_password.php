@@ -118,7 +118,7 @@
                                     <p class="gretings"> <strong>Dear </strong> <br/>
                                         <?php echo $fname ?><br/></p>
 
-                                    <p class="gretings">Greetings from Moonboy Marketplace! </p>
+                                    <p class="gretings">Greetings from <?=COMPANY?> Marketplace! </p>
                                     <p> You are trying to change your Password.   </p>
                                     <p>Email: <?php echo $email; ?></p>
                                     <p>New Password: <?php echo $password; ?></p>
@@ -131,7 +131,7 @@
                                 <tr>
                                     <td>
                                         <p> <strong>Thanks & Regards,</strong> <br />
-                                            Moonboy Team </p>
+                                            <?=COMPANY?> Team </p>
                                     </td>
                                 </tr>
 

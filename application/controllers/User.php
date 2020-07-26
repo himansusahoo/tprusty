@@ -599,16 +599,16 @@ class User extends CI_Controller {
             $this->email->message("
 				<html>
 				<head>
-					<title> Moonboy Customer Support </title>
+					<title> ".COMPANY." Customer Support </title>
 				</head>
 				<body>
 					<div style='width:50%; margin:0px auto; padding:40px;  background-color:#f4f4f4; border:10px solid #ef3038;'>
 						<p> Dear " . $fname . ", </p>
-						<p> Greetings from Moonboy Marketplace! </p>
+						<p> Greetings from ".COMPANY." Marketplace! </p>
 						<p> You are trying to change your Mobile number to " . $mobile . "</p><br/>
 						<p> Mobile : " . $mobile . "</p>
 						<p> OTP : " . $otp . "</p><br/><br/>
-					   Thanks & regards,<br/>Moonboy Team <br/>
+					   Thanks & regards,<br/>".COMPANY." Team <br/>
 					</div>
 				</body>
 			</html>
@@ -653,16 +653,16 @@ class User extends CI_Controller {
                 $this->email->message("
 					<html>
 					<head>
-						<title> Moonboy Customer Support </title>
+						<title> ".COMPANY." Customer Support </title>
 					</head>
 					<body>
 						<div style='width:50%; margin:0px auto; padding:40px;  background-color:#f4f4f4; border:10px solid #ef3038;'>
 							<p> Dear " . $fname . ", </p>
-							<p> Greetings from Moonboy Marketplace! </p>
+							<p> Greetings from ".COMPANY." Marketplace! </p>
 							<p> You are trying to change your Password.</p><br/>
 							<p> Username : " . $email . "</p>
 							<p> Password : " . $npassword . "</p><br/><br/>
-						   Thanks & regards,<br/>Moonboy Team <br/>
+						   Thanks & regards,<br/>".COMPANY." Team <br/>
 						</div>
 					</body>
 				</html>

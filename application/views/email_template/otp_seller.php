@@ -116,7 +116,7 @@
                                 <td>
                                     <p class="gretings"> <strong> Dear <?php echo $name; ?></strong> </p>
 
-                                    <p class="gretings"> Greetings from Moonboy Seller Marketplace!</p></br>
+                                    <p class="gretings"> Greetings from <?=COMPANY?> Seller Marketplace!</p></br>
                                     <p>As requested your OTP for <?= DOMAIN_NAME ?> is:</p>				      
                                     <p class="status">  <strong>OTP: <?php echo $otp; ?></strong></p>
                                     <p>To reset your password, Please use the above OTP </p><br/>
@@ -125,7 +125,7 @@
                             <tr>
                                 <td>
                                     <p> <strong>Thanks & Regards,</strong> <br />
-                                        Moonboy Team </p>
+                                        <?=COMPANY?> Team </p>
                                 </td>
                             </tr>
 

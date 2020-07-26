@@ -516,7 +516,7 @@
         <?php
         echo "Seller :" . "<span class='blue'>" . $rw_sellername->business_name . "</span>";
     } else {
-        echo "Seller : moonboy";
+        echo "Seller : ".COMPANY;
     }
     ?>
                                     </a>

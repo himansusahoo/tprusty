@@ -109,7 +109,7 @@ Payment Status: <?php echo $cart_data[0]->order_status;  ?><br>
     
 //    print_r($rw_sellername->business_name);}
    echo "<br>"."Seller Name: ". $rw_sellername->business_name; }
-   else { echo "<br>"."Seller Name: moonboy";}
+   else { echo "<br>"."Seller Name: ".COMPANY;}
    ?>
     </div>
     <div class="clearfix"></div>

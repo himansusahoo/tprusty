@@ -92,7 +92,7 @@ class Seller_model extends CI_Model {
 
         $selr_data['seller_nm'] = $rw_nm->name;
         $this->email->set_mailtype("html");
-        $this->email->from('support@moonboy.in', 'moonboy.in');
+        $this->email->from(SUPPORT_MAIL, DOMAIN_NAME);
         $this->email->to($rw_nm->email);
         $this->email->subject('Seller Account Registration Received');
         $this->email->message($this->load->view('email_template/seller_registration', $selr_data, true));
@@ -106,7 +106,7 @@ class Seller_model extends CI_Model {
 
             $email_data = array(
                 'to_email_id' => $rw_nm->email,
-                'from_email_id' => 'support@moonboy.in',
+                'from_email_id' => SUPPORT_MAIL,
                 'date' => $dt,
                 'email_sub' => 'Seller Account Registration Received',
                 'email_content' => $msg,
@@ -115,7 +115,7 @@ class Seller_model extends CI_Model {
         } else {
             $email_data = array(
                 'to_email_id' => $rw_nm->email,
-                'from_email_id' => 'support@moonboy.in',
+                'from_email_id' => SUPPORT_MAIL,
                 'date' => $dt,
                 'email_sub' => 'Seller Account Registration Received',
                 'email_content' => $msg,

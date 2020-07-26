@@ -116,7 +116,7 @@
                                         ?>
 
                                         <?php
-                                        if (in_array('Moonboy Fulfilled', $badge_array)) {
+                                        if (in_array(COMPANY.' Fulfilled', $badge_array)) {
                                             ?>
                                             <img src="<?php echo base_url() ?>images/moon-fulfilled.png" >
                                             <?php
@@ -320,7 +320,7 @@
                                         ?>
 
                                         <?php
-                                        if (in_array('Moonboy Fulfilled', $badge_array)) {
+                                        if (in_array(COMPANY.' Fulfilled', $badge_array)) {
                                             ?>
                                             <img src="<?php echo base_url() ?>images/moon-fulfilled.png" >
                                             <?php

@@ -698,7 +698,7 @@ $(document).ready(function(){
                                         <span>  Seller :</span>
 									   <?php 
                                        echo $rw_sellername->business_name; }
-                                       else { echo "Seller:  moonboy ";}
+                                       else { echo "Seller: ".COMPANY;}
                                        ?>
                                        </a>
                                          

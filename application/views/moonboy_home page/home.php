@@ -70,7 +70,7 @@
                         <a href="<?php echo base_url() . 'cases-cover' ?>">
                             <img alt="Ethnic Wear" src="<?php echo base_url(); ?>images/slider/<?php echo $slider_box1[0]->box1_image; ?>"  />   
                         </a>
-                        <!--    <div class="carousel-caption"> Welcome to Moonboy </div>-->
+                        
                     </div>
                     <div class="item"> <?php /* ?> <a href="<?php echo base_url().'product_description/product_addtocart/'.$slider_box1[0]->box1_id.'/'.$slider_box1[1]->category_id ?>"><?php */ ?>
 
@@ -613,7 +613,7 @@
 
             <div>
                 <!--<div class="one-half-right">-->
-                <h4 class="title3"> Know Moonboy a little more  </h4>
+                <h4 class="title3"> Know <?=COMPANY?> a little more  </h4>
 
 
 

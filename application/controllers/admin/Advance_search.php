@@ -72,7 +72,6 @@ class Advance_search extends CI_Controller {
     }
 
     function advancesearch_productinfo() {
-        //header("Location:server-pc/moonboy");
 
         if ($this->session->userdata('logged_in')) {
             $this->load->model('admin/Advance_searchmodel_count');

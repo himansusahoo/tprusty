@@ -654,7 +654,7 @@ function logintobuynow(l,s,p)
 					}
 				   ?>
                 <div class="sold-by" style="margin-top:15px;"> Sold by - 
-                <a href="<?php echo base_url() ;?>sellers/<?= base64_encode($rew->seller_id);?>" id="goslr" style="cursor:pointer !important; color:#6bb700;text-transform: capitalize;" target="_blank"><?php if($ct!=0){echo " ". $rew->business_name;}else {echo " moonboy";} ?></a>
+                <a href="<?php echo base_url() ;?>sellers/<?= base64_encode($rew->seller_id);?>" id="goslr" style="cursor:pointer !important; color:#6bb700;text-transform: capitalize;" target="_blank"><?php if($ct!=0){echo " ". $rew->business_name;}else {echo " ".COMPANY;} ?></a>
 				</div>
 				<?php
 					$qr1 = $this->db->query("SELECT c.dispatch_days FROM seller_account a INNER JOIN state b ON a.seller_state = b.state INNER JOIN dispatched_day_setting c ON b.state_id = c.state_id WHERE a.seller_id ='$rew->seller_id'");

@@ -543,7 +543,7 @@
 
             <div>
                 <!--<div class="one-half-right">-->
-                <h4 class="title3"> Know Moonboy a little more  </h4>
+                <h4 class="title3"> Know <?=COMPANY?> a little more  </h4>
 
 
 

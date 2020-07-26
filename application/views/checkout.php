@@ -5,10 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="apple-mobile-web-app-capable" content = "width = device-width, initial-scale =1.0, user-scalable = no">
-        <meta name="<?php //echo $data->meta_descrp ; ?>" content="">
-        <meta name="<?php //echo $data->meta_keyword ; ?>" content="" />
+        <meta name="<?php //echo $data->meta_descrp ;        ?>" content="">
+        <meta name="<?php //echo $data->meta_keyword ;        ?>" content="" />
 
-        <title><?php //echo $data->title ; ?></title>
+        <title><?php //echo $data->title ;        ?></title>
         <style>
             .main-content {
                 padding: 100px 0px 10px !important;
@@ -31,7 +31,7 @@
 
         <?php
         include "header.php";
-        
+
         if ($this->session->userdata('chkoutemp_session_id') == "") {
             $dtm = str_replace(" ", "-", date('Y-m-d H:i:s'));
             $chkoutemp_session_id = random_string('alnum', 10) . $dtm;
@@ -76,7 +76,7 @@
                         var size_strng = size_arr.replace(' ', '&');
                         //Script end of attribute parametere//
 
-                        //window.location.href='<?php //echo base_url().'my_order/myorder_detail/'  ?>' + ids + '/' + total_price + '/' + seller_id_arr + '/' + tax_arr + '/' + shipping_fees_arr + '/' + sub_total_arr + '/' + qantity_arr + '/' + sku_arr + '/' + address_id +'/' + price_arr + '/' + color_strng + '/' + size_strng;
+                        //window.location.href='<?php //echo base_url().'my_order/myorder_detail/'         ?>' + ids + '/' + total_price + '/' + seller_id_arr + '/' + tax_arr + '/' + shipping_fees_arr + '/' + sub_total_arr + '/' + qantity_arr + '/' + sku_arr + '/' + address_id +'/' + price_arr + '/' + color_strng + '/' + size_strng;
 
                         window.location.href = '<?php echo base_url() . 'my_order/myorder_detail' ?>';
 
@@ -143,7 +143,7 @@
 
 
 
-        // Remove the spaces from the entered and generated code
+            // Remove the spaces from the entered and generated code
             function removeSpaces(string)
             {
                 return string.split(' ').join('');
@@ -319,11 +319,11 @@
 
 
                 //var r=confirm('Currently COD Service not available,Please go for Online Payment');
-        //	if (r == true) {
-        //   show_onlinepayment();
-        //} else if (r == false) {
+                //	if (r == true) {
+                //   show_onlinepayment();
+                //} else if (r == false) {
 
-        //}
+                //}
                 //cheackInventory();return false;
                 /*$('#payment_div').css('display','block');
                  $('#payment_gv_div').css('display','none');
@@ -405,17 +405,23 @@
                                 <span>Ph : <?= $row_addrss->phone; ?></span><br><br>
                                 <span class="filter-form" >
                                     <label class="radio">
-                                        <input type="radio" onclick="setDefaultaddress(<?= $row_addrss->address_id; ?>)" <?php if ($cus_data != "") {
-                        if ($address_id == $row_addrss->address_id) {
-                            echo 'checked';
-                        }
-                    } ?> name="addrs"> <i></i> Default Address </label> 
-        <?php if ($cus_data != "") {
-            if ($address_id != $row_addrss->address_id) { ?>
+                                        <input type="radio" onclick="setDefaultaddress(<?= $row_addrss->address_id; ?>)" <?php
+                                        if ($cus_data != "") {
+                                            if ($address_id == $row_addrss->address_id) {
+                                                echo 'checked';
+                                            }
+                                        }
+                                        ?> name="addrs"> <i></i> Default Address </label> 
+                                        <?php
+                                        if ($cus_data != "") {
+                                            if ($address_id != $row_addrss->address_id) {
+                                                ?>
                                             <span  onclick="deleteAddress(<?php echo $row_addrss->address_id; ?>,<?= $sl; ?>)" class="del<?= $sl; ?> del gray-sml-btn"> <i class="fa fa-trash-o"></i>
                                                 Delete address</span>
-            <?php }
-        } ?>
+                                            <?php
+                                        }
+                                    }
+                                    ?>
                                 </span>
                             </div>    
 
@@ -439,7 +445,7 @@
                                                             //populateCountries("country", "state");
                                                             populateCountries("country<?//=$sl; ?>");
                                                         </script>-->
-        <?= $row_addrss->country; ?>
+                                                        <?= $row_addrss->country; ?>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -447,11 +453,13 @@
                                                     <td>
                                                         <select name ="state" id ="state<?= $sl; ?>" class="input-text">
                                                             <option value="">---select---</option>
-        <?php foreach ($state_result as $state) { ?>
-                                                                <option value="<?= $state->state_id; ?>" <?php if ($state->state_id == $row_addrss->state_id) {
-                echo 'selected';
-            } ?>><?= $state->state; ?></option>
-        <?php } ?>
+                                                            <?php foreach ($state_result as $state) { ?>
+                                                                <option value="<?= $state->state_id; ?>" <?php
+                                                                if ($state->state_id == $row_addrss->state_id) {
+                                                                    echo 'selected';
+                                                                }
+                                                                ?>><?= $state->state; ?></option>
+                                                                    <?php } ?>
                                                         </select>
                                                     </td>
                                                 </tr>
@@ -494,10 +502,10 @@
 
 
 
-        <?php
-    } //End of foreach loop
-} //End of if ccondition
-?>
+                            <?php
+                        } //End of foreach loop
+                    } //End of if ccondition
+                    ?>
                 </div>
                 <div class="clearfix"></div>
 
@@ -636,52 +644,52 @@
                                                 //echo  $count_row. '<br>';
 //    print_r($rw_sellername->business_name);}
                                                 ?>
-            <?php /* ?> <a onClick="gosellerReview(<?= $rw_sellername->seller_id; ?>)" id="goslr" style="cursor:pointer !important;"><?php */ ?>
+                                                <?php /* ?> <a onClick="gosellerReview(<?= $rw_sellername->seller_id; ?>)" id="goslr" style="cursor:pointer !important;"><?php */ ?>
                                                 <a href="<?php echo base_url(); ?>sellers/<?= base64_encode($this->encrypt->encode($rw_sellername->seller_id)); ?>" id="goslr" style="cursor:pointer !important;">
-                                        <?php
-                                        echo "Seller :" . "<span class='blue'>" . $rw_sellername->business_name . "</span>";
-                                    } else {
-                                        echo "Seller : moonboy";
-                                    }
-                                    ?>
+                                                    <?php
+                                                    echo "Seller :" . "<span class='blue'>" . $rw_sellername->business_name . "</span>";
+                                                } else {
+                                                    echo "Seller : " . COMPANY;
+                                                }
+                                                ?>
                                             </a>
 
-        <!--  <div class="fulfill"> <img src="<?//php echo base_url()?>images/moon-fulfilled.png"  alt="">  </div>-->
+                                                                <!--  <div class="fulfill"> <img src="<?//php echo base_url()?>images/moon-fulfilled.png"  alt="">  </div>-->
 
                                         </div>
                                         <div class="clearfix"> &nbsp;</div>
 
                                         <span class="item-no"> <i class="fa fa-check-square-o"></i> 100% Refund / Replacement Guarantee*  </span>
-                                    <!--<a href="<?php // echo base_url().'mycart/remove_from_cart/'.$rec_cart->addtocart_id ?>" class="orange right"> <i class="fa fa-times-circle">  </i> Remove </a>-->
+                                    <!--<a href="<?php // echo base_url().'mycart/remove_from_cart/'.$rec_cart->addtocart_id        ?>" class="orange right"> <i class="fa fa-times-circle">  </i> Remove </a>-->
 
                                         <span style="cursor:pointer;" onClick="removeFromCart('<?= $rec_cart->addtocart_id ?>')" class="orange right"> <i class="fa fa-times-circle">  </i> Remove </span> 
 
                                         <div class="clearfix"></div>
                                     </td>
                                   <!--  <td>
-                                        <?php /* $qr2=$this->db->query("select description from product_general_info where product_id='$rec_cart->product_id'");
-                                          $rw2=$qr2->row();
-                                          echo  $rw2->description;
-                                         */
-                                        ?>
+                                    <?php /* $qr2=$this->db->query("select description from product_general_info where product_id='$rec_cart->product_id'");
+                                      $rw2=$qr2->row();
+                                      echo  $rw2->description;
+                                     */
+                                    ?>
                                     
                                     </td> -->
                                     <td align="center"> <?php
-                                            $user_id = $this->session->userdata['session_data']['user_id'];
-                                            $qr2 = $this->db->query("select * from addtocart_temp where product_id='$rec_cart->product_id' and user_id='$user_id' and sku='$rec_cart->sku' ");
-                                            $rec_ct = $qr2->num_rows();
-                                            echo $rec_ct;
+                                        $user_id = $this->session->userdata['session_data']['user_id'];
+                                        $qr2 = $this->db->query("select * from addtocart_temp where product_id='$rec_cart->product_id' and user_id='$user_id' and sku='$rec_cart->sku' ");
+                                        $rec_ct = $qr2->num_rows();
+                                        echo $rec_ct;
 
-                                            // $prod_weight=$prod_weight*$rec_ct;
+                                        // $prod_weight=$prod_weight*$rec_ct;
 
-                                            if ($rec_ct > 1) {
-                                                for ($codi = 2; $codi <= $rec_ct; $codi++) {
-                                                    array_push($prod_weight, $constprodweight);
-                                                }
+                                        if ($rec_ct > 1) {
+                                            for ($codi = 2; $codi <= $rec_ct; $codi++) {
+                                                array_push($prod_weight, $constprodweight);
                                             }
+                                        }
 
-                                            array_push($qantity_arr, $rec_ct);
-                                            ?>
+                                        array_push($qantity_arr, $rec_ct);
+                                        ?>
                                     </td>
                                     <td  align="center">  
                                         <h4> Rs. <?php
@@ -777,7 +785,7 @@
                                             if ($ct11 > 0) {
                                                 $days = $res11->dispatch_days + 5;
 
-                                                
+
                                                 $dt = date('d M', strtotime(+$days . 'days'));
                                                 echo "STANDARD DELIVERY BY " . $dt;
                                             } else {
@@ -792,41 +800,41 @@
                                     <td align="center">
                                         <span class="price-blue"> 
                                             Rs. &nbsp; 
-        <?php
-        $subtotal_price = 0;
+                                            <?php
+                                            $subtotal_price = 0;
 
-        echo $subtotal_price = $subtotal_price + $rec4[0]->shipping_fee_amount * $rec_ct + ceil($price);
-        array_push($sub_total_arr, $subtotal_price);
-        ?>
+                                            echo $subtotal_price = $subtotal_price + $rec4[0]->shipping_fee_amount * $rec_ct + ceil($price);
+                                            array_push($sub_total_arr, $subtotal_price);
+                                            ?>
                                         </span>
                                     </td>
 
-         <!--<td> <div class="checkout-img"> <img src="<?php //echo base_url()  ?>images/1.jpg" width="30"> </div>
-         <div class="chckout-desc"> Elegant Women Vintage Floral Crochet Cocktail <br> Bodycon Dress   Color : Black, Size : Free Size </div>
-         <div class="clearfix"></div>
-         </td>
-         <td> <select> 
-                <option>1 </option>
-                <option>2 </option>
-                <option>3 </option>
-                <option>4 </option>
-                <option>5 </option>
-              </select>
-         </td>
-         <td>  <h4 class="catalog-price"> Rs. 1049.00  </h4>  </td>
-         <td> Standard delivery: FREE  </td>
-         <td> <h4 class="catalog-price"> Rs. 1049.00 </h4></td>
-         <td> <a href="#"> Remove </a>  <br>
-           <a href="#"> Save for later </a> </td>-->
+                                                                 <!--<td> <div class="checkout-img"> <img src="<?php //echo base_url()         ?>images/1.jpg" width="30"> </div>
+                                                                 <div class="chckout-desc"> Elegant Women Vintage Floral Crochet Cocktail <br> Bodycon Dress   Color : Black, Size : Free Size </div>
+                                                                 <div class="clearfix"></div>
+                                                                 </td>
+                                                                 <td> <select> 
+                                                                        <option>1 </option>
+                                                                        <option>2 </option>
+                                                                        <option>3 </option>
+                                                                        <option>4 </option>
+                                                                        <option>5 </option>
+                                                                      </select>
+                                                                 </td>
+                                                                 <td>  <h4 class="catalog-price"> Rs. 1049.00  </h4>  </td>
+                                                                 <td> Standard delivery: FREE  </td>
+                                                                 <td> <h4 class="catalog-price"> Rs. 1049.00 </h4></td>
+                                                                 <td> <a href="#"> Remove </a>  <br>
+                                                                   <a href="#"> Save for later </a> </td>-->
                                 </tr><?php
-        $total_price = ceil($total_price + $subtotal_price);
+                                $total_price = ceil($total_price + $subtotal_price);
 
-        array_push($addtocart_id_arr, $rec_cart->addtocart_id);
-        // echo $rec_cart->sku;
-        array_push($sku_arr, $rec_cart->sku);
-    }
-} //end of quantity check condition
-?>
+                                array_push($addtocart_id_arr, $rec_cart->addtocart_id);
+                                // echo $rec_cart->sku;
+                                array_push($sku_arr, $rec_cart->sku);
+                            }
+                        } //end of quantity check condition
+                        ?>
                         <tr><td colspan='5' align="right">Total Amount : <span  style="font-size:18px; font-weight:bold;"> Rs. <?php echo " " . $total_price; ?> </span> </td></tr>
                     </table>
 
@@ -854,14 +862,14 @@
                  <a href="#" class="btn1 btn-primary1"> <span> Get A Quote </span> </a> 
                  </p>
                   </div>-->
-                    <?php
-                    $rw_ct = $cart_data->num_rows();
-                    if ($rw_ct != 0) {
-                        ?>
+                <?php
+                $rw_ct = $cart_data->num_rows();
+                if ($rw_ct != 0) {
+                    ?>
                     <div  class="col-md-6 cart-btns"> 
                         <!-- <button id="proceed_to_pay" type="button" title="Proceed To Pay" class="btn-big2"  onClick="pay()"> Proceed To Pay </button> -->
 
-    <!--<button id="proceed_to_pay" type="button" title="Proceed To Pay" class="btn-big2"  onClick="pay('<?php // echo json_encode($sku_arr); ?>','<?php // echo json_encode($qantity_arr); ?>')"> Proceed To Pay </button> -->
+                                <!--<button id="proceed_to_pay" type="button" title="Proceed To Pay" class="btn-big2"  onClick="pay('<?php // echo json_encode($sku_arr);        ?>','<?php // echo json_encode($qantity_arr);        ?>')"> Proceed To Pay </button> -->
 
 
                         <button id="proceed_to_pay" type="button" title="Proceed To Pay" class="btn-big2"  onClick="pay()"> Proceed To Pay </button>
@@ -871,9 +879,9 @@
                             <span style="font-size:18px; color:#F00;">You have not complete your personal information & <a class='inline' href="#inline_content_add_address">Address</a> in your account</span>
                         </div>
 
-<?php } else { ?>
+                    <?php } else { ?>
                         <button id="proceed_to_pay" type="button" title="Continue Shopping" class="button btn-cart-big"  onClick="window.location.href = '<?php echo base_url(); ?>'" > <i class="fa fa-angle-double-left"></i> Continue Shopping  </button>
-                                <?php } ?>
+                    <?php } ?>
 
 
 <!--<p> <a href="#"> <h4> <u> Checkout with Multiple Addresses </u> </h4> </a> </p>-->
@@ -891,13 +899,13 @@
                         <h4> Payment Mode </h4>
                         <ul>
                             <li><a id="wallet_link" onClick="pay_by_wallet();
-        " style="cursor:pointer;" > <span class="wallet"> &nbsp;</span> PAY BY WALLET </a></li>
+                                   " style="cursor:pointer;" > <span class="wallet"> &nbsp;</span> PAY BY WALLET </a></li>
                             <li><a  onClick="PayByGV()" style="cursor:pointer;" > <i class="fa fa-gift"></i> Gift Voucher </a></li>
                             <!--<li><a onClick="PayByCoupon()" style="cursor:pointer;" > <i class="fa fa-credit-card-alt"></i> Use Coupon </a></li>-->
                             <li id="onlinr_pymt_link"> <a  onClick="show_onlinepayment();" style="cursor:pointer;"> <i class="fa fa-credit-card"></i> PAY BY ONLINE </a> </li>
                             <li id="online_paytm_link" style="display:none;"> <a  onClick="show_paytmonlinepayment();" style="cursor:pointer;"> <i class="fa fa-credit-card"></i> PAY BY PAYTM </a> </li>
                             <li><a id="cod_link" onClick="pay_by_cod('<?= $cus_data->pin_code ?>');
-        DrawCaptcha();" style="cursor:pointer;" > <i class="fa fa-inr"></i> COD </a></li>
+                                    DrawCaptcha();" style="cursor:pointer;" > <i class="fa fa-inr"></i> COD </a></li>
                         </ul>
                     </div>
 
@@ -915,11 +923,11 @@
                                     </td>
                                     <td width="45%" class="rht_td">
                                         Total Amount:
-                                                <?php
-                                                echo " Rs." . round($total_price);
-                                                echo "<br>";
-                                                echo "----------------------------";
-                                                ?>
+                                        <?php
+                                        echo " Rs." . round($total_price);
+                                        echo "<br>";
+                                        echo "----------------------------";
+                                        ?>
 
                                         <br/><strong>
                                             <span style="font-size:17px;">
@@ -1075,61 +1083,59 @@
 
                             <button id="proceed_to_pay" type="button" title="Add to Cart" class="button btn-cart-big" onClick="ValidCaptcha('<?php echo implode('-', $addtocart_id_arr) ?>',<?php echo $cod_totalprice ?>, '<?php echo implode('-', $seller_id_arr) ?>', '<?php echo implode('-', $tax_arr) ?>', '<?php echo implode('-', $shipping_fees_arr) ?>', '<?php echo implode('-', $sub_total_arr) ?>', '<?php echo implode('-', $qantity_arr) ?>', '<?php echo implode('*', $sku_arr) ?>', '<?php echo $cus_data->address_id ?>', '<?php echo implode('-', $price_arr); ?>', '<?php echo implode('-', $color_arr); ?>', '<?php echo implode('-', $size_arr); ?>')" >Confirm your Order</button>
 
-                                                <?php
-                                                
+                            <?php
+                            $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
 
-                                                $dt = preg_replace("/[^0-9]+/", "", date('Y-m-d H:i:s'));
+                            $ccavenue_order_id = $this->session->userdata['session_data']['user_id'] . implode('', $addtocart_id_arr) . $dt;
 
-                                                $ccavenue_order_id = $this->session->userdata['session_data']['user_id'] . implode('', $addtocart_id_arr) . $dt;
-
-                                                $moonboy_trans_id = random_string('numeric', 2) . $dt;
+                            $moonboy_trans_id = random_string('numeric', 2) . $dt;
 
 
-                                                $this->session->set_userdata('sessccavenue_order_id', $ccavenue_order_id);
+                            $this->session->set_userdata('sessccavenue_order_id', $ccavenue_order_id);
 
-                                                $this->session->set_userdata('sessmoonboy_trans_id', $moonboy_trans_id);
+                            $this->session->set_userdata('sessmoonboy_trans_id', $moonboy_trans_id);
 
-                                                $this->session->set_userdata('sessaddtocart_id_arr', implode('-', $addtocart_id_arr));
+                            $this->session->set_userdata('sessaddtocart_id_arr', implode('-', $addtocart_id_arr));
 
-                                                $this->session->set_userdata('sesscodtotal_price', round($cod_totalprice));
+                            $this->session->set_userdata('sesscodtotal_price', round($cod_totalprice));
 
-                                                $this->session->set_userdata('sesstotal_price', $total_price);
+                            $this->session->set_userdata('sesstotal_price', $total_price);
 
-                                                $this->session->set_userdata('sessseller_id_arr', implode('-', $seller_id_arr));
+                            $this->session->set_userdata('sessseller_id_arr', implode('-', $seller_id_arr));
 
-                                                $this->session->set_userdata('sesstax_arr', implode('-', $tax_arr));
+                            $this->session->set_userdata('sesstax_arr', implode('-', $tax_arr));
 
-                                                $this->session->set_userdata('sessshipping_fees_arr', implode('-', $shipping_fees_arr));
+                            $this->session->set_userdata('sessshipping_fees_arr', implode('-', $shipping_fees_arr));
 
-                                                $this->session->set_userdata('subtotal_arr', implode('-', $sub_total_arr));
+                            $this->session->set_userdata('subtotal_arr', implode('-', $sub_total_arr));
 
-                                                $this->session->set_userdata('price_arr', implode('-', $price_arr));
+                            $this->session->set_userdata('price_arr', implode('-', $price_arr));
 
-                                                $this->session->set_userdata('sessqantity_arr', implode('-', $qantity_arr));
+                            $this->session->set_userdata('sessqantity_arr', implode('-', $qantity_arr));
 
-                                                $this->session->set_userdata('sesssku_arr', implode('*', $sku_arr));
+                            $this->session->set_userdata('sesssku_arr', implode('*', $sku_arr));
 
-                                                $this->session->set_userdata('sesscus_data', $cus_data->address_id);
+                            $this->session->set_userdata('sesscus_data', $cus_data->address_id);
 
-                                                $this->session->set_userdata('color_arr', implode('-', $color_arr));
+                            $this->session->set_userdata('color_arr', implode('-', $color_arr));
 
-                                                $this->session->set_userdata('size_arr', implode('-', $size_arr));
+                            $this->session->set_userdata('size_arr', implode('-', $size_arr));
 
-                                                //---------------------------COD Data store in session start-------------------//
+                            //---------------------------COD Data store in session start-------------------//
 
-                                                $this->session->set_userdata('sesstotal_weightcharge', $total_weightcharge);
+                            $this->session->set_userdata('sesstotal_weightcharge', $total_weightcharge);
 
-                                                $this->session->set_userdata('sesstotal_taxchrgetobuyer', $total_taxchrgetobuyer);
+                            $this->session->set_userdata('sesstotal_taxchrgetobuyer', $total_taxchrgetobuyer);
 
-                                                $this->session->set_userdata('sesstotal_chargetocustomer', $total_chargetocustomer);
+                            $this->session->set_userdata('sesstotal_chargetocustomer', $total_chargetocustomer);
 
-                                                $this->session->set_userdata('sesstotal_chargetomoonboy', $total_chargetomoonboy);
+                            $this->session->set_userdata('sesstotal_chargetomoonboy', $total_chargetomoonboy);
 
-                                                $this->session->set_userdata('sesstotatl_discounttobuyer', $totatl_discounttobuyer);
+                            $this->session->set_userdata('sesstotatl_discounttobuyer', $totatl_discounttobuyer);
 
 
-                                                //---------------------------COD Data store in session end-------------------//
-                                                ?>
+                            //---------------------------COD Data store in session end-------------------//
+                            ?>
 
 
                             <div style="text-align:left; color:#C3F;"><br /> Pay using Credit Card/Debit Card/Netbanking/Other prepaid option to get Faster Delivery and avoid additional 'COD' Charges. </div>
@@ -1154,25 +1160,27 @@
                     <div id="payment_div_wallet">
                         <h4> Pay By M-Wallet </h4>
                         <div class="wallet_div_inn">
-<?php
-$user_id = $this->session->userdata['session_data']['user_id'];
-$query_wallet = $this->db->query("select * from wallet_info where user_id='$user_id'");
+                            <?php
+                            $user_id = $this->session->userdata['session_data']['user_id'];
+                            $query_wallet = $this->db->query("select * from wallet_info where user_id='$user_id'");
 
-$row_wallet = $query_wallet->row();
-@$curr_wallet_balance = $row_wallet->wallet_balance;
-@$wallet_approve_status = $row_wallet->wallet_approve_status;
-?>
+                            $row_wallet = $query_wallet->row();
+                            @$curr_wallet_balance = $row_wallet->wallet_balance;
+                            @$wallet_approve_status = $row_wallet->wallet_approve_status;
+                            ?>
                             <table width="100%">
                                 <tr>
                                     <td width="55%">
-                                        <span class="wlt-amnt"> Total Wallet Balance: <?php if ($query_wallet->num_rows() != 0) {
-    echo "<strong class='tw'>Rs." . $curr_wallet_balance . '</strong>';
-} else {
-    echo "<strong>Rs.0</strong>";
-} ?> </span><hr/>
-                            <?php if ($curr_wallet_balance < $total_price || $query_wallet->num_rows() == 0 || $wallet_approve_status == 'Not Approved') { ?>
+                                        <span class="wlt-amnt"> Total Wallet Balance: <?php
+                                            if ($query_wallet->num_rows() != 0) {
+                                                echo "<strong class='tw'>Rs." . $curr_wallet_balance . '</strong>';
+                                            } else {
+                                                echo "<strong>Rs.0</strong>";
+                                            }
+                                            ?> </span><hr/>
+                                        <?php if ($curr_wallet_balance < $total_price || $query_wallet->num_rows() == 0 || $wallet_approve_status == 'Not Approved') { ?>
                                             <strong style="text-align:center; color:#F00;">Cannot pay by wallet due to insufficient balance.</strong><br>	 
-<?php } else { ?>
+                                        <?php } else { ?>
                                             Enter Amount : <span id="wlt_input_spn"><input type="text" placeholder="Enter Wallet Amount" name="wallet_amt" id="wallet_amt" class="input-text" style="width:250px;"></span>
                                             <span id="wlt_btn_spn"><input type="button" value="APPLY" onClick="getWalletAmt('<?= $total_price; ?>', '<?= $curr_wallet_balance; ?>');" class="btn-big2"></span>
                                             <br/><span id="ajx_msg_spn"></span>
@@ -1181,25 +1189,27 @@ $row_wallet = $query_wallet->row();
                                             <span id="order_confirm_btn"></span>
                                             <button id="proceed_to_pay" type="button" class="button btn-cart-big order_confirn_disable_btn" onClick="alert('You payment adjustment is not complited. \n So, you can not confirm your order here.')">Confirm your Order</button>
 
-<?php } ?>
+                                        <?php } ?>
                                     </td>
                                     <td width="45%" class="rht_td">
-<?php if ($curr_wallet_balance < $total_price || $query_wallet->num_rows() == 0 || $wallet_approve_status == 'Not Approved') { ?>
+                                        <?php if ($curr_wallet_balance < $total_price || $query_wallet->num_rows() == 0 || $wallet_approve_status == 'Not Approved') { ?>
                                             Amount Payable <br/><strong>Rs.<?php echo " " . $total_price; ?></strong>
                                         <?php } else { ?>
-                                            <span class="wlt-amnt"> Available Wallet Balance: <?php if ($query_wallet->num_rows() != 0) {
-                                                echo "<strong id='avail_wlt_bal'>Rs." . $curr_wallet_balance . '</strong>';
-                                            } else {
-                                                echo "<strong>Rs.0</strong>";
-                                            } ?> </span><hr/>
+                                            <span class="wlt-amnt"> Available Wallet Balance: <?php
+                                                if ($query_wallet->num_rows() != 0) {
+                                                    echo "<strong id='avail_wlt_bal'>Rs." . $curr_wallet_balance . '</strong>';
+                                                } else {
+                                                    echo "<strong>Rs.0</strong>";
+                                                }
+                                                ?> </span><hr/>
                                             <ul class="gftv_amt_list">
                                                 <li>Deducted Wallet Balance : <span id="deduct_wallet"></span></li>
                                             </ul><hr/>
-                                            <!--Amount Payable <br/><strong>Rs.<?php // echo " ". $total_price;  ?></strong>-->
+                                            <!--Amount Payable <br/><strong>Rs.<?php // echo " ". $total_price;         ?></strong>-->
 
                                             Amount Payable <br/><strong>Rs.<span id="amt_payble"><?php echo " " . $total_price; ?></span></strong>
                                             <span id="amt_payble_hidden" style="display:none;"><?php echo " " . $total_price; ?></span>
-<?php } ?>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                             </table>
@@ -1296,7 +1306,7 @@ $row_wallet = $query_wallet->row();
                                         <td>
                                             <select name ="state" id ="state" class="input-text">
                                                 <option value="">---select---</option>
-<?php foreach ($state_result as $state) { ?>
+                                                <?php foreach ($state_result as $state) { ?>
                                                     <option value="<?= $state->state_id; ?>"><?= $state->state; ?></option>
                                                 <?php } ?>
                                             </select>
@@ -1663,18 +1673,18 @@ $row_wallet = $query_wallet->row();
                             }
                         });
                     }
-                //////////////
+                    //////////////
 
                     /*function cheackInventory(){
-                     var sku_arr = <?php // echo json_encode($sku_arr);  ?>;
-                     var qty_arr = <?php // echo json_encode($qantity_arr);  ?>;
-     
+                     var sku_arr = <?php // echo json_encode($sku_arr);         ?>;
+                     var qty_arr = <?php // echo json_encode($qantity_arr);         ?>;
+                     
                      var jsonSkuString = JSON.stringify(sku_arr);
                      var jsonQtyString = JSON.stringify(qty_arr);
-     
+                     
                      $.ajax({
                      type: "POST",
-                     url: "<?php // echo base_url(); ?>mycart/check_inventory_befor_order",
+                     url: "<?php // echo base_url();        ?>mycart/check_inventory_befor_order",
                      data: {sku : jsonSkuString, qty : jsonQtyString}, 
                      cache: false,
                      success: function(result){
@@ -1890,4 +1900,4 @@ $row_wallet = $query_wallet->row();
         </style>
 
         <!-- footer Section -->
-<?php include "footer.php"; ?>
+        <?php include "footer.php"; ?>

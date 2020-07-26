@@ -340,7 +340,7 @@
     	<input  type="submit" class="btn-sign-in" id="in_up" value="Login" onClick="logSignupFunction('<?=$pname;?>')">
         
 <div class="new_exist">
-  <span id="newtomoonboy">  <label ><input type="radio" name="radio" id="n_user" style="display:none;"> New To Moonboy ??  Sign Up </label></span>
+  <span id="newtomoonboy">  <label ><input type="radio" name="radio" id="n_user" style="display:none;"> New To <?=COMPANY?> ??  Sign Up </label></span>
   <span id="exixtingusertomoonboy"><label ><input type="radio" name="radio" id="e_user" checked style="display:none;"> Existing User ?? Login</label></span>
 </div>
         
@@ -355,7 +355,7 @@
 
 <!--Forgot password div start here-->
 <div id="forgot_dv">
- <h4>Moonboy Password Assistance</h4>
+ <h4><?=COMPANY?> Password Assistance</h4>
  <span>Enter your email address to regenerate password</span><br/>
 <input type="text" class="input-text" id="mail" Placeholder="Enter email address">
 <input type="submit" id="forgt_btn" class="btn1 btn-sign-in" value="Continue">

@@ -112,7 +112,7 @@ require_once("header.php");
 								<td>Type <sup>*</sup>: </td>
 								<td>
 									<input type="checkbox" name="seller_type[]" value="Fast Shipping">&nbsp;Fast Shipping&nbsp;&nbsp;&nbsp;
-									<input type="checkbox" name="seller_type[]" value="Moonboy Fulfilled">&nbsp;Moonboy Fulfilled&nbsp;&nbsp;&nbsp;
+									<input type="checkbox" name="seller_type[]" value="<?=COMPANY?> Fulfilled">&nbsp;<?=COMPANY?> Fulfilled&nbsp;&nbsp;&nbsp;
 									<input type="checkbox" name="seller_type[]" value="Star Seller">&nbsp;Star Seller&nbsp;&nbsp;&nbsp;
 								</td>
 							</tr>

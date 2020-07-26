@@ -62,8 +62,8 @@
             <table width="100%">
                 <tr>
                     <td style='background-color:#e8442b;  border:2px solid #e8442b; color:#fff; padding:15px; text-align:center;'>
-                        &copy; 2015 Moonboy. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
-                        You received this email because you're a registered Moonboy user. 
+                        &copy; 2015 <?=COMPANY?>. 1st Floor, Khajotiya House, Beside Parsi Fire Temple , Sayedpura, Surat, GJ, IN- 395003 <br />
+                        You received this email because you're a registered <?=COMPANY?> user. 
                     </td> </tr> </table>
 
         </div>
