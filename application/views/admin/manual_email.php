@@ -124,9 +124,14 @@ require_once('header.php');
                 <table border="0" cellspacing="0" cellpadding="5"  style="width:100%; background-color: #25203b;" align="center">
                     <tr>
                         <td align="left" valign="middle">
-                            <a href="https://www.facebook.com/MoonboyIN/"  target="blank_">
+                            <a href="<?=FACEBOOK?>"  target="blank_">
                                 <img src="<?= APP_BASE ?>images/facebook-icon.png" alt="" width="28" style="border:none;" vspace="0" /></a>
                         </td>
+                        <td align="left" valign="middle">
+                            <a href="<?=INSTAGRAM?>"  target="blank_">
+                                <img src="https://images.vexels.com/media/users/3/137380/isolated/preview/1b2ca367caa7eff8b45c09ec09b44c16-instagram-icon-logo-by-vexels.png" alt="" width="28"  style="border:none;" vspace="0" /></a>
+                        </td>
+                        <?php if (DOMAIN_NAME == 'moonboy.in'):  ?>                        
                         <td align="left" valign="middle">
                             <a href="https://twitter.com/moonboy_ltd"  target="blank_">
                                 <img src="<?= APP_BASE ?>images/twitter-icon.png" alt="" width="28"  style="border:none;" vspace="0" /></a>
@@ -143,10 +148,7 @@ require_once('header.php');
                             <a href="https://www.pinterest.com/moonboy_ltd/"  target="blank_">
                                 <img src="<?= APP_BASE ?>images/pinit-icon.png" alt="" width="28"  style="border:none;" vspace="0" /></a>
                         </td>
-                        <td align="left" valign="middle">
-                            <a href="https://www.instagram.com/moonboy.in/"  target="blank_">
-                                <img src="https://images.vexels.com/media/users/3/137380/isolated/preview/1b2ca367caa7eff8b45c09ec09b44c16-instagram-icon-logo-by-vexels.png" alt="" width="28"  style="border:none;" vspace="0" /></a>
-                        </td>
+                        <?php endif; ?>                        
                     </tr>
                 </table>
             </center>

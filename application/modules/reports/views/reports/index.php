@@ -110,29 +110,27 @@
         </div>
     </div>
 <?php else: ?>
-    <div class="box box-info">
-        <div class="box-header with-border">
-            <h3 class="box-title">Latest Orders</h3>
+    <div class="row-fluid">
+        <div class="box box-info collapsed-box">
+            <div class="box-header with-border" data-widget="collapse">
+                <h3 class="box-title">Miscellaneous Reports</h3>
 
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                <div class="box-tools pull-right">
+                    <span class="label label-danger">2 Reports</span>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                </div>
             </div>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <div class="table-responsive">
+            <div class="box-body padB10" style="display: none;">
                 <div class="row-fluid">
                     <div class="col-sm-12 no_pad ">
-<!--                        <div class="col-sm-2 text-center">
-                            <span class="fa fa-cart-arrow-down fa-4x text-aqua"></span>
-                            <a class="users-list-name" href="<?= base_url('/seller/Reports') ?>">Order Report</a>
-                        </div>
-                        <div class="col-sm-2 text-center">
-                            <span class="fa fa-retweet fa-4x text-danger"></span>
-                            <a class="users-list-name" href="<?= base_url('/seller/Reports/return_report') ?>">Return Order Report</a>
-                        </div>-->
+                        <!--                        <div class="col-sm-2 text-center">
+                                                        <span class="fa fa-cart-arrow-down fa-4x text-aqua"></span>
+                                                        <a class="users-list-name" href="<?= base_url('/seller/Reports') ?>">Order Report</a>
+                                                    </div>
+                                                    <div class="col-sm-2 text-center">
+                                                        <span class="fa fa-retweet fa-4x text-danger"></span>
+                                                        <a class="users-list-name" href="<?= base_url('/seller/Reports/return_report') ?>">Return Order Report</a>
+                                                    </div>-->
                         <div class="col-sm-2 text-center">
                             <span class="fa fa-gift fa-4x text-info"></span>
                             <a class="users-list-name" href="<?= base_url('/seller/Reports/payment_report') ?>">Payment Report</a>
@@ -144,10 +142,8 @@
                     </div>
                 </div>
             </div>
-            <!-- /.table-responsive -->
         </div>
-        <!-- /.box-body -->
-    </div>
+    </div>    
 <?php endif; ?>
 <script type="text/javascript">
     $(function ($) {
