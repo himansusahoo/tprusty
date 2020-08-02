@@ -334,7 +334,7 @@
 <script>
     window.fbAsyncInit = function () {
         FB.init({
-            appId: '316528442624878', // Set YOUR APP ID
+            appId: '<?=FB_APP_ID?>', // Set YOUR APP ID
             //channelUrl : 'http://hayageek.com/examples/oauth/facebook/oauth-javascript/channel.html', // Channel File
             status: true, // check login status
             cookie: true, // enable cookies to allow the server to access the session
