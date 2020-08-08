@@ -555,12 +555,12 @@
                                                                                 <center>
                                                                                     <li> <a href="<?= FACEBOOK ?>" target="_blank"  class="facebook"> <i style="background-color:#337ab7;" class="fa fa-facebook"></i> </a> </li>
                                                                                     <li> <a href="<?= INSTAGRAM ?>"  target="_blank" class="pinit"> <i style="background-color:red;" class="fa fa-instagram"></i> </a> </li>
-                                                                                    <?php if (DOMAIN_NAME == 'moonboy.in'):  ?>
-                                                                                    <li> <a href="https://twitter.com/moonboy_ltd"  target="_blank" class="twitter"> <i style="background-color:#337ab7;"class="fa fa-twitter"></i> </a> </li>
-                                                                                    <li> <a href="https://plus.google.com/107116566163445169044"  target="_blank" class="gplus"> <i style="background-color:#ea4f1f;" class="fa fa-google-plus"></i> </a> </li>
-                                                                                    <li> <a href="http://in.linkedin.com/in/moonboy"  target="_blank" class="insta"> <i style="background-color:#25203b;" class="fa fa-linkedin"></i> </a> </li>
-                                                                                    <li> <a href="https://www.pinterest.com/moonboyindia/"  target="_blank" class="pinit"> <i style="background-color:#ea4f1f;" class="fa fa-pinterest"></i> </a> </li>                                                                                    
-                                                                                    <li> <a href="https://www.youtube.com/channel/UCfi3MBmnYY0NJTwlDO5mTzw"  target="_blank" class="pinit"> <i style="background-color:orange;"class="fa fa-youtube"></i> </a> </li>
+                                                                                    <?php if (DOMAIN_NAME == 'moonboy.in'): ?>
+                                                                                        <li> <a href="https://twitter.com/moonboy_ltd"  target="_blank" class="twitter"> <i style="background-color:#337ab7;"class="fa fa-twitter"></i> </a> </li>
+                                                                                        <li> <a href="https://plus.google.com/107116566163445169044"  target="_blank" class="gplus"> <i style="background-color:#ea4f1f;" class="fa fa-google-plus"></i> </a> </li>
+                                                                                        <li> <a href="http://in.linkedin.com/in/moonboy"  target="_blank" class="insta"> <i style="background-color:#25203b;" class="fa fa-linkedin"></i> </a> </li>
+                                                                                        <li> <a href="https://www.pinterest.com/moonboyindia/"  target="_blank" class="pinit"> <i style="background-color:#ea4f1f;" class="fa fa-pinterest"></i> </a> </li>                                                                                    
+                                                                                        <li> <a href="https://www.youtube.com/channel/UCfi3MBmnYY0NJTwlDO5mTzw"  target="_blank" class="pinit"> <i style="background-color:orange;"class="fa fa-youtube"></i> </a> </li>
 
                                                                                     <?php endif; ?>
                                                                                 </center>
@@ -627,7 +627,7 @@
 
                                                 function login()
                                                 {
-                                                    //alert(logintobuysku);
+                                                    alert('logintobuysku');
                                                     var myParams = {
                                                         'clientid': '374135531965-v38pq554dp7ficmeuvnoqvnvoig7c2vv.apps.googleusercontent.com',
                                                         'cookiepolicy': 'single_host_origin',
@@ -683,7 +683,7 @@
                                                             //var url = "profile_fillup.php?name="+name+"&mail="+email;
                                                             //var url = "social_login/gpluslogin/manage_start_profile_fillup.php?name="+name+"&mail="+email;
 
-                                                            /*var url = "<?php //echo site_url();      ?>chm/socialLogin/" + encodeURIComponent(mail+','+name);			
+                                                            /*var url = "<?php //echo site_url();       ?>chm/socialLogin/" + encodeURIComponent(mail+','+name);			
                                                              window.location.href = url;*/
                                                             //var url = 'myprofile.php';			
 
@@ -744,7 +744,7 @@
                                                 window.fbAsyncInit = function () {
                                                     FB.init({
                                                         //appId      : '1671336639745674', // Set YOUR APP ID
-                                                        appId: '<?=FB_APP_ID?>',
+                                                        appId: '<?= FB_APP_ID ?>',
                                                         //channelUrl : 'http://hayageek.com/examples/oauth/facebook/oauth-javascript/channel.html', // Channel File
                                                         status: true, // check login status
                                                         cookie: true, // enable cookies to allow the server to access the session

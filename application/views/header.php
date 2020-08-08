@@ -357,7 +357,7 @@
                 text-decoration: none;
                 background-color: #ed313b;
             }
-
+            #cboxLoadedContent,#cboxContent{border-radius: 10px;}
         </style>
 
         <script>
@@ -379,7 +379,7 @@
                                 .appendTo($(this));
                     }
                 });
-                $(".inline").colorbox({inline: true, width: "25%", height: "447px"});
+                $(".inline").colorbox({inline: true, width: "25%",initialHeight:'260px'});
                 $(".inline2").colorbox({inline: true, width: "35%"});
                 $('#exixtingusertomoonboy').css('display', 'none');
 
@@ -399,107 +399,6 @@
                     $('#exixtingusertomoonboy').css('display', 'block');
                 });
 
-
-                var logintobuysku = '';
-                function logSignupFunction(pname) {
-                    var mail_id = $('#mail_id').val();
-                    var pattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-
-                    if ($("#n_user").is(":checked")) {
-                        var user = 'new_user';
-                    }
-                    if ($("#e_user").is(":checked")) {
-                        var user = 'ext_user';
-                    }
-
-                    if (mail_id == '') {
-                        alert('please enter your email address.');
-                        $('#mail_id').focus();
-                        return false;
-                    } else if (!pattern.test(mail_id)) {
-                        alert('Please provide a valid email address');
-                        $('#mail_id').select();
-                        return false;
-                    } else {
-                        if (user == 'new_user') {
-                            var pass = $('#npass').val();
-                            var cpass = $('#ncpass').val();
-                            if (pass == '') {
-                                alert('Please enter password');
-                                $('#npass').focus();
-                                return false;
-                            } else if (cpass == '') {
-                                alert('Please re-enter password');
-                                $('#ncpass').focus();
-                                return false;
-                            } else if (pass != cpass) {
-                                alert('Password mismatch');
-                                $('#ncpass').select();
-                                return false;
-                            } else {
-
-                                $('#in_up').val('Processing...');
-                                $.ajax({
-                                    url: '<?php echo base_url(); ?>user/login',
-                                    method: 'post',
-                                    data: {email: mail_id, password: pass, flag: 1},
-                                    success: function (result)
-                                    {
-                                        if (result == 'exists') {
-                                            $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>This email address is already exists');
-                                            $(".error_msg").slideDown();
-                                            $('#in_up').val('login');
-                                        }
-                                        if (result == 'success' && logintobuysku != '') {
-                                            window.location.href = "<?php echo base_url() . 'mycart/checkout_process'; ?>";
-                                        }
-                                        if (result == 'success' && logintobuysku == '') {
-                                            window.location.reload(true);
-                                        }
-                                    }
-                                });
-
-                            }
-                        }
-                        if (user == 'ext_user') {
-                            var pass = $('#epass').val();
-                            if (pass == '') {
-                                alert('please enter your password.');
-                                $('#epass').focus();
-                                return false;
-                            } else {
-
-                                $('#in_up').val('Processing...');
-                                $.ajax({
-                                    url: '<?php echo base_url(); ?>user/login',
-                                    method: 'post',
-                                    data: {email: mail_id, password: pass, flag: 2},
-                                    success: function (result)
-                                    {
-                                        if (result == 'blocked') {
-                                            $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>This user is already blocked');
-                                            $(".error_msg").slideDown(200);
-                                            $('#in_up').val('Login');
-                                        }
-                                        if (result == 'invalid') {
-                                            $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>Invalid Username or Password');
-                                            $(".error_msg").slideDown(200);
-                                            $('#in_up').val('Login');
-                                        }
-                                        if (result == 'success' && logintobuysku == '') {
-                                            window.location.reload(true);
-                                        }
-                                        if (result == 'success' && logintobuysku != '') {
-
-                                            window.location.href = "<?php echo base_url() . 'mycart/checkout_process'; ?>"
-                                        }
-                                    }
-                                });
-
-                            }
-                        }
-                    }
-                }
                 $('.forgot_p').click(function () {
                     $('#reg_login_dv').slideUp();
                     $('#forgot_dv').slideDown();
@@ -549,73 +448,7 @@
                 });
 
 
-                function checkOtp() {
-                    var otp = $('#otp').val();
-                    if (otp == '') {
-                        alert('Please enter your OTP');
-                        $('#otp').focus();
-                        return false;
-                    } else {
 
-                        $('#otp_btn').val('Processing...');
-                        $.ajax({
-                            url: '<?php echo base_url(); ?>user/check_otp_forgot_password',
-                            method: 'post',
-                            data: {otp: otp},
-                            success: function (result)
-                            {
-                                if (result === 'not_exist') {
-                                    $(".error_msg").css({'background-color': 'pink', 'border': '1px solid salmon', 'color': '#790606'});
-                                    $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>This OTP is not matched.');
-                                    $('#otp_btn').val('Continue');
-                                } else {
-                                    $('#chng_email').val(result);
-                                    $(".error_msg").slideUp();
-                                    $('#otp_pass_dv').slideUp();
-                                    $('#chng_pass_dv').slideDown();
-                                }
-                            }
-                        });
-
-                    }
-                }
-                function changedPassword() {
-                    var email = $('#chng_email').val();
-                    var psss = $('#new_pass').val();
-                    var cpsss = $('#cnew_pass').val();
-                    if (psss == '') {
-                        alert('Enter your new password');
-                        $('#new_pass').focus();
-                        return false;
-                    } else if (cpsss == '') {
-                        alert('Enter your confirm password');
-                        $('#cnew_pass').focus();
-                        return false;
-                    } else if (psss != cpsss) {
-                        alert('Password mismatch.');
-                        $('#cnew_pass').select();
-                        return false;
-                    } else {
-
-                        $('#chng_btn').val('Processing...');
-                        $.ajax({
-                            url: '<?php echo base_url(); ?>user/change_forgot_password',
-                            method: 'post',
-                            data: {email: email, pass: psss},
-                            success: function (result)
-                            {
-                                if (result === 'not') {
-                                    $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>Password not changed');
-                                    $('#chng_btn').val('Change Password');
-                                }
-                                if (result == 'ok') {
-                                    window.location.reload(true);
-                                }
-                            }
-                        });
-
-                    }
-                }
 
 
                 $('#searchdiv2').css('display', 'none');
@@ -644,47 +477,14 @@
                 });
 
 
-                function getuname(val) {
-                    var x = val;
-                    $('#search-text').val(x);
-                    $('#searchdiv2').css('display', 'none');
-                }
-                function mysearch() {
 
-                    var n = $('#search-text').val();
-
-                    $.ajax({
-                        url: '<?php echo base_url() . 'user/search_product' ?>',
-                        method: 'post',
-                        data: {name: n},
-                        success: function (data, status)
-                        {
-                            if ($('#search-text').val() != "")
-                            {
-                                $("#searchdiv2 ul").html(data);
-                                $('#searchdiv2').css('display', 'block');
-                            } else
-                            {
-                                $("#searchdiv2 ul").html("");
-                                $('#searchdiv2').css('display', 'none');
-                            }
-                        }
-                    });
-                }
 
 
                 $('#slider1').tinycarousel({interval: true});
                 $('#slider2').tinycarousel({interval: true});
                 $('#slider3').tinycarousel({interval: true});
 
-                function search_url()
-                {
-                    var val = $('#search-text').val();
-                    if (val != "")
-                    {
-                        window.location.href = '<?php echo base_url(); ?>Product_description/suggestword?search_title=' + val;
-                    }
-                }
+
 
                 $('#tabbed-Carousel').carousel({
                     interval: 4000
@@ -707,8 +507,211 @@
                     }
                     clickEvent = false;
                 });
-            });
+            });//ready
+            var logintobuysku = '';
+            function logSignupFunction(pname) {
+                var mail_id = $('#mail_id').val();
+                var pattern = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
+                if ($("#n_user").is(":checked")) {
+                    var user = 'new_user';
+                }
+                if ($("#e_user").is(":checked")) {
+                    var user = 'ext_user';
+                }
+
+                if (mail_id == '') {
+                    alert('please enter your email address.');
+                    $('#mail_id').focus();
+                    return false;
+                } else if (!pattern.test(mail_id)) {
+                    alert('Please provide a valid email address');
+                    $('#mail_id').select();
+                    return false;
+                } else {
+                    if (user == 'new_user') {
+                        var pass = $('#npass').val();
+                        var cpass = $('#ncpass').val();
+                        if (pass == '') {
+                            alert('Please enter password');
+                            $('#npass').focus();
+                            return false;
+                        } else if (cpass == '') {
+                            alert('Please re-enter password');
+                            $('#ncpass').focus();
+                            return false;
+                        } else if (pass != cpass) {
+                            alert('Password mismatch');
+                            $('#ncpass').select();
+                            return false;
+                        } else {
+
+                            $('#in_up').val('Processing...');
+                            $.ajax({
+                                url: '<?php echo base_url(); ?>user/login',
+                                method: 'post',
+                                data: {email: mail_id, password: pass, flag: 1},
+                                success: function (result)
+                                {
+                                    if (result == 'exists') {
+                                        $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>This email address is already exists');
+                                        $(".error_msg").slideDown();
+                                        $('#in_up').val('login');
+                                    }
+                                    if (result == 'success' && logintobuysku != '') {
+                                        window.location.href = "<?php echo base_url() . 'mycart/checkout_process'; ?>";
+                                    }
+                                    if (result == 'success' && logintobuysku == '') {
+                                        window.location.reload(true);
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+                    if (user == 'ext_user') {
+                        var pass = $('#epass').val();
+                        if (pass == '') {
+                            alert('please enter your password.');
+                            $('#epass').focus();
+                            return false;
+                        } else {
+
+                            $('#in_up').val('Processing...');
+                            $.ajax({
+                                url: '<?php echo base_url(); ?>user/login',
+                                method: 'post',
+                                data: {email: mail_id, password: pass, flag: 2},
+                                success: function (result)
+                                {
+                                    if (result == 'blocked') {
+                                        $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>This user is already blocked');
+                                        $(".error_msg").slideDown(200);
+                                        $('#in_up').val('Login');
+                                    }
+                                    if (result == 'invalid') {
+                                        $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>Invalid Username or Password');
+                                        $(".error_msg").slideDown(200);
+                                        $('#in_up').val('Login');
+                                    }
+                                    if (result == 'success' && logintobuysku == '') {
+                                        window.location.reload(true);
+                                    }
+                                    if (result == 'success' && logintobuysku != '') {
+
+                                        window.location.href = "<?php echo base_url() . 'mycart/checkout_process'; ?>"
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+                }
+            }
+
+            function search_url() {
+                var val = $('#search-text').val();
+                if (val != "")
+                {
+                    window.location.href = '<?php echo base_url(); ?>Product_description/suggestword?search_title=' + val;
+                }
+            }
+
+            function getuname(val) {
+                var x = val;
+                $('#search-text').val(x);
+                $('#searchdiv2').css('display', 'none');
+            }
+            function mysearch() {
+
+                var n = $('#search-text').val();
+
+                $.ajax({
+                    url: '<?php echo base_url() . 'user/search_product' ?>',
+                    method: 'post',
+                    data: {name: n},
+                    success: function (data, status)
+                    {
+                        if ($('#search-text').val() != "")
+                        {
+                            $("#searchdiv2 ul").html(data);
+                            $('#searchdiv2').css('display', 'block');
+                        } else
+                        {
+                            $("#searchdiv2 ul").html("");
+                            $('#searchdiv2').css('display', 'none');
+                        }
+                    }
+                });
+            }
+
+            function checkOtp() {
+                var otp = $('#otp').val();
+                if (otp == '') {
+                    alert('Please enter your OTP');
+                    $('#otp').focus();
+                    return false;
+                } else {
+
+                    $('#otp_btn').val('Processing...');
+                    $.ajax({
+                        url: '<?php echo base_url(); ?>user/check_otp_forgot_password',
+                        method: 'post',
+                        data: {otp: otp},
+                        success: function (result)
+                        {
+                            if (result === 'not_exist') {
+                                $(".error_msg").css({'background-color': 'pink', 'border': '1px solid salmon', 'color': '#790606'});
+                                $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>This OTP is not matched.');
+                                $('#otp_btn').val('Continue');
+                            } else {
+                                $('#chng_email').val(result);
+                                $(".error_msg").slideUp();
+                                $('#otp_pass_dv').slideUp();
+                                $('#chng_pass_dv').slideDown();
+                            }
+                        }
+                    });
+
+                }
+            }
+            function changedPassword() {
+                var email = $('#chng_email').val();
+                var psss = $('#new_pass').val();
+                var cpsss = $('#cnew_pass').val();
+                if (psss == '') {
+                    alert('Enter your new password');
+                    $('#new_pass').focus();
+                    return false;
+                } else if (cpsss == '') {
+                    alert('Enter your confirm password');
+                    $('#cnew_pass').focus();
+                    return false;
+                } else if (psss != cpsss) {
+                    alert('Password mismatch.');
+                    $('#cnew_pass').select();
+                    return false;
+                } else {
+
+                    $('#chng_btn').val('Processing...');
+                    $.ajax({
+                        url: '<?php echo base_url(); ?>user/change_forgot_password',
+                        method: 'post',
+                        data: {email: email, pass: psss},
+                        success: function (result)
+                        {
+                            if (result === 'not') {
+                                $(".error_msg").html('<i class="glyphicon glyphicon-exclamation-sign"></i>Password not changed');
+                                $('#chng_btn').val('Change Password');
+                            }
+                            if (result == 'ok') {
+                                window.location.reload(true);
+                            }
+                        }
+                    });
+
+                }
+            }
             function OverFunction() {
                 $("#profile_menu").show();
             }
@@ -728,8 +731,8 @@
             function OverFunction_cart() {
 
             }
-            function OutFunction_cart(){
-                
+            function OutFunction_cart() {
+
             }
 // Facebook Pixel Code 04jan2019
             !function (f, b, e, v, n, t, s)
@@ -991,11 +994,14 @@
 
         <div style="display:none">
             <div id="inline_content">
-                <div class="sign_in_dv">
-                    <div class="error_msg"></div>
+                <div class="sign_in_dv">                    
                     <div class="col-md-12" style="padding:0px;" >
                         <div id="reg_login_dv">
                             <table class="big-table" >
+                                <tr>
+                                    <td height="30"><div class="error_msg" style="margin-top:5px; border-radius: 10px; font-size: 12px"></div></td>
+                                </tr>
+                                
                                 <tr>
                                     <td><input type="text" class="input-text" id="mail_id" Placeholder="Enter email address"></td>
                                 </tr>
@@ -1092,16 +1098,21 @@
                         <!--Forgot password div end here-->
 
                         <div class="clearfix"></div>
-
-                        <table class="big-table"  id="social_tbl">
-                            <tr> 
-                                <td><div class="facebook-login"> 
-                                        <a href="#" onClick="Login()"><img src="<?php echo base_url(); ?>images/facebook.png"  alt="facebook"> <i> Login with Facebook</i>
-                                            <div class="clearfix"> </div></a></div>
-                                    <div class="google-login">
-                                        <a href="#" onClick="login()"><img src="<?php echo base_url(); ?>images/gplus.png"  alt="google+"> <i> Login with Google+</i>
-                                            <div class="clearfix"></div></a> </div> </td>
-                            </tr> </table>
+                        <?php if (DOMAIN_NAME == 'moonboy.in'): ?>
+                            <table class="big-table"  id="social_tbl">
+                                <tr> 
+                                    <td>
+                                        <div class="facebook-login"> 
+                                            <a href="#" onClick="Login()"><img src="<?php echo base_url(); ?>images/facebook.png"  alt="facebook"> <i> Login with Facebook</i>
+                                                <div class="clearfix"> </div></a></div>
+                                        <div class="google-login">
+                                            <a href="#" onClick="login()"><img src="<?php echo base_url(); ?>images/gplus.png"  alt="google+"> <i> Login with Google+</i>
+                                                <div class="clearfix"></div></a> 
+                                        </div> 
+                                    </td>
+                                </tr> 
+                            </table>
+                        <?php endif; ?>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
