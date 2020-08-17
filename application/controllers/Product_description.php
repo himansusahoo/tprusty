@@ -100,7 +100,9 @@ class Product_description extends CI_Controller {
     function product_addtocart_filter() {
         $this->db->cache_on();
         $label_name = $this->uri->segment(2);
-
+        $data=array(
+            'sec_info'=>''
+        );
         if ($this->agent->is_mobile()) {
             $qr_lblid = $this->db->query("SELECT * FROM category_menu_mobile WHERE url_displayname='$label_name'  ");
             if ($qr_lblid->num_rows() > 0) {
@@ -606,6 +608,9 @@ class Product_description extends CI_Controller {
             $proddbviewcount = $qr_prodvwcount->row()->cronprod_viewcount + 1;
             $qr_prodcount = $this->db->query("SELECT prodview_count FROM product_viewcount WHERE product_id='$product_id' AND sku='$sku_id' group by sku ");
             $view_data = array();
+            $p=array(
+                'sec_info'=>''
+            );
             $view_data = array(
                 'product_id' => $product_id,
                 'sku' => $sku_id,

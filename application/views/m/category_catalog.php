@@ -735,7 +735,7 @@ if ($qr_lblid->num_rows() > 0) {
                                                         <img src="<?php echo base_url() . 'images/pagedesign_image/' . $res_imgdata['imge_nm']; ?>" class="img-responsive" onClick="window.location.href = '<?php echo $img_link; ?>'"/>                        
 
 
-                                                    <?php
+                                                        <?php
                                                     }
                                                 }
                                                 ?>
@@ -743,9 +743,9 @@ if ($qr_lblid->num_rows() > 0) {
 
                                         </ul>
 
-                            <?php } ?> 
+                                    <?php } ?> 
                                 </div></div>
-            <?php } ?>
+                        <?php } ?>
 
                         <!---------------------------------------------------section 4th condition end--------------------------------------------->
 
@@ -780,13 +780,13 @@ if ($qr_lblid->num_rows() > 0) {
                                                             <?php if ($res_imgdata['URL'] == '' && $res_imgdata['sku'] == '') { ?>
                                                                 <li><img src="<?php echo base_url() . 'images/pagedesign_image/' . $res_imgdata['imge_nm']; ?>" /></li>
                                                             <?php } ?>
-                                                        <?php
+                                                            <?php
                                                         }
                                                     }
                                                     ?>
 
 
-                                                <?php
+                                                    <?php
                                                 }
                                             }
                                             ?>
@@ -795,13 +795,13 @@ if ($qr_lblid->num_rows() > 0) {
                                     </div>
                                     <a class="buttons next" href="#">&#62;</a>
                                 </div></div>
-            <?php } ?>
+                        <?php } ?>
                         <!---------------------------------------------------section 5th condition end------------------------------------------------->
 
                         <!---------------------------------------------------section 6th condition start------------------------------------------------->
 
-            <?php if ($res_secdata['sec_type'] == 'Slider' && $res_secdata['sec_type_data'] == 'Banner' && $res_secdata['nos_column'] == '1' && $res_secdata['image_size'] == '770x394') {
-                ?>
+                        <?php if ($res_secdata['sec_type'] == 'Slider' && $res_secdata['sec_type_data'] == 'Banner' && $res_secdata['nos_column'] == '1' && $res_secdata['image_size'] == '770x394') {
+                            ?>
 
                             <div id="jssor_10" style="position:relative;margin:0 auto;top:0px;left:0px;width:600px;height:300px;overflow:hidden;">
                                 <!-- Loading Screen -->
@@ -821,19 +821,19 @@ if ($qr_lblid->num_rows() > 0) {
                                             $image_count = $qr_imginfo->num_rows();
                                             ?>  
 
-                        <?php foreach ($qr_imginfo->result_array() as $res_imgdata) { ?>
+                                            <?php foreach ($qr_imginfo->result_array() as $res_imgdata) { ?>
 
                                                 <?php if ($res_imgdata['sku'] != '') { ?>
                                                     <div>
                                                         <img data-u="image" src="<?php echo base_url() . 'images/pagedesign_image/' . $res_imgdata['imge_nm']; ?>" />
                                                     </div>
-                            <?php } ?>
+                                                <?php } ?>
 
                                                 <?php if ($res_imgdata['URL'] != '') { ?>
                                                     <div>
                                                         <img onClick="window.location.href = '<?php echo $res_imgdata['URL']; ?>'" data-u="image" src="<?php echo base_url() . 'images/pagedesign_image/' . $res_imgdata['imge_nm']; ?>" />
                                                     </div>
-                            <?php } ?>
+                                                <?php } ?>
 
                                                 <?php if ($res_imgdata['URL'] == '' && $res_imgdata['sku'] == '') { ?>                             	
                                                     <div>
@@ -861,13 +861,13 @@ if ($qr_lblid->num_rows() > 0) {
                             </div>
                             <script type="text/javascript">jssor_10_slider_init();</script>
 
-            <?php } ?> 
+                        <?php } ?> 
 
                         <!---------------------------------------------------section 6th condition end------------------------------------------------->
 
                         <!---------------------------------------------------section 7th condition start------------------------------------------------->
-            <?php if ($res_secdata['sec_type'] == 'Slider' && $res_secdata['sec_type_data'] == 'Banner' && $res_secdata['nos_column'] == '1' && $res_secdata['image_size'] == '1000x244') {
-                ?>
+                        <?php if ($res_secdata['sec_type'] == 'Slider' && $res_secdata['sec_type_data'] == 'Banner' && $res_secdata['nos_column'] == '1' && $res_secdata['image_size'] == '1000x244') {
+                            ?>
 
                             <div id="jssor_12" style="position:relative;margin:0 auto;top:0px;left:0px;width:1024px;height:244px;overflow:hidden;">
                                 <!-- Loading Screen -->
@@ -887,19 +887,19 @@ if ($qr_lblid->num_rows() > 0) {
                                             $image_count = $qr_imginfo->num_rows();
                                             ?>  
 
-                        <?php foreach ($qr_imginfo->result_array() as $res_imgdata) { ?>
+                                            <?php foreach ($qr_imginfo->result_array() as $res_imgdata) { ?>
 
                                                 <?php if ($res_imgdata['sku'] != '') { ?>
                                                     <div>
                                                         <img data-u="image" src="<?php echo base_url() . 'images/pagedesign_image/' . $res_imgdata['imge_nm']; ?>" />
                                                     </div>
-                            <?php } ?>
+                                                <?php } ?>
 
                                                 <?php if ($res_imgdata['URL'] != '') { ?>
                                                     <div>
                                                         <img onClick="window.location.href = '<?php echo $res_imgdata['URL']; ?>'" data-u="image" src="<?php echo base_url() . 'images/pagedesign_image/' . $res_imgdata['imge_nm']; ?>" />
                                                     </div>
-                            <?php } ?>
+                                                <?php } ?>
 
                                                 <?php if ($res_imgdata['URL'] == '' && $res_imgdata['sku'] == '') { ?>                             	
                                                     <div>
@@ -929,14 +929,14 @@ if ($qr_lblid->num_rows() > 0) {
                             </div>
                             <script type="text/javascript">jssor_12_slider_init();</script>
 
-            <?php } ?>
+                        <?php } ?>
 
 
                         <!---------------------------------------------------section 7th condition end------------------------------------------------->
 
                         <!---------------------------------------------------section 8th condition start------------------------------------------------->
-            <?php if ($res_secdata['sec_type'] == 'Product' && $res_secdata['sec_type_data'] == 'Product' && $res_secdata['nos_column'] == '1') {
-                ?>
+                        <?php if ($res_secdata['sec_type'] == 'Product' && $res_secdata['sec_type_data'] == 'Product' && $res_secdata['nos_column'] == '1') {
+                            ?>
 
                             <div style="background:#fff; padding-top:10px;">  
                                 <div id="slider02">
@@ -1016,44 +1016,44 @@ if ($qr_lblid->num_rows() > 0) {
                                                                                     <span class="poduct-sl-pre"> Rs.<?= $rw['mrp'] ?></span> 
                                                                                     <span class="product-sl-main-price">Rs.<?= $rw['special_price'] ?></span>
                                                                                 </span>
-                                                                            <?php
+                                                                                <?php
                                                                             }
                                                                         }
                                                                         ?>
 
-                                    <?php if ($rw['price'] != 0 && $cur_splprc == 0) { ?>
+                                                                        <?php if ($rw['price'] != 0 && $cur_splprc == 0) { ?>
                                                                             <span class="product-sl-right">
                                                                                 <span class="poduct-sl-pre"> Rs.<?= $rw['mrp'] ?></span> 
                                                                                 <span class="product-sl-main-price">Rs.<?= $rw['price'] ?></span>
                                                                             </span>
 
-                                    <?php } ?>
+                                                                        <?php } ?>
 
                                                                         <?php if ($rw['price'] == 0 && $cur_splprc == 0) { ?>
                                                                             <span class="product-sl-right">                               
                                                                                 <span class="product-sl-main-price">Rs.<?= $rw['mrp'] ?></span>
                                                                             </span>
-                                    <?php } ?>
+                                                                        <?php } ?>
 
                                                                     </div>
                                                                     <div style="clear:both;"></div>
                                                                     <div class="product-sl-image-held">
 
-                                    <?php if (empty($dsply_img)) { ?>
+                                                                        <?php if (empty($dsply_img)) { ?>
 
                                                                             <a style="margin:auto; text-align:center;" 
                                                                                href="<?php echo base_url() . preg_replace('#"#', "-", preg_replace('#/#', "-", str_replace(' ', '-', strtolower($rw['name'])))) . '/' . $rw['product_id'] . '/' . $rw['sku'] ?>">
                                                                                 <img  src="<?php echo base_url(); ?>images/product_img/prdct-no-img.png" >
                                                                             </a>
 
-                                    <?php } else { ?>
+                                                                        <?php } else { ?>
 
                                                                             <a style="margin:auto; text-align:center;" 
                                                                                href="<?php echo base_url() . preg_replace('#"#', "-", preg_replace('#/#', "-", str_replace(' ', '-', strtolower($rw['name'])))) . '/' . $rw['product_id'] . '/' . $rw['sku'] ?>">
                                                                                 <img  src="<?php echo base_url(); ?>images/product_img/<?= $image_arr[0]; ?>">
                                                                             </a>
 
-                                                                                    <?php } ?>
+                                                                        <?php } ?>
 
                                                                         <div class="ad-info">
                                                                             <h5><a href="<?php echo base_url() . preg_replace('#"#', "-", preg_replace('#/#', "-", str_replace(' ', '-', strtolower($rw['name'])))) . '/' . $rw['product_id'] . '/' . $rw['sku'] ?>">
@@ -1073,17 +1073,17 @@ if ($qr_lblid->num_rows() > 0) {
                                                                     </div>
 
                                                                 </li>
-                                    <?php
-                                } // product data loop end
-                            } // product num_rows() condition end 
-                            ?>
+                                                                <?php
+                                                            } // product data loop end
+                                                        } // product num_rows() condition end 
+                                                        ?>
 
 
                                                     <?php } // image for loop end   ?>
-                        <?php
-                    } // column for loop end
-                }// column num_rows condition end
-                ?>
+                                                    <?php
+                                                } // column for loop end
+                                            }// column num_rows condition end
+                                            ?>
 
                                         </ul>
                                     </div>
@@ -1114,17 +1114,17 @@ if ($qr_lblid->num_rows() > 0) {
 
                                                     <h4 class="panel-title" style="text-align:center;">
                                                         <a data-toggle="collapse">
-                        <?= $res_secdata['sec_lbl'] ?>
+                                                            <?= $res_secdata['sec_lbl'] ?>
                                                         </a>
                                                     </h4>
                                                 </div>
                                                 <div id="mens" class="collapse in">
                                                     <div class="panel-body" style="min-height: auto;">
                                                         <ul>
-                        <?php
-                        if ($qr_imginfo->num_rows() > 0) {
-                            foreach ($qr_imginfo->result_array() as $res_imgdata) {
-                                ?>
+                                                            <?php
+                                                            if ($qr_imginfo->num_rows() > 0) {
+                                                                foreach ($qr_imginfo->result_array() as $res_imgdata) {
+                                                                    ?>
                                                                     <li style="height:auto">
                                                                         <div class="brands_products">
                                                                             <div class="brands-name" style="width:100%; height:auto;">
@@ -1132,10 +1132,10 @@ if ($qr_lblid->num_rows() > 0) {
                                                                             </div>
                                                                         </div>
                                                                     </li>
-                            <?php
-                            }
-                        }
-                        ?>
+                                                                    <?php
+                                                                }
+                                                            }
+                                                            ?>
                                                         </ul>
                                                         <div class="clearfix"></div>
                                                     </div>
@@ -1144,17 +1144,17 @@ if ($qr_lblid->num_rows() > 0) {
                                         </div>
                                         <!--<h3>Banner</h3>-->
 
-                    <?php
-                    }
-                }
-                ?>
+                                        <?php
+                                    }
+                                }
+                                ?>
                             </div>
                         <?php } ?>
                         <!---------------------------------------------------section 9th condition end------------------------------------------------->
 
 
                     <?php }$this->db->cache_on(); ?>
-                <?php
+                    <?php
                 }
             }
             ?>
@@ -1172,11 +1172,11 @@ if ($qr_lblid->num_rows() > 0) {
                         <strong><b><?= $res_secdata['sec_lbl'] ?> :</b></strong>
                         </br>
                         <p style="text-align:justify;"><?= $res_secdata['sec_descrp'] ?></p>
-            <?php
-        }
-    }
-}
-?>   
+                        <?php
+                    }
+                }
+            }
+            ?>   
 
 
             <!---------------------------------subcategory list end------------------------------------------------>
@@ -1220,30 +1220,30 @@ if ($qr_lblid->num_rows() > 0) {
                                                 <a href="<?php echo base_url() . preg_replace('#"#', "-", preg_replace('#/#', "-", str_replace(' ', '-', strtolower($rw['name'])))) . '/' . $rw['product_id'] . '/' . $rw['sku'] ?>">
                                                     <img src="<?php echo base_url(); ?>images/product_img/prdct-no-img.png" alt="<?= $rw['name']; ?>"/>
                                                 </a>
-            <?php } else { ?>
+                                            <?php } else { ?>
                                                 <a href="<?php echo base_url() . preg_replace('#"#', "-", preg_replace('#/#', "-", str_replace(' ', '-', strtolower($rw['name'])))) . '/' . $rw['product_id'] . '/' . $rw['sku'] ?>">
                                                     <img src="<?php echo base_url(); ?>images/product_img/<?= $image_arr[0]; ?>" alt="<?= $rw['name']; ?>"/>
                                                 </a>
-                                                    <?php } ?>
+                                            <?php } ?>
                                         </div>
                                         <div class="today-deal-right">
                                             <h5 style="text-align:left; margin-left:0; margin-bottom:8px; font-size:18px; font-family: 'SegoeUI';">
                                                 <a href="<?php echo base_url() . preg_replace('#"#', "-", preg_replace('#/#', "-", str_replace(' ', '-', strtolower($rw['name'])))) . '/' . $rw['product_id'] . '/' . $rw['sku'] ?>"><?php
-                                        if (strlen($rw['name']) > 30) {
-                                            echo substr($rw['name'], 0, 30) . '...';
-                                        } else {
-                                            echo $rw['name'];
-                                        }
+                                                    if (strlen($rw['name']) > 30) {
+                                                        echo substr($rw['name'], 0, 30) . '...';
+                                                    } else {
+                                                        echo $rw['name'];
+                                                    }
                                                     ?>
                                                 </a>
                                             </h5>
                                             <p style="margin-left:0px; float:left; display:inline-block;">
-            <?php
-            $cur_splprc = 0;
-            if ($rw['special_price'] != 0) {
-                if ($cdate >= $special_price_from_dt && $cdate <= $special_price_to_dt) {
-                    $cur_splprc = $rw['special_price'];
-                    ?>
+                                                <?php
+                                                $cur_splprc = 0;
+                                                if ($rw['special_price'] != 0) {
+                                                    if ($cdate >= $special_price_from_dt && $cdate <= $special_price_to_dt) {
+                                                        $cur_splprc = $rw['special_price'];
+                                                        ?>
                                                         <span style="color:#999; text-decoration:line-through">
                                                             <i class="fa fa-inr" aria-hidden="true" style="font-size: 14px;border: 0px;width: 0px; ">
                                                             </i>&nbsp; <?= $rw['mrp']; ?>
@@ -1256,17 +1256,17 @@ if ($qr_lblid->num_rows() > 0) {
                                                             <i class="fa fa-inr" aria-hidden="true" style="font-size: 14px;border: 0px;width: 0px; ">
                                                             </i>&nbsp; <?= ceil($rw['special_price']) ?>
                                                         </span>
-                    <?php
-                }
-            }
-            ?>
-            <?php if ($rw['price'] != 0 && $cur_splprc == 0) { ?>
+                                                        <?php
+                                                    }
+                                                }
+                                                ?>
+                                                <?php if ($rw['price'] != 0 && $cur_splprc == 0) { ?>
                                                     <span style="color:#999; text-decoration:line-through">
                                                         <i class="fa fa-inr" aria-hidden="true" style="font-size: 14px;border: 0px;width: 0px; ">
                                                         </i>&nbsp; <?= $rw['mrp']; ?>
                                                     </span>&nbsp;&nbsp;
                                                 <?php } ?>
-            <?php if ($rw['price'] == 0 && $cur_splprc == 0) { ?>
+                                                <?php if ($rw['price'] == 0 && $cur_splprc == 0) { ?>
                                                     <span style="color:#079107 !important;  font-weight:bold;">
                                                         <i class="fa fa-inr" aria-hidden="true" style="font-size: 14px;border: 0px;width: 0px; ">
                                                         </i>&nbsp; <?= $rw['mrp']; ?>
@@ -1300,26 +1300,26 @@ if ($qr_lblid->num_rows() > 0) {
                                                 $percen_off = 100 - round($percen_curprc);
                                                 ?>
                                                 <span style="display:inline-block;">
-            <?php if ($percen_off > 0) { ?>
+                                                    <?php if ($percen_off > 0) { ?>
                                                         <div class="discount">
                                                             <p> <?= $percen_off ?>% off </p>
                                                         </div>
-                                    <?php } ?>
+                                                    <?php } ?>
                                                 </span>
                                             </p>
                                         </div>
                                         <div style="clear:both;"></div>
                                     </div>
-            <?php
-        }
-    }
-}
-?>
+                                    <?php
+                                }
+                            }
+                        }
+                        ?>
                     </div>
                     <br>
                     <div id="view_more_secnd_dv" align="center">
                         <img src="<?php echo base_url(); ?>images/loader.gif" id="lodr_sec_img" style="display:none;" width="24px" />
-                               <?php if ($no_of_product > $sl) { ?>
+                        <?php if ($no_of_product > $sl) { ?>
                             <input style="display:none;" type="button" class="btn-sign-in" id="sec_viewmore_prodbtnid"  value="View more" name="button" onClick="ShowMoreSingleData('<?= $no_of_product; ?>', '<?= $label_id; ?>', '<?php
                             if ($this->uri->segment(4) != '') {
                                 echo $this->uri->segment(4);
@@ -1328,7 +1328,7 @@ if ($qr_lblid->num_rows() > 0) {
                             }
                             ?>')">
                             <input type="hidden" name="scrol_secmenu_tracktxtbox" id="scrol_secmenu_tracktxtbox" value="wait to scroll" />
-<?php } ?>
+                        <?php } ?>
                     </div>
                 </div>
 
@@ -1384,74 +1384,74 @@ if ($qr_lblid->num_rows() > 0) {
 
                                                         $cur_splprc = 0;
                                                         ?>                            
-            <?php if ($percen_off > 0) { ?> 
+                                                        <?php if ($percen_off > 0) { ?> 
                                                             <div class="new-tag">
                                                                 <!--<h6>20%<br>Off</h6>-->                           
                                                                 <h6><?= $percen_off ?>%<br>Off</h6>                            
                                                             </div>
-                                                            <?php } ?>
+                                                        <?php } ?>
 
 
                                                         <div style="margin:auto; width:100%; text-align:center; ">
-            <?php if (empty($dsply_img)) { ?>
+                                                            <?php if (empty($dsply_img)) { ?>
                                                                 <a style="margin:auto; text-align:center;" 
                                                                    href="<?php echo base_url() . preg_replace('#"#', "-", preg_replace('#/#', "-", str_replace(' ', '-', strtolower($rw['name'])))) . '/' . $rw['product_id'] . '/' . $rw['sku'] ?>">
                                                                     <img style="height: 112px; max-width: 100%; margin: auto;text-align: center;" src="<?php echo base_url(); ?>images/product_img/prdct-no-img.png"  alt="<?= $rw['name']; ?>"></a>
-            <?php } else { ?>
+                                                            <?php } else { ?>
                                                                 <a style="margin:auto; text-align:center;" 
                                                                    href="<?php echo base_url() . preg_replace('#"#', "-", preg_replace('#/#', "-", str_replace(' ', '-', strtolower($rw['name'])))) . '/' . $rw['product_id'] . '/' . $rw['sku'] ?>">
                                                                     <img style="height: 112px;max-width: 100%;margin: auto;text-align: center;" src="<?php echo base_url(); ?>images/product_img/<?= $image_arr[0]; ?>" onerror="imgError(this);"  alt="<?= $rw['name']; ?>">
                                                                 </a>                       
-                                                                    <?php } ?>
+                                                            <?php } ?>
                                                         </div>
                                                         <div class="agile-product-text" >              
                                                             <h5 style="text-align:left; margin-left:0; font-family: 'SegoeUI'; line-height: 16px;"><a href="<?php echo base_url() . preg_replace('#"#', "-", preg_replace('#/#', "-", str_replace(' ', '-', strtolower($rw['name'])))) . '/' . $rw['product_id'] . '/' . $rw['sku'] ?>">
-            <?php
-            if (strlen($rw['name']) > 30) {
-                echo substr($rw['name'], 0, 30) . '...';
-            } else {
-                echo $rw['name'];
-            }
-            ?>
+                                                                    <?php
+                                                                    if (strlen($rw['name']) > 30) {
+                                                                        echo substr($rw['name'], 0, 30) . '...';
+                                                                    } else {
+                                                                        echo $rw['name'];
+                                                                    }
+                                                                    ?>
                                                                 </a></h5> 
                                                             <!--<h6><del>$200</del> $100</h6>-->
 
                                                             <!-----------------------------------Produc price start---------------------------->
 
-            <?php
-            if ($rw['special_price'] != 0) {
-                if ($cdate >= $special_price_from_dt && $cdate <= $special_price_to_dt) {
-                    $cur_splprc = $rw['special_price'];
-                    ?>                               
+                                                            <?php
+                                                            if ($rw['special_price'] != 0) {
+                                                                if ($cdate >= $special_price_from_dt && $cdate <= $special_price_to_dt) {
+                                                                    $cur_splprc = $rw['special_price'];
+                                                                    ?>                               
                                                                     <span style="color:#999; text-decoration:line-through"> <i class="fa fa-inr" aria-hidden="true" style="font-size: 14px;border: 0px;width: 0px; "></i>&nbsp;
-                                                                    <?= $rw['mrp']; ?> </span>
+                                                                        <?= $rw['mrp']; ?> </span>
                                                                     &nbsp;&nbsp;
 
                                                                     <span style="color:#F90;text-decoration:line-through"> <i class="fa fa-inr" aria-hidden="true" style="font-size: 14px;border: 0px;width: 0px; "></i>&nbsp;
-                                                                    <?= $rw['price']; ?> </span>&nbsp;&nbsp;
+                                                                        <?= $rw['price']; ?> </span>&nbsp;&nbsp;
                                                                     <span style="color:#079107 !important;"> <i class="fa fa-inr" aria-hidden="true" style="font-size: 14px;border: 0px;width: 0px; "></i>&nbsp;
                                                                         <?= ceil($rw['special_price']) ?> </span>
-                                                                <?php
+                                                                    <?php
                                                                 }
                                                             }
                                                             ?>
 
-            <?php if ($rw['price'] != 0 && $cur_splprc == 0) { ?>
+                                                            <?php if ($rw['price'] != 0 && $cur_splprc == 0) { ?>
                                                                 <span style="color:#999; text-decoration:line-through"> <i class="fa fa-inr" aria-hidden="true" style="font-size: 14px;border: 0px;width: 0px; "></i>&nbsp;
-                                                                <?= $rw['mrp']; ?> </span>
+                                                                    <?= $rw['mrp']; ?> </span>
                                                             <?php } ?>
                                                             <?php if ($rw['price'] == 0 && $cur_splprc == 0) { ?>
                                                                 <span  > <i class="fa fa-inr" aria-hidden="true" style="font-size: 14px;border: 0px;width: 0px; "></i>&nbsp;
                                                                     <?= $rw['mrp']; ?> </span>
-                                                                <?php } ?>
+                                                            <?php } ?>
                                                             &nbsp;&nbsp;
 
 
-            <?php
-            if ($rw['special_price'] == 0 && $rw['price'] > 0) {
-                ?>                               
+                                                            <?php
+                                                            if ($rw['special_price'] == 0 && $rw['price'] > 0) {
+                                                                ?>                               
                                                                 <span style="color:#079107 !important;"> <i class="fa fa-inr" aria-hidden="true" style="font-size: 14px;border: 0px;width: 0px; "></i>&nbsp;
-                                                                <?= ceil($rw['price']) ?> </span>
+                                                                    <?= ceil($rw['price']) ?> </span>
                                                             <?php } ?>
                                                             <!-----------------------------------Product Price End----------------------------->
 
@@ -1460,19 +1460,19 @@ if ($qr_lblid->num_rows() > 0) {
                                                                             <input type="hidden" name="add" value="1" /> 
                                                                             <input type="hidden" name="w3ls_item" value="Audio speaker" /> 
                                                                             <input type="hidden" name="amount" value="100.00" /> -->
-                                                <?php /* ?><button type="addtocart_prod"  class="w3ls-cart pw3ls-cart" onclick="<?php echo base_url().preg_replace('#"#',"-",preg_replace('#/#',"-",str_replace(' ','-',strtolower($rw['name'])))).'/'.$rw['product_id'].'/'.$rw['sku']  ?>">
-                                                  <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button><?php */ ?>
+                                                            <?php /* ?><button type="addtocart_prod"  class="w3ls-cart pw3ls-cart" onclick="<?php echo base_url().preg_replace('#"#',"-",preg_replace('#/#',"-",str_replace(' ','-',strtolower($rw['name'])))).'/'.$rw['product_id'].'/'.$rw['sku']  ?>">
+                                                              <i class="fa fa-cart-plus" aria-hidden="true"></i> Add to cart</button><?php */ ?>
                                                             <!--</form> -->
 
                                                         </div>
                                                     </div> 
                                                 </div>
 
-            <?php
-        }
-    }
-}
-?>    
+                                                <?php
+                                            }
+                                        }
+                                    }
+                                    ?>    
                                     <div class="clearfix"> </div>
                                 </div>
                             </div>
@@ -1488,35 +1488,35 @@ if ($qr_lblid->num_rows() > 0) {
                         <img src="<?php echo base_url(); ?>images/loader.gif" id="lodr_img" style="display:none;" width="24px"/>
                         <?php if ($no_of_product > $sl) { ?>
                             <input style="display:none;" type="button" class="btn-sign-in"  value="View more" id="viewmore_prodbtnid" name="viewmore_prodbtnid" onClick="ShowMoreData('<?= $no_of_product; ?>', '<?= $label_id; ?>', '<?php
-                        if ($this->uri->segment(4) != '') {
-                            echo $this->uri->segment(4);
-                        } else {
-                            echo 'NOT';
-                        }
-                        ?>')">
+                            if ($this->uri->segment(4) != '') {
+                                echo $this->uri->segment(4);
+                            } else {
+                                echo 'NOT';
+                            }
+                            ?>')">
                             <input type="hidden" name="scrol_tracktxtbox" id="scrol_tracktxtbox" value="wait to scroll" />
-                <?php } ?>
+                        <?php } ?>
                     </div>
 
                 </div>
 
                 <!----------------------------------------Product catalog end-------------------------------->
 
-                        <?php
+                <?php
 //$cat_id = $this->uri->segment(4);
 
-                        $query = $this->db->query("SELECT catg_description FROM category_master WHERE category_id='$cat_id' ");
+                $query = $this->db->query("SELECT catg_description FROM category_master WHERE category_id='$cat_id' ");
 
-                        if ($query->num_rows() > 0) {
-                            ?>
+                if ($query->num_rows() > 0) {
+                    ?>
                     <div class="col-md-12">
                         <div  style="color:#666; font-size:15px; font-family:Tahoma, Geneva, sans-serif; text-align:justify;">
-    <?php
-    echo stripslashes($query->row()->catg_description);
-    ?>
+                            <?php
+                            echo stripslashes($query->row()->catg_description);
+                            ?>
                         </div>
                     </div>
-<?php } ?>     
+                <?php } ?>     
 
                 <div class="clearfix"> </div>
             </div>
@@ -1533,7 +1533,7 @@ if ($qr_lblid->num_rows() > 0) {
     (function () {
         var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
         s1.async = true;
-        s1.src = 'https://embed.tawk.to/594c64bfe9c6d324a4736e5d/default';
+        s1.src = '<?= CHAT_APP_URL ?>';
         s1.charset = 'UTF-8';
         s1.setAttribute('crossorigin', '*');
         s0.parentNode.insertBefore(s1, s0);
