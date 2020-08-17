@@ -24,8 +24,8 @@
        <!-- <li><a href="<?php echo base_url(); ?>address">Addresses</a></li>
         <li><a href="<?php// echo base_url(); ?>user/profile_setting">Profile Settings</a></li>
         <li><a href="#">Update Email/Mobile</a></li>-->
-        <li><a href="#">Deactivate Account</a></li>
-       <!-- <li><a href="#">Notifications</a></li>
+       <!--  <li><a href="#">Deactivate Account</a></li>
+       <li><a href="#">Notifications</a></li>
         <li><a class="last" href="#">Email Preferences</a></li>-->
     </ul>
 </div>

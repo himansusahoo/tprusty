@@ -12,7 +12,7 @@
                 <div class="clearfix"></div>
             </a> </div>
         <div class="col-sm-3 gray3">
-            <a href="<?php echo base_url(); ?>seller/seller" target="_blank"> <i class="markt_plce"> </i> <div class="help-txt"> <span style="color:#e76b3e;"> SALE WITH US  </span>   Start Selling on <?=COMPANY?> Market Place.</div> 
+            <a href="<?php echo base_url(); ?>seller/seller" target="_blank"> <i class="markt_plce"> </i> <div class="help-txt"> <span style="color:#e76b3e;"> SALE WITH US  </span>   Start Selling on <?= COMPANY ?> Market Place.</div> 
                 <div class="clearfix"></div>
             </a> </div>
 
@@ -47,7 +47,7 @@
         <div class="rght-desc">
             <table class="big-table">
                 <tr>
-                    <td><h5 style="font-weight:bold; color:#333; margin-left:15px;">IT'S SAFE TO BUY ON <?=  strtoupper(COMPANY)?> </h5>
+                    <td><h5 style="font-weight:bold; color:#333; margin-left:15px;">IT'S SAFE TO BUY ON <?= strtoupper(COMPANY) ?> </h5>
                         <div class="secure-pay">  <img src="<?php echo base_url() ?>images/secure-pay.png" alt="secure pay" style="float:left; width:20%; margin-left:10px;" >     
                             <h4 style="padding-top:7px;"> OUR GUARANTEE* </h4>  </div>
                     </td>
@@ -110,7 +110,7 @@
                     <li><a href="<?php echo base_url() . 'contact-us'; ?>"> Contact Us </a></li>
                     <li><a href="<?php echo base_url() . 'contact-us'; ?>"> Faq </a></li>
                     <li><a href="<?php echo base_url() . 'career'; ?>"> Career </a></li>
-                    <li><a href="<?=APP_BASE?>sitemap.html"> Sitemap </a></li>
+                    <li><a href="<?= APP_BASE ?>sitemap.html"> Sitemap </a></li>
                 </ul>
             </div>
             <div class="ftr">
@@ -173,7 +173,7 @@
             </div>
             <div class="clearfix">&nbsp;</div>
 
-            <div class="copy-right"> © 2015-2020 <?=COMPANY?>. All Rights Reserved. | Powered by- <a target="_blank" href="<?=POWERED_BY?>"> SPIS </a> </div>
+            <div class="copy-right"> © 2015-2020 <?= COMPANY ?>. All Rights Reserved. | Powered by- <a target="_blank" href="<?= POWERED_BY ?>"> SPIS </a> </div>
         </div>
     </div>
 
@@ -275,7 +275,7 @@
                 //var url = "profile_fillup.php?name="+name+"&mail="+email;
                 //var url = "social_login/gpluslogin/manage_start_profile_fillup.php?name="+name+"&mail="+email;
 
-                /*var url = "<?php //echo site_url();   ?>chm/socialLogin/" + encodeURIComponent(mail+','+name);			
+                /*var url = "<?php //echo site_url();     ?>chm/socialLogin/" + encodeURIComponent(mail+','+name);			
                  window.location.href = url;*/
                 //var url = 'myprofile.php';			
 
@@ -308,7 +308,8 @@
     function onLoadCallback()
     {
         gapi.client.setApiKey('AIzaSyBXmP5Od2YA_lFq-qUAwt8s9tDFtvUcvcE');
-        gapi.client.load('plus', 'v1', function () {});
+        gapi.client.load('plus', 'v1', function () {
+        });
     }
 
 </script>
@@ -334,7 +335,7 @@
 <script>
     window.fbAsyncInit = function () {
         FB.init({
-            appId: '<?=FB_APP_ID?>', // Set YOUR APP ID
+            appId: '<?= FB_APP_ID ?>', // Set YOUR APP ID
             //channelUrl : 'http://hayageek.com/examples/oauth/facebook/oauth-javascript/channel.html', // Channel File
             status: true, // check login status
             cookie: true, // enable cookies to allow the server to access the session
@@ -519,7 +520,7 @@
     (function () {
         var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
         s1.async = true;
-        s1.src = 'https://embed.tawk.to/594c64bfe9c6d324a4736e5d/default';
+        s1.src = '<?= CHAT_APP_URL ?>';
         s1.charset = 'UTF-8';
         s1.setAttribute('crossorigin', '*');
         s0.parentNode.insertBefore(s1, s0);
