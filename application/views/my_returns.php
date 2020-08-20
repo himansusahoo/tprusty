@@ -70,14 +70,14 @@ if($order_rows > 0){
 									<div class="clearfix"></div> 
 								</div>
 								<div class="order_img"> 
-									<a href="<?php echo base_url().'product_description/product_detail/'.str_replace(" ","-",strtolower($order_details_row->name)).'/'.$order_details_row->product_id.'/'.$order_details_row->sku ?>" >
+									<a href="<?php echo base_url().str_replace(" ","-",strtolower($order_details_row->name)).'/'.$order_details_row->product_id.'/'.$order_details_row->sku ?>" >
 										<img alt="" src="<?php echo base_url();?>images/product_img/<?=$image[0]; ?>" width="30"/>
 									</a>
 									<!--<img alt="" src="<?//php echo base_url();?>images/product_img/<?//=$image[0]; ?>" />-->
 								</div>
 								<div class="order_data"> 
 									<div class="col-sm-4 left">
-										<a href="<?php echo base_url().'product_description/product_detail/'.str_replace(" ","-",strtolower($order_details_row->name)).'/'.$order_details_row->product_id.'/'.$order_details_row->sku ?>" >
+										<a href="<?php echo base_url().str_replace(" ","-",strtolower($order_details_row->name)).'/'.$order_details_row->product_id.'/'.$order_details_row->sku ?>" >
 											<h4><?= $order_details_row->name; ?></h4>
 										</a>
 										<span>Quantity : <?= $order_details_row->quantity; ?></span>
@@ -99,13 +99,6 @@ if($order_rows > 0){
 											$date1 = date('y-m-d H:i:s');
 											
 											
-											//$order_date = $order_details_row->date_of_order;
-//											$ordr_sts_modify_date = $order_details_row->order_status_modified_date;
-//											$date1 = date_create($order_date);
-//											$date2 = date_create($ordr_sts_modify_date);
-//											$diff=date_diff($date1,$date2);
-											//echo $diff->format("%R%a");
-											//if($diff->format("%R%a") < +10){
 										
 										if($order_details_row->returned_request_deny == 'Yes'){
 										?>
@@ -160,87 +153,10 @@ else{
 					<div class="clearfix"></div>
 				</div>
 				
-				<!--
-				PAST ORDER TAB
-				
-				<div id="tab2" class="tab-pane fade">
-					<div class="tab-l">
-                        <div id="load_form">
-<?php
-/*$order_rows = $order_id_past_result->num_rows();
-if($order_rows > 0){
-	foreach($order_id_past_result->result() as $order_row){
-		$no_of_item = $order_row->NO_OF_ITEM;
-		
-		$query = $this->db->query("SELECT a.id,a.sub_total_amount,a.quantity,a.product_order_status,b.name,b.description,b.short_desc,c.imag,d.business_name ,e.date_of_order,e.order_status,e.Total_amount FROM ordered_product_from_addtocart a 
-		INNER JOIN product_general_info b ON a.product_id=b.product_id 
-		INNER JOIN product_image c ON a.product_id=c.product_id 
-		INNER JOIN seller_account_information d ON a.seller_id=d.seller_id 
-		INNER JOIN order_info e ON a.order_id=e.order_id WHERE a.order_id='$order_row->order_id' AND a.product_order_status = 'Delivered'");
-		
-		$order_details_result = $query->result();
-		if($order_details_result){
-			foreach($order_details_result as $order_details_row){
-				$image = explode(',',$order_details_row->imag);
-?>						
-					<div class="order_item">
-						<div class="o-id"> 
-							<a href="#" class="order_id"><?=$order_row->order_id;?></a>
-							<div class="clearfix"></div> 
-						</div>
-						<div class="order_img"> <img alt="" src="<?php echo base_url();?>images/product_img/<?=$image[0]; ?>" /></div>
-						<div class="order_data"> 
-							<div class="col-sm-4 left">
-								<h4><?= $order_details_row->name; ?></h4>
-								<span>Quantity : <?= $order_details_row->quantity; ?></span>
-							</div>
-							<div class="col-sm-3 left">
-								<span class="price2">Rs. <?= $order_details_row->sub_total_amount; ?></span>
-							</div>
-							<div class="col-md-2 left">
-								<?php
-								if($order_details_row->product_order_status == 'Delivered'){
-								?>
-								<a href="<?php echo base_url(); ?>my_order/return_product/<?= base64_encode($this->encrypt->encode($order_details_row->id)); ?>" class="cancl_prdt">Return</a>
-								<?php  }  ?>
-							 </div>
-							 <div class="col-sm-3 right">
-								<div class="order-status"> <?= $order_details_row->product_order_status; ?></div>
-							</div>
-						</div>
-						<div class="clearfix"></div>
-						<div class="line2"> </div>
-						<?php
-						}
-						?>
-						<div class="order-total">
-							<span>Seller : <?= $order_row->business_name; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						  
-							<?php if($order_row->order_status == 'Delivered'){ ?>
-							<a href="#add_seller_review<?=$sl;?>" class="inline">Review Seller</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<?php } ?>
-						  
-							<span>Date : <?= date('Y-m-d',strtotime($order_row->date_of_order));?></span>
-							<?php if($order_row->order_status != 'Cancelled'){ ?>
-							<?php } ?>
-							<span class="o-total">Order Total : <strong>Rs. &nbsp;<?= $order_row->Total_amount;?></strong></span>
-						</div>
-					</div>
-<?php
-			}
-		}
-	}else{
-		?>
-			<p>you don't have any past orders record.</p>
-		<?php
-	}*/
-?>	
-						</div>
-					</div>
-				</div>-->
+
 			</div>
 			
-		<!--</div>-->
+
 	
 	<div class="clearfix">&nbsp;</div>
 <?php include "footer.php" ?>
