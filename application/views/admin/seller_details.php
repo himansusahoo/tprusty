@@ -52,40 +52,62 @@ require_once('header.php');
     </div>  <!-- @end top-bar  -->
     <div class="main-content">
         <?php
-        $qr1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id = '$seller_id'");
+        $qr1 = $this->db->query("SELECT *
+FROM seller_account_information WHERE seller_id = '$seller_id'");
         $rw1 = $qr1->row();
         ?>
         <div class="row content-header">
             <h4 class="col-md-6"> Seller Details <?php echo $rw1 ? $rw1->business_name : "Not Available"; ?> <span id="ajxtst"></span></h4>
             <a class="right" style="text-align:right;" href="<?php echo base_url() . 'admin/sellers/addnew_product_for_seller/' . $seller_id; ?>" title="Add New Product"><i style="font-size:25px;" class="fa fa-plus-square"></i></a>
         </div>
+
         <br>
+
         <span style="float:right;">                          
             <a id="product_submit" class='seller_buttons' href="<?php echo base_url() . 'admin/Bulkproduct_edit/bulkproduct_editpanel/' . $seller_id ?>" style="cursor:pointer;" >
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="color:#FFF;"></i> &nbsp;Edit Bulk New Products 
             </a>
         </span>
-        <span style="float:left;">                                         
+
+
+        <span style="float:left;">
+
+            <?php
+            //if($this->session->userdata('logged_in')=='sp')
+            //{ 
+            ?>                               
             <a  id="product_submit" class='seller_buttons' href="<?php echo base_url() . 'admin/Bulkexistingproduct_edit/bulk_existingproductedit_forseller/' . $seller_id ?>" style="cursor:pointer; background-color:#0C6;" >
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="color:#FFF;"></i> &nbsp;Edit Bulk Existing Products 
             </a>
+            <?php //}    ?>
             <br> <br>
             <a id="exportproduct" class='seller_buttons' href="<?php echo base_url() . 'admin/sellers/exportseller_products/' . $seller_id ?>" style="cursor:pointer; float:left"  >
                 <i class="fa fa-file-excel-o" aria-hidden="true" style="color:#FFF;"></i> &nbsp;Export Seller Products 
             </a>
-        </span>
+        </span> 
+
         <div class="a-center" id="ajax_res"></div>
         <div class="clearfix"></div>
+
+
         <ul class="nav nav-tabs tabs-horiz">
+
             <li id="li_tab1" class="active"><a data-toggle="tab" href="#tab1">Seller Primary Details</a></li>
             <li id="li_tab2"><a data-toggle="tab" href="#tab2">Seller Personal Details</a></li>
-            <li id="li_tab3"><a data-toggle="tab" href="#tab3">Seller Account Details</a></li>            
+            <li id="li_tab3"><a data-toggle="tab" href="#tab3">Seller Account Details</a></li>
+            <!--<li id="li_tab4"><a data-toggle="tab" href="#tab4">Seller Business Documents</a></li>-->
+            <!--<li id="li_tab5"><a data-toggle="tab" href="#tab5">Seller Products</a></li>-->
             <li id="li_tab6"><a data-toggle="tab" href="#tab6"> KYC Details</a></li>
             <li id="li_tab7"><a data-toggle="tab" href="#tab7">Store Details</a></li>
             <a id="product_submit" class='seller_buttons' href="<?php echo base_url() . 'admin/sellers/seller_products/' . $seller_id ?>" style="cursor:pointer; float:right" target="_blank" >
                 <i class="fa fa-list-alt" aria-hidden="true" style="color:#FFF;"></i> &nbsp;View All Products 
             </a>
+
+
+
         </ul>
+
+
         <div id="ajax_res"></div>
         <div id="validate_msg" class="a-center" style="color:red;"></div>
         <?php if ($this->session->flashdata('msg1')) { ?>
@@ -93,8 +115,11 @@ require_once('header.php');
         <?php } ?>
         <div class="tab-content form_view">
             <div id="tab1" class="tab-pane fade in active">
+
                 <h3>Seller Primary Details</h3>
                 <table class="table table-bordered table-hover">
+
+
                     <tr>
                         <td> Seller Primary Name:</td>
                         <td> 
@@ -103,6 +128,7 @@ require_once('header.php');
                             <input type="text" name="slr_pname" class="hidden_input slrinf1" value="<?php echo $rw1 ? $rw1->pname : ""; ?>">
                             <span>  <img src="<?php echo base_url(); ?>images/progress.gif" class="timer1" style="display:none;float:right" /> </span>
                             <span>  <img src="<?php echo base_url(); ?>images/success_icon.png" class="comsn_loader1" style="display:none;float:right" /> </span>
+
                         </td>
                         <td>
                             <span class="edt pedit1" onClick="editSlrInfo(<?= $seller_id; ?>, 1);">Edit</span>
@@ -168,134 +194,209 @@ require_once('header.php');
                         </td>
                     </tr>
                     <?php
-                    $qr4 = $this->db->query("SELECT a.*,a.tan AS TAN_NO
-                                FROM seller_account_information a LEFT JOIN seller_account b ON a.seller_id = b.seller_id
-                                WHERE a.seller_id='$seller_id'");
-                    $rw4 = $qr4->row();
-                    ?>  
-                    <tr>
-                        <td>PAN CARD :</td>
-                        <td>
-                            <div id="imgdv19">
-                                <?php if ($rw4) { ?>
-                                    <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->pan_img; ?>" title="<?= $rw4->pan; ?>">
-                                        <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->pan_img; ?>" width="30" class="list_img">
-                                        <br/><strong><?= $rw4->pan; ?></strong>
+                    $query = "SELECT a.*,a.tan AS TAN_NO
+                            FROM seller_account_information a 
+                            LEFT JOIN seller_account b ON a.seller_id = b.seller_id
+                            WHERE a.seller_id='$seller_id'";
+                    $rw4 = $this->db->query($query)->row();
+                    if (isset($rw4)):
+                        ?>
+                        <tr>
+                            <td>PAN CARD :</td>
+                            <td>
+                                <div id="imgdv19">
+                                    <?php if ($rw4) { ?>
+                                        <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->pan_img; ?>" title="<?= $rw4->pan; ?>">
+                                            <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->pan_img; ?>" width="30" class="list_img">
+                                            <br/><strong><?= $rw4->pan; ?></strong>
+                                        </a>
+                                        <?php
+                                    } else {
+                                        echo "Not Available";
+                                    }
+                                    ?>
+                                </div>
+                                <?php
+                                $attributes = array('id' => 'imgform19', 'class' => 'slrimgfrm');
+                                echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
+                                ?>
+                                <input type="hidden" name="fldnm" value="pan">
+                                <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
+                                Pan Card Img : <input type="file" name="userfile" id="seller_panimg19" style="display:inline;"><br/>
+                                Pan Card Number : <input type="text" name="cardno" id="seller_panno19" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->pan : ''; ?>">
+                                <input type="submit" name="submit" value="Update" onClick="return validate_panform()">
+                                <?php echo form_close(); ?>
+                            </td>
+                            <td>
+                                <span class="edt pedit19" onClick="editSlrImgInfo(19);">Edit</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>TIN NO. :</td>
+                            <td>
+                                <div id="imgdv20">
+                                    <?php if ($rw4) { ?>
+                                        <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->tin_img; ?>" title="<?= $rw4->tin; ?>">
+                                            <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->tin_img; ?>" width="30" class="list_img">
+                                            <br/><strong><?= $rw4->tin; ?></strong>
+                                        </a>
+                                        <?php
+                                    } else {
+                                        echo "Not Available";
+                                    }
+                                    ?>
+                                </div>
+                                <?php
+                                $attributes = array('id' => 'imgform20', 'class' => 'slrimgfrm');
+                                echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
+                                ?>
+                                <input type="hidden" name="fldnm" value="tin">
+                                <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
+                                Tin Card Img : <input type="file" name="userfile" id="seller_tinimg20" style="display:inline;"><br/>
+                                Tin Number : <input type="text" name="cardno" id="seller_tinno20" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->tin : ''; ?>">
+                                <input type="submit" name="submit" value="Update" onClick="return validate_tinform()">
+                                <?php echo form_close(); ?>
+                            </td>
+                            <td>
+                                <span class="edt pedit20" onClick="editSlrImgInfo(20);">Edit</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>TAN ID :</td>
+                            <td>
+                                <div id="imgdv21">
+                                    <?php if ($rw4) { ?>
+                                        <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->tan_img; ?>" title="<?= $rw4->TAN_NO; ?>">
+                                            <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->tan_img; ?>" width="30" class="list_img">
+                                            <br/><strong><?= $rw4->TAN_NO; ?></strong>
+                                        </a>
+                                        <?php
+                                    } else {
+                                        echo "Not Available";
+                                    }
+                                    ?>
+                                </div>
+                                <?php
+                                $attributes = array('id' => 'imgform21', 'class' => 'slrimgfrm');
+                                echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
+                                ?>
+                                <input type="hidden" name="fldnm" value="tan">
+                                <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
+                                Tan Card Img : <input type="file" name="userfile" id="seller_tanimg21" style="display:inline;"><br/>
+                                Tan Number : <input type="text" name="cardno" id="seller_tanno21" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->TAN_NO : ''; ?>">
+                                <input type="submit" name="submit" value="Update" onClick="return validate_tanform()">
+                                <?php echo form_close(); ?>
+                            </td>
+                            <td><span class="edt pedit21" onClick="editSlrImgInfo(21);">Edit</span></td>
+                        </tr>
+                        <tr>
+                            <td>GSTIN:</td>
+                            <td>
+                                <div id="imgdv211">
+                                    <?php if ($rw4->gstin_img) { ?>
+                                        <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->gstin_img; ?>" title="<?= $rw4->gstin; ?>">
+                                            <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->gstin_img; ?>" width="30" class="list_img"><?php } ?>
                                     </a>
-                                    <?php
-                                } else {
-                                    echo "Not Available";
-                                }
-                                ?>
-                            </div>
-                            <?php
-                            $attributes = array('id' => 'imgform19', 'class' => 'slrimgfrm');
-                            echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
-                            ?>
-                            <input type="hidden" name="fldnm" value="pan">
-                            <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
-                            Pan Card Img : <input type="file" name="userfile" id="seller_panimg19" style="display:inline;"><br/>
-                            Pan Card Number : <input type="text" name="cardno" id="seller_panno19" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->pan : ''; ?>">
-                            <input type="submit" name="submit" value="Update" onClick="return validate_panform()">
-                            <?php echo form_close(); ?>
-                        </td>
-                        <td>
-                            <span class="edt pedit19" onClick="editSlrImgInfo(19);">Edit</span>
-                        </td>
-                    </tr>
 
-                    <tr>
-                        <td>TIN NO. :</td>
-                        <td>
-                            <div id="imgdv20">
-                                <?php if ($rw4) { ?>
-                                    <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->tin_img; ?>" title="<?= $rw4->tin; ?>">
-                                        <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->tin_img; ?>" width="30" class="list_img">
-                                        <br/><strong><?= $rw4->tin; ?></strong>
-                                    </a>
-                                    <?php
-                                } else {
-                                    echo "Not Available";
-                                }
+                                    <br/>
+                                    <?php if ($rw4->gstin) { ?>
+                                        <strong><?= $rw4->gstin; ?></strong>
+                                        <?php
+                                    }if ($rw4->gstin_img == "" && $rw4->gstin == "") {
+                                        echo "Not Available";
+                                    }
+                                    ?>
+                                </div>
+                                <?php
+                                $attributes = array('id' => 'imgform211', 'class' => 'slrimgfrm');
+                                echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
                                 ?>
-                            </div>
-                            <?php
-                            $attributes = array('id' => 'imgform20', 'class' => 'slrimgfrm');
-                            echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
-                            ?>
-                            <input type="hidden" name="fldnm" value="tin">
-                            <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
-                            Tin Card Img : <input type="file" name="userfile" id="seller_tinimg20" style="display:inline;"><br/>
-                            Tin Number : <input type="text" name="cardno" id="seller_tinno20" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->tin : ''; ?>">
-                            <input type="submit" name="submit" value="Update" onClick="return validate_tinform()">
-                            <?php echo form_close(); ?>
-                        </td>
-                        <td>
-                            <span class="edt pedit20" onClick="editSlrImgInfo(20);">Edit</span>
-                        </td>
-                    </tr>
-                    <!--<?php // if(@$rw4->TAN_NO) {     ?>-->
-                    <tr>
-                        <td>TAN ID :</td>
-                        <td>
-                            <div id="imgdv21">
-                                <?php if ($rw4) { ?>
-                                    <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->tan_img; ?>" title="<?= $rw4->TAN_NO; ?>">
-                                        <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->tan_img; ?>" width="30" class="list_img">
-                                        <br/><strong><?= $rw4->TAN_NO; ?></strong>
-                                    </a>
-                                    <?php
-                                } else {
-                                    echo "Not Available";
-                                }
+                                <input type="hidden" name="fldnm" value="gstin">
+                                <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
+                                GSTIN Img : <input type="file" name="userfile" id="seller_gstinimg211" style="display:inline;"><br/>
+                                GSTIN Number : <input type="text" name="cardno" id="seller_gstinno211" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->gstin : ''; ?>">
+                                <input type="submit" name="submit" value="Update" onClick="return validate_gstinform()">
+                                <?php echo form_close(); ?>
+                            </td>
+                            <td><span class="edt pedit211" onClick="editSlrImgInfo(211);">Edit</span></td>
+                        </tr>
+                    <?php else: ?>
+                        <tr>
+                            <td>PAN CARD :</td>
+                            <td>
+                                <div id="imgdv19">Not Available</div>
+                                <?php
+                                $attributes = array('id' => 'imgform19', 'class' => 'slrimgfrm');
+                                echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
                                 ?>
-                            </div>
-                            <?php
-                            $attributes = array('id' => 'imgform21', 'class' => 'slrimgfrm');
-                            echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
-                            ?>
-                            <input type="hidden" name="fldnm" value="tan">
-                            <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
-                            Tan Card Img : <input type="file" name="userfile" id="seller_tanimg21" style="display:inline;"><br/>
-                            Tan Number : <input type="text" name="cardno" id="seller_tanno21" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->TAN_NO : ''; ?>">
-                            <input type="submit" name="submit" value="Update" onClick="return validate_tanform()">
-                            <?php echo form_close(); ?>
-                        </td>
-                        <td><span class="edt pedit21" onClick="editSlrImgInfo(21);">Edit</span></td>
-                    </tr>                   
-                    <tr>
-                        <td>GSTIN:</td>
-                        <td>
-                            <div id="imgdv211">
-                                <?php if (isset($rw4->gstin_img)) { ?>
-                                    <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->gstin_img; ?>" title="<?= $rw4->gstin; ?>">
-                                        <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->gstin_img; ?>" width="30" class="list_img"><?php } ?>
-                                </a>
-
-                                <br/>
-                                <?php if (isset($rw4->gstin)) { ?>
-                                    <strong><?= $rw4->gstin; ?></strong>
-                                    <?php
-                                }if (!isset($rw4->gstin_img) || $rw4->gstin == "") {
-                                    echo "Not Available";
-                                }
+                                <input type="hidden" name="fldnm" value="pan">
+                                <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
+                                Pan Card Img : <input type="file" name="userfile" id="seller_panimg19" style="display:inline;"><br/>
+                                Pan Card Number : <input type="text" name="cardno" id="seller_panno19" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->pan : ''; ?>">
+                                <input type="submit" name="submit" value="Update" onClick="return validate_panform()">
+                                <?php echo form_close(); ?>
+                            </td>
+                            <td>
+                                <span class="edt pedit19" onClick="editSlrImgInfo(19);">Edit</span>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>TIN NO. :</td>
+                            <td>
+                                <div id="imgdv20">Not Available</div>
+                                <?php
+                                $attributes = array('id' => 'imgform20', 'class' => 'slrimgfrm');
+                                echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
                                 ?>
-                            </div>
-                            <?php
-                            $attributes = array('id' => 'imgform211', 'class' => 'slrimgfrm');
-                            echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
-                            ?>
-                            <input type="hidden" name="fldnm" value="gstin">
-                            <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
-                            GSTIN Img : <input type="file" name="userfile" id="seller_gstinimg211" style="display:inline;"><br/>
-                            GSTIN Number : <input type="text" name="cardno" id="seller_gstinno211" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->gstin : ''; ?>">
-                            <input type="submit" name="submit" value="Update" onClick="return validate_gstinform()">
-                            <?php echo form_close(); ?>
-                        </td>
-                        <td><span class="edt pedit211" onClick="editSlrImgInfo(211);">Edit</span></td>
-                    </tr>
-
-                    <!------------------------------------------------sujit end---------------------------------->                                
+                                <input type="hidden" name="fldnm" value="tin">
+                                <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
+                                Tin Card Img : <input type="file" name="userfile" id="seller_tinimg20" style="display:inline;"><br/>
+                                Tin Number : <input type="text" name="cardno" id="seller_tinno20" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->tin : ''; ?>">
+                                <input type="submit" name="submit" value="Update" onClick="return validate_tinform()">
+                                <?php echo form_close(); ?>
+                            </td>
+                            <td>
+                                <span class="edt pedit20" onClick="editSlrImgInfo(20);">Edit</span>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>TAN ID :</td>
+                            <td>
+                                <div id="imgdv21">Not Available</div>
+                                <?php
+                                $attributes = array('id' => 'imgform21', 'class' => 'slrimgfrm');
+                                echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
+                                ?>
+                                <input type="hidden" name="fldnm" value="tan">
+                                <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
+                                Tan Card Img : <input type="file" name="userfile" id="seller_tanimg21" style="display:inline;"><br/>
+                                Tan Number : <input type="text" name="cardno" id="seller_tanno21" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->TAN_NO : ''; ?>">
+                                <input type="submit" name="submit" value="Update" onClick="return validate_tanform()">
+                                <?php echo form_close(); ?>
+                            </td>
+                            <td><span class="edt pedit21" onClick="editSlrImgInfo(21);">Edit</span></td>
+                        </tr>
+                        
+                        <tr>
+                            <td>GSTIN:</td>
+                            <td>
+                                <div id="imgdv211">Not Available</div>
+                                <?php
+                                $attributes = array('id' => 'imgform211', 'class' => 'slrimgfrm');
+                                echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
+                                ?>
+                                <input type="hidden" name="fldnm" value="gstin">
+                                <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
+                                GSTIN Img : <input type="file" name="userfile" id="seller_gstinimg211" style="display:inline;"><br/>
+                                GSTIN Number : <input type="text" name="cardno" id="seller_gstinno211" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->gstin : ''; ?>">
+                                <input type="submit" name="submit" value="Update" onClick="return validate_gstinform()">
+                                <?php echo form_close(); ?>
+                            </td>
+                            <td><span class="edt pedit211" onClick="editSlrImgInfo(211);">Edit</span></td>
+                        </tr>
+                    <?php endif; ?>                            
                 </table>
             </div>
             <div id="tab2" class="tab-pane fade">
@@ -401,7 +502,7 @@ require_once('header.php');
                         <td>
                             <span class="slrp12"><?php echo $rw2->seller_state; ?></span>
                             <span class="updt_slrp12" style="display:none;"></span>
-                            <!--<input type="text" name="slr_prestate" class="hidden_input slrinf12" value="<?php // echo $rw2->seller_state;  ?>">-->
+                            <!--<input type="text" name="slr_prestate" class="hidden_input slrinf12" value="<?php // echo $rw2->seller_state;     ?>">-->
                             <select class="hidden_input slrinf12" name="slr_prestate" >
                                 <option value="<?php echo $rw2->seller_state; ?>"><?php echo $rw2->seller_state; ?></option>
                                 <?php
@@ -542,7 +643,7 @@ require_once('header.php');
 
                         <span class="slrp23"><?php echo $rw3 ? $rw3->state : "Not Available"; ?></span>
                         <span class="updt_slrp23" style="display:none;"></span>
-                        <!--<input type="text" name="slr_prestate" class="hidden_input slrinf23" value="<?php // echo $rw3 ? $rw3->state:'';  ?>">-->
+                        <!--<input type="text" name="slr_prestate" class="hidden_input slrinf23" value="<?php // echo $rw3 ? $rw3->state:'';     ?>">-->
                         <select class="hidden_input slrinf23" name="slr_prestate" >
                             <option value="<?php echo $rw3 ? $rw3->state : ''; ?>"><?php echo $rw3 ? $rw3->state : ''; ?></option>
                             <?php
@@ -560,7 +661,7 @@ require_once('header.php');
                         <span>  <img src="<?php echo base_url(); ?>images/progress.gif" class="timer23" style="display:none;float:right" /> </span>
                         <span>  <img src="<?php echo base_url(); ?>images/success_icon.png" class="comsn_loader23" style="display:none;float:right" /> </span>
                         <!--<select name="slr_prestate" class="hidden_input slrinf23">
-                                                <option value="<?php // echo $rw3 ? $rw3->state:'';    ?>"><?php // echo $rw3 ? $rw3->state:'';    ?></option>					
+                                                <option value="<?php // echo $rw3 ? $rw3->state:'';      ?>"><?php // echo $rw3 ? $rw3->state:'';      ?></option>					
                         </select>-->
                     </td>
                     <td>
@@ -720,7 +821,7 @@ require_once('header.php');
                             <span class="edt pedit26" onClick="editSlrImgInfo(26);">Edit</span>
                         </td>
                     </tr>
-                    <!--<?php // if(@$rw4->TAN_NO) {   ?>-->
+                    <!--<?php // if(@$rw4->TAN_NO) {      ?>-->
                     <tr>
                         <td>Cancelled Cheque* :</td>
                         <td>
@@ -748,7 +849,7 @@ require_once('header.php');
                         </td>
                         <td><span class="edt pedit27" onClick="editSlrImgInfo(27);">Edit</span></td>
                     </tr>
-                    <!--<?php // }    ?>-->
+                    <!--<?php // }       ?>-->
 
                 </table>
 
@@ -821,11 +922,11 @@ require_once('header.php');
 
 
 <!--- Zebra_Datepicker link start here ---->
-<!--<script src="<?php // echo base_url();     ?>Zebra_Datepicker-master/examples/public/javascript/jquery-1.11.1.js"></script>-->
-<!--<script src="<?php // echo base_url();     ?>Zebra_Datepicker-master/examples/public/javascript/core1.js"></script>
-<script src="<?php // echo base_url();     ?>Zebra_Datepicker-master/public/javascript/zebra_datepicker.js"></script>
-<link href="<?php // echo base_url();     ?>Zebra_Datepicker-master/public/css/default.css" rel="stylesheet">-->
-<!--<link href="<?php // echo base_url();     ?>Zebra_Datepicker-master/examples/public/css/style.css" rel="stylesheet">-->
+<!--<script src="<?php // echo base_url();       ?>Zebra_Datepicker-master/examples/public/javascript/jquery-1.11.1.js"></script>-->
+<!--<script src="<?php // echo base_url();       ?>Zebra_Datepicker-master/examples/public/javascript/core1.js"></script>
+<script src="<?php // echo base_url();       ?>Zebra_Datepicker-master/public/javascript/zebra_datepicker.js"></script>
+<link href="<?php // echo base_url();       ?>Zebra_Datepicker-master/public/css/default.css" rel="stylesheet">-->
+<!--<link href="<?php // echo base_url();       ?>Zebra_Datepicker-master/examples/public/css/style.css" rel="stylesheet">-->
 <!--- Zebra_Datepicker link end here ---->
 
 
