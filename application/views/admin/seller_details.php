@@ -7,17 +7,15 @@ require_once('header.php');
 <!--<script src="../jquery.colorbox.js"></script>-->
 <script src="<?php echo base_url(); ?>colorbox/jquery.colorbox.js"></script>
 <script>
-    $(document).ready(function () {
-        //Examples of how to assign the Colorbox event to elements
-        $(".group3").colorbox({rel: 'group3', transition: "none", width: "60%", height: "75%"});
-
-        //Example of preserving a JavaScript event for inline calls.
-        $("#click").click(function () {
-            $('#click').css({"background-color": "#f00", "color": "#fff", "cursor": "inherit"}).text("Open this window again and this message will still be here.");
+            $(document).ready(function () {
+    //Examples of how to assign the Colorbox event to elements
+    $(".group3").colorbox({rel: 'group3', transition: "none", width: "60%", height: "75%"});
+            //Example of preserving a JavaScript event for inline calls.
+            $("#click").click(function () {
+    $('#click').css({"background-color": "#f00", "color": "#fff", "cursor": "inherit"}).text("Open this window again and this message will still be here.");
             return false;
-        });
     });
-</script>
+    });</script>
 <!--- colorbox script end here--->
 <style>
     .cboxPhoto{
@@ -54,73 +52,49 @@ require_once('header.php');
     </div>  <!-- @end top-bar  -->
     <div class="main-content">
         <?php
-        $qr1 = $this->db->query("SELECT *
-FROM seller_account_information WHERE seller_id = '$seller_id'");
+        $qr1 = $this->db->query("SELECT * FROM seller_account_information WHERE seller_id = '$seller_id'");
         $rw1 = $qr1->row();
         ?>
         <div class="row content-header">
             <h4 class="col-md-6"> Seller Details <?php echo $rw1 ? $rw1->business_name : "Not Available"; ?> <span id="ajxtst"></span></h4>
             <a class="right" style="text-align:right;" href="<?php echo base_url() . 'admin/sellers/addnew_product_for_seller/' . $seller_id; ?>" title="Add New Product"><i style="font-size:25px;" class="fa fa-plus-square"></i></a>
         </div>
-
         <br>
-
         <span style="float:right;">                          
             <a id="product_submit" class='seller_buttons' href="<?php echo base_url() . 'admin/Bulkproduct_edit/bulkproduct_editpanel/' . $seller_id ?>" style="cursor:pointer;" >
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="color:#FFF;"></i> &nbsp;Edit Bulk New Products 
             </a>
         </span>
-
-
-        <span style="float:left;">
-
-            <?php //if($this->session->userdata('logged_in')=='sp')
-            //{ 
-            ?>                               
+        <span style="float:left;">                                         
             <a  id="product_submit" class='seller_buttons' href="<?php echo base_url() . 'admin/Bulkexistingproduct_edit/bulk_existingproductedit_forseller/' . $seller_id ?>" style="cursor:pointer; background-color:#0C6;" >
                 <i class="fa fa-pencil-square-o" aria-hidden="true" style="color:#FFF;"></i> &nbsp;Edit Bulk Existing Products 
             </a>
-<?php //}   ?>
             <br> <br>
             <a id="exportproduct" class='seller_buttons' href="<?php echo base_url() . 'admin/sellers/exportseller_products/' . $seller_id ?>" style="cursor:pointer; float:left"  >
                 <i class="fa fa-file-excel-o" aria-hidden="true" style="color:#FFF;"></i> &nbsp;Export Seller Products 
             </a>
-        </span> 
-
+        </span>
         <div class="a-center" id="ajax_res"></div>
         <div class="clearfix"></div>
-
-
         <ul class="nav nav-tabs tabs-horiz">
-
             <li id="li_tab1" class="active"><a data-toggle="tab" href="#tab1">Seller Primary Details</a></li>
             <li id="li_tab2"><a data-toggle="tab" href="#tab2">Seller Personal Details</a></li>
-            <li id="li_tab3"><a data-toggle="tab" href="#tab3">Seller Account Details</a></li>
-            <!--<li id="li_tab4"><a data-toggle="tab" href="#tab4">Seller Business Documents</a></li>-->
-            <!--<li id="li_tab5"><a data-toggle="tab" href="#tab5">Seller Products</a></li>-->
+            <li id="li_tab3"><a data-toggle="tab" href="#tab3">Seller Account Details</a></li>            
             <li id="li_tab6"><a data-toggle="tab" href="#tab6"> KYC Details</a></li>
             <li id="li_tab7"><a data-toggle="tab" href="#tab7">Store Details</a></li>
             <a id="product_submit" class='seller_buttons' href="<?php echo base_url() . 'admin/sellers/seller_products/' . $seller_id ?>" style="cursor:pointer; float:right" target="_blank" >
                 <i class="fa fa-list-alt" aria-hidden="true" style="color:#FFF;"></i> &nbsp;View All Products 
             </a>
-
-
-
         </ul>
-
-
         <div id="ajax_res"></div>
         <div id="validate_msg" class="a-center" style="color:red;"></div>
         <?php if ($this->session->flashdata('msg1')) { ?>
             <div class="a-center" style="color:red;"> <?= $this->session->flashdata('msg1') ?> </div>
-<?php } ?>
+        <?php } ?>
         <div class="tab-content form_view">
             <div id="tab1" class="tab-pane fade in active">
-
                 <h3>Seller Primary Details</h3>
                 <table class="table table-bordered table-hover">
-
-
                     <tr>
                         <td> Seller Primary Name:</td>
                         <td> 
@@ -129,7 +103,6 @@ FROM seller_account_information WHERE seller_id = '$seller_id'");
                             <input type="text" name="slr_pname" class="hidden_input slrinf1" value="<?php echo $rw1 ? $rw1->pname : ""; ?>">
                             <span>  <img src="<?php echo base_url(); ?>images/progress.gif" class="timer1" style="display:none;float:right" /> </span>
                             <span>  <img src="<?php echo base_url(); ?>images/success_icon.png" class="comsn_loader1" style="display:none;float:right" /> </span>
-
                         </td>
                         <td>
                             <span class="edt pedit1" onClick="editSlrInfo(<?= $seller_id; ?>, 1);">Edit</span>
@@ -204,25 +177,27 @@ FROM seller_account_information WHERE seller_id = '$seller_id'");
                         <td>PAN CARD :</td>
                         <td>
                             <div id="imgdv19">
-<?php if ($rw4) { ?>
+                                <?php if ($rw4) { ?>
                                     <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->pan_img; ?>" title="<?= $rw4->pan; ?>">
                                         <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->pan_img; ?>" width="30" class="list_img">
                                         <br/><strong><?= $rw4->pan; ?></strong>
                                     </a>
-                            <?php } else {
-                                echo "Not Available";
-                            } ?>
+                                    <?php
+                                } else {
+                                    echo "Not Available";
+                                }
+                                ?>
                             </div>
-<?php
-$attributes = array('id' => 'imgform19', 'class' => 'slrimgfrm');
-echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
-?>
+                            <?php
+                            $attributes = array('id' => 'imgform19', 'class' => 'slrimgfrm');
+                            echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
+                            ?>
                             <input type="hidden" name="fldnm" value="pan">
                             <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
                             Pan Card Img : <input type="file" name="userfile" id="seller_panimg19" style="display:inline;"><br/>
                             Pan Card Number : <input type="text" name="cardno" id="seller_panno19" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->pan : ''; ?>">
                             <input type="submit" name="submit" value="Update" onClick="return validate_panform()">
-<?php echo form_close(); ?>
+                            <?php echo form_close(); ?>
                         </td>
                         <td>
                             <span class="edt pedit19" onClick="editSlrImgInfo(19);">Edit</span>
@@ -238,38 +213,42 @@ echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
                                         <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->tin_img; ?>" width="30" class="list_img">
                                         <br/><strong><?= $rw4->tin; ?></strong>
                                     </a>
-                            <?php } else {
-                                echo "Not Available";
-                            } ?>
+                                    <?php
+                                } else {
+                                    echo "Not Available";
+                                }
+                                ?>
                             </div>
-<?php
-$attributes = array('id' => 'imgform20', 'class' => 'slrimgfrm');
-echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
-?>
+                            <?php
+                            $attributes = array('id' => 'imgform20', 'class' => 'slrimgfrm');
+                            echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
+                            ?>
                             <input type="hidden" name="fldnm" value="tin">
                             <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
                             Tin Card Img : <input type="file" name="userfile" id="seller_tinimg20" style="display:inline;"><br/>
                             Tin Number : <input type="text" name="cardno" id="seller_tinno20" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->tin : ''; ?>">
                             <input type="submit" name="submit" value="Update" onClick="return validate_tinform()">
-<?php echo form_close(); ?>
+                            <?php echo form_close(); ?>
                         </td>
                         <td>
                             <span class="edt pedit20" onClick="editSlrImgInfo(20);">Edit</span>
                         </td>
                     </tr>
-                    <!--<?php // if(@$rw4->TAN_NO) {  ?>-->
+                    <!--<?php // if(@$rw4->TAN_NO) {     ?>-->
                     <tr>
                         <td>TAN ID :</td>
                         <td>
                             <div id="imgdv21">
-                            <?php if ($rw4) { ?>
+                                <?php if ($rw4) { ?>
                                     <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->tan_img; ?>" title="<?= $rw4->TAN_NO; ?>">
                                         <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->tan_img; ?>" width="30" class="list_img">
                                         <br/><strong><?= $rw4->TAN_NO; ?></strong>
                                     </a>
-<?php } else {
-    echo "Not Available";
-} ?>
+                                    <?php
+                                } else {
+                                    echo "Not Available";
+                                }
+                                ?>
                             </div>
                             <?php
                             $attributes = array('id' => 'imgform21', 'class' => 'slrimgfrm');
@@ -280,39 +259,38 @@ echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
                             Tan Card Img : <input type="file" name="userfile" id="seller_tanimg21" style="display:inline;"><br/>
                             Tan Number : <input type="text" name="cardno" id="seller_tanno21" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->TAN_NO : ''; ?>">
                             <input type="submit" name="submit" value="Update" onClick="return validate_tanform()">
-<?php echo form_close(); ?>
+                            <?php echo form_close(); ?>
                         </td>
                         <td><span class="edt pedit21" onClick="editSlrImgInfo(21);">Edit</span></td>
-                    </tr>
-                    <!--<?php // }  ?>-->
-                    <!----------------------------sujit start fimdr45nm------------------------------>                              
-
+                    </tr>                   
                     <tr>
                         <td>GSTIN:</td>
                         <td>
                             <div id="imgdv211">
-                                <?php if ($rw4->gstin_img) { ?>
+                                <?php if (isset($rw4->gstin_img)) { ?>
                                     <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->gstin_img; ?>" title="<?= $rw4->gstin; ?>">
                                         <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->gstin_img; ?>" width="30" class="list_img"><?php } ?>
                                 </a>
 
                                 <br/>
-<?php if ($rw4->gstin) { ?>
+                                <?php if (isset($rw4->gstin)) { ?>
                                     <strong><?= $rw4->gstin; ?></strong>
-<?php }if ($rw4->gstin_img == "" && $rw4->gstin == "") {
-    echo "Not Available";
-} ?>
+                                    <?php
+                                }if (!isset($rw4->gstin_img) || $rw4->gstin == "") {
+                                    echo "Not Available";
+                                }
+                                ?>
                             </div>
-<?php
-$attributes = array('id' => 'imgform211', 'class' => 'slrimgfrm');
-echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
-?>
+                            <?php
+                            $attributes = array('id' => 'imgform211', 'class' => 'slrimgfrm');
+                            echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
+                            ?>
                             <input type="hidden" name="fldnm" value="gstin">
                             <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
                             GSTIN Img : <input type="file" name="userfile" id="seller_gstinimg211" style="display:inline;"><br/>
                             GSTIN Number : <input type="text" name="cardno" id="seller_gstinno211" class="hidden_inputfld" value="<?php echo $rw4 ? $rw4->gstin : ''; ?>">
                             <input type="submit" name="submit" value="Update" onClick="return validate_gstinform()">
-                    <?php echo form_close(); ?>
+                            <?php echo form_close(); ?>
                         </td>
                         <td><span class="edt pedit211" onClick="editSlrImgInfo(211);">Edit</span></td>
                     </tr>
@@ -323,10 +301,10 @@ echo form_open_multipart('admin/sellers/update_slr_proof', $attributes);
             <div id="tab2" class="tab-pane fade">
                 <h3>Seller Personal Details</h3>
                 <table class="table table-bordered table-hover">
-<?php
-$qr2 = $this->db->query("select * from seller_account where seller_id='$seller_id' ");
-$rw2 = $qr2->row();
-?>                         
+                    <?php
+                    $qr2 = $this->db->query("select * from seller_account where seller_id='$seller_id' ");
+                    $rw2 = $qr2->row();
+                    ?>                         
                     <tr>
                         <td> Seller Name:</td>
                         <td>
@@ -423,7 +401,7 @@ $rw2 = $qr2->row();
                         <td>
                             <span class="slrp12"><?php echo $rw2->seller_state; ?></span>
                             <span class="updt_slrp12" style="display:none;"></span>
-                            <!--<input type="text" name="slr_prestate" class="hidden_input slrinf12" value="<?php // echo $rw2->seller_state;?>">-->
+                            <!--<input type="text" name="slr_prestate" class="hidden_input slrinf12" value="<?php // echo $rw2->seller_state;  ?>">-->
                             <select class="hidden_input slrinf12" name="slr_prestate" >
                                 <option value="<?php echo $rw2->seller_state; ?>"><?php echo $rw2->seller_state; ?></option>
                                 <?php
@@ -433,10 +411,10 @@ $rw2 = $qr2->row();
                                     foreach ($query->result() as $rs) {
                                         ?>
                                         <option value="<?= $rs->state ?>"><?= $rs->state ?></option>
-        <?php
-    }
-}
-?>
+                                        <?php
+                                    }
+                                }
+                                ?>
                             </select>
                             <span>  <img src="<?php echo base_url(); ?>images/progress.gif" class="timer12" style="display:none;float:left" /> </span>
                             <span>  <img src="<?php echo base_url(); ?>images/success_icon.png" class="comsn_loader12" style="display:none;float:right" /> </span>
@@ -452,13 +430,13 @@ $rw2 = $qr2->row();
             <div id="tab3" class="tab-pane fade">
                 <h3>Seller Account Details</h3>
                 <table class="table table-bordered table-hover">
-<?php
-$qr3 = $this->db->query("SELECT a.* 
+                    <?php
+                    $qr3 = $this->db->query("SELECT a.* 
 								FROM seller_account_information a LEFT JOIN seller_account b ON a.seller_id = b.seller_id
 								WHERE a.seller_id='$seller_id'");
-$slr_acnt_info_row = $qr3->num_rows();
-$rw3 = $qr3->row();
-?>  
+                    $slr_acnt_info_row = $qr3->num_rows();
+                    $rw3 = $qr3->row();
+                    ?>  
                     <tr>
                         <td> Seller Name: </td>
                         <td>
@@ -564,7 +542,7 @@ $rw3 = $qr3->row();
 
                         <span class="slrp23"><?php echo $rw3 ? $rw3->state : "Not Available"; ?></span>
                         <span class="updt_slrp23" style="display:none;"></span>
-                        <!--<input type="text" name="slr_prestate" class="hidden_input slrinf23" value="<?php // echo $rw3 ? $rw3->state:'';?>">-->
+                        <!--<input type="text" name="slr_prestate" class="hidden_input slrinf23" value="<?php // echo $rw3 ? $rw3->state:'';  ?>">-->
                         <select class="hidden_input slrinf23" name="slr_prestate" >
                             <option value="<?php echo $rw3 ? $rw3->state : ''; ?>"><?php echo $rw3 ? $rw3->state : ''; ?></option>
                             <?php
@@ -574,15 +552,15 @@ $rw3 = $qr3->row();
                                 foreach ($query->result() as $rs) {
                                     ?>
                                     <option value="<?= $rs->state ?>"><?= $rs->state ?></option>
-        <?php
-    }
-}
-?>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </select>
                         <span>  <img src="<?php echo base_url(); ?>images/progress.gif" class="timer23" style="display:none;float:right" /> </span>
                         <span>  <img src="<?php echo base_url(); ?>images/success_icon.png" class="comsn_loader23" style="display:none;float:right" /> </span>
                         <!--<select name="slr_prestate" class="hidden_input slrinf23">
-                                                <option value="<?php // echo $rw3 ? $rw3->state:''; ?>"><?php // echo $rw3 ? $rw3->state:''; ?></option>					
+                                                <option value="<?php // echo $rw3 ? $rw3->state:'';    ?>"><?php // echo $rw3 ? $rw3->state:'';    ?></option>					
                         </select>-->
                     </td>
                     <td>
@@ -674,34 +652,36 @@ $rw3 = $qr3->row();
             <div id="tab6" class="tab-pane fade">
                 <h3>KYC Details</h3>
                 <table class="table table-bordered table-hover">
-                                <?php
-                                $qr4 = $this->db->query("SELECT a.*,a.tan AS TAN_NO
+                    <?php
+                    $qr4 = $this->db->query("SELECT a.*,a.tan AS TAN_NO
                                 FROM seller_account_information a LEFT JOIN seller_account b ON a.seller_id = b.seller_id
                                 WHERE a.seller_id='$seller_id'");
-                                $rw4 = $qr4->row();
-                                ?>  
+                    $rw4 = $qr4->row();
+                    ?>  
                     <tr>
                         <td>Address Proof* :</td>
                         <td>
                             <div id="imgdv25">
-                            <?php if ($rw4) { ?>
+                                <?php if ($rw4) { ?>
                                     <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->address_img; ?>" title="address_proof">
                                         <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->address_img; ?>" width="30" class="list_img">
 
                                     </a>
-                            <?php } else {
-                                echo "Not Available";
-                            } ?>
+                                    <?php
+                                } else {
+                                    echo "Not Available";
+                                }
+                                ?>
                             </div>
-<?php
-$attributes = array('id' => 'imgform25', 'class' => 'slrimgfrm');
-echo form_open_multipart('admin/sellers/update_kyc_details', $attributes);
-?>
+                            <?php
+                            $attributes = array('id' => 'imgform25', 'class' => 'slrimgfrm');
+                            echo form_open_multipart('admin/sellers/update_kyc_details', $attributes);
+                            ?>
                             <input type="hidden" name="fldnm" value="address_img">
                             <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
                             Address Proof Img: <input type="file" name="userfile" id="address_proofimg25" style="display:inline;"><br/>
                             <input type="submit" name="submit" value="Update" onClick="return validate_addproof()">
-<?php echo form_close(); ?>
+                            <?php echo form_close(); ?>
                         </td>
                         <td>
                             <span class="edt pedit25" onClick="editSlrImgInfo(25);">Edit</span>
@@ -712,59 +692,63 @@ echo form_open_multipart('admin/sellers/update_kyc_details', $attributes);
                         <td>ID Proof* :</td>
                         <td>
                             <div id="imgdv26">
-                            <?php if ($rw4) { ?>
+                                <?php if ($rw4) { ?>
                                     <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->ID_img; ?>" title="<?= $rw4->tin; ?>">
                                         <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->ID_img; ?>" width="30" class="list_img">
                                         <br/>
                                     </a>
-                            <?php } else {
-                                echo "Not Available";
-                            } ?>
+                                    <?php
+                                } else {
+                                    echo "Not Available";
+                                }
+                                ?>
                             </div>
 
 
 
-<?php
-$attributes = array('id' => 'imgform26', 'class' => 'slrimgfrm');
-echo form_open_multipart('admin/sellers/update_kyc_details', $attributes);
-?>
+                            <?php
+                            $attributes = array('id' => 'imgform26', 'class' => 'slrimgfrm');
+                            echo form_open_multipart('admin/sellers/update_kyc_details', $attributes);
+                            ?>
                             <input type="hidden" name="fldnm" value="id_proof">
                             <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
                             ID Proof Img: <input type="file" name="userfile" id="id_proofimg26" style="display:inline;"><br/>
                             <input type="submit" name="submit" value="Update" onClick="return validate_idproof()">
-<?php echo form_close(); ?>
+                            <?php echo form_close(); ?>
                         </td>
                         <td>
                             <span class="edt pedit26" onClick="editSlrImgInfo(26);">Edit</span>
                         </td>
                     </tr>
-                    <!--<?php // if(@$rw4->TAN_NO) { ?>-->
+                    <!--<?php // if(@$rw4->TAN_NO) {   ?>-->
                     <tr>
                         <td>Cancelled Cheque* :</td>
                         <td>
                             <div id="imgdv27">
-                            <?php if ($rw4) { ?>
+                                <?php if ($rw4) { ?>
                                     <a class="group3" href="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->Cheque_img; ?>" title="<?= $rw4->TAN_NO; ?>">
                                         <img src="<?php echo base_url() . 'images/seller_image_doc/' . $rw4->Cheque_img; ?>" width="30" class="list_img">
                                         <br/>
                                     </a>
-<?php } else {
-    echo "Not Available";
-} ?>
+                                    <?php
+                                } else {
+                                    echo "Not Available";
+                                }
+                                ?>
                             </div>
-<?php
-$attributes = array('id' => 'imgform27', 'class' => 'slrimgfrm');
-echo form_open_multipart('admin/sellers/update_kyc_details', $attributes);
-?>
+                            <?php
+                            $attributes = array('id' => 'imgform27', 'class' => 'slrimgfrm');
+                            echo form_open_multipart('admin/sellers/update_kyc_details', $attributes);
+                            ?>
                             <input type="hidden" name="fldnm" value="cancle_cheque">
                             <input type="hidden" name="slr_id" value="<?= $seller_id; ?>">
                             Cancelled Cheque Img* : <input type="file" name="userfile" id="cancelled_chequeimg27" style="display:inline;"><br/>
                             <input type="submit" name="submit" value="Update" onClick="return validate_cancheque()">
-                    <?php echo form_close(); ?>
+                            <?php echo form_close(); ?>
                         </td>
                         <td><span class="edt pedit27" onClick="editSlrImgInfo(27);">Edit</span></td>
                     </tr>
-                    <!--<?php // }  ?>-->
+                    <!--<?php // }    ?>-->
 
                 </table>
 
@@ -772,13 +756,13 @@ echo form_open_multipart('admin/sellers/update_kyc_details', $attributes);
             <div id="tab7" class="tab-pane fade">
                 <h3>Store Details</h3>
                 <table class="table table-bordered table-hover">
-<?php
-$qr3 = $this->db->query("SELECT a.* 
+                    <?php
+                    $qr3 = $this->db->query("SELECT a.* 
 								FROM seller_account_information a LEFT JOIN seller_account b ON a.seller_id = b.seller_id
 								WHERE a.seller_id='$seller_id'");
-$slr_acnt_info_row = $qr3->num_rows();
-$rw3 = $qr3->row();
-?>  
+                    $slr_acnt_info_row = $qr3->num_rows();
+                    $rw3 = $qr3->row();
+                    ?>  
                     <tr>
                         <td> Display name*: </td>
                         <td>
@@ -837,11 +821,11 @@ $rw3 = $qr3->row();
 
 
 <!--- Zebra_Datepicker link start here ---->
-<!--<script src="<?php // echo base_url();  ?>Zebra_Datepicker-master/examples/public/javascript/jquery-1.11.1.js"></script>-->
-<!--<script src="<?php // echo base_url();  ?>Zebra_Datepicker-master/examples/public/javascript/core1.js"></script>
-<script src="<?php // echo base_url();  ?>Zebra_Datepicker-master/public/javascript/zebra_datepicker.js"></script>
-<link href="<?php // echo base_url();  ?>Zebra_Datepicker-master/public/css/default.css" rel="stylesheet">-->
-<!--<link href="<?php // echo base_url();  ?>Zebra_Datepicker-master/examples/public/css/style.css" rel="stylesheet">-->
+<!--<script src="<?php // echo base_url();     ?>Zebra_Datepicker-master/examples/public/javascript/jquery-1.11.1.js"></script>-->
+<!--<script src="<?php // echo base_url();     ?>Zebra_Datepicker-master/examples/public/javascript/core1.js"></script>
+<script src="<?php // echo base_url();     ?>Zebra_Datepicker-master/public/javascript/zebra_datepicker.js"></script>
+<link href="<?php // echo base_url();     ?>Zebra_Datepicker-master/public/css/default.css" rel="stylesheet">-->
+<!--<link href="<?php // echo base_url();     ?>Zebra_Datepicker-master/examples/public/css/style.css" rel="stylesheet">-->
 <!--- Zebra_Datepicker link end here ---->
 
 
@@ -853,303 +837,288 @@ $rw3 = $qr3->row();
 </div><!-- @end #content -->
 
 <script>
-    function change_product_status(status, j) {
-        if (status == 'Rejected') {
+            function change_product_status(status, j) {
+            if (status == 'Rejected') {
             $('#reason_block' + j).show();
-            //$('#pro_inactiv_btn'+j).show();
-        } else if (status == 'Suspended') {
+                    //$('#pro_inactiv_btn'+j).show();
+            } else if (status == 'Suspended') {
             $('#reason_block' + j).show();
-            //$('#pro_inactiv_btn'+j).hide();
-        } else {
+                    //$('#pro_inactiv_btn'+j).hide();
+            } else {
             $('#reason_block' + j).hide();
-        }
-    }
+            }
+            }
     function do_save_reject_pro(product_id, sku, j) {
-        var base_url = '<?php echo base_url(); ?>';
-        var controller = 'admin/sellers/';
-        var reason = $("#reason_block" + j).val();
-        var status = $("#product_status" + j).val();
-        if (status == "") {
-            alert("Please select status.");
+    var base_url = '<?php echo base_url(); ?>';
+            var controller = 'admin/sellers/';
+            var reason = $("#reason_block" + j).val();
+            var status = $("#product_status" + j).val();
+            if (status == "") {
+    alert("Please select status.");
             return false;
-        } else {
-            $.ajax({
-                url: base_url + controller + 'product_inactive',
-                type: 'POST',
-                data: {reason: reason, status: status, sku: sku, product_id: product_id},
-                'success': function (data) {
-                    if (data == 'success') {
-                        window.location.reload(true);
-                        $('#ajax_res').html("<div style='color:green;'>Product Status Updated Successfully.</div>");
-                    } else {
-                        window.location.reload(true);
-                        $('#ajax_res').html("<div style='color:red;'>Product Status Update Failed.</div>");
-                    }
-                }
-            });
-        }
+    } else {
+    $.ajax({
+    url: base_url + controller + 'product_inactive',
+            type: 'POST',
+            data: {reason: reason, status: status, sku: sku, product_id: product_id},
+            'success': function (data) {
+            if (data == 'success') {
+            window.location.reload(true);
+                    $('#ajax_res').html("<div style='color:green;'>Product Status Updated Successfully.</div>");
+            } else {
+            window.location.reload(true);
+                    $('#ajax_res').html("<div style='color:red;'>Product Status Update Failed.</div>");
+            }
+            }
+    });
+    }
     }
 
 </script>
 
 <script>
     function editSlrInfo(slr_id, sl) {
-        $('.slrp' + sl).hide();
-        $('.slrinf' + sl).show();
-        //$('.pedit'+sl).text('Update');
-        $('.pedit' + sl).hide();
-        $('.updt' + sl).show();
-        $('.updt_slrp' + sl).hide();
-
-        //$('.updt_slrp'+sl).show();
+    $('.slrp' + sl).hide();
+            $('.slrinf' + sl).show();
+            //$('.pedit'+sl).text('Update');
+            $('.pedit' + sl).hide();
+            $('.updt' + sl).show();
+            $('.updt_slrp' + sl).hide();
+            //$('.updt_slrp'+sl).show();
     }
 
 
     function updateSlrInfo(slr_id, sl) {
-        var slr_data = $('.slrinf' + sl).val();
-        $('.timer' + sl).css('display', 'block');
-        $('.comsn_loader' + sl).css('display', 'none');
-
-        $.ajax({
+    var slr_data = $('.slrinf' + sl).val();
+            $('.timer' + sl).css('display', 'block');
+            $('.comsn_loader' + sl).css('display', 'none');
+            $.ajax({
             url: '<?php echo base_url(); ?>admin/sellers/update_seller_info',
-            method: 'post',
-            data: {slr_id: slr_id, sl: sl, slr_data: slr_data},
-            success: function (result) {
-                //$('#ajxtst').html(result);
-                if (result) {
+                    method: 'post',
+                    data: {slr_id: slr_id, sl: sl, slr_data: slr_data},
+                    success: function (result) {
+                    //$('#ajxtst').html(result);
+                    if (result) {
                     $('.slrp' + sl).hide();
-                    $('.slrinf' + sl).hide();
-                    $('.pedit' + sl).show();
-                    $('.updt' + sl).hide();
-                    $('.timer' + sl).css('display', 'none');
-                    $('.comsn_loader' + sl).css('display', 'block');
-                    $('.updt_slrp' + sl).css('display', 'block');
-                    $('.updt_slrp' + sl).html(result);
-                    $('.slrp' + sl).html(result);
+                            $('.slrinf' + sl).hide();
+                            $('.pedit' + sl).show();
+                            $('.updt' + sl).hide();
+                            $('.timer' + sl).css('display', 'none');
+                            $('.comsn_loader' + sl).css('display', 'block');
+                            $('.updt_slrp' + sl).css('display', 'block');
+                            $('.updt_slrp' + sl).html(result);
+                            $('.slrp' + sl).html(result);
+                    }
 
-                }
+                    //window.location.reload(true);
+                    else
 
-                //window.location.reload(true);
-                else
-
-                {
+                    {
                     $('.slrp' + sl).show();
-                    $('.slrinf' + sl).hide();
-                    $('.pedit' + sl).show();
-                    $('.updt' + sl).hide();
-                    $('.timer' + sl).css('display', 'none');
+                            $('.slrinf' + sl).hide();
+                            $('.pedit' + sl).show();
+                            $('.updt' + sl).hide();
+                            $('.timer' + sl).css('display', 'none');
+                    }
 
-                }
-
-            }
-        });
+                    }
+            });
     }
 
 
     function editSlrImgInfo(sl) {
-        $('#imgdv' + sl).hide();
-        $('.pedit' + sl).hide();
-        $('#imgform' + sl).show();
-        //$('#updt_imgdv'+sl).css('display','block');
+    $('#imgdv' + sl).hide();
+            $('.pedit' + sl).hide();
+            $('#imgform' + sl).show();
+            //$('#updt_imgdv'+sl).css('display','block');
     }
 </script>	
 <script>
     function validate_panform() {
-        var re = /(\.jpg|\.jpeg|\.png)$/i;
-        var pan_img = $("#seller_panimg19").val(); //alert(pan_img); return false;
-        var pan_no = $("#seller_panno19").val(); //alert(pan_img); return false;
+    var re = /(\.jpg|\.jpeg|\.png)$/i;
+            var pan_img = $("#seller_panimg19").val(); //alert(pan_img); return false;
+            var pan_no = $("#seller_panno19").val(); //alert(pan_img); return false;
 
-        if (pan_img == "") {
-            $('#validate_msg').show().text("Pan image required!");
+            if (pan_img == "") {
+    $('#validate_msg').show().text("Pan image required!");
             $("#seller_panimg19").css('border-color', 'red');
             return false;
-        } else if (!re.exec(pan_img)) {
-            $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
+    } else if (!re.exec(pan_img)) {
+    $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
             $("#seller_panimg19").css('border-color', 'red');
+            returnfalse;
+    } else if (pan_no == "") {
+    $("#seller_panimg19").css('border-color', '#ccc');
+            $('#validate_msg').show().text("Pan Card number required!");
+            $("#seller_panno19").focus().css('border-color', 'red');
             return false;
-        } else if (pan_no == "") {
-        $("#seller_panimg19"). css('border-color', '#ccc');
-
-        $('#validate_msg').show().text("Pan Card number required!");
-        $("#seller_panno19").focus().css('border-color', 'red');
-        return false;
-         } else  {
-            $("#seller_panimg19").css('border-color', '#ccc');
+    } else  {
+    $("#seller_panimg19").css('border-color', '#ccc');
             $("#seller_panno19").css('b order-color', '#ccc');
-
-         }
-     }
-            function v alidate_tinform() {
-        var re = /(\.jpg|\.jpeg|\.png)$/i;
+    }
+    }
+    function v alidate_tinform() {
+    var re = /(\.jpg|\.jpeg|\.png)$/i;
             var tin_img = $("#seller_tinimg20").val(); //alert(pan_img ); return false;
-            var  tin_no  = $("#seller_ tinno20").val(); //alert(pan_img); return fals e;
+            var tin_no = $("#seller_ tinno20").val(); //alert(pan_img); return fals e;
             //var fghfg = tin_img.size; 
 
 
-        if (tin_img == "") {
-            $('#validate_msg').show().text("TIN image req uired!");
+            if (tin_img == "") {
+    $('#validate_msg').show().text("TIN image req uired!");
             $("#se ller _tinimg20").css('border-color', 'red');
             return false;
-        } else if (!re.exec(tin_ img)) {
-            $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
-            $("#seller_tinimg20").css('border-color', 'red');
+    } else if (!re.exec(tin_ img)) {
+    $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed."); $("#seller_tinimg20").css('border-color', 'red');
             return false;
-        } else if (tin_no == "") {
-            $("#seller_tinimg20").css('border-color', '#c cc');
-
-    $('#validate_msg').show().text("TIN number required!");
+    } else if (tin_no == "") {
+    $("#seller_tinimg20").css('border-color', '#c cc');
+            $('#validate_msg').show().text("TIN number required!");
             $("#seller_tinno20").focus().css ('border-color', 're d');
-     return false;
+            return false;
     } else {
-            $("#seller_tinimg20").css('border-color', '#ccc');
-            $("#seller_tinno20").css('border-color',  '#ccc');
-
-        }
+    $("#seller_tinimg20").css('border-color', '#ccc');
+            $("#seller_tinno20").css('border-color', '#ccc');
+    }
     }
     func tion validate_tanform() {
-        var re = /(\.jpg|\.jpeg|\.png)$/i;
-        var tan_img = $("#seller_tanimg21").val(); //alert(pan_img); return false;
-        var tan_no = $("#seller_tanno21").val(); //alert(pan_img); return false;
+    var re = /(\.jpg|\.jpeg|\.png)$/i;
+            var tan_img = $("#seller_tanimg21").val(); //alert(pan_img); return false;
+            var tan_no = $("#seller_tanno21").val(); //alert(pan_img); return false;
 
-        if (tan_img == "") {
-            $('#validate_msg').show().text("TAN image required!");
+            if (tan_img == "") {
+    $('#validate_msg').show().text("TAN image required!");
             $("#seller_tanimg21").css('border-color', 'red');
             return false;
-        } else if (!re.exec(tan_img)) {
-            $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
+    } else if (!re.exec(tan_img)) {
+    $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
             $("#seller_tanimg21").css('border-color', 'red');
             return false;
-        } else if (tan_no == "") {
-            $("#seller_tanimg21").css('border-color', '#ccc');
-
+    } else if (tan_no == "") {
+    $("#seller_tanimg21").css('border-color', '#ccc');
             $('#validate_msg').show().text("TAN number required!");
             $("#seller_tanno21").focus().css('border-color', 'red');
             return false;
-        } else {
-            $("#seller_tanimg21").css('border-color', '#ccc');
+    } else {
+    $("#seller_tanimg21").css('border-color', '#ccc');
             $("#seller_tanno21").css('border-color', '#ccc');
-
-        }
+    }
     }
 
-<!----------------------------------------------sujit start	------------------------------------->
-    function validate_gstinform() {
-        var re = /(\.jpg|\.jpeg|\.png)$/i;
-        var gstin_img = $("#seller_gstinimg211").val(); //alert(pan_img); return false;
-        var gstin_no = $("#seller_gstinno211").val(); //alert(pan_img); return false;
+    < !----------------------------------------------sujit start	------------------------------------ - >
+            function validate_gstinform() {
+            var re = /(\.jpg|\.jpeg|\.png)$/i;
+                    var gstin_img = $("#seller_gstinimg211").val(); //alert(pan_img); return false;
+                    var gstin_no = $("#seller_gstinno211").val(); //alert(pan_img); return false;
 
-        if (gstin_img == "") {
+                    if (gstin_img == "") {
             $('#validate_msg').show().text("GSTIN image required!");
-            $("#seller_gstinimg211").css('border-color', 'red');
-            //return false;
-        } else if (!re.exec(gstin_img)) {
+                    $("#seller_gstinimg211").css('border-color', 'red');
+                    //return false;
+            } else if (!re.exec(gstin_img)) {
             $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
-            $("#seller_gstinimg211").css('border-color', 'red');
-            return false;
-        } else if (gstin_no == "") {
+                    $("#seller_gstinimg211").css('border-color', 'red');
+                    return false;
+            } else if (gstin_no == "") {
             $("#seller_stinimg211").css('border-color', '#ccc');
-
-            $('#validate_msg').show().text("GSTIN number required!");
-            $("#seller_gstinno211").focus().css('border-color', 'red');
-            //return false;
-        } else {
+                    $('#validate_msg').show().text("GSTIN number required!");
+                    $("#seller_gstinno211").focus().css('border-color', 'red');
+                    //return false;
+            } else {
             $("#seller_gstinimg211").css('border-color', '#ccc');
-            $("#seller_gstinno21").css('border-color', '#ccc');
+                    $("#seller_gstinno21").css('border-color', '#ccc');
+            }
+            }
+<!----------------------------------------------sujit end	------------------------------------->
 
-        }
+    function validate_addproof(){
+    var re = /(\.jpg|\.jpeg|\.png)$/i;
+            var add_img = $("#address_proofimg25").val(); //alert(pan_img); return false;
+            //var pan_no = $("#seller_panno19").val(); //alert(pan_img); return false;
+
+            if (add_img == ""){
+    $('#validate_msg').show().text("Address proof image required!");
+            $("#address_proofimg25").css('border-color', 'red');
+            return false;
+    } else if (!re.exec(add_img)){
+    $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
+            $("#address_proofimg25").css('border-color', 'red');
+            return false;
     }
-<!----------------------------------------------sujit end	------------------------------------->	
-	
-        function validate_addproof(){
-                var re = /(\.jpg|\.jpeg|\.png)$/i;
-                var add_img = $("#address_proofimg25").val(); //alert(pan_img); return false;
-                //var pan_no = $("#seller_panno19").val(); //alert(pan_img); return false;
-		
-                if(add_img == ""){
-                        $('#validate_msg').show().text("Address proof image required!");
-                        $("#address_proofimg25").css('border-color','red');
-                        return false;
-                }else if(!re.exec(add_img)){
-                        $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
-                        $("#address_proofimg25").css('border-color','red');
-                        return false;
-                }
-        }
-	
-	
-	
-        function validate_idproof(){
-                var re = /(\.jpg|\.jpeg|\.png)$/i;
-                var id_img = $("#id_proofimg26").val();
-		
-                if(id_img == ""){
-                        $('#validate_msg').show().text("ID proof image required!");
-                        $("#id_proofimg26").css('border-color','red');
-                        return false;
-                }else if(!re.exec(id_img)){
-                        $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
-                        $("#id_proofimg26").css('border-color','red');
-                        return false;
-                }
-        }
-	
-	
-        function validate_cancheque(){
-                var re = /(\.jpg|\.jpeg|\.png)$/i;
-                var cheque_img = $("#cancelled_chequeimg27").val();
-		
-                if(cheque_img == ""){
-                        $('#validate_msg').show().text("Cancelled cheque image required!");
-                        $("#cancelled_chequeimg27").css('border-color','red');
-                        return false;
-                }else if(!re.exec(cheque_img)){
-                        $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
-                        $("#cancelled_chequeimg27").css('border-color','red');
-                        return false;
-                }
-        }
-	
+    }
+
+
+
+    function validate_idproof(){
+    var re = /(\.jpg|\.jpeg|\.png)$/i;
+            var id_img = $("#id_proofimg26").val();
+            if (id_img == ""){
+    $('#validate_msg').show().text("ID proof image required!");
+            $("#id_proofimg26").css('border-color', 'red');
+            return false;
+    } else if (!re.exec(id_img)){
+    $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
+            $("#id_proofimg26").css('border-color', 'red');
+            return false;
+    }
+    }
+
+
+    function validate_cancheque(){
+    var re = /(\.jpg|\.jpeg|\.png)$/i;
+            var cheque_img = $("#cancelled_chequeimg27").val();
+            if (cheque_img == ""){
+    $('#validate_msg').show().text("Cancelled cheque image required!");
+            $("#cancelled_chequeimg27").css('border-color', 'red');
+            return false;
+    } else if (!re.exec(cheque_img)){
+    $('#validate_msg').show().text("*.jpg, *.jpeg, *.png Extensions are allowed.");
+            $("#cancelled_chequeimg27").css('border-color', 'red');
+            return false;
+    }
+    }
+
 </script>
 <script>
-            function displayPreview(files, sl) {
-            var reader = new FileReader();
-                    var img = new Image();
-                    reader.onload = function (e) {
-                    img.src = e.target.result;
-                            fileSize = Math.round(files.size / 1024);
-                            //alert("File size is " + fileSize + " kb");
-                            if (fileSize > 1024 && sl == 20){
-                    alert("Maximum file size 1mb.");
-                            $("#seller_tinimg20").val("");
-                            return false;
-                    } else if (fileSize > 1024 && sl == 19){
-                    alert("Maximum file size 1mb.");
-                            $("#seller_panimg19").val("");
-                            return false;
-                    } else if (fileSize > 1024 && sl == 21){
-                    alert("Maximum file size 1mb.");
-                            $("#seller_tanimg21").val("");
-                            return false;
-                    }
-                    else if (fileSize > 1024 && sl == 25){
-                    alert("Maximum file size 1mb.");
-                            $("#address_proofimg25").val("");
-                            return false;
-                    }
-                    else if (fileSize > 1024 && sl == 26){
-                    alert("Maximum file size 1mb.");
-                            $("#id_proofimg26").val("");
-                            return false;
-                    }
-                    else if (fileSize > 1024 && sl == 27){
-                    alert("Maximum file size 1mb.");
-                            $("#cancelled_chequeimg27").val("");
-                            return false;
-                    }
-
-                    };
-                    reader.readAsDataURL(files);
+    function displayPreview(files, sl) {
+    var reader = new FileReader();
+            var img = new Image();
+            reader.onload = function (e) {
+            img.src = e.target.result;
+                    fileSize = Math.round(files.size / 1024);
+                    //alert("File size is " + fileSize + " kb");
+                    if (fileSize > 1024 && sl == 20){
+            alert("Maximum file size 1mb.");
+                    $("#seller_tinimg20").val("");
+                    return false;
+            } else if (fileSize > 1024 && sl == 19){
+            alert("Maximum file size 1mb.");
+                    $("#seller_panimg19").val("");
+                    return false;
+            } else if (fileSize > 1024 && sl == 21){
+            alert("Maximum file size 1mb.");
+                    $("#seller_tanimg21").val("");
+                    return false;
             }
+            else if (fileSize > 1024 && sl == 25){
+            alert("Maximum file size 1mb.");
+                    $("#address_proofimg25").val("");
+                    return false;
+            }
+            else if (fileSize > 1024 && sl == 26){
+            alert("Maximum file size 1mb.");
+                    $("#id_proofimg26").val("");
+                    return false;
+            }
+            else if (fileSize > 1024 && sl == 27){
+            alert("Maximum file size 1mb.");
+                    $("#cancelled_chequeimg27").val("");
+                    return false;
+            }
+
+            };
+            reader.readAsDataURL(files);
+    }
 
 
     $("#seller_tinimg20").change(function () {
