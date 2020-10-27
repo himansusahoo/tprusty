@@ -765,7 +765,7 @@ class Product extends CI_Model {
 
         $qr = $this->db->insert('tax_management', $data);
 
-        if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
+        if (!$this->rbac->has_role('ADMIN')) {
             
             $cdate = date('y-m-d H:i:s');
             $uid = $this->session->userdata('logged_userrole_id');

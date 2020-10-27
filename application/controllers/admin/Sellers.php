@@ -7,29 +7,14 @@ class Sellers extends CI_Controller {
     public function __construct() {
 
         parent::__construct();
-
-       
-
         $this->load->library('form_validation');
-
         $this->load->library('email');
-
-        
-
         $this->load->helper('string');
-
         $this->load->library('upload');
-
         $this->load->library('encrypt');
-
         $this->load->library('javascript');
-
-        
-
         $this->load->model('admin/Seller_model');
-
         $this->load->model('seller/Catalog_model');
-
         $this->load->library('pagination');
     }
 
@@ -162,14 +147,10 @@ class Sellers extends CI_Controller {
     }
 
     function seller_details() {
-
         if ($this->session->userdata('logged_in')) {
-
             $id['seller_id'] = $this->uri->segment(4);
-
             $this->load->view('admin/seller_details', $id);
         } else {
-
             redirect('admin/super_admin');
         }
     }
@@ -403,7 +384,7 @@ class Sellers extends CI_Controller {
 
 
 
-                
+
 
                 $dt = date('Y-m-d H:i:s');
 

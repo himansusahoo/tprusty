@@ -25,7 +25,7 @@ class Track_orders extends CI_Controller {
             $ordered_data['shipment_list'] = $this->Track_orders_model->select_order_data();
             $ordered_data['couriename_list'] = $this->Track_orders_model->select_shipmentinfo();
 
-            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
+            if (!$this->rbac->has_role('ADMIN')) {
                 $this->load->model('admin/User_activity_model');
                 $log_data = "Access Of In Transit Orders Under Track Orders";
                 $this->User_activity_model->insert_user_log($log_data);
@@ -53,7 +53,7 @@ class Track_orders extends CI_Controller {
             $ordered_data['delivered_list'] = $this->Track_orders_model->select_delivered_order();
             $ordered_data['couriename_list'] = $this->Track_orders_model->select_shipmentinfo();
 
-            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
+            if (!$this->rbac->has_role('ADMIN')) {
                 $this->load->model('admin/User_activity_model');
                 $log_data = "Access Of Delivered Orders Under Track Orders";
                 $this->User_activity_model->insert_user_log($log_data);
@@ -81,7 +81,7 @@ class Track_orders extends CI_Controller {
             $this->load->model('admin/Order_model');
             $this->Order_model->change_ordertatus();
 
-            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
+            if (!$this->rbac->has_role('ADMIN')) {
                 $this->Order_model->change_ordertatus_log();
             }
 

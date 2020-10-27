@@ -36,32 +36,36 @@ myApp.CommonMethod = {
         }
         return '';
     },
-    getContainerHeight:function(configs){
-        var heightCalc={
+     getContainerHeight: function (configs) {
+        var navBar = $('.navbar-section').outerHeight();
+        if (!navBar) {
+            navBar = -11;
+        }
+        var heightCalc = {
             winH: window.innerHeight,
-            headerH:$('.main-header').outerHeight(),
-            footerH:$('.main-footer').outerHeight(),
-            filterBoxH:$('#filterBox').outerHeight(),
-            breadCumb:$('.content-header').outerHeight(),
-            adjustment:30,
-            gridHeight:300
-        };  
-        var substractVal=(heightCalc.headerH+heightCalc.footerH);
-        if(configs.filterBoxH==true){
-            substractVal+=heightCalc.filterBoxH;
+            headerH: $('.header-section').outerHeight(),
+            footerH: $('.footer-section').outerHeight(),
+            navBar: navBar,
+            //breadCumb:$('.content-header').outerHeight(),            
+            adjustment: 41,
+            gridHeight: 300
+        };
+        var substractVal = (heightCalc.headerH + heightCalc.footerH + heightCalc.navBar);
+        if (configs.filterBoxH == true) {
+            substractVal += heightCalc.filterBoxH;
         }
-        if(configs.breadCumb==true){
-            substractVal+=heightCalc.breadCumb;
+        if (configs.breadCumb == true) {
+            substractVal += heightCalc.breadCumb;
         }
-        if(configs.adjustment>0){
-            substractVal+=configs.adjustment;
-        }else{
-            substractVal+=heightCalc.adjustment;
+        if (configs.adjustment > 0) {
+            substractVal += configs.adjustment;
+        } else {
+            substractVal += heightCalc.adjustment;
         }
-        
-        heightCalc.gridHeight= heightCalc.winH-substractVal;        
+        //console.log('heightCalc', heightCalc);
+        heightCalc.gridHeight = heightCalc.winH - substractVal;
         return heightCalc.gridHeight;
-    }
+    },
 }//end sub namespace 
 myApp.CommonVar = {
     stype: 'primary',

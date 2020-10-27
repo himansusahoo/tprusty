@@ -438,7 +438,7 @@ class Catalog extends CI_Controller {
         if ($insert_result == true) {
             $this->session->set_flashdata('product_add', 'Product added successfully.');
 
-            if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
+            if (!$this->rbac->has_role('ADMIN')) {
                 $this->Product->insert_product_data_log();
             }
             redirect('admin/catalog');
