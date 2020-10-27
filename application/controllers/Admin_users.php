@@ -35,7 +35,7 @@ class Admin_users extends CI_Controller {
      * @return :
      * @author :
      */
-    public function sign_in() {
+    public function sign_in() {        
         $this->scripts_include->includePlugins(array('jq_validation'), 'js');
         $this->load->library('rbac/rbac_user');
         $this->layout->layout = 'blank_layout';
@@ -85,6 +85,7 @@ class Admin_users extends CI_Controller {
                         $user_detail['permissions'] = $permissions;
                         $user_detail['permission_modules'] = array_keys($permissions);
                         $user_detail['app_configs'] = $app_configs;
+                        $user_detail['logged_in']=$user_detail['email'];
                         $this->session->set_userdata('user_data', $user_detail);
 
                         //collect dashboard deta

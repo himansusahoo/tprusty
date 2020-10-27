@@ -90,7 +90,7 @@ class Super_admin extends MX_Controller {
 
     function logout() {
 
-        if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
+        if (!$this->rbac->has_role('ADMIN')) {
             $this->Super_admin_model->update_user_logouttime();
         }
         $this->session->unset_userdata('logged_in');

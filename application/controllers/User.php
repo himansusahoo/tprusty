@@ -54,7 +54,7 @@ class User extends CI_Controller {
         }
     }
 
-    function login() {
+    public function login() {
         $result = $this->Usermodel->login_register();
         $user_id = $result[0]->user_id;
         if ($result[0]->fname == '') {
@@ -88,7 +88,7 @@ class User extends CI_Controller {
         exit;
     }
 
-    function shopbycategory_menu() {
+    public function shopbycategory_menu() {
         if ($this->agent->is_mobile()) {
             $this->load->view('m/menu_link');
         } else {
@@ -96,7 +96,7 @@ class User extends CI_Controller {
         }
     }
 
-    function offer_productcatalog() {
+    public function offer_productcatalog() {
         if ($this->agent->is_mobile()) {
             $data['product_data'] = $this->Homemodel->select_offercatalogproduct();
             $data['no_of_product'] = $this->Homemodel->select_offercatalogproduct_count();
@@ -109,11 +109,11 @@ class User extends CI_Controller {
         }
     }
 
-    function m_login() {
+    public function m_login() {
         $this->load->view('m/buyer_login');
     }
 
-    function socialLogin() {
+    public function socialLogin() {
         $email = $this->input->post('mail_id');
         $fname = $this->input->post('fname');
         $lname = $this->input->post('lname');
@@ -158,10 +158,7 @@ class User extends CI_Controller {
             );
             $result = $this->Usermodel->insert_social_registration_data($data);
             if ($result == true) {
-
-
                 $user_info['email'] = $email;
-
                 $this->email->set_mailtype("html");
                 $this->email->from(NO_REPLY_MAIL, DOMAIN_NAME);
                 $this->email->to($email);
@@ -169,10 +166,7 @@ class User extends CI_Controller {
                 //$this->email->message($message);
                 $this->email->message($this->load->view('email_template/user_social_login', $user_info, true));
                 $this->email->send();
-
-                
                 $dt = date('Y-m-d H:i:s');
-
                 $msg = $this->load->view('email_template/user_social_login', $user_info, true);
                 if ($this->email->send()) {
 
@@ -201,28 +195,24 @@ class User extends CI_Controller {
                     'fname' => $fname,
                 );
                 $this->session->set_userdata('session_data', $customer_data);
-
-
                 //addtocart &wishlist temp product add start
                 $product_id_arr = count($this->session->userdata('addtocarttemp'));
                 if ($product_id_arr != 0) {
                     $this->Usermodel->insert_addtocartfromtemp($email);
                 }
-
                 $wishlisttemp_sku = count($this->session->userdata('addtowishlist_tempsku'));
 
                 if ($wishlisttemp_sku != 0) {
                     $this->Usermodel->insertfromtemp_wishlist($email);
                 }
                 //addtocart &wishlist temp product add start
-
                 echo 'ok';
                 exit;
             }
         }
     }
 
-    function mob_socialLogin() {
+    public function mob_socialLogin() {
         $email = $this->input->post('mail_id');
         $fname = $this->input->post('fname');
         $lname = $this->input->post('lname');
@@ -318,7 +308,7 @@ class User extends CI_Controller {
         }
     }
 
-    function logout() {
+    public function logout() {
         //clear the check out temp table if product add in check out temp table program start here
         if ($this->session->userdata('chkoutemp_session_id') != "") {
             $chkout_session_id = $this->session->userdata('chkoutemp_session_id');
@@ -345,7 +335,7 @@ class User extends CI_Controller {
         redirect(base_url());
     }
 
-    function forgot_password() {
+    public function forgot_password() {
         $data = array(
             'email' => $this->input->post('email'),
         );
@@ -390,7 +380,7 @@ class User extends CI_Controller {
         }
     }
 
-    function check_otp_forgot_password() {
+    public function check_otp_forgot_password() {
         $otp_email = $this->session->userdata['otp_session_data']['email'];
         //echo $otp_email;
         $otp = $this->input->post('otp');
@@ -409,7 +399,7 @@ class User extends CI_Controller {
         }
     }
 
-    function change_forgot_password() {
+    public function change_forgot_password() {
         $result = $this->Usermodel->update_forgot_password();
         if ($result != false) {
             $data = array(
@@ -455,7 +445,7 @@ class User extends CI_Controller {
         }
     }
 
-    function profile() {
+    public function profile() {
         if ($this->session->userdata['session_data']['user_id']) {
             $result = $this->Usermodel->retrive_user_address();
             $data['data1'] = $this->Usermodel->view_homepage();
@@ -484,7 +474,7 @@ class User extends CI_Controller {
         }
     }
 
-    function change_password() {
+    public function change_password() {
         if ($this->session->userdata['session_data']['user_id']) {
             $data['data1'] = $this->Usermodel->view_homepage();
             if ($this->agent->is_mobile()) {
@@ -497,7 +487,7 @@ class User extends CI_Controller {
         }
     }
 
-    function addresses() {
+    public function addresses() {
         if ($this->session->userdata['session_data']['user_id']) {
             $result = $this->Usermodel->retrive_user_address();
             $data['state_result'] = $this->Usermodel->retrive_state();
@@ -516,7 +506,7 @@ class User extends CI_Controller {
         }
     }
 
-    function save_address() {
+    public function save_address() {
         $result = $this->Usermodel->insert_address();
         if ($result == true) {
             echo 'saved';
@@ -527,7 +517,7 @@ class User extends CI_Controller {
         }
     }
 
-    function update_address() {
+    public function update_address() {
         $result = $this->Usermodel->update_inn_address();
         if ($result == true) {
             echo 'updated';
@@ -538,7 +528,7 @@ class User extends CI_Controller {
         }
     }
 
-    function delete_address() {
+    public function delete_address() {
         $result = $this->Usermodel->delete_user_address();
         if ($result == true) {
             echo 'deleted';
@@ -546,7 +536,7 @@ class User extends CI_Controller {
         }
     }
 
-    function update_user_default_address() {
+    public function update_user_default_address() {
         $result = $this->Usermodel->update_user_address();
         if ($result == true) {
             echo 'success';
@@ -554,7 +544,7 @@ class User extends CI_Controller {
         }
     }
 
-    function profile_setting() {
+    public function profile_setting() {
         if ($this->session->userdata['session_data']['user_id']) {
             $data['data1'] = $this->Usermodel->view_homepage();
             $this->load->view('profile_settings', $data);
@@ -563,7 +553,7 @@ class User extends CI_Controller {
         }
     }
 
-    function persional_info() {
+    public function persional_info() {
         $otp = $this->input->post('otp');
         $email = $this->input->post('email');
         $result = $this->Usermodel->update_persional_info();
@@ -576,7 +566,7 @@ class User extends CI_Controller {
         }
     }
 
-    function send_mobile_change_otp() {
+    public function send_mobile_change_otp() {
         if ($this->session->userdata['session_data']['user_id']) {
             $this->load->helper('string');
             $rand_string = random_string('alnum', 2);
@@ -628,7 +618,7 @@ class User extends CI_Controller {
         }
     }
 
-    function changed_password() {
+    public function changed_password() {
         $user_id = $this->session->userdata['session_data']['user_id'];
         $password = $this->input->post('opass');
         $npassword = $this->input->post('npass');
@@ -681,7 +671,7 @@ class User extends CI_Controller {
         }
     }
 
-    function product_review() {
+    public function product_review() {
         $result = $this->Usermodel->insert_product_review();
         if ($result == 'success') {
             echo 'success';
@@ -691,7 +681,7 @@ class User extends CI_Controller {
         }
     }
 
-    function seller_review() {
+    public function seller_review() {
         $result = $this->Usermodel->insert_seller_review();
         if ($result == 'success') {
             echo 'success';
@@ -701,7 +691,7 @@ class User extends CI_Controller {
         }
     }
 
-    function review_rating() {
+    public function review_rating() {
         if ($this->session->userdata['session_data']['user_id']) {
             $user_id = $this->session->userdata['session_data']['user_id'];
             $data['data1'] = $this->Usermodel->view_homepage();
@@ -717,7 +707,7 @@ class User extends CI_Controller {
         }
     }
 
-    function wishlist() {
+    public function wishlist() {
         if ($this->session->userdata['session_data']['user_id']) {
             $data['data1'] = $this->Usermodel->view_homepage();
             $data['wishlist_products'] = $this->Usermodel->retrieve_wishlist_products();
@@ -733,7 +723,7 @@ class User extends CI_Controller {
         }
     }
 
-    function add_wishlist() {
+    public function add_wishlist() {
         $result = $this->Usermodel->insert_inn_wishlist();
         if ($result == true) {
             echo 'success';
@@ -744,7 +734,7 @@ class User extends CI_Controller {
         }
     }
 
-    function add_wishlist_temp() {
+    public function add_wishlist_temp() {
         $product_id = $this->input->post('product_id');
         $sku = $this->input->post('sku');
         $result = $this->Usermodel->insert_inn_wishlist_temp($product_id, $sku);
@@ -757,7 +747,7 @@ class User extends CI_Controller {
         }
     }
 
-    function remove_from_wishlist() {
+    public function remove_from_wishlist() {
         $result = $this->Usermodel->delete_from_wishlist();
         if ($result == true) {
             echo 'success';
@@ -765,7 +755,7 @@ class User extends CI_Controller {
         }
     }
 
-    function orders() {
+    public function orders() {
         if ($this->session->userdata['session_data']['user_id']) {
             $data['data1'] = $this->Usermodel->view_homepage();
             $data['order_id_result'] = $this->Usermodel->retrieve_customer_last3_mnth_order_id();
@@ -781,7 +771,7 @@ class User extends CI_Controller {
         }
     }
 
-    function order_cancelation() {
+    public function order_cancelation() {
         $result = $this->Usermodel->cancel_order();
         if ($result == true) {
             echo 'success';
@@ -789,7 +779,7 @@ class User extends CI_Controller {
         }
     }
 
-    function product_cancelation() {
+    public function product_cancelation() {
         $result = $this->Usermodel->cancel_product();
         $this->Usermodel->mail_cancel_product();
         if ($result == true) {
@@ -798,7 +788,7 @@ class User extends CI_Controller {
         }
     }
 
-    function order_details() {
+    public function order_details() {
         if ($this->session->userdata['session_data']['user_id']) {
             $id = base64_decode($this->uri->segment(2));
             $order_id = $this->encrypt->decode($id);
@@ -815,13 +805,7 @@ class User extends CI_Controller {
             redirect(base_url());
         }
     }
-
-    /* Customer Support Starts */
-    /* function customersupport(){
-      $this->load->view('costumer_support');
-      } */
-
-    function contact_us_form() {
+    public function contact_us_form() {
         if ($this->agent->is_mobile()) {
             $this->load->view('m/contact_us_form');
         } else {
@@ -829,7 +813,7 @@ class User extends CI_Controller {
         }
     }
 
-    function send_customer_support_mail() {
+    public function send_customer_support_mail() {
         
         $data = array(
             'name' => $this->input->post('name'),
@@ -837,9 +821,7 @@ class User extends CI_Controller {
             'mobile' => $this->input->post('mobile'),
             'subject' => $this->input->post('title'),
             'content' => $this->input->post('content'),
-        );
-
-        //$to = SUPPORT_MAIL;
+        );       
         $to = SUPPORT_MAIL;
         $from = $this->input->post('email');
         $subject = $this->input->post('title');
@@ -875,7 +857,7 @@ class User extends CI_Controller {
 
     /* Customer Support End */
 
-    function product_return() {
+    public function product_return() {
         $result = $this->Usermodel->insert_inn_return_product();
         if ($result == true) {
             echo 'success';
@@ -884,10 +866,10 @@ class User extends CI_Controller {
         }
     }
 
-    function search_product() {
-        $keyword = $this->input->post('name');exit($keyword);
+    public function search_product() {
+        $keyword = $this->input->post('name');
         $p['search_prodclause'] = $this->Usermodel->search_product_clause($keyword);
-        $p['search_keyword'] = $keyword;
+        $p['search_keyword'] = $keyword;        
         if ($this->agent->is_mobile()) {
             $this->load->view('m/search_product', $p);
         } else {
@@ -895,9 +877,8 @@ class User extends CI_Controller {
         }
     }
 
-    function subscriber_detail() {
+    public function subscriber_detail() {
         $email = $this->input->post('email');
-        //print_r($email);exit;
         $gender = $this->input->post('gender');
         $result1 = $this->Usermodel->select_subscriber_detail($email, $gender);
         if ($result1 == TRUE) {
@@ -905,24 +886,20 @@ class User extends CI_Controller {
             redirect(base_url());
         } else {
             $result = $this->Usermodel->insert_subscriber_detail($email, $gender);
-            //$result1=$data['registered'];
             if ($result == TRUE) {
                 redirect(base_url());
             }
         }
     }
 
-    function error_page() {
+    public function error_page() {
         $this->load->view('404');
     }
 
-    function show_more_catalog_data() {
+    public function show_more_catalog_data() {
         //$p['data'] = $this->Product_descrp_model->view_product_descrp();
         $p['product_data'] = $this->Homemodel->select_more_product_data_list();
         $p['sl_no'] = $this->input->get('from');
-
-        //$p['sl_no'] = $this->uri->segment(3);
-
         if ($this->agent->is_mobile()) {
             $this->load->view('m/ajax_load_product_addtocart', $p);
         } else {

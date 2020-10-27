@@ -147,33 +147,19 @@ class Usermodel extends CI_Model {
     }
 
     function search_product_clause($keyword) {
-
-
         $fnl_sugst_word = '';
-
-        //----------------------------- solr search start------------------------------//
-
-
         $search_title = $keyword;
-
         set_time_limit(0);
-
         $search_title = trim(str_replace(' ', '%20', $search_title));
-
-
         $search_txt = $search_title;
-
         $curl_strng = SOLR_BASE_URL . SOLR_CORE_NAME . "/autocomplete?wt=json&q=" . $search_txt . "*&facet.field=Brand_s&f.Brand_s.facet.prefix=" . $search_txt . "&facet=true&hl=true&hl.field=Title&fl=Title,Category_Lvl3,Category_Lvl3_Id,Product_Id&mm=100%25&group.limit=2&facet.field=_text_&f._text_.facet.prefix=" . $search_txt . " ";
         //echo "<div style='display:none' id='himansu'>".$curl_strng."</div>";exit;
-
         $curl2 = curl_init($curl_strng);
         curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($curl2);
         $data2 = json_decode($output, true);
 
         if (count($data2['grouped']['Category_Lvl1']['groups']) == 0) {
-
-
             if (isset($data2['spellcheck']['collations']) && count($data2['spellcheck']['collations']) > 0) {
                 $sugword = $data2['spellcheck']['collations'][1]['collationQuery'];
                 $fnl_sugst_word = str_replace('*', '', $sugword);
@@ -184,22 +170,13 @@ class Usermodel extends CI_Model {
                 $this->session->unset_userdata('srchsugst_solrword');
                 $this->session->set_userdata('srchsugst_solrword', $fnl_sugst_word);
             }
-
             $curl_strng = SOLR_BASE_URL . SOLR_CORE_NAME . "/autocomplete?wt=json&q=" . $fnl_sugst_word . "*&facet.field=Brand_s&f.Brand_s.facet.prefix=" . $fnl_sugst_word . "&facet=true&hl=true&hl.field=Title&fl=Title,Category_Lvl3,Category_Lvl3_Id,Product_Id&mm=100%25&group.limit=2&facet.field=_text_&f._text_.facet.prefix=" . $fnl_sugst_word . " ";
-
-
             $curl2 = curl_init($curl_strng);
             curl_setopt($curl2, CURLOPT_RETURNTRANSFER, true);
             $output = curl_exec($curl2);
             $data2 = json_decode($output, true);
         }
-
-
-
         return $data2;
-
-
-        //----------------------------- solr search end------------------------------//
     }
 
     function search_product_clause_formobile($keyword) {
@@ -334,7 +311,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
     }
 
     function login_register() {
-        
+
         $cdate = date('Y-m-d');
         $email = $this->input->post('email');
         $pass = $this->input->post('password');
@@ -378,7 +355,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
                 $this->email->message($this->load->view('email_template/user_login_manual', $user_info, true));
                 $this->email->send();
 
-                
+
                 $dt = date('Y-m-d H:i:s');
 
                 $msg = $this->load->view('email_template/user_login_manual', $user_info, true);
@@ -440,7 +417,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
         //$user_id=$this->session->userdata('user_id');
 
         if ($product_id_arr != 0) {
-            
+
             $dt = date('Y-m-d H:i:s');
             $query1 = $this->db->query("SELECT * FROM user WHERE email='$email' AND password='$encript_pass'");
             $result1 = $query1->row();
@@ -492,7 +469,7 @@ group by f.lvl2,f.lvl1,f.lvlmain   ");
 
 
         if ($product_id_arr != 0) {
-            
+
             $dt = date('Y-m-d H:i:s');
             $query1 = $this->db->query("SELECT * FROM user WHERE email='$email' ");
             $result1 = $query1->row();
@@ -1259,7 +1236,7 @@ FROM seller_account_information
 
 
     function update_orderstatus_log($ordered_id, $order_log_status) {
-        
+
         $dt = date('Y-m-d H:i:s');
 
         $qr = $this->db->query("select * from order_status_log WHERE order_id IN ($ordered_id) ");
@@ -1423,7 +1400,7 @@ FROM seller_account_information
         //$this->email->message($message1);
         $this->email->send();
 
-        
+
         $dt = date('Y-m-d H:i:s');
 
         $msg = $this->load->view('email_template/ordercancel_buyer', $data, true);
@@ -1499,7 +1476,7 @@ FROM seller_account_information
     }
 
     function insert_customer_support_data() {
-        
+
         $dt = date('Y-m-d H:i:s');
         $customer_reference_id = $this->get_customer_referenceid('customer_support', 'customer_reference_id');
         $name = $this->input->post('name');
@@ -1517,7 +1494,7 @@ FROM seller_account_information
     }
 
     function insert_inn_return_product() {
-        
+
         $date = date('Y-m-d H:i:s');
         $return_id = 'RN' . preg_replace("/[^0-9]+/", "", $date);
 
@@ -1577,7 +1554,7 @@ FROM seller_account_information
         $qr = $query->row()->scb_unique;
         //print_r($qr);exit;
         $unique1d = $qr + 1;
-        
+
         $dt = date('Y-m-d H:i:s');
         //$x="insert into subscriber_detail(user_unique_id,user_email_id,user_gender) values('$unique1d','$email','$gender')";echo $x;exit;
         //print_r($unique1d);exit;
@@ -1597,7 +1574,7 @@ FROM seller_account_information
     }
 
     function insert_user_mobile_otp($otp) {
-        
+
         $dt = date('Y-m-d H:i:s');
 
         $user_otp_data = array(

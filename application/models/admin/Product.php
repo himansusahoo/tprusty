@@ -1728,7 +1728,7 @@ class Product extends CI_Model {
         
         $cdate = date('y-m-d H:i:s');
 
-        if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
+        if (!$this->rbac->has_role('ADMIN')) {
             $uid = $this->session->userdata('logged_userrole_id');
             $uname = $this->session->userdata('logged_in');
         } {
@@ -2262,7 +2262,7 @@ GROUP BY b.sku ORDER BY b.product_id DESC LIMIT " . $start . ", " . $limit . " "
 
         $qr = $this->db->insert('tax_management', $data);
 
-        if ($this->session->userdata('logged_in') != ADMIN_MAIL) {
+        if (!$this->rbac->has_role('ADMIN')) {
             
             $cdate = date('y-m-d H:i:s');
             $uid = $this->session->userdata('logged_userrole_id');
