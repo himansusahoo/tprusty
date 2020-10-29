@@ -30,3 +30,5 @@ bulkproduct_excel
 bulkproductedit_excel
 asset
 node_modules
+composer.lock
+package-lock.lock
