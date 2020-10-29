@@ -54,7 +54,7 @@
         </tr>
         <tr role="row" class="even">
             <td class=" dt_name">Manage Menu</td>
-            <td class=" dt_name">MANAGE_MENU</td>
+            <td class=" dt_name">MANAGE_MENUS</td>
             <td class=" dt_name">active</td>
             <td class=" dt_name">
                 <a class="btn btn-info btn-xs" href="http://localhost:81/ion_school/view-rbac-module/NzY2MzRkZjJm" title="view record" data-toggle="tooltip" data-placement="top" style="">
