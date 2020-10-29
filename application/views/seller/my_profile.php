@@ -61,7 +61,7 @@ require_once('header.php');
 
 
         //$("#changePContactSave").click(function(){
-//			var base_url = "<?php //echo base_url();      ?>";
+//			var base_url = "<?php //echo base_url();        ?>";
 //			var controller = "seller/account";
 //			var p_name = $("input[name=p_name]").val(); 
 //			var p_email = $("input[name=p_email]").val(); 
@@ -234,9 +234,9 @@ require_once('header.php');
     $seller_signup_id = $this->session->userdata('seller-signup-session');
     if (!$seller_signup_id) :
         ?>
-                                                <div style="padding-top:60px; margin:0px 50px;">
-                                                        <div class="alert alert-danger" role="alert"> *Important ! You have not completed signup. To complete click <a href="<?//php echo base_url();?>seller/seller/incomplete_signup"><strong>here</strong></a></div>
-                                                </div>
+                                                        <div style="padding-top:60px; margin:0px 50px;">
+                                                                <div class="alert alert-danger" role="alert"> *Important ! You have not completed signup. To complete click <a href="<?//php echo base_url();?>seller/seller/incomplete_signup"><strong>here</strong></a></div>
+                                                        </div>
         <?php
     endif;
     ?>-->
@@ -653,7 +653,7 @@ require_once('header.php');
                                         <hr style="margin-top:10px;">
                                     </div>
                                     <div>
-                                        <p class="col-md-12">For any help regarding seller, Please mail us '<?=SELLER_MAIL?>'.</p>
+                                        <p class="col-md-12">For any help regarding seller, Please mail us '<?= SELLER_MAIL ?>'.</p>
                                     </div>
                                 </div>
                             </div>

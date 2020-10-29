@@ -16,7 +16,7 @@ class Bulkporductupload_model extends CI_Model {
         return $qr->row()->category_name;
     }
 
-    function getattributeset($attr_menuwise) {
+    function getattributeset($attr_menuwise='') {
         $att_id_string = explode(',', $attr_menuwise);
         //print_r($att_id_string);exit;
         $query = $this->db->query("SELECT * FROM attribute_group WHERE cate_attributelink!='' ");

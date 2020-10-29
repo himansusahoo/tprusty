@@ -25,74 +25,11 @@ class Upload_bulkproduct Extends CI_Controller {
             $data['categories'] = $this->Seller_model->getCategories();
             $data['attrbset'] = $this->Bulkporductupload_model->getattributeset();
             $data['seller_id'] = $this->uri->segment(4);
-
-
-
             $this->load->view('admin/upload_bulkproductfor_single_seller', $data);
         } else {
             redirect('admin/super_admin');
         }
     }
-
-    /* function upload_prodexcel()
-      {
-      if($this->session->userdata('logged_in')){
-
-      $config['upload_path'] = './bulkproduct_excel/';
-      //$config['allowed_types'] = 'doc|pdf|docx|zip|rar';
-      $config['allowed_types'] = 'xls|xlsx';
-      $config['max_size'] = '100000';
-      $this->load->library('upload');
-      $this->upload->initialize($config);
-      //$this->load->library('upload', $config);
-
-      if(!$this->upload->do_upload()){
-      $this->upload->display_errors();
-
-      }else{
-      $data=$this->upload->data();
-      $excl_filename = $data['file_name'];
-
-      //$rowsdata=$this->Bulkporductupload_model->validbeforeinsert_bulkupload($excl_filename);
-
-      //if($rowsdata[0]=="0")
-      //{
-      $this->Bulkporductupload_model->insert_bulkupload($excl_filename);
-      $data['rows_status']=$rowsdata;
-      $data['excl_filename']=$excl_filename;
-      redirect('admin/Upload_bulkproduct/bulkproductupload_forseller');
-      //$this->load->view('admin/exceldata_validationstatus_ajax',$data);
-      //echo "success";
-      //}
-      //else if((int)$rowsdata[0]>0 && $rowsdata[0]!="File has expired")
-      //					{
-      //						//$output_dir = "./bulkproduct_excel/";
-      ////						$filePath = $output_dir. $excl_filename;
-      ////						unlink($filePath);
-      //
-      //						$data['rows_status']=$rowsdata;
-      //						$data['excl_filename']=$excl_filename;
-      //
-      //						$this->load->view('admin/exceldata_validationstatus_ajax',$data);
-      //					}
-      //					if($rowsdata[0]=="File has expired" && $rowsdata[0]!="0")
-      //					{
-      //						$output_dir = "./bulkproduct_excel/";
-      //						$filePath = $output_dir.$excl_filename;
-      //						unlink($filePath);
-      //						$data['rows_status']=$rowsdata;
-      //						$this->load->view('admin/exceldata_validationstatus_ajax',$data);
-      //					}
-
-      }
-
-      //echo 'success';exit;
-      //redirect('admin/Upload_bulkproduct');
-      }else{
-      redirect('admin/super_admin');
-      }
-      } */
-
     function upload_prodexcel() {
         if ($this->session->userdata('logged_in')) {
 
