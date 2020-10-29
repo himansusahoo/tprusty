@@ -10,14 +10,15 @@ if (!defined('BASEPATH')) {
  * @author  : HimansuS
  * @created :09/29/2018
  */
-class Rbac_role_permissions extends MX_Controller {
+class Rbac_role_permissions extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
 
         $this->load->model('rbac_role_permission');
-        $this->layout->layout = 'admin_layout';
-        $this->layout->layoutsFolder = 'layouts/admin';
+        $this->load->library('form_validation');
+        $this->layout->layout = 'admin_lte';
+        $this->layout->layoutsFolder = 'layouts/admin_lte';
         $this->layout->lMmenuFlag = 1;
         $this->layout->rightControlFlag = 1;
         $this->layout->navTitleFlag = 1;
@@ -47,57 +48,41 @@ class Rbac_role_permissions extends MX_Controller {
             $user_id = $this->rbac->get_user_id();
             $condition = array('created_by' => $user_id);
             $role_options = $this->rbac_role_permission->get_rbac_roles_options('name', null, $condition);
-            $role_options = array_slice($role_options, 1, null, true);
-            $role_codes = $this->rbac_role_permission->get_rbac_roles_options('code', null, $condition);
-            $role_codes = array_slice($role_codes, 1, null, true);
+            $data['role_options'] = array_slice($role_options, 1, null, true);
 
             if ($this->rbac->has_role('DEVELOPER')) {
-                $condition = array('t1.status' => 'active');
-                $permission_masters_all = $this->rbac_role_permission->get_rbac_permissions(null, $condition);
+                $allPermissions = $this->rbac_role_permission->get_rbac_permission();
             } else {
                 $user_role_ids = $this->rbac->get_role_ids();
                 $user_role_ids = implode(",", $user_role_ids);
-                $condition = "t1.status='active' AND t1.role_id IN($user_role_ids)";
-                $permission_masters_all = $this->rbac_role_permission->get_rbac_role_permission(null, $condition);
+                $condition = " AND rrp.role_id IN($user_role_ids)";                         
+                $allPermissions = $this->rbac_role_permission->get_rbac_permission($condition);
             }
+            //pmo($allPermissions,1);
+            //parent array columns
+            $parentColumns = array('module_id', 'module_name', 'module_code', 'module_status', 'module_created', 'module_modified');
+            $data['all_permissions'] = flat_array_tree($allPermissions, 'module_id', 'action_id', $parentColumns);
 
-            $conditions = array('t1.status' => 'active');
-            $existing_role_permissions = $this->rbac_role_permission->get_rbac_role_permission(null, $conditions);            
-            $action_options = $action_codes = $existing_perms = array();
-            $data = array(
-                'role_options' => $role_options,
-                'permission_master_all' => $permission_masters_all,
-                'existing_role_permissions' => $existing_role_permissions
-            );
+            $conditions = array('rp.status' => 'active');
+            $existing_role_permissions = $this->rbac_role_permission->get_rbac_role_permission(null, $conditions);
+            $parentColumns = array('role_id');
+            $data['existing_role_permissions'] = flat_array_tree($existing_role_permissions, 'role_id', 'permission_id', $parentColumns);
+
+            $postData = $this->input->post();
             
-            if ($this->input->post()) {
-                $permissions = $this->input->post();
-                if(array_key_exists('permission',$permissions)){                    
-                    $perms = array();    
-                    foreach ($permissions['permission'] as $role_id => $perm) {    
-                        foreach ($perm as $perm_id) {
-                            $perms[] = array(
-                                'role_id' => $role_id,
-                                'permission_id' => $perm_id
-                            );
-                        }
-                    }
-                  
-                    if ($this->rbac_role_permission->save_role_permissions($perms)) {
-                        $this->session->set_flashdata('success', 'Record successfully saved!');
-                        redirect(base_url('rbac-role-permissions'));
-                    } else {
-                        $this->session->set_flashdata('error', 'Unable to store the data, please conatact site admin!');
-                    }
-                }else{
-                    if(isset($permissions['permission_role_id'])){
-                        //delete all the role permissions
-                        $this->rbac_role_permission->delete_all_role_perms($permissions['permission_role_id']);
-                    }else {
-                        $this->session->set_flashdata('error', 'Unable to store the data, please conatact site admin!');
-                    }                    
-                }               
+            if ($postData) {
+                $sendExistingPerms = array();
+                if (array_key_exists($postData['role_id'], $data['existing_role_permissions'])) {
+                    $sendExistingPerms = $data['existing_role_permissions'][$postData['role_id']];
+                }
+                if ($this->rbac_role_permission->save_role_permissions($postData, $sendExistingPerms)) :
+                    $this->session->set_flashdata('success', 'Record successfully saved!');
+                    redirect('rbac-role-permissions');
+                else:
+                    $this->session->set_flashdata('error', 'Unable to store the data, please conatact site admin!');
+                endif;
             }
+            //pmo($data);
             $this->layout->data = $data;
             $this->layout->render();
         } else {

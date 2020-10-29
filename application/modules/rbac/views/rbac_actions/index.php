@@ -1,6 +1,5 @@
-<?php ?> 
-<div class="row-fluid">
-    <div class="col-sm-12 no_pad table-responsive">
+<?php ?> <div class="row-fluid">
+    <div class="col-sm-12 no_pad">
         <?php
         $this->load->library('c_datatable');
         $dt_data = $this->c_datatable->generate_grid($config);
@@ -28,7 +27,7 @@
                         label: 'Delete',
                         action: function (dialog) {
                             $.ajax({
-                                url: '<?= base_url('delete-rbac-action') ?>',
+                                url: '<?= base_url('delete-rbac-action')?>',
                                 method: 'POST',
                                 data: data,
                                 success: function (result) {
@@ -61,7 +60,7 @@
             };
             $.ajax({
                 type: 'POST',
-                url: "<?= base_url('export-rbac-action') ?>",
+                url: "<?= base_url('export-rbac-action')?>",
                 data: param,
                 dataType: 'json'
             }).done(function (data) {
@@ -79,7 +78,7 @@
             };
             $.ajax({
                 type: 'POST',
-                url: "<?= base_url('export-rbac-action') ?>",
+                url: "<?= base_url('export-rbac-action')?>",
                 data: param,
                 dataType: 'json'
             }).done(function (data) {

@@ -19,54 +19,6 @@ class Rbac_role_permission extends CI_Model {
     }
 
     /**
-     * @param              : $columns=null,$conditions=null,$limit=null,$offset=null
-     * @desc               :
-     * @return             :
-     * @author             :
-     * @created:09/29/2018
-     */
-    public function get_rbac_role_permission($columns = null, $conditions = null, $limit = null, $offset = null) {
-        if (!$columns) {
-            $columns = 't1.role_permission_id,t1.role_id,t1.permission_id,t1.status,t1.created,t1.modified';
-            $columns .=',rr.name role_name,rr.code role_code';
-            $columns .=',rm.name module_name,rm.code module_code';
-            $columns .=',ra.name action_name,ra.code action_code';
-        }
-
-        /*
-          Table:-    rbac_permissions
-          Columns:-    permission_id,module_id,action_id,status,created,modified
-
-          Table:-    rbac_roles
-          Columns:-    role_id,name,code,status,created,modified,created_by,modified_by
-
-         */
-        $this->db->select($columns)->from('rbac_role_permissions t1')
-                ->join('rbac_roles rr', 'rr.role_id=t1.role_id', 'left')
-                ->join('rbac_permissions rp', 'rp.permission_id=t1.permission_id', 'left')
-                ->join('rbac_modules rm', 'rm.module_id=rp.module_id', 'left')
-                ->join('rbac_actions ra', 'ra.action_id=rp.action_id', 'left');
-
-        if ($conditions && is_array($conditions)) :
-            foreach ($conditions as $col => $val):
-                $this->db->where($col, $val);
-            endforeach;
-        elseif (is_string($conditions)):
-            $this->db->where($conditions);
-        endif;
-        $this->db->order_by('rr.name', 'asc');
-        $this->db->order_by('rm.name', 'asc');
-        $this->db->order_by('ra.name', 'asc');
-        $this->db->group_by('rr.role_id,rp.permission_id');
-        if ($limit > 0) :
-            $this->db->limit($limit, $offset);
-        endif;
-        $result = $this->db->get()->result_array();
-
-        return $result;
-    }
-
-    /**
      * @param              : $columns,$index=null, $conditions = null
      * @desc               :
      * @return             :
@@ -120,73 +72,42 @@ class Rbac_role_permission extends CI_Model {
      * @desc   save role permissions
      * @author
      */
-    public function save_role_permissions($form_data) {
-
-
-        //eleminate permission id 0
-        $valid_form_data = array_filter($form_data, function($form_data_ele) {
-            if ($form_data_ele['permission_id']) {
-                return true;
-            }
-            return false;
-        });
-        $role_id = array_column($valid_form_data, 'role_id');
-        $role_id = array_unique($role_id);
+    public function save_role_permissions($postData, $existingRolePerms) {
         $this->db->trans_begin();
-        foreach ($role_id as $rid) {
-            //get all existing module permissions
-            $existing_perms = $this->_get_existing_role_perms("permission_id,role_id,role_permission_id", "AND status='active' and role_id=$rid");
-            $new_perms = array();
-            //find out new permissions
-            $new_perms = array_filter($valid_form_data, function ($array2Element) use ($existing_perms) {
-                if ($array2Element['permission_id'] != '' || $array2Element['role_id'] != '') {
-                    foreach ($existing_perms as $array1Element) {
-                        if ($array1Element['permission_id'] == $array2Element['permission_id'] && $array1Element['role_id'] == $array2Element['role_id']) {
-                            return false;
-                        }
-                    }
-                    return true;
+        $roleId=$postData['role_id'];
+        //get all existing module permissions
+        $newPerms = $commonPerms = $deletePerms = $merges = $saveNewPerms=array();
+        
+        foreach ($postData['permission'] as $moduleId => $permIds) {
+            foreach ($permIds as $permId) {
+                if (array_key_exists('children', $existingRolePerms) && array_key_exists($permId, $existingRolePerms['children'])) {
+                    $commonPerms[] = $permId;
                 } else {
-                    return true;
+                    $newPerms[] = $permId;
+                    $saveNewPerms[]=array(
+                        'role_id'=>$roleId,
+                        'permission_id'=>$permId,
+                        'status'=>'active'
+                    );
                 }
             }
-            );
-            //echo 'new perms';
-            //pma($new_perms);
-            //find common permissions to update
-            $common_perms = array_filter($valid_form_data, function ($array2Element) use ($existing_perms) {
-                foreach ($existing_perms as $array1Element) {
-                    if ($array1Element['permission_id'] == $array2Element['permission_id'] && $array1Element['role_id'] == $array2Element['role_id']) {
-                        return true;
-                    }
-                }
-                return false;
-            }
-            );
-//            echo 'common perms';
-//            pma($common_perms);
-            //find perm to delete
-            $merge_perm = array_merge($new_perms, $common_perms);
-            $del_perms = array_filter($existing_perms, function ($array2Element) use ($merge_perm) {
-                foreach ($merge_perm as $array1Element) {
-                    if ($array1Element['permission_id'] == $array2Element['permission_id'] && $array1Element['role_id'] == $array2Element['role_id']) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-            );
-//            echo 'del perms';
-//            pma($del_perms);
-            //save new permissions
-            $this->_save_role_permissions($new_perms);
-            //inactive permissions
-            foreach ($del_perms as $perm) {
+        }
+        //merge new and common to find out the delted perms
+        if (array_key_exists('children', $existingRolePerms)) {
+            $merges = array_merge($newPerms, $commonPerms);
+            $existPermIds = array_keys($existingRolePerms['children']);
+            $deletePerms = array_diff($existPermIds, $merges);
+        }
+        if ($newPerms) {            
+            $this->_save_role_permissions($saveNewPerms);
+        }
+        if ($deletePerms) {
+            foreach ($deletePerms as $perm) {
                 $data = array(
                     'status' => 'inactive',
                     'modified' => date('Y-m-d H:i:s')
                 );
-                $this->db->update('rbac_role_permissions', $data, array('role_permission_id' => $perm['role_permission_id']));
+                $this->db->delete('rbac_role_permissions', array('permission_id' => $perm, 'role_id' => $postData['role_id']));
             }
         }
 
@@ -270,20 +191,54 @@ class Rbac_role_permission extends CI_Model {
         }
         return $result;
     }
-    /**
-     * @param  : $role_id
-     * @desc   : inactive all the permissions for a role
-     * @return : void
-     * @author : himansuS
-     * @created:18/07/2020
-     */
 
-    public function delete_all_role_perms($role_id) {
-        $data = array(
-            'status' => 'inactive',
-            'modified' => date('Y-m-d H:i:s')
-        );
-        $this->db->update('rbac_role_permissions', $data, array('role_id' => $role_id));
+    public function get_rbac_permission($conditions='') {
+        $query = "SELECT 
+            rp.permission_id,rp.status perm_status,rp.created perm_created,rp.modified perm_modified
+            ,ma.*
+            FROM rbac_permissions rp
+            LEFT JOIN module_actions_vw ma on ma.module_id=rp.module_id and ma.action_id=rp.action_id
+            LEFT JOIN rbac_role_permissions rrp on rrp.permission_id=rp.permission_id
+            WHERE rp.status='active' 
+            and ma.action_status='active' 
+            and ma.module_status='active' $conditions";
+        $result = $this->db->query($query)->result_array();
+        //pmo($query,1);
+        return $result;
+    }
+
+    /**
+     * @param  : $columns=null,$conditions=null,$limit=null,$offset=null
+     * @desc   :
+     * @return :
+     * @author :
+     * @created:11/22/2016
+     */
+    public function get_rbac_role_permission($columns = null, $conditions = null) {
+        if (!$columns) {
+            $columns = 'rp.role_permission_id,rp.role_id,rp.permission_id,rp.status,rp.created,rp.modified';
+        }
+
+        /*
+          Table:-	rbac_permissions
+          Columns:-	permission_id,module_id,action_id
+          Table:-	rbac_roles
+          Columns:-	role_id,name,code
+         * rbac_permissions_bak16may18
+
+         */
+        $this->db->select($columns)->from('rbac_role_permissions rp');
+
+        if ($conditions && is_array($conditions)):
+            foreach ($conditions as $col => $val):
+                $this->db->where($col, $val);
+            endforeach;
+
+        elseif (is_string($conditions)):
+            $this->db->where($conditions);
+        endif;
+        $result = $this->db->get()->result_array();
+        return $result;
     }
 
 }

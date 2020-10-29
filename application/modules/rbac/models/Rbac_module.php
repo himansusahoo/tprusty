@@ -10,11 +10,9 @@ if (!defined('BASEPATH')) {
  * @author  : HimansuS
  * @created :09/29/2018
  */
-class Rbac_module extends CI_Model
-{
+class Rbac_module extends CI_Model {
 
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
     }
 
@@ -25,8 +23,7 @@ class Rbac_module extends CI_Model
      * @author             :
      * @created:09/29/2018
      */
-    public function get_rbac_module_datatable($data = null, $export = null, $tableHeading = null, $columns = null)
-    {
+    public function get_rbac_module_datatable($data = null, $export = null, $tableHeading = null, $columns = null) {
         $this->load->library('datatables');
         if (!$columns) {
             $columns = 'module_id,name,code,status';
@@ -54,8 +51,7 @@ class Rbac_module extends CI_Model
      * @author             :
      * @created:09/29/2018
      */
-    public function get_rbac_module($columns = null, $conditions = null, $limit = null, $offset = null)
-    {
+    public function get_rbac_module($columns = null, $conditions = null, $limit = null, $offset = null) {
         if (!$columns) {
             $columns = 'module_id,name,code,status,created,modified';
         }
@@ -85,8 +81,7 @@ class Rbac_module extends CI_Model
      * @author             :
      * @created:09/29/2018
      */
-    public function save($data)
-    {
+    public function save($data) {
         if ($data) :
             $this->db->insert("rbac_modules", $data);
             $module_id_inserted_id = $this->db->insert_id();
@@ -106,8 +101,7 @@ class Rbac_module extends CI_Model
      * @author             :
      * @created:09/29/2018
      */
-    public function update($data)
-    {
+    public function update($data) {
         if ($data) :
             $this->db->where("module_id", $data['module_id']);
             return $this->db->update('rbac_modules', $data);
@@ -122,8 +116,7 @@ class Rbac_module extends CI_Model
      * @author             :
      * @created:09/29/2018
      */
-    public function delete($module_id)
-    {
+    public function delete($module_id) {
         if ($module_id) :
             $this->db->trans_begin();
             $result = 0;
@@ -148,15 +141,16 @@ class Rbac_module extends CI_Model
      * @author             :
      * @created:09/29/2018
      */
-    public function get_options($columns, $index = null, $conditions = null)
-    {
+    public function get_options($columns, $index = null, $conditions = null) {
         if (!$columns) {
             $columns = 'module_id';
         }
         if (!$index) {
             $index = 'module_id';
         }
-        $this->db->select("$columns,$index")->from('rbac_modules t1');
+        $this->db->select("$columns,$index")
+                ->from('rbac_modules t1')
+                ->order_by('name','asc');
 
         if ($conditions && is_array($conditions)) :
             foreach ($conditions as $col => $val):
@@ -174,9 +168,28 @@ class Rbac_module extends CI_Model
         return $list;
     }
 
-    public function record_count()
-    {
+    public function record_count() {
         return $this->db->count_all('rbac_modules');
+    }
+
+    /**
+     * isModuleCodeExist
+     * 
+     * Validate Module code is exist or not
+     * 
+     * @name 
+     * @param String $code
+     * @return integer
+     * @author himansuS <himansu.sahoo@ionidea.com>
+     */
+    public function isModuleCodeExist($paramValus=array()) {
+        $query = "SELECT count(code) total_count from rbac_modules where upper(code)=?";
+        if(count($paramValus)==2){
+            $query.=' and module_id!=?';
+        }
+        
+        $result = $this->db->query($query,$paramValus)->row();
+        return $result->total_count;
     }
 
 }

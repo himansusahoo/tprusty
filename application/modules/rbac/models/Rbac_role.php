@@ -26,11 +26,21 @@ class Rbac_role extends CI_Model {
     public function get_rbac_role_datatable($data = null, $export = null, $tableHeading = null, $columns = null) {
         $this->load->library('datatables');
         if (!$columns) {
-            $columns = 'role_id,name,code,created,created_by,modified,modified_by,status';
+            $columns = 'role_id,name,code,created_by,modified_by,created'
+                    . ',modified,status';
         }
+        $inner_query="(
+                select 
+                t1.role_id,t1.name,t1.code,t1.status status,t1.created_by created_by_id
+                ,c.first_name created_by,c.created created
+                ,m.first_name modified_by,m.modified modified
+                from rbac_roles t1
+                left join rbac_users c on c.user_id=t1.created_by
+                left join rbac_users m on c.user_id=t1.modified_by
+                )a";
         $user_id = $this->rbac->get_user_id();
         $this->datatables->select('SQL_CALC_FOUND_ROWS ' . $columns, false, false)
-                ->from('rbac_role_list_view')
+                ->from($inner_query)                
                 ->where('created_by_id', $user_id);
 
         $this->datatables->unset_column("role_id");

@@ -42,11 +42,7 @@ class Rbac_permission extends CI_Model
           Columns:-    module_id,name,code,status,created,modified
 
          */
-        /* $this->db->select($columns)->from('rbac_permissions t1')
-          ->join('rbac_modules rm','rm.module_id=t1.module_id','LEFT')
-          ->join('rbac_actions ra','ra.action_id=t1.action_id','LEFT')
-          ->order_by('t1.module_id','asc')
-          ->order_by('ra.name','dsc'); */
+       
         $this->db->select($columns)->from('rbac_modules rm')
             ->join('rbac_permissions t1', 'rm.module_id=t1.module_id', 'LEFT')
             ->join('rbac_actions ra', 'ra.action_id=t1.action_id', 'LEFT')
@@ -65,7 +61,6 @@ class Rbac_permission extends CI_Model
 
         endif;
         $result = $this->db->get()->result_array();
-        //echo $this->db->last_query();
         return $result;
     }    
 
@@ -204,10 +199,11 @@ class Rbac_permission extends CI_Model
      * @desc   save module permissions
      * @author
      */
-    public function save_module_permissions($form_data)
+    public function save_module_permissions($form_data,$condition="")
     {
         //get all existing module permissions
-        $existing_perms = $this->_get_existing_module_perms("module_id,action_id");
+        
+        $existing_perms = $this->_get_existing_module_perms("module_id,action_id",$condition);
         $new_perms = array();
         //find out new permissions
         $new_perms = array_filter(
@@ -220,7 +216,6 @@ class Rbac_permission extends CI_Model
                 return true;
             }
         );
-
         //find common permissions to update
         $common_perms = array_filter(
             $form_data, function ($array2Element) use ($existing_perms) {
@@ -232,7 +227,6 @@ class Rbac_permission extends CI_Model
                 return false;
             }
         );
-
         //find perm to delete
         $merge_perm = array_merge($new_perms, $common_perms);
         $del_perms = array_filter(
@@ -257,6 +251,7 @@ class Rbac_permission extends CI_Model
             );
             $this->db->update('rbac_permissions', $data, array('module_id' => $perm['module_id'], 'action_id' => $perm['action_id']));
         }
+        //pmo($del_perms,1);
         //inactive permissions
         foreach ($del_perms as $perm) {
             $data = array(
@@ -275,6 +270,22 @@ class Rbac_permission extends CI_Model
         }
     }
 
+    /**
+     * getModuleActions
+     * 
+     * Fetch modules and its assigned actions
+     * 
+     * @name getModuleActions
+     * @param void
+     * @return array
+     * @author himansuS <himansu.sahoo@ionidea.com>
+     */
+    public function getModuleActions() {
+        $query="SELECT * FROM module_actions_vw order by module_name asc, action_name asc";
+        $result=$this->db->query($query)->result_array();
+        //pmo($result,1);
+        return $result;
+    }
 }
 
 ?>

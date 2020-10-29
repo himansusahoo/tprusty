@@ -1,0 +1,9 @@
+{
+    
+    "require": {       
+        "almasaeed2010/adminlte": "~3.0",        
+        "phpmailer/phpmailer": "v5.2.28",
+        "phpoffice/phpspreadsheet": "1.8.2",
+        "phpoffice/phpexcel": "^1.8"        
+    }
+}

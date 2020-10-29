@@ -98,24 +98,7 @@ class C_datatable {
     //default dom declaration. <"col-md-3" B>
     //top row- length change button hold filter
     //buttom row- length change blank div pagination
-    private $_dom = '<<"row-fluid no-pad" 
-                <"col-md-2 no-pad" l>                
-                <"col-md-10 no-pad" 
-                    <"col-md-12 no-pad"                            
-                        <"pull-right" f>
-                        <"dt_button pull-right">
-                    >
-                >
-            ><t>
-            <"row-fluid no-pad marginT10"
-                <"col-md-2 no-pad" l>                
-                <"col-md-10 no-pad" 
-                    <"col-md-12 no-pad"                            
-                        <"pull-right" p>
-                        <"dt_buttom_info pull-right">
-                    >
-                >
-            >';
+    private $_dom = '<"row"<"col-sm-12 col-md-1"l> <"col-sm-12 col-md-9" <"raw_cert_data_dt_table_dt_button float-right">><"col-sm-12 col-md-2"f>> <"row" <"col-sm-12"tr>> <"row" <"col-sm-12 col-md-5"i> <"col-sm-12 col-md-7"p>>';
     private $_loading_markup = '';
 
     private function _set_loading_markup() {
@@ -156,7 +139,6 @@ class C_datatable {
             'searching' => 'true',
             'lengthMenu' => array(15, 30, 60, 100),
             //'destroy'=> 'true',
-            //'fixedHeader'=> array('header'=>true),
             'order' => array(
                 array(
                     'column' => 0,
@@ -219,9 +201,6 @@ class C_datatable {
             'dt_extra_header' => array('markup' => ''), //to populate colspan extra header
             'custom_lengh_change' => false,
             'dt_post_data' => '',
-            /**
-             * dt_param: json object
-             */
             'dt_ajax' => array(
                 'dt_url' => '',
                 'dt_request_type' => 'POST',
@@ -262,10 +241,9 @@ class C_datatable {
     private function _prepare_dt_options($config) {
         //merge custom configs
         $this->_dt_configs = assoc_array_merge($this->_dt_configs, $config);
-        //pma($this->_dt_configs, 1);
+         //pmo($this->_dt_configs, 1);
         $this->_set_commin_js_vars();
         $this->_set_dt_dom();
-        $this->_set_fixed_cols();
         $this->_set_dt_columns();
         $this->_set_dt_ajax();
         return $this;
@@ -314,93 +292,22 @@ class C_datatable {
         }
     }
 
-    //prepare dt_dom
-    private function _prepare_dt_dom($dt_dom) {
-        if (is_array($dt_dom)) {
-            if ((!isset($dt_dom['top_dom']) || !$dt_dom['top_dom']) && (!isset($dt_dom['buttom_dom']) || !$dt_dom['buttom_dom'])) {
-                return '';
-            }
-
-            $dom = '<';
-            if (isset($dt_dom['top_dom']) && $dt_dom['top_dom']) {
-                $dom .= '<"row-fluid no-pad"';
-                //set length change
-                if (isset($dt_dom['top_length_change']) && $dt_dom['top_length_change']) {
-                    $dom .= ' <"dt-length-change col-md-2 no-pad" l>';
-                } else {
-                    $dom .= ' <"dt-length-change col-md-2 no-pad">';
-                }
-                $dom .= ' <"col-md-10 no-pad" <"col-md-12 no-pad"';
-
-                //set top pagination
-                if (isset($dt_dom['top_pagination']) && $dt_dom['top_pagination']) {
-                    $dom .= ' <"pull-right pagination_holder" p>';
-                }
-                //set top filter
-                if (isset($dt_dom['top_filter']) && $dt_dom['top_filter']) {
-                    $dom .= ' <"pull-left" f>';
-                }
-
-                //set top buttons
-                if (isset($dt_dom['top_buttons']) && $dt_dom['top_buttons']) {
-                    $dom .= ' <"' . $this->_dt_id . '_dt_button pull-right marginR5">';
-                    $this->_dom_buttons = $dt_dom['top_buttons'];
-                }
-
-                $dom .= '>><t>';
-            }
-
-            if (isset($dt_dom['buttom_dom']) && $dt_dom['buttom_dom']) {
-                //set buttom options
-                $dom .= ' <"row-fluid no-pad marginT10"';
-                //set buttom length change
-                if (isset($dt_dom['buttom_length_change']) && ($dt_dom['buttom_length_change'] === true || $dt_dom['buttom_length_change'] === TRUE)) {
-                    $dom .= ' <"col-md-2 no-pad" l>';
-                } else {
-                    $dom .= ' <"col-md-2 no-pad">';
-                }
-                $dom .= ' <"col-md-10 no-pad" <"col-md-12 no-pad"';
-
-                //set buttom pagination
-                if (isset($dt_dom['buttom_pagination']) && ($dt_dom['buttom_pagination'] === true || $dt_dom['buttom_pagination'] === TRUE)) {
-                    $dom .= ' <"pull-right" p>';
-                }
-                //set buttom filter
-                if (isset($dt_dom['buttom_filter']) && ($dt_dom['buttom_filter'] === true || $dt_dom['buttom_filter'] === TRUE)) {
-                    $dom .= ' <"pull-right" f>';
-                }
-                //set buttom buttons
-                if (isset($dt_dom['buttom_info'])) {
-                    $dom .= ' <"dt_buttom_info pull-right">';
-                }
-
-                $dom .= '>>';
-            }
-
-            $dom .= '>'; //end dom            
-
-            $dt_dom = $dom;
-        }
-        return $dt_dom;
-    }
-
-    private function _set_fixed_cols() {
-        $dt_dom = $this->_get_dt_config_value('dt_dom');
-        $fixed_cols='';
-        if(array_key_exists('fixedColumns', $dt_dom)){
-            $this->_dt_configs['options']['fixedColumns']=$dt_dom['fixedColumns'];
-        }        
-    }
-
     //set datatable dom
     private function _set_dt_dom() {
-        $dt_dom = $this->_get_dt_config_value('dt_dom');
-        if ($dt_dom) {
-            $this->_dt_configs['options']['dom'] = $this->_prepare_dt_dom($dt_dom);
-        } else {
-            if (isset($this->_dt_configs['options']['dom'])) {
-                $this->_dt_configs['options']['dom'] = str_replace(array("\n", "\r"), '', $this->_dt_configs['options']['dom']);
+        
+        //pmo($this->_dt_configs,1);
+        
+        if (array_key_exists('dt_dom', $this->_dt_configs)) {
+            //set dom buttons
+            if (array_key_exists('top_buttons', $this->_dt_configs['dt_dom'])) {
+                $this->_dom_buttons = $this->_dt_configs['dt_dom']['top_buttons'];
             }
+            //set any custom datatable dom
+            if (array_key_exists('dom', $this->_dt_configs['dt_dom'])) {
+                $this->_dt_configs['options']['dom'] = $this->_dt_configs['dt_dom']['dom'];
+            }
+        } else {
+            $this->_dt_configs['options']['dom'] = str_replace(array("\n", "\r"), '', $this->_dom);
         }
     }
 
@@ -449,7 +356,6 @@ class C_datatable {
     //prepare dt code from dt options and also apply dt callbacks
     private function _prepare_dt_code() {
         $this->_dt_code = '';
-        //pma($this->_dt_configs['options'], 1);
         foreach ($this->_dt_configs['options'] as $opt => $val) {
             if (is_array($val)) {
                 if ($opt == 'order') {
@@ -634,11 +540,6 @@ class C_datatable {
             $this->_after_dt_script .= 'var ' . $this->_dt_id . '_extra_head="' . $markup . '"; ';
             $this->_after_dt_script .= "$('." . $this->_dt_id . "_table_cont').find('div.dataTables_scrollHeadInner').find('table').find('thead').prepend(" . $this->_dt_id . "_extra_head);";
             //$this->_after_dt_script.="$('." . $this->_dt_id . "').DataTable().clear()";
-            $this->_after_dt_script.="$(document).on('change','.chosen-dt-length-select',function(){
-                var selVal=$(this).val();
-                var dropDown=$('.chosen-dt-length-select');
-                dropDown.val(selVal).trigger(\"chosen:updated\");
-            });";
         }
         return $this->_after_dt_script;
     }
@@ -676,7 +577,7 @@ class C_datatable {
         $this->_dt_code .= ' window.win_' . $this->_dt_obj . '=' . $this->_dt_obj . ';';
         $this->_dt_code .=" $('.dataTables_filter input').addClass('search_box_dt_cls');";
         $this->_dt_code .=" $('.dataTables_length select').addClass('chosen-dt-length-select');";
-        $this->_dt_code .="$('.chosen-dt-length-select').chosen({allow_single_deselect: true,disable_search:true,width:60});";
+        $this->_dt_code .="$('.chosen-dt-length-select').chosen({allow_single_deselect: true,disable_search:true,width:50});";
         return $this;
     }
 

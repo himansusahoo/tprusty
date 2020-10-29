@@ -8,8 +8,8 @@ class App_configs extends CI_Controller {
         parent::__construct();
         $this->load->model('app_config');
         $this->load->library('form_validation');
-        $this->layout->layout = 'admin_layout';
-        $this->layout->layoutsFolder = 'layouts/admin';
+        $this->layout->layout = 'admin_lte';
+        $this->layout->layoutsFolder = 'layouts/admin_lte';
     }
 
     public function index() {
