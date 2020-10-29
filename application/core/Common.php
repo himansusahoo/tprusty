@@ -633,18 +633,18 @@ if (!function_exists('get_link_buttons')) {
                     $attr = $attribute['attr'];
                 }
 
-                $btn.='<a class="btn ' . $attribute["btn_class"] . ' btn-xs" ' . $attr . ' href="' . $href . '"'
+                $btn .= '<a class="btn ' . $attribute["btn_class"] . ' btn-xs" ' . $attr . ' href="' . $href . '"'
                         . ' title="' . $attribute["btn_title"] . '" data-toggle="tooltip" data-placement="top"'
                         . $style . '>';
 
                 if (isset($attribute["btn_icon"])) {
-                    $btn.='<i class="fa ' . $attribute["btn_icon"] . '"></i>';
+                    $btn .= '<i class="fas ' . $attribute["btn_icon"] . '"></i>';
                 }
                 if (isset($attribute["btn_text"])) {
-                    $btn.=$attribute["btn_text"];
+                    $btn .= $attribute["btn_text"];
                 }
 
-                $btn.='</a>' . $attribute["btn_separator"];
+                $btn .= '</a>' . $attribute["btn_separator"];
             }
         }
 
@@ -656,7 +656,7 @@ if (!function_exists('get_link_buttons')) {
 if (!function_exists('generate_gird')) {
 
     /**
-     * @method: get_link_buttons()
+     * @method: generate_gird()
      * @param: 	array $buttons 
      * @desc : generate buttons for data table
      */
