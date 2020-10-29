@@ -1,6 +1,6 @@
 <ul>
 	<li>Welcome <span  style="color:#fbbc6b; font-weight:bold; "><?php
-		if($this->session->userdata('logged_in')==ADMIN_MAIL)
+		if($this->rbac->has_role('ADMIN'))
 	{
 	 echo "Admin";
 	}else

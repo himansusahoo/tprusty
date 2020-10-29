@@ -1,6 +1,6 @@
 <ul class="top-menu">
 
-<?php if($this->session->userdata('logged_in')==ADMIN_MAIL) { ?>
+<?php if($this->rbac->has_role('ADMIN')) { ?>
     <li class="<?php if($this->uri->segment(2)=="payment" && $this->uri->segment(3)==""){echo "selected";} ?>"><a href="<?php echo base_url();?>admin/payment">Payout</a></li>
     <li class="<?php if($this->uri->segment(3)=="seller_payout" || $this->uri->segment(3)=="seller_payout_datewise"){echo "selected";} ?>"><a href="<?php echo base_url();?>admin/payment/seller_payout">Seller Payout</a></li>
      <li class="<?php if($this->uri->segment(3)=="buyer_refund"){echo "selected";} ?>"><a href="<?php echo base_url();?>admin/payment/buyer_refund">Buyer Refund</a></li>

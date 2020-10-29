@@ -1,6 +1,6 @@
 <ul class="top-menu">
 
-<?php if($this->session->userdata('logged_in')==ADMIN_MAIL) { ?>
+<?php if($this->rbac->has_role('ADMIN')) { ?>
 	<li class="selected"><a href="<?php echo base_url(); ?>admin/report">Order Report</a></li>
     <li><a href="<?php echo base_url(); ?>admin/report/return_order_report">Return Order Report</a></li>
     <li><a href="<?php echo base_url(); ?>admin/payment/seller_all_payout">Seller Payout Report</a></li>

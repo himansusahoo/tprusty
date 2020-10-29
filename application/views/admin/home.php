@@ -97,7 +97,7 @@ foreach ($seller_weekly_sale as $res_selr_saleqnt) {
         </div>
     </div>  <!-- @end top-bar  -->
     <div class="main-content">
-        <?php if ($this->session->userdata('logged_in') == ADMIN_MAIL) { ?>
+        <?php if ($this->rbac->has_role('ADMIN')) { ?>
             <div class="row">
                 <div class="col-lg-3 col-md-6">
                     <div class="panel panel-primary">
