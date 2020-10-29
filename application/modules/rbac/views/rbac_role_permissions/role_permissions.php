@@ -1,7 +1,7 @@
 <?php ?>
 <div class="card text-bold card-primary card-outline">
 
-    <div class="card-header text-left text-bold hand_cursor" id="super_panel">
+    <div class="card-header text-left text-bold hand" id="super_panel">
         Set role permissions
         <div class="card-tools">
             <button type="button" id="collapse-all" class="btn btn-primary btn-sm">
@@ -32,7 +32,7 @@
             ?>
             <div class="card card card-warning card-outline collapsed-card">
                 <div class="card-header text-left text-bold" >
-                    <span  class="hand_cursor" data-card-widget="collapse"><?= ucfirst(strtolower($role_name)) ?></span>
+                    <span  class="hand" data-card-widget="collapse"><?= ucfirst(strtolower($role_name)) ?></span>
                     <div class="card-tools">
                         <input type="submit" class="btn btn-primary btn-xs " value="Save">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">

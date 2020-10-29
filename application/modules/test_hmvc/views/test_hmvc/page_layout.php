@@ -4,7 +4,7 @@
     <div class="col-10">
         <form class="form-horizontal">
             <div class="card card-warning card-outline">
-                <div class="card-header text-left text-bold hand_cursor" data-card-widget="collapse">
+                <div class="card-header text-left text-bold hand" data-card-widget="collapse">
                     Personal Information
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -178,7 +178,7 @@
     </div>
     <div class="col-2">        
         <div class="card card-warning card-outline">
-            <div class="card-header text-left text-bold hand_cursor" data-card-widget="collapse">
+            <div class="card-header text-left text-bold hand" data-card-widget="collapse">
                 Profile Image
                 <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -918,11 +918,11 @@
                                                 <div class="col-sm-7">
                                                     <div class="input-group">
                                                         <div class="custom-file">
-                                                            <input type="file" class="custom-file-input hand_cursor" id="exampleInputFile">
+                                                            <input type="file" class="custom-file-input hand" id="exampleInputFile">
                                                             <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                                                         </div>
                                                         <div class="input-group-append">
-                                                            <span class="input-group-text btn-warning hand_cursor" id="">
+                                                            <span class="input-group-text btn-warning hand" id="">
                                                                 <i class="fas fa-upload"></i>&nbsp;Upload
                                                             </span>
                                                         </div>
