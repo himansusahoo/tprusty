@@ -26,7 +26,7 @@ class Rbac {
             if ($return_flag === TRUE) {
                 return FALSE;
             } else {
-                if ($this->_ci->layout->layout == 'admin_layout') {
+                if ($this->_ci->layout->layout == 'admin_lte') {
                     redirect('admin-login');
                 } else if (!strpos(current_url(), 'user-login')) {
                     redirect('user-login');
@@ -216,7 +216,7 @@ class Rbac {
             return $this->_session['user_data']['permissions'];
         } else {
             $this->_ci->session->set_flashdata('error', 'No permission assigned you to access the Dashboard,Please contact site Admin.');
-            if ($this->_ci->layout->layout == 'admin_layout') {
+            if ($this->_ci->layout->layout == 'admin_lte') {
                 redirect('admin-login');
             } else if (!strpos(current_url(), 'user-login')) {
                 redirect('user-login');
@@ -239,106 +239,17 @@ class Rbac {
         //return $this->_ci->rbac_menu->show_menu();
     }
 
-    /**
+     /**
      * @param  : NA
-     * @desc   : generate left menu based on users permission
+     * @desc   : generate top menu based on users permission
      * @return : string menu 
      * @author : himansu
      */
-    public function show_user_menu_left($tree_array_flag = FALSE) {
-        if ($this->is_login()) {
-            if (isset($this->_session['user_data']['menus'])) {
-                $menu_arr = $this->_session['user_data']['menus'];
-                $tree = $this->tree_view($menu_arr, 0, TRUE);
-                if ($tree_array_flag) {
-                    return $tree;
-                }
-                if ($tree && is_array($tree)) {
-                    $menu_str = '<ul class="sidebar-menu" data-widget="tree">';
-                    foreach ($tree as $pcode => $menus) {
-                        if (isset($menus[$pcode])) {
-                            $parent = $menus[$pcode];
-                            //unset($menus[$pcode]);
-                            if ($parent['menu_header']) {
-                                $pmenu = $parent['menu_header'];
-                            } else if ($parent['menu_name']) {
-                                $pmenu = $parent['menu_name'];
-                            } else {
-                                $pmenu = $parent['action_name'];
-                            }
-                            $menu_str .= '<li class="treeview">
-                                   <a href="#">
-                                       <i class="fa ' . $parent['header_class'] . '"></i> <span>' . $pmenu . '</span>
-                                       <span class="pull-right-container">
-                                           <i class="fa fa-angle-left pull-right"></i>
-                                       </span>
-                                   </a>';
-                            $smenu_flag = 1;
-                            $menu_str .= '<ul class="treeview-menu">';
-                            foreach ($menus as $scode => $menu) {
-                                if (isset($menu[$scode])) {
-                                    $sparent = $menu[$scode];
-                                    if ($sparent['menu_header']) {
-                                        $pmenu = $sparent['menu_header'];
-                                    } else if ($sparent['menu_name']) {
-                                        $pmenu = $sparent['menu_name'];
-                                    } else {
-                                        $pmenu = $sparent['action_name'];
-                                    }
-                                    unset($menu[$scode]);
-                                    $menu_str .= '<li class="treeview"><a href="#"><i class="fa ' . $sparent['header_class'] . '"></i> ' . $pmenu . '
-                                                       <span class="pull-right-container">
-                                                           <i class="fa fa-angle-left pull-right"></i>
-                                                       </span>
-                                                   </a>';
-                                    //sub-sub menu
-                                    $menu_str .= '<ul class="treeview-menu">';
-                                    foreach ($menu as $sscode => $ssmenu) {
-                                        if ($ssmenu['menu_header']) {
-                                            $smenu = $ssmenu['menu_header'];
-                                        } else if ($parent['menu_name']) {
-                                            $smenu = $ssmenu['menu_name'];
-                                        } else {
-                                            $smenu = $ssmenu['action_name'];
-                                        }
-                                        $menu_str .= '<li><a href="' . base_url($ssmenu['url']) . '"><i class="fa ' . $ssmenu['menu_class'] . '"></i> ' . $smenu . '</a></li>';
-                                    }
-                                    $menu_str .= '</ul>';
-                                    $menu_str .= '<li>';
-                                } else {
-                                    if ($menu['menu_header']) {
-                                        $smenu = $menu['menu_header'];
-                                    } else if ($parent['menu_name']) {
-                                        $smenu = $menu['menu_name'];
-                                    } else {
-                                        $smenu = $menu['action_name'];
-                                    }
-                                    $menu_str .= '<li><a href="' . base_url($menu['url']) . '"><i class="fa ' . $menu['menu_class'] . '"></i> ' . $smenu . '</a></li>';
-                                }
-                            }
-                            $menu_str .= '</ul>';
-                            $menu_str .= '</li>';
-                        } else {
-                            if ($menus['menu_header']) {
-                                $pmenu = $menus['menu_header'];
-                            } else if ($menus['menu_name']) {
-                                $pmenu = $menu['menu_name'];
-                            } else {
-                                $pmenu = $menus['action_name'];
-                            }
-                            $menu_str .= '<li>
-                                   <a href="' . base_url($menus['url']) . '">
-                                       <i class="fa ' . $menus['header_class'] . '"></i> <span>' . $pmenu . '</span>                    
-                                   </a>
-                               </li>';
-                        }
-                    }
-                    $menu_str .= '</ul>';
-                    return $menu_str;
-                }
-            }
-        }
-        return 1;
+    public function show_user_menu_left() {
+        $params = array('rbac_session' => $this->_session);
+        $this->_ci->load->library('rbac_menu_lib', $params);
+        $menu = $this->_ci->rbac_menu_lib->get_user_menus(" AND lower(menu_type)='l'");
+        return $menu;
     }
 
     /**

@@ -112,6 +112,7 @@ class Rbac_menu extends CI_Model {
                 $data['menu_order'] = $this->_get_root_menu_order();
                 $data['name'] = 'new_node_' . $data['menu_order'];
             }
+            //pmo($data,1);
             $this->db->insert('rbac_menu', $data);
             $last_id = $this->db->insert_id();
         } else {

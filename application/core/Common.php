@@ -375,40 +375,6 @@ if (!function_exists('flattenArray')) {
 
 }
 
-if (!function_exists('convert_xls_to_csv')) {
-
-    /**
-     * @param <p>string $xls_file_full_path ex:c:\myporj\upload\mydata.xls</br>
-     * string $file_name =mycsv_file.csv</br>
-     * string $csv_file_path ex: c:\myporj\upload\csv\</p>
-     * @return csv file
-     * @desc converts xls and xlsx files to csv
-     * @author
-     */
-    function convert_xls_to_csv($xls_file_full_path, $file_name, $csv_file_path) {
-        require_once APPPATH . "/third_party/PHPExcel.php";
-        require_once APPPATH . "/third_party/PHPExcel/IOFactory.php";
-        ob_clean();
-
-        if (substr($xls_file_full_path, -5, 5) == '.xlsx')
-            $objReader = PHPExcel_IOFactory::createReader('Excel2007');
-        if (substr($xls_file_full_path, -4, 4) == '.xls' || substr($xls_file_full_path, -4, 4) == '.XLS') {
-            $objReader = PHPExcel_IOFactory::createReader('Excel5');
-        }
-
-        $objPHPExcel = $objReader->load($xls_file_full_path);
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'CSV');
-        //$objWriter->setExcelCompatibility(true);
-        $objWriter->setDelimiter(";");
-        $fName = str_replace(' ', '_', $file_name);
-        $objWriter->setPreCalculateFormulas(false);
-        $objWriter->save($csv_file_path . $fName);
-        chmod($csv_file_path . $fName, 0777);
-        return TRUE;
-    }
-
-}
-
 if (!function_exists('get_csv_heading')) {
 
     /**
@@ -1344,6 +1310,105 @@ if (!function_exists('xml2array')) {
             $out[$index] = ( is_object($node) ) ? xml2array($node) : $node;
 
         return $out;
+    }
+
+}
+
+if (!function_exists('flat_array_tree')) {
+
+    /**
+     * flat_array_tree
+     *
+     * Convert flat array in to tree array
+     *
+     * @param  : array $flatArray- data array
+     * @param  : string $pidKey- parent key column name
+     * @param  : array $parentColumns- columns to consider for parent array
+     * @desc   : populate tree view form menu array
+     * @return : array $tree - tree view array
+     * @example:<p>
+     * $flat_array=array(
+      [0] => Array
+      (
+      [module_id] => 10
+      [module_name] => app routes
+      [module_code] => APP_ROUTES
+      [module_status] => active
+      [module_created] => 2019-08-26 00:34:10
+      [module_modified] =>
+      [action_id] => 1
+      [action_name] => creat
+      [action_code] => CREATE
+      [action_status] => active
+      [action_created] => 2018-10-25 17:38:32
+      [action_modified] =>
+      )
+     * )
+     * flat_array_tree($flat_array,'module_id',array('module_id','module_name'))
+     * </p>
+     * @author himansuS <himansu.sahoo@ionidea.com>
+     */
+    function flat_array_tree($flatArray, $pidKey, $cidKey, $parentColumns = '') {
+        $tree = array();
+        $grouped = array();
+        $parentColumnsFlag = true;
+        foreach ($flatArray as $sub) {
+            $grouped[$sub[$pidKey]][] = $sub;
+        }
+        /*
+          $parentColumns = array(
+          'module_id', 'module_name', 'module_code', 'module_status', 'module_created', 'module_modified'
+          );
+         */
+        //set all columns as parent column filter, if not set
+        if ($parentColumns == '') {
+            $current = current($flatArray);
+            $parentColumns = array_keys($current);
+            $parentColumnsFlag = false;
+        }
+        $parentColumns = array_flip($parentColumns);
+
+        foreach ($grouped as $pid => $rec) {
+            $tree[$pid] = generate_clield($rec, $pid, $cidKey, $parentColumns, $parentColumnsFlag);
+        }
+        return $tree;
+    }
+
+}
+if (!function_exists('generate_clield')) {
+
+    /**
+     * tree_array
+     *
+     * Convert array in to tree array
+     *
+     * @param  : array $flat- data array
+     * @param  : string $pidKey- parent key column name
+     * @param  : string $c_id- children key column name
+     * @param  : string $idKey- primary key column name
+     * @desc   : populate tree view form menu array
+     * @return : array $tree - tree view array
+     * @author himansuS <himansu.sahoo@ionidea.com>
+     */
+    function generate_clield($flat, $pid, $c_id, $parentColumns, $parentColumnsFlag = false) {
+        $tree = array();
+        $parentDataFlag = 1;
+        foreach ($flat as $key => $rec) {
+            if ($parentDataFlag) {
+                foreach ($parentColumns as $key => $column) {
+                    if (array_key_exists($key, $rec)) {
+                        $tree[$key] = $rec[$key];
+                    }
+                }
+                $parentDataFlag = 0;
+            }
+            if ($parentColumnsFlag) {
+                $rec = array_diff_key($rec, $parentColumns);
+            }
+
+            $tree['children'][$rec[$c_id]] = $rec;
+        }
+        return $tree;
     }
 
 }

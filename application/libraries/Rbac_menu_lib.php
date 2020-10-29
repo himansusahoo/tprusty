@@ -72,9 +72,10 @@ class Rbac_menu_lib {
         if ($query_flag) {
             $result = $this->_ci->db->query($query)->result_array();
             $tree = $this->_populate_tree($result, 'parent', 'menu_id');
-            $menu = '<ul class="sidebar-menu" data-widget="tree">';
+            $menu = '<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">';
             $menu.=$this->populate_left_menu($tree);
             $menu.='</ul>';
+            //pmo($menu,1);
         }
 
         return $menu;
@@ -152,9 +153,9 @@ class Rbac_menu_lib {
     public function populate_left_menu($tree) {
 
         $this->_selected_menu = $this->_get_selected_menu();
-        //pma($this->_selected_menu);
+        //pmo($this->_selected_menu);
         $menu = '';
-        //pma($tree,1);
+//        pmo($tree,1);
         foreach ($tree as $tr) {
             $url = ($tr['url'] != '') ? base_url($tr['url']) : '#';
             $tree_view_open = $treeview_menu_open = $menu_select = $display = '';
@@ -167,38 +168,26 @@ class Rbac_menu_lib {
                     $tree_view_open = 'menu-open';
                     $display = 'display:block;';
                 }
-                $menu.='<li class="treeview ' . $tree_view_open . '">
-                    <a href="#" ' . $tr['attribute'] . ' class="' . $tr['menu_class'] . '">
-                    <i class="fa ' . $tr['icon_class'] . '"></i> <span>' . $tr['name'] . '</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>';
-                $menu.= '<ul class="treeview-menu" style="' . $display . '">';
+                $menu.='
+                       <li class="nav-item has-treeview full-width ' . $tree_view_open . '">
+                            <a href="#" ' . $tr['attribute'] . ' class="nav-link ' . $tr['menu_class'] . ' main_nav_link" title="'.$tr['name'].'">
+                                <i class="nav-icon fas ' . $tr['icon_class'] . '"></i> 
+                                <p>' . $tr['name'] . '                    
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>';
+                $menu.= '<ul class="nav nav-treeview" style="' . $display . '">';
                 $menu.=$this->populate_left_menu($tr['children']);
                 $menu.='</ul>';
-            } else {
-                if (in_array($tr['menu_id'], $this->_selected_menu)) {
-                    $menu_select = 'active';
-                }
-
-                //track parent ids
-                if (count($this->_temp_selected_menu) > 1) {
-                    array_pop($this->_temp_selected_menu);
-                }
-                $track_menu_ids = implode("_", $this->_temp_selected_menu);
-
-                $menu.='<li class="' . $menu_select . '">
-                    <a href="' . $url . '" ' . $tr['attribute'] . ' class="' . $tr['menu_class'] . ' set_rbac_select_menu" data-rbac_sel_menu="' . $track_menu_ids . "_" . $tr['parent'] . "_" . $tr['menu_id'] . '">
-                    <i class="fa ' . $tr['icon_class'] . '"></i> <span>' . $tr['name'] . '</span>                    
-                </a>';
+            } else {                
+                $menu.= $this->_add_root($tr);
             }
             $menu.='</li>';
             //$this->_selected_menu=array();
         }
 
         return $menu;
-    }
+    }    
 
     /**
      * @param  : 
@@ -209,7 +198,7 @@ class Rbac_menu_lib {
      */
     private function _get_selected_menu() {
         $menu_ids = array();
-        //pma($this->_session['user_data'],1);
+        //pmo($this->_session['user_data'],1);
         if (isset($this->_session['selected_left_menu'])) {
             $ids = $this->_session['selected_left_menu'];
             $ids = array_unique($ids);
@@ -230,6 +219,40 @@ class Rbac_menu_lib {
             return true;
         }
         return false;
+    }
+
+    /**
+     * SUMMARY
+     * 
+     * DESCRIPTION
+     * 
+     * @name 
+     * @param void
+     * @return void
+     * @author himansuS <himansu.sahoo@ionidea.com>
+     */
+    private function _add_root($root) {
+        //pmo($root);
+        $url = ($root['url'] != '') ? base_url($root['url']) : '#';
+        $menu_select = "";
+        if (in_array($root['menu_id'], $this->_selected_menu)) {
+            $menu_select = 'active';
+        }
+
+        //track parent ids
+        if (count($this->_temp_selected_menu) > 1) {
+            array_pop($this->_temp_selected_menu);
+        }
+        $track_menu_ids = implode("_", $this->_temp_selected_menu);
+
+        $template = '
+                <li class="nav-item full-width ' . $menu_select . '">
+                    <a href="' . $url . '" ' . $root['attribute'] . ' class="nav-link ' . $root['menu_class'] . ' sub_nav_link" data-routes="'.$root['url'].'">
+                        <i class="nav-icon fas ' . $root['icon_class'] . '"></i> 
+                        <p>' . $root['name'] . '</p>
+                    </a>';
+
+        return $template;
     }
 
 }

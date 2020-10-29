@@ -10,14 +10,14 @@ if (!defined('BASEPATH')) {
  * @author  : HimansuS
  * @created :09/29/2018
  */
-class Rbac_actions extends MX_Controller {
+class Rbac_actions extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
         $this->load->model('rbac_action');
         $this->load->library('form_validation');
-        $this->layout->layout = 'admin_layout';
-        $this->layout->layoutsFolder = 'layouts/admin';
+        $this->layout->layout = 'admin_lte';
+        $this->layout->layoutsFolder = 'layouts/admin_lte';
         $this->layout->lMmenuFlag = 1;
         $this->layout->rightControlFlag = 1;
         $this->layout->navTitleFlag = 1;
@@ -33,9 +33,11 @@ class Rbac_actions extends MX_Controller {
     public function index() {
         if ($this->rbac->has_permission('MANAGE_ACTIONS', 'LIST')) {
             $this->breadcrumbs->push('index', base_url('rbac-actions-list'));
-            $this->scripts_include->includePlugins(array('datatable','chosen'), 'css');
-            $this->scripts_include->includePlugins(array('datatable','chosen'), 'js');
+            $this->scripts_include->includePlugins(array('chosen', 'datatable'), 'css');
+            $this->scripts_include->includePlugins(array('chosen', 'datatable'), 'js');
             $this->layout->navTitle = 'Rbac action list';
+            //$this->layout->title = 'Rbac action list';
+            
             $header = array(
                 array(
                     'db_column' => 'name',
@@ -49,6 +51,14 @@ class Rbac_actions extends MX_Controller {
                     'db_column' => 'code',
                     'name' => 'Code',
                     'title' => 'Code',
+                    'class_name' => 'dt_name',
+                    'orderable' => 'true',
+                    'visible' => 'true',
+                    'searchable' => 'true'
+                ), array(
+                    'db_column' => 'module_name',
+                    'name' => 'Module',
+                    'title' => 'Module',
                     'class_name' => 'dt_name',
                     'orderable' => 'true',
                     'visible' => 'true',
@@ -74,7 +84,7 @@ class Rbac_actions extends MX_Controller {
                 $grid_buttons[] = array(
                     'btn_class' => 'btn-primary',
                     'btn_href' => base_url('edit-rbac-action'),
-                    'btn_icon' => 'fa-pencil',
+                    'btn_icon' => 'fa-edit',
                     'btn_title' => 'edit record',
                     'btn_separator' => ' ',
                     'param' => array('$1'),
@@ -87,7 +97,7 @@ class Rbac_actions extends MX_Controller {
                 $grid_buttons[] = array(
                     'btn_class' => 'btn-danger delete-record',
                     'btn_href' => '#',
-                    'btn_icon' => 'fa-remove',
+                    'btn_icon' => 'fa-trash-alt',
                     'btn_title' => 'delete record',
                     'btn_separator' => '',
                     'param' => array('$1'),
@@ -131,11 +141,11 @@ class Rbac_actions extends MX_Controller {
             }
             if ($this->rbac->has_permission('MANAGE_ACTIONS', 'XLS_EXPORT')) {
                 $dt_tool_btn[] = array(
-                    'btn_class' => 'btn-warning',
+                    'btn_class' => 'no_pad',
                     'btn_href' => '#',
                     'btn_icon' => '',
-                    'btn_title' => 'XLS',
-                    'btn_text' => '<span class="fa fa-file-excel-o"></span> Excel',
+                    'btn_title' => 'Export to XLS',
+                    'btn_text' => '<img src="' . base_url("assets/images/excel_icon.png") . '" alt="XLS">',
                     'btn_separator' => ' ',
                     'attr' => 'id="export_table_xls"'
                 );
@@ -143,11 +153,11 @@ class Rbac_actions extends MX_Controller {
             }
             if ($this->rbac->has_permission('MANAGE_ACTIONS', 'CSV_EXPORT')) {
                 $dt_tool_btn[] = array(
-                    'btn_class' => 'btn-info',
+                    'btn_class' => 'no_pad',
                     'btn_href' => '#',
                     'btn_icon' => '',
-                    'btn_title' => 'CSV',
-                    'btn_text' => '<span class="fa fa-file-text-o"></span> CSV',
+                    'btn_title' => 'Export to CSV',
+                    'btn_text' => '<img src="' . base_url("assets/images/csv_icon_sm.gif") . '" alt="CSV">',
                     'btn_separator' => ' ',
                     'attr' => 'id="export_table_csv"'
                 );
@@ -167,14 +177,10 @@ class Rbac_actions extends MX_Controller {
                 ),
                 'custom_lengh_change' => false,
                 'dt_dom' => array(
-                    'top_dom' => true,
-                    'top_length_change' => true,
-                    'top_filter' => true,
-                    'top_buttons' => $dt_tool_btn,
-                    'top_pagination' => true,
-                    'buttom_dom' => true,
-                    'buttom_length_change' => FALSE,
-                    'buttom_pagination' => true
+                    'top_buttons' => $dt_tool_btn
+                ),
+                'options' => array(
+                    'iDisplayLength' => 15
                 )
             );
             //pma($config,1);
@@ -196,9 +202,10 @@ class Rbac_actions extends MX_Controller {
         if ($this->input->is_ajax_request()) {
             if ($this->rbac->has_permission('MANAGE_ACTIONS', 'XLS_EXPORT') || $this->rbac->has_permission('MANAGE_ACTIONS', 'CSV_EXPORT')) {
                 $export_type = $this->input->post('export_type');
-                $tableHeading = array('name' => 'name', 'code' => 'code', 'status' => 'status', 'created' => 'created', 'modified' => 'modified');
-                $cols = 'name,code,status,created,modified';
-                $data = $this->rbac_action->get_rbac_action_datatable(null, true, $tableHeading);
+                $tableHeading = array('name' => 'name', 'code' => 'code', 'status' => 'status','module_name'=>'module_name', 'created' => 'created', 'modified' => 'modified');
+                $cols = 'name,code,status,module_name,created,modified';
+                $data = $this->rbac_action->get_rbac_action_datatable(null, true, $tableHeading,$cols);
+                
                 $head_cols = $body_col_map = array();
                 $date = array(
                     array(
@@ -224,7 +231,7 @@ class Rbac_actions extends MX_Controller {
                     'file_name' => $file_name,
                     'download' => true
                 );
-
+                //pmo($config,1);
                 $this->load->library('excel_utility');
                 $this->excel_utility->download_excel($config, $export_type);
                 ob_end_flush();
@@ -249,8 +256,15 @@ class Rbac_actions extends MX_Controller {
         if ($this->rbac->has_permission('MANAGE_ACTIONS', 'CREATE')) {
             $this->breadcrumbs->push('create', base_url('create-rbac-action'));
 
+            $this->scripts_include->includePlugins(array('select2'), 'css');
+            $this->scripts_include->includePlugins(array('select2', 'jq_validation'), 'js');
+
             $this->layout->navTitle = 'Rbac action create';
-            $data = array();
+
+            $moduleList = $this->rbac_action->get_module_options('name');
+            $data = array(
+                'module_list' => $moduleList
+            );
             if ($this->input->post()) :
                 $config = array(
                     array(
@@ -261,14 +275,20 @@ class Rbac_actions extends MX_Controller {
                     array(
                         'field' => 'code',
                         'label' => 'code',
-                        'rules' => 'required'
-                    ),
+                        'rules' => 'required|callback_check_code_exists'
+                    )
                 );
                 $this->form_validation->set_rules($config);
-
+                $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+                $dbData = $this->input->post();
+                $data['data'] = $dbData;
                 if ($this->form_validation->run()) :
 
-                    $data['data'] = $this->input->post();
+
+                    if (!$dbData['module_id']) {
+                        unset($dbData['module_id']);
+                    }
+
                     $result = $this->rbac_action->save($data['data']);
 
                     if ($result >= 1) :
@@ -296,9 +316,15 @@ class Rbac_actions extends MX_Controller {
     public function edit($action_id = null) {
         if ($this->rbac->has_permission('MANAGE_ACTIONS', 'EDIT')) {
             $this->breadcrumbs->push('edit', base_url('edit-rbac-action'));
-
             $this->layout->navTitle = 'Rbac action edit';
-            $data = array();
+            
+            $this->scripts_include->includePlugins(array('select2'), 'css');
+            $this->scripts_include->includePlugins(array('select2', 'jq_validation'), 'js');
+            
+            $moduleList = $this->rbac_action->get_module_options('name');
+            $data = array(
+                'module_list' => $moduleList
+            );
             if ($this->input->post()) :
                 $data['data'] = $this->input->post();
                 $config = array(
@@ -313,8 +339,9 @@ class Rbac_actions extends MX_Controller {
                         'rules' => 'required'
                     ),
                 );
-                $this->form_validation->set_rules($config);
 
+                $this->form_validation->set_rules($config);
+                $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
                 if ($this->form_validation->run()) :
                     $result = $this->rbac_action->update($data['data']);
                     if ($result >= 1) :
@@ -327,6 +354,7 @@ class Rbac_actions extends MX_Controller {
             else:
                 $action_id = c_decode($action_id);
                 $result = $this->rbac_action->get_rbac_action(null, array('action_id' => $action_id));
+                //pmo($result, 1);
                 if ($result) :
                     $result = current($result);
                 endif;
@@ -402,6 +430,15 @@ class Rbac_actions extends MX_Controller {
             $this->layout->data = array('status_code' => '403', 'message' => 'Request Forbidden.');
             $this->layout->render(array('error' => 'general'));
         }
+    }
+
+    public function check_code_exists($code) {
+        $result = $this->rbac_action->isActionCodeExist(trim($code));
+        if ($result) {
+            $this->form_validation->set_message('check_code_exists', 'Duplicate code, please try another.');
+            return false;
+        }
+        return true;
     }
 
 }

@@ -6,7 +6,8 @@
  * @desc
  * @author
  */
-require_once APPPATH . "/third_party/PHPExcel.php";
+//require_once dirname(APPPATH) .'/vendor/autoload.php';
+require_once dirname(APPPATH) .'/vendor/phpoffice/phpexcel/Classes/PHPExcel.php';
 
 class Excel_utility {
 

@@ -10,12 +10,12 @@ if (!defined('BASEPATH')) {
  * @author  : HimansuS
  * @created :09/29/2018
  */
-class Rbac_menus extends MX_Controller {
+class Rbac_menus extends CI_Controller {
 
     public function __construct() {
-        parent::__construct();        
-        $this->layout->layout = 'admin_layout';
-        $this->layout->layoutsFolder = 'layouts/admin';
+        parent::__construct();
+        $this->layout->layout = 'admin_lte';
+        $this->layout->layoutsFolder = 'layouts/admin_lte';
         $this->layout->lMmenuFlag = 1;
         $this->layout->rightControlFlag = 1;
         $this->layout->navTitleFlag = 1;
@@ -30,9 +30,13 @@ class Rbac_menus extends MX_Controller {
      * @created:
      */
     public function index() {
-        $this->scripts_include->includePlugins(array('jstree', 'promise'), 'js');
-        $this->scripts_include->includePlugins(array('jstree'), 'css');
-        $this->layout->render();
+        if ($this->rbac->has_permission('MANAGE_MENUS', 'LIST')) {
+            $this->scripts_include->includePlugins(array('jstree', 'promise', 'select2'), 'js');
+            $this->scripts_include->includePlugins(array('jstree', 'select2'), 'css');
+            $this->layout->render();
+        } else {
+            $this->layout->render(array('error' => '401'));
+        }
     }
 
     /**
@@ -43,17 +47,21 @@ class Rbac_menus extends MX_Controller {
      * @created:
      */
     public function get_tree_data() {
-        $column = "rp.permission_id id,rp.order,rp.parent prnt,
+        if ($this->rbac->has_permission('MANAGE_MENUS', 'LIST') && $this->input->is_ajax_request()) {
+            $column = "rp.permission_id id,rp.order,rp.parent prnt,
                 case when length(rp.menu_name)>1 then rp.menu_name else concat(rm.name,'-',ra.name) end text,rp.menu_header,rm.code,rp.action_id";
-        $column = null;
-        $permission_list = $this->rbac_menu->get_menu_data($column, null, true);
+            $column = null;
+            $permission_list = $this->rbac_menu->get_menu_data($column, null, true);
 
-        if ($permission_list) {
-            $permission_list = $this->rbac->tree_view2($permission_list, 0, 'id', 'prnt', true);
+            if ($permission_list) {
+                $permission_list = $this->rbac->tree_view2($permission_list, 0, 'id', 'prnt', true);
+            }
+            //pma($permission_list,1);
+            echo json_encode(array_values($permission_list));
+            exit;
+        } else {
+            $this->layout->render(array('error' => '401'));
         }
-        //pma($permission_list,1);
-        echo json_encode(array_values($permission_list));
-        exit;
     }
 
     /**
@@ -64,7 +72,7 @@ class Rbac_menus extends MX_Controller {
      * @created:
      */
     public function get_menu_details_form() {
-        if ($this->input->is_ajax_request()) {
+        if ($this->rbac->has_permission('MANAGE_MENUS', 'EDIT') && $this->input->is_ajax_request()) {
             $this->load->model('rbac/rbac_permission');
             $menu_id = $this->input->post('id');
             $menu = $this->rbac_menu->get_menu_data(null, array('menu_id' => $menu_id), true);
@@ -83,6 +91,8 @@ class Rbac_menus extends MX_Controller {
             //pma($menu,1);
             $view = $this->layout->render(array('view' => 'rbac/rbac_menus/menu_details_form'), true);
             echo $view;
+        } else {
+            $this->layout->render(array('error' => '401'));
         }
     }
 
@@ -94,10 +104,12 @@ class Rbac_menus extends MX_Controller {
      * @created:
      */
     public function update_parent_and_order() {
-        if ($this->input->is_ajax_request()) {
+        if ($this->rbac->has_permission('MANAGE_MENUS', 'EDIT') && $this->input->is_ajax_request()) {
             $data = $this->input->post();
             $this->rbac_menu->update_menu_parent($data);
             exit;
+        } else {
+            $this->layout->render(array('error' => '401'));
         }
     }
 
@@ -109,7 +121,7 @@ class Rbac_menus extends MX_Controller {
      * @date
      */
     public function save_menu_details() {
-        if ($this->input->is_ajax_request()) {
+        if ($this->rbac->has_permission('MANAGE_MENUS', 'EDIT') && $this->input->is_ajax_request()) {
             $post_data = $this->input->post('menu_data');
 
             if ($this->rbac_menu->save_menu_details($post_data)) {
@@ -118,7 +130,7 @@ class Rbac_menus extends MX_Controller {
                 echo json_encode(array('status' => 'error', 'title' => 'error', 'message' => 'Thre is some critical error, please try again.'));
             }
         } else {
-            echo "invalid request type";
+            $this->layout->render(array('error' => '401'));
         }
     }
 
@@ -130,7 +142,7 @@ class Rbac_menus extends MX_Controller {
      * @date
      */
     public function create_dummy_menu() {
-        if ($this->input->is_ajax_request()) {
+        if ($this->rbac->has_permission('MANAGE_MENUS', 'CREATE') && $this->input->is_ajax_request()) {
             $post_data = $this->input->post();
             $insert_id = $this->rbac_menu->save_menu_details($post_data, true);
             if ($insert_id) {
@@ -151,7 +163,7 @@ class Rbac_menus extends MX_Controller {
      * @date
      */
     public function delete_menu() {
-        if ($this->input->is_ajax_request()) {
+        if ($this->rbac->has_permission('MANAGE_MENUS', 'CREATE') && $this->input->is_ajax_request()) {
             $post_data = $this->input->post();
             if ($this->rbac_menu->delete_menu($post_data)) {
                 echo json_encode(array('status' => 'success', 'message' => 'Menu deleted successfully.'));
