@@ -108,7 +108,7 @@
             </div>
             <!-- /.card-body -->
             <div class="card-footer">
-                <?php if ($this->rbac->has_permission('MANAGE_MENU', 'DELETE')) : ?>
+                <?php if ($this->rbac->has_permission('MANAGE_MENUS', 'DELETE')) : ?>
                     <input name="menu_id" id="menu_id" value="<?= $menu_details['id'] ?>" class="form-control" type="hidden">                
                     <button type="button" class="btn btn-sm float-right btn-primary" id="save_menu_detail">Save</button>
                 <?php endif; ?>
