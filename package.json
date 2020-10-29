@@ -1,0 +1,31 @@
+{
+  "name": "moonboy_git",
+  "version": "1.0.0",
+  "description": "Tprusty",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/himansusahoo/tprusty.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/himansusahoo/tprusty/issues"
+  },
+  "homepage": "https://github.com/himansusahoo/tprusty#readme",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "bootstrap4-dialog": "^4.3.8",
+    "chosen-js": "^1.8.7",
+    "downloadjs": "^1.4.7",
+    "install": "^0.13.0",
+    "jstree": "^3.3.10",
+    "magnific-popup": "^1.1.0",
+    "npm": "^6.14.8",
+    "password-strength-meter": "^2.1.0"
+  }
+}
