@@ -56,12 +56,14 @@ require_once('header.php');
     <div class="main-content">
         <div class="row content-header">
             <div class=""><h4>Newsletter</h4></div>
-            <div class="a-center"><?php if ($this->session->flashdata('download_msg')):echo $this->session->flashdata('download_msg');
-            endif; ?></div>
+            <div class="a-center"><?php
+                if ($this->session->flashdata('download_msg')):echo $this->session->flashdata('download_msg');
+                endif;
+                ?></div>
         </div>
         <div class="search2">
             <?php /* ?><form action="" enctype="multipart/form-data" method="post"><?php */ ?>
-<?php echo form_open_multipart(''); ?>
+            <?php echo form_open_multipart(''); ?>
             <input type="text" placeholder="Search User" id="search-text" name="search" /> 
             <div id="searchdiv2"><ul>        </ul></div>
             <input class="search-btn2" value="Search" type="submit" id="btn-search">
@@ -86,7 +88,7 @@ require_once('header.php');
                 <?php foreach ($subscriber as $row) { ?>
                     <tr>
                         <td><?= $row->user_id; ?></td>
-                        <td><?= $row->user_email_id; ?></td>
+                        <td><?= strip_tags($row->user_email_id); ?></td>
                         <td><?= $row->user_gender; ?></td>
                         <td><?= $row->user_reg_date; ?></td>
                         <td><?= $row->scb_status; ?></td>

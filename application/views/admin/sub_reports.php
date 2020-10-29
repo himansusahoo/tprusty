@@ -1,8 +1,8 @@
 <ul class="top-menu">
 
     <?php
-    if ($this->session->userdata('logged_in') == ADMIN_MAIL) {
-        $menus=$this->rbac->temp_sub_menus('admin_reports');
+    if ($this->rbac->has_role('ADMIN')) {
+        $menus = $this->rbac->temp_sub_menus('admin_reports');
         foreach ($menus as $uri => $menu) {
             ?>
             <li class="<?= ($this->uri->segment(1) == $uri) ? "selected" : '' ?>">

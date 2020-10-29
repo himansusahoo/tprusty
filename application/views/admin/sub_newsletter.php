@@ -1,6 +1,6 @@
 <ul class="top-menu">
 
-	<?php if($this->session->userdata('logged_in')==ADMIN_MAIL) { ?>
+	<?php if($this->rbac->has_role('ADMIN')) { ?>
     <li class="selected"><a href="<?php echo base_url(); ?>admin/newsletter">Newsletter</a></li>
      <?php }else {		 
 				$user_role_id=$this->session->userdata('logged_userrole_id');
