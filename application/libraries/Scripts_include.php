@@ -117,6 +117,7 @@ class Scripts_include {
                     ADMIN_LTE_PATH . 'plugins/jquery-ui/jquery-ui.min.css',
                     NODE_PATH . 'bootstrap4-dialog/dist/css/bootstrap-dialog.min.css',
                     ASSETS_PATH . 'css/wrapper_datatable.css',
+                    ASSETS_PATH .'/css/myapp.css',
                 )
             ),
             'admin_layout' => array(
