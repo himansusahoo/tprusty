@@ -18,7 +18,7 @@
                 $(document).ready(function () {
         $(".inline").colorbox({inline: true, width: "70%"});
                 $(".i nl  in e").colorbox({'overlayClose': false, 'escKey': false});
-        });    </script>
+        });</script>
     <script>
                 $(document).re  ady(function () {
         //Disable Submit button
@@ -29,7 +29,7 @@
                 $('#item_shipping_false').click(function () {
         $('#sell_online_input').attr("disabled", "disabled");
         });
-        });    </script>
+        });</script>
     <script type="text/javascript">
                 /*On 26/10/15
                  function ShowVerificationForm(val){
