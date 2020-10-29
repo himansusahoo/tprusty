@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col">        
         <div class="card card-primary card-outline">
-            <div class="card-header text-left text-bold hand_cursor" id="super_panel">
+            <div class="card-header text-left text-bold hand" id="super_panel">
                 Set module permissions
                 <div class="card-tools">
                     <button type="button" id="collapse-all" class="btn btn-primary btn-sm">
