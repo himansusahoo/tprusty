@@ -1,16 +1,31 @@
 <?php ?>
-<style>
-
-</style>
+<?php
+$form_attribute = array(
+    "name" => "search_filters",
+    "id" => "search_filters",
+    "method" => "POST",
+    "class" => "form-inline",
+    "style" => "display:unset;"
+);
+$form_action = '#';
+echo form_open($form_action, $form_attribute);
+?>
 <div class="row-fluid">
-
-    <div class="box box-primary">
-        <div class="box-header with-border">
-            <h3 class="box-title">Select Year and Month to download the report</h3>
+    <div class="card card-warning card-outline">
+        <div class="card-header">
+            <h3 class="card-title text-bold hand" data-card-widget="collapse">Filters</h3>
+            <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>                   
+                <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
         </div>
-        <div class="box-body">
-            <div class="form-group col-sm-7">        
-                <div class="col-sm-4">
+        <div class="card-body" style="display:block;">
+            <div class="row">
+                <div class="col-3">
                     <?php
                     $minYear = $dates->minY;
                     $minMonth = $dates->minM;
@@ -27,17 +42,18 @@
                         "name" => "order_from_year",
                         "id" => "order_from_year",
                         "class" => "form-control",
+                        "style"=>"width:100%"
                     );
                     echo form_dropdown('order_from_year', $years, '0', $attribute);
                     ?>
                 </div>
-                <div class="col-sm-4">
-                    <?php
+                <div class="col-3">
+                     <?php
                     $attribute = array(
                         "name" => "order_from_month",
                         "id" => "order_from_month",
                         "class" => "form-control",
-                        "style" => 'display:none'
+                        "style" => 'width:100%; display:none;'
                     );
                     $month = array(
                         '0' => 'Month',
@@ -57,14 +73,15 @@
                     echo form_dropdown('order_from_month', $month, '', $attribute);
                     ?>
                 </div>
-                <div class="form-group col-sm-4">
-                    <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left" id="download_report">Download</a>
+                <div class="col-3">
+                    <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat float-left" id="download_report">Download</a>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div>    
 
+</div>
+<?php echo form_close() ?>
 <script type="text/javascript">
     var minY = '<?= $minYear ?>';
     var maxY = '<?= $maxYear ?>';
@@ -126,7 +143,7 @@
                 $('#download_report').hide();
             }
 
-        });       
+        });
 
         $(document).on('click', '#download_report', function (e) {
             e.preventDefault();
@@ -140,7 +157,7 @@
                 url: "<?php echo base_url('export-seller-gst-reports') ?>",
                 data: param,
                 dataType: 'json',
-                error:function(error){
+                error: function (error) {
                     $('#loading').css('display', 'none');
                     //throw an error to set the job role of the current row.
                     var errorMsg = {

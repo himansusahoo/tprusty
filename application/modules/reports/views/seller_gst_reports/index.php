@@ -16,15 +16,6 @@ $form_attribute = array(
 );
 $form_action = '#';
 echo form_open($form_action, $form_attribute);
-
-$minYear = $dates->minY;
-$minMonth = $dates->minM;
-$maxYear = $dates->maxY;
-$maxMonth = $dates->maxM;
-$tempMinY = $minYear;
-$years = array(
-    '0' => 'Year'
-);
 ?>
 <div class="row-fluid">
     <div class="card card-warning card-outline collapsed-card">
