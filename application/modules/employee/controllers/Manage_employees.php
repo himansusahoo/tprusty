@@ -705,7 +705,7 @@ class Manage_employees extends MX_Controller {
         $pass=  md5($pass);
         $condition = "email='$email' and password='" . $pass . "' and user_type in('employee','developer','seller')";
         $user_detail = $this->rbac_user->get_user_detail(null, $condition);
-        pma($user_detail,1);
+        
         if ($user_detail) {
             if (isset($user_detail['status']) && $user_detail['status'] == 'active') {
                 $menus = $permissions = array();
