@@ -13,7 +13,7 @@ class App_configs extends CI_Controller {
     }
 
     public function index() {
-        $this->breadcrumbs->push('edit', base_url('manage-app-configs'));
+        $this->breadcrumbs->push('Manage app configs', base_url('manage-app-configs'));
         $this->scripts_include->includePlugins(array('bs_timepicker', 'jq_multitag_select'), 'css');
         $this->scripts_include->includePlugins(array('jq_validation', 'jq_multitag_select'), 'js');
         $this->layout->navTitle = 'Manage App configs';
