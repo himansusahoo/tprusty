@@ -76,59 +76,15 @@ myApp.CommonVar = {
     emesage: 'Record can not be saved!'
 };
 myApp.modal = {
+    alert_class: {default: '', primary: 'bg-primary', info: 'bg-info', warning: 'bg-warning', success: 'bg-success', danger: 'bg-danger'},
     alert: function (params) {
-        //console.log('alert=',params);
-        switch (params.type) {
-            case 'default':
-                this.default(params.title, params.message);
-                break;
-            case 'primary':
-                this.primary(params.title, params.message);
-                break;
-            case 'info':
-                this.info(params.title, params.message);
-                break;
-            case 'warning':
-                this.warning(params.title, params.message);
-                break;
-            case 'success':
-                this.success(params.title, params.message);
-                break;
-            case 'danger':
-                this.danger(params.title, params.message);
-                break;
+        if (typeof params.type != 'undefined' && params.type != '') {
+            var alertClass = this.alert_class[params.type];
+            $('#app_modal_msg_box .modal-header').addClass(alertClass);
+            $('#app_modal_msg_box .modal-title').html(params.title);
+            $('#app_modal_msg_box .modal-body').html(params.message);
+            $('#app_modal_msg_box').modal('show');
         }
-    },
-    default: function (title, message) {
-        $('#default_modal_box .modal-title').html(title);
-        $('#default_modal_box .modal-body > p').html(message);
-        $('#default_modal_box').modal('show');
-    },
-    primary: function (title, message) {
-        //console.log(title, message);
-        $('#primary_modal_box .modal-title').html(title);
-        $('#primary_modal_box .modal-body > p').html(message);
-        $('#primary_modal_box').modal('show');
-    },
-    info: function (title, message) {
-        $('#info_modal_box .modal-title').html(title);
-        $('#info_modal_box .modal-body > p').html(message);
-        $('#info_modal_box').modal('show');
-    },
-    warning: function (title, message) {
-        $('#warning_modal_box .modal-title').html(title);
-        $('#warning_modal_box .modal-body > p').html(message);
-        $('#warning_modal_box').modal('show');
-    },
-    success: function (title, message) {
-        $('#success_modal_box .modal-title').html(title);
-        $('#success_modal_box .modal-body > p').html(message);
-        $('#success_modal_box').modal('show');
-    },
-    danger: function (title, message) {
-        $('#danger_modal_box .modal-title').html(title);
-        $('#danger_modal_box .modal-body > p').html(message);
-        $('#danger_modal_box').modal('show');
     }
 };
 
