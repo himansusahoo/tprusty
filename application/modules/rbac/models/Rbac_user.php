@@ -216,7 +216,7 @@ class Rbac_user extends CI_Model {
             $this->db->where($condition);
         }
         $result = $this->db->get()->result_array();
-        echo $this->db->last_query();exit;
+        //echo $this->db->last_query();exit;
         if ($result) {
 
             //get user roles
