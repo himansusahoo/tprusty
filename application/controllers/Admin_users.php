@@ -149,9 +149,8 @@ class Admin_users extends CI_Controller {
         $this->session->sess_destroy(); 
         $admin_login=base_url('admin-login');
         if($this->rbac->has_role('SELLER')){
-            $admin_login=base_url('/seller/seller');
-        }
-        
+            $admin_login=base_url('/seller/seller/seller_logout');
+        }        
         redirect($admin_login);
     }
 
