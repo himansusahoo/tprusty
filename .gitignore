@@ -32,3 +32,5 @@ asset
 node_modules
 composer.lock
 package-lock.lock
+application/cache
+application/cachedefault*

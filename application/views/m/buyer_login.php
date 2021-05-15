@@ -83,9 +83,9 @@ if ($this->session->userdata('sesscoke') == false) {
                                 $('#in_up').val('Login');
                             }
 
-                            <?php $this->session->unset_userdata('logintobuysku'); ?>
+<?php $this->session->unset_userdata('logintobuysku'); ?>
                             window.location.href = "<?php echo base_url() . 'mycart/checkout_process'; ?>";
-                            
+
                             if (result == 'success' && logintobuysku == '')
                             {
                                 var referrer = document.referrer;
@@ -303,19 +303,19 @@ if ($this->session->userdata('sesscoke') == false) {
                 }
                 ?>
                 <input  type="submit" class="btn-sign-in" id="in_up" value="Login" onClick="logSignupFunction('<?= $pname; ?>')">
-
+                
                 <div class="new_exist">
                     <span id="newtomoonboy">  <label ><input type="radio" name="radio" id="n_user" style="display:none;"> New To <?= COMPANY ?> ??  Sign Up </label></span>
                     <span id="exixtingusertomoonboy"><label ><input type="radio" name="radio" id="e_user" checked style="display:none;"> Existing User ?? Login</label></span>
                 </div>
-
-                <div class="social-login">
-                    <ul>
-                        <li><a class="fb" href="#" onClick="Login()"> <i></i> Sign in with Facebook</a></li>
-                        <li><a class="goog" href="#" onClick="login()"> <i></i> Sign in with Google</a></li>
-                    </ul>
-                </div>
-
+                <?php if (DOMAIN_NAME == 'moonboy.in'): ?>
+                    <div class="social-login">
+                        <ul>
+                            <li><a class="fb" href="#" onClick="Login()"> <i></i> Sign in with Facebook</a></li>
+                            <li><a class="goog" href="#" onClick="login()"> <i></i> Sign in with Google</a></li>
+                        </ul>
+                    </div>
+                <?php endif; ?>
             </div>
 
             <!--Forgot password div start here-->

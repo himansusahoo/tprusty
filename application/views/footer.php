@@ -364,8 +364,7 @@
                                                     <div>&nbsp;</div>
                                                     <div style="border-right:groove black;" class="marginL20"><span style="font-size:10px;font-family: Verdana;"><a href="<?php base_url(); ?>about-us" style="font-size:16px;color:black; font-family: Verdana;">About us</a></span></div>
                                                     <div style="border-right:groove black;" class="marginL20"><span style="font-size:16px;"><a href="<?php base_url(); ?>career" style="font-size:16px;font-family:Verdana;color:black;">Career</a></span></div>
-                                                    <div style="border-right:groove black;" class="marginL20"><span style="font-size:16px;"><a href="<?php base_url(); ?>sitemap.html" style="font-size:16px;font-family: Verdana;color:black;font-family: Verdana;">Site Map</a></span></div>
-                                                    <div style="border-right:groove black;" class="marginL20"><span style="font-size:16px;"><a href="<?php base_url(); ?>blog/" style="font-size:16px;font-family: Verdana;color:black;font-family: Verdana;">Our Blogs</a></span></div>
+                                                    <div style="border-right:groove black;" class="marginL20"><span style="font-size:16px;"><a href="<?php base_url(); ?>sitemap.html" style="font-size:16px;font-family: Verdana;color:black;font-family: Verdana;">Site Map</a></span></div>                                                    
                                                 </td>
                                             </tr>
                                         </table>
@@ -561,6 +560,15 @@
                         </td>
                     </tr>
                 </table>
+            </td>
+        </tr>
+        <tr>
+            <td style="height:30px; border-top:1px solid gray; text-align: center;">
+                <div class="copy-right">
+                    <span style="font-size:12px;" class="site-footer-copyright">
+                        <strong><?=COPY_RIGHT_YEAR?></strong>
+                    </span>
+                </div>
 
             </td>
         </tr>
@@ -664,7 +672,7 @@
                 //var url = "profile_fillup.php?name="+name+"&mail="+email;
                 //var url = "social_login/gpluslogin/manage_start_profile_fillup.php?name="+name+"&mail="+email;
 
-                /*var url = "<?php //echo site_url();          ?>chm/socialLogin/" + encodeURIComponent(mail+','+name);			
+                /*var url = "<?php //echo site_url();            ?>chm/socialLogin/" + encodeURIComponent(mail+','+name);			
                  window.location.href = url;*/
                 //var url = 'myprofile.php';			
 

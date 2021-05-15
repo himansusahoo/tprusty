@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="Content-Type" content="text/html">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sell With <?=COMPANY?></title>
+        <title>Sell With <?= COMPANY ?></title>
         <meta name="author" content="">
         <link rel="stylesheet" type="text/css" media="all" href="<?php echo base_url(); ?>css/admin/styles.css">
         <link rel="stylesheet" type="text/css" media="all" href="<?php echo base_url(); ?>css/admin/font-awesome.css">
@@ -74,13 +74,13 @@
             </div>
 
             <div class="how-to-sell">
-                <h2 class="title-sell"> Grow your Business with <?=COMPANY?> </h2>
+                <h2 class="title-sell"> Grow your Business with <?= COMPANY ?> </h2>
                 <ul>
                     <li> <div class="step">
                             <div class="circle1"> <i class="fa fa-list-alt"></i> </div>
                             <h4> Register and Sell Products</h4>
                         </div>
-                        <p> Register absolutly free with <?=COMPANY?> and start selling. </p>
+                        <p> Register absolutly free with <?= COMPANY ?> and start selling. </p>
                     </li>
 
                     <li>  <div class="step">
@@ -93,7 +93,7 @@
                             <div class="circle3"> <i class="fa fa-shopping-bag"></i> </div>
                             <h4> Order Fulfillment</h4>
                         </div>
-                        <p> <?=COMPANY?> will  help to speed up your order fulfilment. </p> </li>
+                        <p> <?= COMPANY ?> will  help to speed up your order fulfilment. </p> </li>
 
                     <li> <div class="step">
                             <div class="circle4"> <i class="fa fa-money"></i> </div>
@@ -103,16 +103,12 @@
                     <div class="clearfix"> </div>      
                 </ul>
             </div>
-
-
-
-            <div class="footer">    
-                <ul>
-                    <li> <a href="#"> Terms of Service </a> | </li>
-                    <li> <a href="#"> Privacy Policy  </a>  | </li>
-                    <li> <a href="#"> Help & Support  </a>  </li>        
-                </ul>
-                <p class="copy"> © Copyright 2015 <?= DOMAIN_NAME ?>  </p>
+            <div class="footer">                    
+                <div class="copy-right">
+                    <span style="font-size:12px;" class="site-footer-copyright">
+                        <strong><?= COPY_RIGHT_YEAR ?></strong>
+                    </span>
+                </div>
             </div>   
         </div>   
 
