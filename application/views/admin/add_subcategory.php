@@ -254,8 +254,7 @@
                                             <?php echo $rs->category_name; ?>
 
                                             <ul>
-                                                <?php
-                                                pmo($rs->category_id,1);
+                                                <?php                                                
                                                 $qr1 = $this->db->query("select * from category_indexing where parent_id='$rs->category_id' ");
                                                 $ct1 = $qr1->num_rows();
                                                 if ($ct1 > 0) {
