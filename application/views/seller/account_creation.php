@@ -89,7 +89,7 @@
                     <tr>
                         <td></td>
                         <td>
-                            <div class="g-recaptcha" data-sitekey="6LcR4w8TAAAAADUpAdk9LdyrIVZCdSXCLXMXEZcr"></div>
+                            <div class="g-recaptcha" data-sitekey="<?=RE_CAPTCHA_SITEKEY?>"></div>
                         </td>
                     </tr>
                     <tr>
