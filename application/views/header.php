@@ -984,11 +984,7 @@
                     <li class="track"  style="background-color:white;margin-right:1px;"> 
                         <a title="Sell With Us" style="background-color:white;margin-right:1px;" target="_blank" href="<?php echo base_url(); ?>seller/seller"><img src="<?php echo base_url(); ?>images/sell_with_us.png" style="width:29px; height:29px; margin-top:-5px; margin-left: 9px;"  ></a> 
                     </li>
-                <?php } ?>       
-
-                <li  style="margin-top:20px;margin-left:0px;">  
-                    <a  class="blog" title="Our Blog" style="background-color:white;color: black" href="<?= APP_BASE ?>blog/" target="_blank"><img src="<?php echo base_url(); ?>images/blog.png" style="width:29px; height:29px; margin-top:-18px; margin-left: -9px;"  ></a>
-                </li>
+                <?php } ?>                 
             </ul>
         </div>
 

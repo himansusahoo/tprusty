@@ -9,8 +9,8 @@ class Admin_users extends CI_Controller {
         parent::__construct();
         $this->load->model('user');
         $this->load->library('form_validation');
-        $this->layout->layout = 'admin_layout';
-        $this->layout->layoutsFolder = 'layouts/admin';
+        $this->layout->layout = 'admin_lte';
+        $this->layout->layoutsFolder = 'layouts/admin_lte';
         $this->load->model('dashboard');
     }
 
@@ -128,7 +128,7 @@ class Admin_users extends CI_Controller {
         } else {
             //pma($this->session->all_userdata(),1);
             //$this->layout->navTitle='test title';
-            $this->layout->layout = 'admin_layout';
+            $this->layout->layout = 'admin_lte';
             $this->layout->title = 'Dashboard';
             $data = array();
             $this->layout->data = $data;
@@ -149,9 +149,8 @@ class Admin_users extends CI_Controller {
         $this->session->sess_destroy(); 
         $admin_login=base_url('admin-login');
         if($this->rbac->has_role('SELLER')){
-            $admin_login=base_url('/seller/seller');
-        }
-        
+            $admin_login=base_url('/seller/seller/seller_logout');
+        }        
         redirect($admin_login);
     }
 

@@ -10,14 +10,14 @@ if (!defined('BASEPATH')) {
  * @author  : HimansuS
  * @created :05/17/2018
  */
-class Rbac_permissions extends MX_Controller {
+class Rbac_permissions extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
         $this->load->model('rbac_permission');
         $this->load->library('form_validation');
-        $this->layout->layout = 'admin_layout';
-        $this->layout->layoutsFolder = 'layouts/admin';
+        $this->layout->layout = 'admin_lte';
+        $this->layout->layoutsFolder = 'layouts/admin_lte';
         $this->layout->lMmenuFlag = 1;
         $this->layout->rightControlFlag = 1;
         $this->layout->navTitleFlag = 1;
@@ -43,36 +43,29 @@ class Rbac_permissions extends MX_Controller {
         if ($this->rbac->has_permission('MANAGE_PERMISSIONS', 'ASSIGN_MODULE_PERMISSIONS')) {
             $this->layout->navTitle = 'Module Permissions';
             $data = array();
-            $module_options = $this->rbac_permission->get_rbac_modules_options('name');
-            $module_options = array_slice($module_options, 1, null, true);
-            $module_codes = $this->rbac_permission->get_rbac_modules_options('code');
-            $module_codes = array_slice($module_codes, 1, null, true);
-
-            $action_options = $this->rbac_permission->get_rbac_actions_options('name');
-            $action_options = array_slice($action_options, 1, null, true);
-            $action_codes = $this->rbac_permission->get_rbac_actions_options('code');
-            $action_codes = array_slice($action_codes, 1);
-
+            $module_actions = $this->rbac_permission->getModuleActions();            
+            $parentColumnFilter = array(
+                'module_id', 'module_name', 'module_code', 'module_status', 'module_created', 'module_modified'
+            );
+            $data['tree'] = flat_array_tree($module_actions, 'module_id','action_id',$parentColumnFilter);
+            
+            //fetch existing permissions
             $conditions = array('t1.status' => 'active');
             $existing_perms = $this->rbac_permission->get_rbac_permission(null, $conditions);
-            //pma($existing_perms);
-            $existing_perms = tree_on_key_column($existing_perms, 'module_id');
-
-            $data = array(
-                'criteria' => array(),
-                'module_options' => $module_options,
-                'action_options' => $action_options,
-                'module_codes_json' => json_encode($module_codes),
-                'action_codes_json' => json_encode($action_codes),
-                'existing_perms' => $existing_perms
-            );
+            //pmo($existing_perms);
+            $data['existing_perms']= flat_array_tree($existing_perms, 'module_id','action_id',$parentColumnFilter);
+            
+            //pmo($data['existing_perms'],1);
             if ($this->input->post()) {
                 $permissions = $this->input->post();
                 $perms = array();
-
-                foreach ($permissions['permission'] as $perm) {
+                $condition="";
+                foreach ($permissions as $perm) {
                     if (isset($perm['action_id'])) {
                         foreach ($perm['action_id'] as $action_id) {
+                            if($condition==''){
+                                $condition=" module_id='".$perm['module_id']."'";
+                            }
                             $perms[] = array(
                                 'module_id' => $perm['module_id'],
                                 'action_id' => $action_id
@@ -80,14 +73,15 @@ class Rbac_permissions extends MX_Controller {
                         }
                     }
                 }
-
-                if ($this->rbac_permission->save_module_permissions($perms)) {
+                $condition=" and ".$condition;
+                if ($this->rbac_permission->save_module_permissions($perms,$condition)) {
                     $this->session->set_flashdata('success', 'Record successfully saved!');
                     redirect('rbac-module-permissions');
                 } else {
                     $this->session->set_flashdata('error', 'Unable to store the data, please conatact site admin!');
                 }
             }
+            //pmo($data,1);
             $this->layout->data = $data;
             $this->layout->render();
         } else {

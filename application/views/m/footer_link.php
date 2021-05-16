@@ -38,7 +38,6 @@
         <li><a style="font-size:13px;" href="<?php echo base_url() . 'contact-us'; ?>"> Faq</a></li>  
         <li><a style="font-size:13px;" href="<?php echo base_url() . 'career'; ?>"> Career </a></li>  
         <li><a style="font-size:13px;" href="<?php echo base_url() . 'contact-us'; ?>"> Help </a></li>       
-        <li><a style="font-size:13px;" href="https://socialmoonboy.wordpress.com/" target="_blank"> Our Blog </a> </li> 
         <li><a style="font-size:13px;" href="<?= APP_BASE ?>sitemap.html"> Sitemap </a></li>
         <li><a style="font-size:13px;" href="<?php echo base_url() . 'privacy-policy'; ?>"> Privacy Policy </a></li>
         <li><a style="font-size:13px;" href="<?php echo base_url() . 'terns-and-conditions'; ?>"> Terms & Conditions </a></li>

@@ -6,8 +6,12 @@
         <title><?= $this->layout->title ?></title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <?= $this->scripts_include->preJs($this->layout->layout) ?>
-        <?= $this->scripts_include->includeCss($this->layout->layout) ?>
+        <?php
+        $this->scripts_include->includeCss($this->layout->layout)
+                ->preJs($this->layout->layout)
+                ->includeCustomJsTop()
+                ->includeCustomCssTop()
+        ?>  
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -15,7 +19,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script>
-            var base_url = '<?= APP_BASE ?>';            
+            var base_url = '<?= APP_BASE ?>';
         </script>        
     </head>
     <body class="hold-transition skin-blue sidebar-mini fixed">
@@ -105,9 +109,14 @@
             <!--<div class="control-sidebar-bg"></div>-->
         </div>        
         <!-- ./wrapper -->
-        <?= $this->scripts_include->includeJs($this->layout->layout) ?>
+        <?php
+        $this->scripts_include->includeJs($this->layout->layout)
+                ->includeCustomJsButtom()
+                ->includeCustomCssButtom()
+                ->includeGenericJsButtom();
+        ?>
         <script>
-            $.widget.bridge('uibutton', $.ui.button);             
+            $.widget.bridge('uibutton', $.ui.button);
         </script>
     </body>
 </html>

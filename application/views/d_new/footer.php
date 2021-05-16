@@ -173,7 +173,11 @@
             </div>
             <div class="clearfix">&nbsp;</div>
 
-            <div class="copy-right"> © 2015-2020 <?= COMPANY ?>. All Rights Reserved. | Powered by- <a target="_blank" href="<?= POWERED_BY ?>"> SPIS </a> </div>
+            <div class="copy-right">
+                <span style="font-size:12px;" class="site-footer-copyright">
+                    <strong><?= COPY_RIGHT_YEAR ?></strong>
+                </span>
+            </div>
         </div>
     </div>
 
@@ -275,7 +279,7 @@
                 //var url = "profile_fillup.php?name="+name+"&mail="+email;
                 //var url = "social_login/gpluslogin/manage_start_profile_fillup.php?name="+name+"&mail="+email;
 
-                /*var url = "<?php //echo site_url();     ?>chm/socialLogin/" + encodeURIComponent(mail+','+name);			
+                /*var url = "<?php //echo site_url();      ?>chm/socialLogin/" + encodeURIComponent(mail+','+name);			
                  window.location.href = url;*/
                 //var url = 'myprofile.php';			
 

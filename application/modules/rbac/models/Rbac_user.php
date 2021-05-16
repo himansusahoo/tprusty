@@ -66,7 +66,6 @@ class Rbac_user extends CI_Model {
             endforeach;
         elseif (is_string($conditions)):
             $this->db->where($conditions);
-
         endif;
         if ($limit > 0) :
             $this->db->limit($limit, $offset);
@@ -155,8 +154,9 @@ class Rbac_user extends CI_Model {
         if ($conditions && is_array($conditions)) :
             foreach ($conditions as $col => $val):
                 $this->db->where("$col", $val);
-
             endforeach;
+        elseif (is_string($conditions)):
+            $this->db->where($conditions);
         endif;
         $result = $this->db->get()->result_array();
 
@@ -170,6 +170,29 @@ class Rbac_user extends CI_Model {
 
     public function record_count() {
         return $this->db->count_all('rbac_users');
+    }
+
+    /**
+     * @param  : 
+     * @desc   :fetch app configs
+     * @return :
+     * @author : HimansuS
+     * @created:
+     */
+    public function get_app_configs($condition = "") {
+        $query = "select * from app_configs where 1=1 $condition order by category asc";
+        $result = $this->db->query($query)->result_array();
+        $configs = $app_config = array();
+        if ($result) {
+            foreach ($result as $rec) {
+                $configs[$rec['category']] = $rec;
+            }
+            foreach ($configs as $cat => $rec) {
+                $app_config[strtolower($cat)] = json_decode($rec['configs'], true);
+            }
+        }
+        //pma($app_config, 1);
+        return $app_config;
     }
 
     /**
@@ -238,29 +261,6 @@ class Rbac_user extends CI_Model {
             return $result;
         }
         return 0;
-    }
-
-    /**
-     * @param  : 
-     * @desc   :fetch app configs
-     * @return :
-     * @author : HimansuS
-     * @created:
-     */
-    public function get_app_configs($condition="") {
-        $query = "select * from app_configs where 1=1 $condition order by category asc";
-        $result = $this->db->query($query)->result_array();
-        $configs = $app_config = array();
-        if ($result) {
-            foreach ($result as $rec) {
-                $configs[$rec['category']] = $rec;
-            }
-            foreach ($configs as $cat => $rec) {
-                $app_config[strtolower($cat)] = json_decode($rec['configs'], true);
-            }
-        }
-        //pma($app_config, 1);
-        return $app_config;
     }
 
 }

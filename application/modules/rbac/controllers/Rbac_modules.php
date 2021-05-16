@@ -10,15 +10,15 @@ if (!defined('BASEPATH')) {
  * @author  : HimansuS
  * @created :09/29/2018
  */
-class Rbac_modules extends MX_Controller {
+class Rbac_modules extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
 
         $this->load->model('rbac_module');
         $this->load->library('form_validation');
-        $this->layout->layout = 'admin_layout';
-        $this->layout->layoutsFolder = 'layouts/admin';
+        $this->layout->layout = 'admin_lte';
+        $this->layout->layoutsFolder = 'layouts/admin_lte';
         $this->layout->lMmenuFlag = 1;
         $this->layout->rightControlFlag = 1;
         $this->layout->navTitleFlag = 1;
@@ -89,7 +89,7 @@ class Rbac_modules extends MX_Controller {
                 $grid_buttons[] = array(
                     'btn_class' => 'btn-primary',
                     'btn_href' => base_url('edit-rbac-module'),
-                    'btn_icon' => 'fa-pencil',
+                    'btn_icon' => 'fa-edit',
                     'btn_title' => 'edit record',
                     'btn_separator' => ' ',
                     'param' => array('$1'),
@@ -100,7 +100,7 @@ class Rbac_modules extends MX_Controller {
                 $grid_buttons[] = array(
                     'btn_class' => 'btn-danger delete-record',
                     'btn_href' => '#',
-                    'btn_icon' => 'fa-remove',
+                    'btn_icon' => 'fa-trash-alt',
                     'btn_title' => 'delete record',
                     'btn_separator' => '',
                     'param' => array('$1'),
@@ -129,22 +129,22 @@ class Rbac_modules extends MX_Controller {
             }
             if ($this->rbac->has_permission('MANAGE_MODULES', 'XLS_EXPORT')) {
                 $dt_tool_btn[] = array(
-                    'btn_class' => 'btn-warning',
+                    'btn_class' => 'no_pad',
                     'btn_href' => '#',
                     'btn_icon' => '',
-                    'btn_title' => 'XLS',
-                    'btn_text' => '<span class="fa fa-file-excel-o"></span> Excel',
+                    'btn_title' => 'Export to XLS',
+                    'btn_text' => '<img src="' . base_url("assets/images/excel_icon.png") . '" alt="XLS">',
                     'btn_separator' => ' ',
                     'attr' => 'id="export_table_xls"'
                 );
             }
             if ($this->rbac->has_permission('MANAGE_MODULES', 'CSV_EXPORT')) {
                 $dt_tool_btn[] = array(
-                    'btn_class' => 'btn-info',
+                    'btn_class' => 'no_pad',
                     'btn_href' => '#',
                     'btn_icon' => '',
-                    'btn_title' => 'CSV',
-                    'btn_text' => '<span class="fa fa-file-text-o"></span> CSV',
+                    'btn_title' => 'Export to CSV',
+                    'btn_text' => '<img src="' . base_url("assets/images/csv_icon_sm.gif") . '" alt="CSV">',
                     'btn_separator' => ' ',
                     'attr' => 'id="export_table_csv"'
                 );
@@ -161,14 +161,10 @@ class Rbac_modules extends MX_Controller {
                 ),
                 'custom_lengh_change' => false,
                 'dt_dom' => array(
-                    'top_dom' => true,
-                    'top_length_change' => true,
-                    'top_filter' => true,
                     'top_buttons' => $dt_tool_btn,
-                    'top_pagination' => true,
-                    'buttom_dom' => true,
-                    'buttom_length_change' => FALSE,
-                    'buttom_pagination' => true
+                ),
+                'options' => array(
+                    'iDisplayLength' => 15
                 )
             );
             $data['data'] = array('config' => $config);
@@ -239,11 +235,15 @@ class Rbac_modules extends MX_Controller {
      * @created:09/29/2018
      */
     public function create() {
+        $this->scripts_include->includePlugins(array('jq_validation'), 'js');
+
         if ($this->rbac->has_permission('MANAGE_MODULES', 'CREATE')) {
             $this->breadcrumbs->push('create', base_url('create-rbac-module'));
-
             $this->layout->navTitle = 'Rbac module create';
-            $data = array();
+            $postData = $this->input->post();
+            $data = array(
+                'data' => $postData
+            );
             if ($this->input->post()) :
                 $config = array(
                     array(
@@ -254,10 +254,11 @@ class Rbac_modules extends MX_Controller {
                     array(
                         'field' => 'code',
                         'label' => 'code',
-                        'rules' => 'required'
+                        'rules' => 'required|callback_check_code_exists'
                     ),
                 );
                 $this->form_validation->set_rules($config);
+                $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
                 if ($this->form_validation->run()) :
 
@@ -291,9 +292,12 @@ class Rbac_modules extends MX_Controller {
             $this->breadcrumbs->push('edit', base_url('edit-rbac-module'));
 
             $this->layout->navTitle = 'Rbac module edit';
-            $data = array();
-            if ($this->input->post()) :
-                $data['data'] = $this->input->post();
+            $postData = $this->input->post();
+            $data = array(
+                'data' => $postData
+            );
+            if ($postData) :
+
                 $config = array(
                     array(
                         'field' => 'name',
@@ -303,11 +307,12 @@ class Rbac_modules extends MX_Controller {
                     array(
                         'field' => 'code',
                         'label' => 'code',
-                        'rules' => 'required'
+                        'rules' => 'required|callback_check_code_exists'
                     ),
                 );
                 $this->form_validation->set_rules($config);
-
+                $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+                
                 if ($this->form_validation->run()) :
                     $result = $this->rbac_module->update($data['data']);
                     if ($result >= 1) :
@@ -394,6 +399,23 @@ class Rbac_modules extends MX_Controller {
             $this->layout->data = array('status_code' => '403', 'message' => 'Request Forbidden.');
             $this->layout->render(array('error' => 'general'));
         }
+    }
+
+    public function check_code_exists($code) {
+        $postData = $this->input->post();
+        $paramValues = array(
+            trim($code)
+        );
+
+        if (isset($postData['module_id'])) {
+            array_push($paramValues, $postData['module_id']);
+        }
+        $result = $this->rbac_module->isModuleCodeExist($paramValues);
+        if ($result) {
+            $this->form_validation->set_message('check_code_exists', 'Duplicate code, please try another.');
+            return false;
+        }
+        return true;
     }
 
 }

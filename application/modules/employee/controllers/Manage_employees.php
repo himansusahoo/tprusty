@@ -16,8 +16,8 @@ class Manage_employees extends MX_Controller {
         parent::__construct();
         $this->load->model('manage_employee');
         $this->load->library('form_validation');
-        $this->layout->layout = 'admin_layout';
-        $this->layout->layoutsFolder = 'layouts/admin';
+        $this->layout->layout = 'admin_lte';
+        $this->layout->layoutsFolder = 'layouts/admin_lte';
         $this->layout->lMmenuFlag = 1;
         $this->layout->rightControlFlag = 1;
         $this->layout->navTitleFlag = 1;
@@ -705,7 +705,7 @@ class Manage_employees extends MX_Controller {
         $pass=  md5($pass);
         $condition = "email='$email' and password='" . $pass . "' and user_type in('employee','developer','seller')";
         $user_detail = $this->rbac_user->get_user_detail(null, $condition);
-
+        
         if ($user_detail) {
             if (isset($user_detail['status']) && $user_detail['status'] == 'active') {
                 $menus = $permissions = array();

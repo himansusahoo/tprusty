@@ -1,29 +1,28 @@
 <?php ?>
-
-<div class="col-sm-12">
-    <?php
-    if ($this->rbac->has_permission('MANAGE_MENU', 'CREATE')) {
-        echo '<button class="btn btn-primary" id="add_root" ><span class="fa fa-plus">Add Root</span></button>';
-        echo '&nbsp;&nbsp;<button class="btn btn-primary" id="add_chield" ><span class="fa fa-plus">Add Chield</span></button>';
-    }
-    if ($this->rbac->has_permission('MANAGE_MENU', 'DELETE')) {
-        echo '&nbsp;&nbsp;<button class="btn btn-danger" id="delete"><span class="fa fa-trash"> Delete</span></button>';
-    }
-    ?>
-
+<div class="row">
+    <div class="col-8">
+        <?php
+        if ($this->rbac->has_permission('MANAGE_MENUS', 'CREATE')) {
+            echo '<button class="btn btn-primary" id="add_root" ><span class="fa fa-plus">Add Root</span></button>';
+            echo '&nbsp;&nbsp;<button class="btn btn-primary" id="add_chield" ><span class="fa fa-plus">Add Chield</span></button>';
+        }
+        if ($this->rbac->has_permission('MANAGE_MENUS', 'DELETE')) {
+            echo '&nbsp;&nbsp;<button class="btn btn-danger" id="delete"><span class="fa fa-trash"> Delete</span></button>';
+        }
+        ?>
+    </div>
 </div>
-<?php if ($this->rbac->has_permission('MANAGE_MENU', 'LIST')) : ?>
-    <div class="col-sm-12 no_lpad">
-        <div class="col-sm-3 no_lpad" id="jstree"></div>
-        <div class="col-sm-9 no_rpad">       
-            <!-- form start -->
+
+<?php if ($this->rbac->has_permission('MANAGE_MENUS', 'LIST')) : ?>
+<div class="row" style="margin-top: 20px;">
+        <div class="col-3" id="jstree"></div>
+        <div class="col-9">
             <form class="form-horizontal">
-                <div id="form_load">
-                </div>
-                <!-- /.box-footer -->
+                <div id="form_load"></div>
             </form>
         </div>
     </div>
+
     <script type="text/javascript">
         // Setup the jsTree.
         $(function () {
@@ -59,7 +58,7 @@
             }).on('rename_node.jstree', function (e, data) {
                 myApp.CommonMethod.app_log('Rename node', data);
             }).on('move_node.jstree', function (e, data) {
-    <?php if ($this->rbac->has_permission('MANAGE_MENU', 'EDIT')) : ?>
+    <?php if ($this->rbac->has_permission('MANAGE_MENUS', 'EDIT')) : ?>
                     update_parent(data);
     <?php endif; ?>
 
@@ -68,6 +67,7 @@
             //add new node
             $('#add_root').on('click', function () {
                 var selected_node = [];// $('#jstree').jstree(true).get_selected(true);
+                console.log('selected_node',selected_node);
                 createNewNode(selected_node);
             });
             //add new node
@@ -78,7 +78,7 @@
                 } else {
                     //throw an error to set the job role of the current row.
                     var errorMsg = {
-                        'type': 'default',
+                        'type': 'danger',
                         'title': "Error",
                         'message': "Please select node to create chiled node.",
                     };

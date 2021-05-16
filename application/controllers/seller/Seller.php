@@ -70,10 +70,11 @@ class Seller extends MX_Controller {
         $this->form_validation->set_rules('address', 'Address', 'required');
         $this->form_validation->set_rules('city', 'City', 'required');
         $this->form_validation->set_rules('state', 'State', 'required');
-        $this->form_validation->set_rules('pwd', 'Password', 'required|matches[cnfpwd]|md5');
+        $this->form_validation->set_rules('pwd', 'Password', 'required|matches[cnfpwd]');
         $this->form_validation->set_message('matches', 'Password should match with Confirm Password.');
-        $this->form_validation->set_rules('cnfpwd', 'Confirm Password', 'required|md5');
-
+        $this->form_validation->set_rules('cnfpwd', 'Confirm Password', 'required');        
+        //TODO:: duplicate email validation:
+        
         if ($this->form_validation->run() != false) {
             $seller_id = $this->Seller_model->get_unique_id();
             $seller_uidcode = 'MBS';
@@ -126,7 +127,12 @@ class Seller extends MX_Controller {
     }
 
     function getResponse($str) {
-        $secret_key = "6LcR4w8TAAAAADj1GLz3kBIuWRFrMVWWx9g5fjzk";
+        if(DOMAIN_NAME=='moonboy.in'){
+            $secret_key = "6LcR4w8TAAAAADj1GLz3kBIuWRFrMVWWx9g5fjzk";
+        }else{
+            $secret_key = "6LegVtYaAAAAAHEwGPwzXtXsTJJ6WDk-ip1GGDj7";
+        }
+        
         $ip_user = $this->input->ip_address();
         $url = "https://www.google.com/recaptcha/api/siteverify?secret=" . $secret_key . "&response=" . $str . "&remoteip=" . $ip_user;
         $user_agent = 'Mozilla/5.0 (Windows NT 6.1; rv:8.0) Gecko/20100101 Firefox/8.0';

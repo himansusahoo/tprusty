@@ -1,120 +1,113 @@
 <?php ?>
-<?php
-$form_attribute = array(
-    "name" => "rbac_permissions",
-    "id" => "module_permissions",
-    "method" => "POST",
-    "class" => "form-horizontal",
-);
-$form_action = base_url('rbac-module-permissions');
-echo form_open($form_action, $form_attribute);
-?>        
-<div class="row text-center scroll-container">
-    <div class="panel-body">
-        <div class="panel panel-default orange_border">
-            <div class="panel-heading orange_bg" style="min-height: 40px;">
-                <div class="row">
-                    <div class="col-sm-3">                                
-                        <h3 class="panel-title text-left white-text">Set module permissions</h3>
-                    </div>                            
-                    <div class="col-sm-9 pull-right" style="text-align: right;">                    
-                        <a class="btn btn-default pannel_button pannel_button_w90" id="collapse-all" href="#">Collapse All</a>&nbsp;
-                        <a class="btn btn-default pannel_button pannel_button_w90" id="expand-all" href="#">Expand All</a>&nbsp;
-                        <input type="submit" class="btn btn-default pannel_button pannel_button_w90" id="save_criteria" value="Save ">&nbsp;                            
-                    </div>
+<div class="row">
+    <div class="col">        
+        <div class="card card-primary card-outline">
+            <div class="card-header text-left text-bold hand" id="super_panel">
+                Set module permissions
+                <div class="card-tools">
+                    <button type="button" id="collapse-all" class="btn btn-primary btn-sm">
+                        Collapse-all
+                    </button>
+                    <button type="button" class="btn btn-warning btn-sm" id="expand-all">
+                        Expand-all
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>           
                 </div>
             </div>
-            <div class="panel-body collapse in  " id="super_panel" aria-expanded="true">
-                <div class="row-fluid panel_container">                        
-                    <!--UPDATE PERMISSIONS-->
+            <div class="card-body">
+                <?php
+                $indx = 1;
+                foreach ($tree as $module) {
+                    $form_attribute = array(
+                        "name" => "rbac_permissions".$module['module_id'],
+                        "id" => "module_permissions".$module['module_id'],
+                        "method" => "POST",
+                        "class" => "form-horizontal",
+                    );
+                    $form_action = base_url('rbac-module-permissions');
+                    echo form_open($form_action, $form_attribute);
+                    ?>
 
-                    <div class="panel-body">
-                        <?php
-                        $indx = 1;
-                        foreach ($module_options as $module_id => $module_name) {
-                            $one_existing_perm = $existing_actions = array();
-                            if (array_key_exists($module_id, $existing_perms)) {
-                                $one_existing_perm = $existing_perms[$module_id];
-                                $permission_id = array_column($one_existing_perm['actions'], 'permission_id');
-                                if ($permission_id) {
-                                    $permission_id = current($permission_id);
-                                }
-                                $existing_actions = array_column($one_existing_perm['actions'], 'action_id');
-                            }
-                            ?>
-                            <div class="panel-body no_pad criteria_panel" panel_no="<?php echo $module_id ?>" id="panel_<?php echo $module_id ?>">
-                                <div class="panel panel-default orange_border">
-                                    <div class="panel-heading" data-toggle="collapse" data-target="#update_perm_panel_<?php echo $module_id ?>" aria-expanded="true" style="cursor: pointer">
-                                        <h1 class="panel-title text-left white-text" data-toggle="collapse" data-target="#update_perm_panel_<?php echo $module_id ?>" aria-expanded="true" style="cursor: pointer">
-                                            <?php echo ucfirst(strtolower($module_name)) ?>
-                                            <span><i class="fa fa-chevron-down pull-right"></i></span>
-                                            </h2>
+                    <div class="card card-primary card-outline collapsed-card" panel_no="<?= $module['module_id'] ?>" id="panel_<?= $module['module_id'] ?>">
+                        <div class="card-header text-left text-bold" data-card-widget="collapse">
+                            <?php echo ucwords(strtolower($module['module_name'])) ?>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-plus"></i>
+                                </button>           
+                            </div>
+                        </div>
+                        <div class="card-body" style="display: none;">
+                            <div class="row">
+                                <?php
+                                if (array_key_exists('children', $module) && is_array($module['children'])) {
 
-                                    </div>
-                                    <div class="panel-body no_pad collapse" id="update_perm_panel_<?php echo $module_id ?>" aria-expanded="true">
-                                        <div class="box-body">
-                                            <div class="alert panel-default wraper_alert_bmargin main-module-action-box">                                                            
-                                                <div class="row">
-                                                    <div class="col-sm-12 no_pad">
-                                                        <?php
-                                                        if (isset($action_options) && is_array($action_options)) {
-                                                            $chunks = array_chunk($action_options, 3, 1);
-                                                            foreach ($chunks as $array_data) {
-                                                                ?>
-                                                                <div class="col-sm-4">
-                                                                    <div class="row">
-                                                                        <input name="permission[<?php echo $indx ?>][module_id]" type="hidden" value="<?php echo $module_id ?>">    
-                                                                        <div class="col-sm-12 text-left">
-                                                                            <?php
-                                                                            foreach ($array_data as $key => $val) {
-                                                                                if ($key != '') {
-                                                                                    $attribute = array(
-                                                                                        "name" => "permission[$indx][action_id][]",
-                                                                                        "type" => "checkbox",
-                                                                                        "value" => $key
-                                                                                    );
-                                                                                    if (in_array($key, $existing_actions)) {
-                                                                                        $attribute['permission_id'] = $permission_id;
-                                                                                        $attribute['checked'] = 'checked';
-                                                                                    }
-                                                                                    echo '<div class="checkbox wraper_checkbox"><label style="width: 100%;">' . form_checkbox($attribute) . ucfirst($val) . '</label></div>';
-                                                                                }
-                                                                            }
-                                                                            ?>                                                                
-                                                                        </div>
-                                                                    </div>                                                                
-                                                                </div>
-                                                                <?php
+                                    $chunks = array_chunk($module['children'], 3, 1);
+                                    foreach ($chunks as $array_data) :
+                                        ?>
+                                        <div class="col">
+                                            <div class="row">
+                                                <input name="permission[module_id]" type="hidden" value="<?= $module['module_id'] ?>">    
+                                                <div class="col text-left">
+                                                    <?php
+                                                    foreach ($array_data as $key => $option) {
+                                                        $attribute = array(
+                                                            "name" => "permission[action_id][]",
+                                                            "type" => "checkbox",
+                                                            "value" => $option['action_id']
+                                                        );
+                                                        if(isset($existing_perms[$module['module_id']]['children'])){
+                                                            if (array_key_exists($option['action_id'], $existing_perms[$module['module_id']]['children'])) {
+                                                                $attribute['permission_id'] = $existing_perms[$module['module_id']]['children'][$option['action_id']]['permission_id'];
+                                                                $attribute['checked'] = 'checked';
                                                             }
                                                         }
-                                                        ?>
-                                                    </div>
-                                                </div>  
-                                            </div>                                            
+                                                            
+                                                        echo '<div class="checkbox wraper_checkbox"><label style="width: 100%;">' . form_checkbox($attribute) . ucfirst($option['action_name']) . '</label></div>';
+                                                    }
+                                                    ?>                                                                
+                                                </div>
+                                            </div>                                                                
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php
-                            $indx++;
-                        }
-                        ?>
+                                        <?php
+                                    endforeach;
+                                }
+                                ?>
+                            </div>   
+                        </div>
+                        <div class="card-footer" style="display: none;">
+                            <input type="submit" class="btn btn-sm btn-primary float-right" value="Save">
+                        </div>
                     </div>
-                </div><!--end panel container row-->                    
+                    <?php
+                    echo form_close();
+                }
+                ?>
             </div>
         </div>
-    </div>
+
+    </div>  
 </div>
-<?php echo form_close() ?>
+
 <script type="text/javascript">
     $(document).ready(function () {
 
         //exapand/collapse all panel
         $('#expand-all').on('click', function () {
-            $('.collapse').collapse('show');
+            $('.card-header').each(function () {
+                if ($(this).closest('div.card').hasClass('collapsed-card')) {
+                    $(this).click();
+                }
+            });
         });
         $('#collapse-all').on('click', function () {
-            $('.collapse:not("#super_panel")').collapse('hide');
+            $('.card-header').each(function () {
+                if (!$(this).closest('div.card').hasClass('collapsed-card')) {
+                    $(this).click();
+                }
+            });
         });
     });
 </script>

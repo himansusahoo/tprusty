@@ -10,15 +10,15 @@ if (!defined('BASEPATH')) {
  * @author  : HimansuS
  * @created :10/08/2018
  */
-class Rbac_users extends MX_Controller {
+class Rbac_users extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
 
         $this->load->model('rbac_user');
         $this->load->library('form_validation');
-        $this->layout->layout = 'admin_layout';
-        $this->layout->layoutsFolder = 'layouts/admin';
+        $this->layout->layout = 'admin_lte';
+        $this->layout->layoutsFolder = 'layouts/admin_lte';
         $this->layout->lMmenuFlag = 1;
         $this->layout->rightControlFlag = 1;
         $this->layout->navTitleFlag = 1;
@@ -34,8 +34,8 @@ class Rbac_users extends MX_Controller {
     public function index() {
         if ($this->rbac->has_permission('USERS', 'LIST')) {
             $this->breadcrumbs->push('index', '/rbac/rbac_users/index');
-            $this->scripts_include->includePlugins(array('datatable', 'chosen'), 'css');
-            $this->scripts_include->includePlugins(array('datatable', 'chosen'), 'js');
+            $this->scripts_include->includePlugins(array('datatable','chosen'), 'css');
+            $this->scripts_include->includePlugins(array('datatable','chosen'), 'js');
             $this->layout->navTitle = 'Rbac user list';
             $this->layout->title = 'Rbac user list';
             $header = array(
@@ -67,14 +67,6 @@ class Rbac_users extends MX_Controller {
                     'db_column' => 'email',
                     'name' => 'Email',
                     'title' => 'Email',
-                    'class_name' => 'dt_name',
-                    'orderable' => 'true',
-                    'visible' => 'true',
-                    'searchable' => 'true'
-                ), array(
-                    'db_column' => 'password',
-                    'name' => 'Password',
-                    'title' => 'Password',
                     'class_name' => 'dt_name',
                     'orderable' => 'true',
                     'visible' => 'true',
@@ -177,7 +169,7 @@ class Rbac_users extends MX_Controller {
                 $grid_buttons[] = array(
                     'btn_class' => 'btn-primary',
                     'btn_href' => base_url('rbac/rbac_users/edit'),
-                    'btn_icon' => 'fa-pencil',
+                    'btn_icon' => 'fa-edit',
                     'btn_title' => 'edit record',
                     'btn_separator' => ' ',
                     'param' => array('$1'),
@@ -188,7 +180,7 @@ class Rbac_users extends MX_Controller {
                 $grid_buttons[] = array(
                     'btn_class' => 'btn-danger delete-record',
                     'btn_href' => '#',
-                    'btn_icon' => 'fa-remove',
+                    'btn_icon' => 'fa-trash-alt',
                     'btn_title' => 'delete record',
                     'btn_separator' => '',
                     'param' => array('$1'),
@@ -218,22 +210,22 @@ class Rbac_users extends MX_Controller {
             }
             if ($this->rbac->has_permission('USERS', 'XLS_EXPORT')) {
                 $dt_tool_btn[] = array(
-                    'btn_class' => 'btn-warning',
+                    'btn_class' => 'no_pad',
                     'btn_href' => '#',
                     'btn_icon' => '',
-                    'btn_title' => 'XLS',
-                    'btn_text' => '<span class="fa fa-file-excel-o"></span> Excel',
+                    'btn_title' => 'Export to XLS',
+                    'btn_text' => '<img src="' . base_url("assets/images/excel_icon.png") . '" alt="XLS">',
                     'btn_separator' => ' ',
                     'attr' => 'id="export_table_xls"'
                 );
             }
             if ($this->rbac->has_permission('USERS', 'CSV_EXPORT')) {
                 $dt_tool_btn[] = array(
-                    'btn_class' => 'btn-info',
+                    'btn_class' => 'no_pad',
                     'btn_href' => '#',
                     'btn_icon' => '',
-                    'btn_title' => 'CSV',
-                    'btn_text' => '<span class="fa fa-file-text-o"></span> CSV',
+                    'btn_title' => 'Export to CSV',
+                    'btn_text' => '<img src="' . base_url("assets/images/csv_icon_sm.gif") . '" alt="CSV">',
                     'btn_separator' => ' ',
                     'attr' => 'id="export_table_csv"'
                 );
@@ -250,14 +242,10 @@ class Rbac_users extends MX_Controller {
                 ),
                 'custom_lengh_change' => false,
                 'dt_dom' => array(
-                    'top_dom' => true,
-                    'top_length_change' => true,
-                    'top_filter' => true,
                     'top_buttons' => $dt_tool_btn,
-                    'top_pagination' => true,
-                    'buttom_dom' => true,
-                    'buttom_length_change' => FALSE,
-                    'buttom_pagination' => true
+                ),
+                'options' => array(
+                    'iDisplayLength' => 15
                 )
             );
             $data['data'] = array('config' => $config);
@@ -542,32 +530,6 @@ class Rbac_users extends MX_Controller {
         }
         return 'Invalid request type.';
     }
-
-    /**
-     * @param  : 
-     * @desc   :
-     * @return :
-     * @author : HimansuS
-     * @created:
-     */
-    public function set_selected_lmenu() {
-        if ($this->input->is_ajax_request()) {
-            $menu_ids = $this->input->post('menu_ids');
-            if ($menu_ids) {
-                $menu_ids = explode("_", $menu_ids);
-                $menu_ids = array_unique($menu_ids);
-                $this->session->set_userdata('selected_left_menu', $menu_ids);
-                
-                echo json_encode(array('status'=>'success'));
-            } else {
-                echo json_encode(array('status'=>'menu set error'));
-            }
-            exit;
-        } else {
-            $this->layout->render(array('error' => '401'));
-        }
-    }    
-   
 }
 
 ?>

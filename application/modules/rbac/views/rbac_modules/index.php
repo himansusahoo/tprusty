@@ -1,6 +1,5 @@
-<?php ?> 
-<div class="row-fluid">
-    <div class="col-sm-12 no_pad table-responsive">
+<?php ?> <div class="row-fluid">
+    <div class="col-sm-12 no_pad">
         <?php
         $this->load->library('c_datatable');
         $dt_data = $this->c_datatable->generate_grid($config);
