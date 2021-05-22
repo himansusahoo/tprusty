@@ -1075,9 +1075,9 @@ class Catalog_model extends CI_Model {
         $cdate = date('Y-m-d');
         $query = $this->db->query("SELECT * FROM charges_master WHERE charges_type='Seasonal Charges'");
         $result = $query->result();
-        $seasonal_charges_first_dt = $result[0]->from_dt;
-        $seasonal_charges_last_dt = $result[0]->to_date;
-        $seasonal_charges_status = $result[0]->status;
+        $seasonal_charges_first_dt = (isset($result[0]->from_dt))?$result[0]->from_dt:0;
+        $seasonal_charges_last_dt = (isset($result[0]->to_date))?$result[0]->to_date:0;
+        $seasonal_charges_status = (isset($result[0]->status))?$result[0]->status:0;
         if ($cdate >= $seasonal_charges_first_dt && $cdate <= $seasonal_charges_last_dt) {
             if ($seasonal_charges_status != 'fix_include') {
                 return 'NOT';
@@ -1341,7 +1341,7 @@ class Catalog_model extends CI_Model {
     function getServiceTax() {
         $query = $this->db->query("SELECT * FROM tax_management WHERE tri_name='Service Tax'");
         $result = $query->result();
-        $service_tax = $result[0]->tax_rate_percentage;
+        $service_tax = (isset($result[0]->tax_rate_percentage))?$result[0]->tax_rate_percentage:0;
         return $service_tax;
     }
 

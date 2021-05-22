@@ -621,7 +621,7 @@
                 $thirddlvl_bredcummenu = '';
 
                 $qr_bredcum = $this->db->query("SELECT * FROM category_menu_desktop WHERE ((category_id LIKE '%,$lvl2_bredcum,%' OR category_id LIKE '$lvl2_bredcum,%' OR category_id LIKE '%,$lvl2_bredcum' OR category_id='$lvl2_bredcum')) ");
-
+                $parent_2ndllvlmenu='';
                 foreach ($qr_bredcum->result_array() as $res_bredcum) {
                     $array_ctgsrch = explode(',', $res_bredcum['category_id']);
                     if (in_array($lvl2_bredcum, $array_ctgsrch)) {
@@ -634,6 +634,7 @@
                 $qr_scndlvlbredcum = $this->db->query("SELECT * FROM category_menu_desktop WHERE dskmenu_lbl_id='$parent_2ndllvlmenu' ");
                 $secondlvl_bredcummenu = $qr_scndlvlbredcum->row()->url_displayname;
                 $secondlvl_bredcummenudisplay = $qr_scndlvlbredcum->row()->label_name;
+                $thirddlvl_bredcummenudisplay="";
                 ?> 
                 <div class="col-md-8">
                     <ul class="breadcrumb">
