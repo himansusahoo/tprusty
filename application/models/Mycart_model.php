@@ -363,8 +363,8 @@ class Mycart_model extends CI_Model {
         $this->load->model('seller/Catalog_model');
         $fixed_charges_res = $this->Catalog_model->getFixedCharges();
         if ($fixed_charges_res != 'NOT') {
-            $fix_chg_amount = $fixed_charges_res[0]->amount;
-            $fix_chg_percent = $fixed_charges_res[0]->percent;
+            $fix_chg_amount = (isset($fixed_charges_res[0]->amount))?$fixed_charges_res[0]->amount:0;
+            $fix_chg_percent = (isset($fixed_charges_res[0]->percent))?$fixed_charges_res[0]->percent:0;
             if ($fix_chg_amount == '') {
                 $percent_decimal = $fix_chg_percent / 100;
                 for ($j = 0; $j < $arr_length; $j++) {
@@ -408,7 +408,7 @@ class Mycart_model extends CI_Model {
         //program end of getting Seasonal Charges //
         //program start for getting PG Charges //
         $pg_charge_res = $this->Catalog_model->getPgCharges();
-        $pg_percent = $pg_charge_res[0]->percent;
+        $pg_percent = (isset($pg_charge_res[0]->percent))?$pg_charge_res[0]->percent:1;
         $pg_percent_decimal = $pg_percent / 100;
         for ($j = 0; $j < $arr_length; $j++) {
             $pg_fee[] = round($sub_total_arr[$j] * $pg_percent_decimal);
