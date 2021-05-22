@@ -5,10 +5,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="apple-mobile-web-app-capable" content = "width = device-width, initial-scale =1.0, user-scalable = no">
-        <meta name="<?php //echo $data->meta_descrp ;        ?>" content="">
-        <meta name="<?php //echo $data->meta_keyword ;        ?>" content="" />
+        <meta name="<?php //echo $data->meta_descrp ;            ?>" content="">
+        <meta name="<?php //echo $data->meta_keyword ;            ?>" content="" />
 
-        <title><?php //echo $data->title ;        ?></title>
+        <title><?php //echo $data->title ;            ?></title>
         <style>
             .main-content {
                 padding: 100px 0px 10px !important;
@@ -76,7 +76,7 @@
                         var size_strng = size_arr.replace(' ', '&');
                         //Script end of attribute parametere//
 
-                        //window.location.href='<?php //echo base_url().'my_order/myorder_detail/'         ?>' + ids + '/' + total_price + '/' + seller_id_arr + '/' + tax_arr + '/' + shipping_fees_arr + '/' + sub_total_arr + '/' + qantity_arr + '/' + sku_arr + '/' + address_id +'/' + price_arr + '/' + color_strng + '/' + size_strng;
+                        //window.location.href='<?php //echo base_url().'my_order/myorder_detail/'             ?>' + ids + '/' + total_price + '/' + seller_id_arr + '/' + tax_arr + '/' + shipping_fees_arr + '/' + sub_total_arr + '/' + qantity_arr + '/' + sku_arr + '/' + address_id +'/' + price_arr + '/' + color_strng + '/' + size_strng;
 
                         window.location.href = '<?php echo base_url() . 'my_order/myorder_detail' ?>';
 
@@ -654,13 +654,13 @@
                                                 ?>
                                             </a>
 
-                                                                <!--  <div class="fulfill"> <img src="<?//php echo base_url()?>images/moon-fulfilled.png"  alt="">  </div>-->
+                                                                                                <!--  <div class="fulfill"> <img src="<?//php echo base_url()?>images/moon-fulfilled.png"  alt="">  </div>-->
 
                                         </div>
                                         <div class="clearfix"> &nbsp;</div>
 
                                         <span class="item-no"> <i class="fa fa-check-square-o"></i> 100% Refund / Replacement Guarantee*  </span>
-                                    <!--<a href="<?php // echo base_url().'mycart/remove_from_cart/'.$rec_cart->addtocart_id        ?>" class="orange right"> <i class="fa fa-times-circle">  </i> Remove </a>-->
+                                    <!--<a href="<?php // echo base_url().'mycart/remove_from_cart/'.$rec_cart->addtocart_id            ?>" class="orange right"> <i class="fa fa-times-circle">  </i> Remove </a>-->
 
                                         <span style="cursor:pointer;" onClick="removeFromCart('<?= $rec_cart->addtocart_id ?>')" class="orange right"> <i class="fa fa-times-circle">  </i> Remove </span> 
 
@@ -809,23 +809,23 @@
                                         </span>
                                     </td>
 
-                                                                 <!--<td> <div class="checkout-img"> <img src="<?php //echo base_url()         ?>images/1.jpg" width="30"> </div>
-                                                                 <div class="chckout-desc"> Elegant Women Vintage Floral Crochet Cocktail <br> Bodycon Dress   Color : Black, Size : Free Size </div>
-                                                                 <div class="clearfix"></div>
-                                                                 </td>
-                                                                 <td> <select> 
-                                                                        <option>1 </option>
-                                                                        <option>2 </option>
-                                                                        <option>3 </option>
-                                                                        <option>4 </option>
-                                                                        <option>5 </option>
-                                                                      </select>
-                                                                 </td>
-                                                                 <td>  <h4 class="catalog-price"> Rs. 1049.00  </h4>  </td>
-                                                                 <td> Standard delivery: FREE  </td>
-                                                                 <td> <h4 class="catalog-price"> Rs. 1049.00 </h4></td>
-                                                                 <td> <a href="#"> Remove </a>  <br>
-                                                                   <a href="#"> Save for later </a> </td>-->
+                                                                                                 <!--<td> <div class="checkout-img"> <img src="<?php //echo base_url()             ?>images/1.jpg" width="30"> </div>
+                                                                                                 <div class="chckout-desc"> Elegant Women Vintage Floral Crochet Cocktail <br> Bodycon Dress   Color : Black, Size : Free Size </div>
+                                                                                                 <div class="clearfix"></div>
+                                                                                                 </td>
+                                                                                                 <td> <select> 
+                                                                                                        <option>1 </option>
+                                                                                                        <option>2 </option>
+                                                                                                        <option>3 </option>
+                                                                                                        <option>4 </option>
+                                                                                                        <option>5 </option>
+                                                                                                      </select>
+                                                                                                 </td>
+                                                                                                 <td>  <h4 class="catalog-price"> Rs. 1049.00  </h4>  </td>
+                                                                                                 <td> Standard delivery: FREE  </td>
+                                                                                                 <td> <h4 class="catalog-price"> Rs. 1049.00 </h4></td>
+                                                                                                 <td> <a href="#"> Remove </a>  <br>
+                                                                                                   <a href="#"> Save for later </a> </td>-->
                                 </tr><?php
                                 $total_price = ceil($total_price + $subtotal_price);
 
@@ -869,7 +869,7 @@
                     <div  class="col-md-6 cart-btns"> 
                         <!-- <button id="proceed_to_pay" type="button" title="Proceed To Pay" class="btn-big2"  onClick="pay()"> Proceed To Pay </button> -->
 
-                                <!--<button id="proceed_to_pay" type="button" title="Proceed To Pay" class="btn-big2"  onClick="pay('<?php // echo json_encode($sku_arr);        ?>','<?php // echo json_encode($qantity_arr);        ?>')"> Proceed To Pay </button> -->
+                                                <!--<button id="proceed_to_pay" type="button" title="Proceed To Pay" class="btn-big2"  onClick="pay('<?php // echo json_encode($sku_arr);            ?>','<?php // echo json_encode($qantity_arr);            ?>')"> Proceed To Pay </button> -->
 
 
                         <button id="proceed_to_pay" type="button" title="Proceed To Pay" class="btn-big2"  onClick="pay()"> Proceed To Pay </button>
@@ -1061,9 +1061,7 @@
                                                         echo "-------------------------------------";
                                                         echo "<br>";
                                                         echo "Amount Payable Rs." . round($cod_totalprice);
-                                                    }
-
-                                                    if ($cod_chargeaswtgheach != 0 && $cod_chargetobuyer != 0) {
+                                                    }else if ($cod_chargeaswtgheach != 0 && $cod_chargetobuyer != 0) {
                                                         echo "(COD Charges+Tax) :Rs." . round($cod_chargetobuyer);
                                                         echo "<br>";
                                                         echo "-------------------------------------";
@@ -1205,7 +1203,7 @@
                                             <ul class="gftv_amt_list">
                                                 <li>Deducted Wallet Balance : <span id="deduct_wallet"></span></li>
                                             </ul><hr/>
-                                            <!--Amount Payable <br/><strong>Rs.<?php // echo " ". $total_price;         ?></strong>-->
+                                            <!--Amount Payable <br/><strong>Rs.<?php // echo " ". $total_price;             ?></strong>-->
 
                                             Amount Payable <br/><strong>Rs.<span id="amt_payble"><?php echo " " . $total_price; ?></span></strong>
                                             <span id="amt_payble_hidden" style="display:none;"><?php echo " " . $total_price; ?></span>
@@ -1676,15 +1674,15 @@
                     //////////////
 
                     /*function cheackInventory(){
-                     var sku_arr = <?php // echo json_encode($sku_arr);         ?>;
-                     var qty_arr = <?php // echo json_encode($qantity_arr);         ?>;
+                     var sku_arr = <?php // echo json_encode($sku_arr);             ?>;
+                     var qty_arr = <?php // echo json_encode($qantity_arr);             ?>;
                      
                      var jsonSkuString = JSON.stringify(sku_arr);
                      var jsonQtyString = JSON.stringify(qty_arr);
                      
                      $.ajax({
                      type: "POST",
-                     url: "<?php // echo base_url();        ?>mycart/check_inventory_befor_order",
+                     url: "<?php // echo base_url();            ?>mycart/check_inventory_befor_order",
                      data: {sku : jsonSkuString, qty : jsonQtyString}, 
                      cache: false,
                      success: function(result){
