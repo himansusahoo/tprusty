@@ -184,7 +184,7 @@
 
             $production_url = 'https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction&encRequest=' . $encrypted_data . '&access_code=' . $access_code;
             ?>
-            <iframe src="<?php echo $production_url ?>" id="paymentFrame" width="800" height="400"  frameborder="0" scrolling="No" ></iframe>
+            <iframe src="<?php echo $production_url ?>" id="paymentFrame" width="800" height="515"  frameborder="0" scrolling="No" ></iframe>
 
         </div>
         <!-- ccavenue iframe end -->
