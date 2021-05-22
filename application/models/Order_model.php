@@ -1335,7 +1335,7 @@ class Order_model extends CI_Model {
 
         //error_reporting(0);
 
-        $workingKey = 'A6E109AE1CF65837E8964E0B04552D21';  //Working Key should be provided here.
+        $workingKey = WORKING_KEY;  //Working Key should be provided here.
         $encResponse = $_POST["encResp"];   //This is the response sent by the CCAvenue Server
         $rcvdString = $this->Crypto->decrypt($encResponse, $workingKey);  //Crypto Decryption used as per the specified working key.
         $order_status = "";
@@ -1625,7 +1625,7 @@ class Order_model extends CI_Model {
 
         //error_reporting(0);
 
-        $workingKey = 'A6E109AE1CF65837E8964E0B04552D21';  //Working Key should be provided here.
+        $workingKey = WORKING_KEY;  //Working Key should be provided here.
         $encResponse = $_POST["encResp"];   //This is the response sent by the CCAvenue Server
         $rcvdString = $this->Crypto->decrypt($encResponse, $workingKey);  //Crypto Decryption used as per the specified working key.
         $order_status = "";
@@ -2025,20 +2025,6 @@ class Order_model extends CI_Model {
 
             $i++;
         }
-
-
-        //Data insert from ccAvenue API START
-        //$this->load->model('Crypto');
-        //error_reporting(0);
-        //$workingKey='A6E109AE1CF65837E8964E0B04552D21';		//Working Key should be provided here.
-//				$encResponse=$_POST["encResp"];			//This is the response sent by the CCAvenue Server
-//				$rcvdString=$this->Crypto->decrypt($encResponse,$workingKey);		//Crypto Decryption used as per the specified working key.
-//				$order_status="";
-//				$decryptValues=explode('&', $rcvdString);
-//				$dataSize=sizeof($decryptValues);
-//				
-//				$payment_info=array();
-
         for ($i = 0; $i < $dataSize; $i++) {
             $information = explode('=', $decryptValues[$i]);
             if ($i == 3)
@@ -2323,7 +2309,7 @@ class Order_model extends CI_Model {
 
         //error_reporting(0);
 
-        $workingKey = 'A6E109AE1CF65837E8964E0B04552D21';  //Working Key should be provided here.
+        $workingKey = WORKING_KEY;  //Working Key should be provided here.
         $encResponse = $_POST["encResp"];   //This is the response sent by the CCAvenue Server
         $rcvdString = $this->Crypto->decrypt($encResponse, $workingKey);  //Crypto Decryption used as per the specified working key.
         $order_status = "";
