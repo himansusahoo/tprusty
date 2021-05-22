@@ -74,7 +74,7 @@
 		<form method="post" name="customerData" action="<?php echo base_url().'Online_payment' ?> ">
                
                 <input type="hidden" name="tid" id="tid" value="<?php echo $moonboy_trans_id ?>" readonly />
-				<input type="hidden" name="merchant_id" value="21635"/>
+				<input type="hidden" name="merchant_id" value="<?=MID?>"/>
 				<input type="hidden" name="order_id" value="<?php echo $result[0]->order_id_payment_gateway; ?>"/>
                 
 				<input type="hidden" name="amount" value="<?php  echo $result[0]->Total_amount; ?>"/> 
@@ -106,7 +106,7 @@
 			<form method="post" name="customerData" action="<?php echo base_url().'Online_payment' ?> ">
                
                 <input type="hidden" name="tid" id="tid" value="<?php echo $moonboy_trans_id ?>" readonly />
-				<input type="hidden" name="merchant_id" value="21635"/>
+				<input type="hidden" name="merchant_id" value="<?=MID?>"/>
 				<input type="hidden" name="order_id" value="<?php echo $result[0]->order_id_payment_gateway; ?>"/>
                 
 				<input type="hidden" name="amount" value="<?php  echo $result[0]->Total_amount; ?>"/>

@@ -4,7 +4,7 @@ $moonboy_trans_id = $this->session->userdata('sessmoonboy_trans_id');
 
 $ccavenue_data_arr=array(
 	'tid'=>$moonboy_trans_id,
-	'merchant_id'=>21635,
+	'merchant_id'=>MID,
 	'order_id'=>$ccavenue_order_id,
 	//'amount'=>$total_price,
 	'amount'=>1,
@@ -33,8 +33,8 @@ $ccavenue_data_arr=array(
 
 	//error_reporting(0);
 	
-	$working_key='A6E109AE1CF65837E8964E0B04552D21';//Shared by CCAVENUES
-	$access_code='AVOE00BA76CA08EOAC';//Shared by CCAVENUES
+	$working_key=WORKING_KEY;//Shared by CCAVENUES
+	$access_code=ACCESS_CODE;//Shared by CCAVENUES
 	$merchant_data='';
 	
 	//foreach ($_POST as $key => $value){
