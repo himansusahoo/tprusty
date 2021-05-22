@@ -48,6 +48,6 @@ $ccavenue_data_arr=array(
 	$production_url='https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction&encRequest='.$encrypted_data.'&access_code='.$access_code;
 
 ?>
-<iframe src="<?php echo $production_url?>" id="paymentFrame" width="800" height="515"  frameborder="0" scrolling="No" ></iframe>
+<iframe src="<?php echo $production_url?>" id="paymentFrame" width="800" height="515"  frameborder="0" scrolling="auto" ></iframe>
 
 <!--ccAvenue Iframe data end-->
